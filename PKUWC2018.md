@@ -112,7 +112,7 @@ int main() {
 枚举$j$构成的进行容斥得到：
 
 $$
-Ans = \sum_{S\subset\{1,2,3\cdots n\},1\in S} (-1)^{|S|-1} {{(\sum_{i\in S} w_i -1)!\over (w_1-1)!\prod_{j\in S,j\not =1}w_j!} \over {(\sum_{i\in S} w_i)! \over \prod_{i\in S}w_i!}}\\
+Ans = \sum_{S\subset\{1,2,3\cdots n\},1\in S} (-1)^{|S|-1} {(\sum_{i\in S} w_i -1)!\over (w_1-1)!\prod_{j\in S,j\not =1}w_j!} \over {(\sum_{i\in S} w_i)! \over \prod_{i\in S}w_i!}\\
 =\sum_{S\subset\{1,2,3\cdots n\},1\in S} (-1)^{|S|-1} {w_1\over \sum_{i\in S} w_i}
 $$
 
