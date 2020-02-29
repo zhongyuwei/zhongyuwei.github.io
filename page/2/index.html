@@ -236,36 +236,14 @@
       
           <h2 id="桥梁"><a href="#桥梁" class="headerlink" title="桥梁"></a>桥梁</h2><p>将所有的操作按照时间顺序分成$T$个大小为$\frac{q}{T}$的块。对于每个块，将块内的询问按照$w_j$排序，将未被块内的操作修改过的边按照执行这个块内的操作之前的边权排序。</p>
 <p>按照$w_j$降序枚举块内的询问，然后将所有重$w_j$的车能够通过的、“未被块内的操作修改过的”边加入；再加入块内修改过的、这次询问的时候的边权$\ge w_j$的边，查询$s_j$所在连通块的大小，然后再撤销掉加入的块内修改过的边。</p>
-<p>复杂度是$O(\frac{q}{T}(m\log m + m\log n) + qT\log n)$，当$T$大致取到$\sqrt m$的时候最优。由于排序的那个$\log m$比并查集的$\log n$大得多，所以可以适当调大$T$。</p>
-<p><a href="https://loj.ac/submission/731393" target="_blank" rel="noopener">Code</a></p>
-<h2 id="路灯"><a href="#路灯" class="headerlink" title="路灯"></a>路灯</h2><p>对每个时刻的序列，维护它的极长的、只包含$1$的区间构成的集合。</p>
-<p>对每个曾经在集合中出现过的极长$1$区间，将它对每个询问的贡献分成两部分：</p>
-<ol>
-<li>询问的时候它还在序列中，贡献是询问的时刻 - 它被加入的时刻（由于极长$1$区间不交，所以对于一个询问，这种区间如果有则一定只有一个）；</li>
-<li>询问的时候它已经不在序列中了，贡献就是它出现过的时刻数；</li>
-</ol>
-<p>而一个极长$1$区间$[l,r]$对一个询问$[a,b]$能产生贡献当且仅当$l\le a, b-1\le r$，是个二维偏序。加上“离开序列的时间小于询问的时间”就是三维偏序，可以cdq分治解决。</p>
-<p>而第一种贡献用set维护当前时刻所有的极长$1$区间就能计算。</p>
-<p><a href="https://loj.ac/submission/744366" target="_blank" rel="noopener">Code</a></p>
-<h2 id="奇怪装置"><a href="#奇怪装置" class="headerlink" title="奇怪装置"></a>奇怪装置</h2><p>考虑什么情况下两个时刻的$(x,y)$会相同。</p>
-<p>因为$y=(t\bmod B)$，所以这两个时刻可以写成$t,t+kB$。</p>
-<script type="math/tex; mode=display">
-t + \lfloor \frac{t}{B} \rfloor \equiv t + kB + \lfloor \frac{t+kB}{B} \rfloor \pmod A\\
-t + \lfloor \frac{t}{B} \rfloor \equiv t + kB + \lfloor \frac{t}{B} \rfloor + k \pmod A\\
-0 \equiv k(B+1) \pmod A\\
-A \mid k(B+1)</script><p>考虑$B+1,A$的质因数分解：</p>
-<script type="math/tex; mode=display">
-B+1 = \prod p_i^{b_i}\\
-A = \prod p_i^{a_i}</script><p>则最小的满足条件的$k$就是</p>
-<script type="math/tex; mode=display">
-k_{min}\prod p_i^{\max\{a_i - b_i,0\}}\\
-= \prod p_i^{a_i - \min\{b_i,a_i\}}\\
-= \frac{A}{\gcd(A,B+1)}</script><p>且其它满足条件的$k$都是它的倍数。</p>
-<p>所以$t_1,t_2$的二元组$(x,y)$相同当且仅当$t_1\equiv t_2\pmod{k_{min}B}$</p>
-<p>这样就转化成了简单的区间并问题。</p>
-<p>注意考虑$k_{min}B$超过long long范围的情况。</p>
-<p><a href="https://loj.ac/submission/744366" target="_blank" rel="noopener">Code</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/14/APIO2019/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -333,46 +311,14 @@ k_{min}\prod p_i^{\max\{a_i - b_i,0\}}\\
       
           <h2 id="C-Make-Good"><a href="#C-Make-Good" class="headerlink" title="C - Make Good"></a>C - Make Good</h2><p>记$sum$为所有数的异或和，$tot$为所有数的和。$tot$显然必须是偶数。所以如果$tot$是奇数的话，就先往数组里面加入一个$1$。</p>
 <p>如果$2\times sum &gt; tot$，就往数组里面加入两个${2\times sum - tot \over 2}$，这对数组中的数的异或和没有影响。</p>
-<p>否则，先加入一个$2^{58}$（一个很大的$2$的整数次幂），然后就会转化成$2\times sum &gt; tot$的情况。</p>
-<p>如果又要加入$1$又要加入$2^{58}$，可以直接加入数$1+2^{58}$，这样就可以满足加的数至多是三个的限制。</p>
-<p><a href="https://codeforces.com/contest/1270/submission/67904998" target="_blank" rel="noopener">Code</a></p>
-<h2 id="D-Strange-Device"><a href="#D-Strange-Device" class="headerlink" title="D - Strange Device"></a>D - Strange Device</h2><p>首先考虑$k=n-1$怎么做：可以把每个大小为$n-1$的子集都问一遍，这样第$m+1$小的会出现$m$次，第$m$小的会出现$n-m$次，根据出现过的元素的大小关系以及它们分别的出现次数就可以推出$m$。</p>
-<p>当$n&gt;k+1$，直接对前$k+1$个元素通过上面的方法计算就可以了。</p>
-<p><a href="https://codeforces.com/contest/1270/submission/67910798" target="_blank" rel="noopener">Code</a></p>
-<h2 id="E-Divide-Points"><a href="#E-Divide-Points" class="headerlink" title="E - Divide Points"></a>E - Divide Points</h2><p>将点分成四组：$A_{0,0},A_{0,1},A_{1,0},A_{1,1}$。点$(x,y)$属于组$A_{x\pmod 2,y\pmod 2}$。用$P,Q$代表最后分得的两个点集。</p>
-<p>若所有点都属于同一个组，则将所有点的坐标除以$2$（如果原数是奇数，则向下取整）之后再做，与原问题等价。</p>
-<p>如果$A_{0,0}\cup A_{1,1}$非空，且$A_{0,1}\cup A_{1,0}$非空，令$P=A_{0,0}\cup A_{1,1},Q=A_{0,1}\cup A_{1,0}$即可。【同一组内的点的$(x+y)\bmod 2$相同】</p>
-<p>否则，若$A_{0,0}\cup A_{1,1}$为空集，令$P=A_{0,1},Q=A_{1,0}$即可。【只有同一组内的点的$(x_1-x_2)^2 + (y_1-y_2)^2$是$4$的倍数】</p>
-<p>否则$A_{0,1}\cup A_{1,0}$为空集，令$P=A_{0,0},Q=A_{1,1}$。【同上】</p>
-<p><a href="https://codeforces.com/contest/1270/submission/68144464" target="_blank" rel="noopener">Code</a></p>
-<h2 id="F-Awesome-Substrings"><a href="#F-Awesome-Substrings" class="headerlink" title="F - Awesome Substrings"></a>F - Awesome Substrings</h2><p>设$x = {L\over cnt}$，其中$L$表示子串的长度，$cnt$表示子串内$1$的个数。设$T$为某个定值。</p>
-<p>设$a_i = \sum_{j\le i} [s_j = 1]$。</p>
-<p>将答案分为两部分计算；</p>
-<ol>
-<li>$x\le T$：枚举每一个$x$，然后枚举子串右端点$r$，则左端点应满足${r-(l-1)\over a_r-a_{l-1}} = x\Rightarrow r-a_rx = l-1-a_{l-1}x$，直接用map或者hash_table统计一下即可。</li>
-<li>$x&gt; T$，显然有$cnt = {L\over x} \le {n\over T}$，所以可以枚举子串的左端点和$cnt$，此时要求右端点必须落在某个区间内且$r-l+1 \pmod {cnt}$为$0$，可以$O(1)$计算这样的右端点的数量。</li>
-</ol>
-<p>如果用map，时间复杂度$O(nT\log n + n\cdot {n \over T})$，当$T$取${\sqrt{n\over \log n}}$的时候复杂度最优，为$O(n\sqrt {n\log n})$。</p>
-<p><a href="https://codeforces.com/contest/1270/submission/68145267" target="_blank" rel="noopener">Code</a></p>
-<h2 id="G-Subset-with-Zero-Sum"><a href="#G-Subset-with-Zero-Sum" class="headerlink" title="G - Subset with Zero Sum"></a>G - Subset with Zero Sum</h2><h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>$i-n\le a_i \le i-1$等价于$1\le i - a_i \le n$。</p>
-<p>令$i$向$i-a_i$连边，会得到基环内向树森林。取一个环上的所有元素：</p>
-<script type="math/tex; mode=display">
-x - a_x = y \\
-y - a_y = z \\
-\vdots \\
-u - a_u = x</script><p>将所有式子加起来，会得到$a_x+a_y+\cdots a_u = 0$。</p>
-<p><a href="https://codeforces.com/contest/1270/submission/68150511" target="_blank" rel="noopener">Code</a></p>
-<h2 id="H-Number-of-Components"><a href="#H-Number-of-Components" class="headerlink" title="H - Number of Components"></a>H - Number of Components</h2><p>观察发现，如果$i,j(i&lt;j)$连通，那么对于任意的$k\in (i,j)$，$k$与$i,j$连通。</p>
-<p>证明：考虑连通块中从$i$到$j$的一条路径，若$k$在这条路径上结论显然成立；否则，这其中必定存在一条边$(u,v)$满足$u &lt; k &lt; v$，由于$a_u &lt; a_v$，所以$a_u &lt; a_k \vee a_k&lt; a_v$一定成立。</p>
-<p>所以，连通块一定是序列上的一段连续的区间。</p>
-<p>将问题转化成：计算有多少个$p$，满足$[1,p]$和$[p+1,n]$之间没有边。而这个限制条件也等价于$\forall x\in [1,p], y\in [p+1,n], a_x &gt; a_y$。</p>
-<p>考虑枚举$[p+1,n]$中的最大值$v$，记序列中小于等于$v$的值为$0$，大于$v$的值为$1$，则$p$合法的条件就是整个序列形如$\overbrace{111\cdots 111}^{\text{p个1}}000\cdots 000$。</p>
-<p>发现对于每个$v$而言，它对应的$01$序列是确定的，也就是说尽管一个$v$可以对应多个$p$，但是这些$p$中至多只有一个合法。</p>
-<p>所以我们不妨直接统计有多少个$v$对应的$01$序列形如$111\cdots 111000\cdots 000$。</p>
-<p>为了方便处理，我们令$a_0 = + \infty, a_{n+1} = -\infty$</p>
-<p>用线段树维护对每一个$v$维护它对应的$01$序列中相邻的$10$对的数量，以及$v$是否作为序列中的某个元素出现。由于$10$对的数量至少有一个，所以维护最小值以及最小值的数量，即可得到合法的$v$的数量。</p>
-<p><a href="https://codeforces.com/contest/1270/submission/68155123" target="_blank" rel="noopener">Code</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/27/CF1270-Goodbye-2019-C-D-E-F-G-H/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -440,23 +386,14 @@ u - a_u = x</script><p>将所有式子加起来，会得到$a_x+a_y+\cdots a_u =
       
           <h2 id="CF1246F-Cursor-Distance"><a href="#CF1246F-Cursor-Distance" class="headerlink" title="CF1246F Cursor Distance"></a>CF1246F Cursor Distance</h2><p>考虑对于每一个$i$，求出至多走$k$步就能够到达它的位置所构成的区间$[L_{i,k},R_{i,k}]$。我们只要对每个$i$分别求出$\sum_k L_{i,k},\sum_k R_{i,k}$就能得到答案。</p>
 <p>最短路不一定是单向的（比如对于baaaaac，从b走到最后一个a），所以$L,R$可能不独立，不能直接倍增计算$L,R$的和。</p>
-<p>进一步观察，$R_{i,k+2}$的取值与$[L_{i,k+1},L_{i,k})$中的位置有关的必要条件是$[L_{i,k+1},R_{i,k+1}]$的字符集大于$[L_{i,k},R_{i,k}]$的字符集；如果$[L_{i,k+1},R_{i,k+1}],[L_{i,k},R_{i,k}]$字符集相同，则$R_{i,k+2}$就只与$R_{i,k+1}$和$[L_{i,k},R_{i,k}]$的字符集大小有关。</p>
-<p>对于每个$i$，当$k$从$0$取到$+\infty$的时候，$[L_{i,k},R_{i,k}]$的字符集大小只会变化$|\Sigma|$次（$|\Sigma|$表示字符集大小）。故而，我们可以枚举当前这些区间的字符集大小，这时候$L,R$是独立的，可以直接倍增求出它们的和。</p>
-<p>实现细节上，在最外层枚举区间的字符集大小$t$，然后对每个位置$i$处理出$fl_i$——表示当$L$为某个满足$[L,i]$字符集大小为$t$的位置，$R=i$的时候，跳一步能够把$R$扩展到哪里；以及类似定义的$fr_i$。预处理出$fl_i,fr_i$倍增的结果。然后对每个$i$从大到小枚举$j$，然后看它现在的区间端点扩展$2^j$次以后，区间内是否仍然只有$t$种字符。</p>
-<p><a href="https://codeforces.com/contest/1246/submission/69554739" target="_blank" rel="noopener">Code</a></p>
-<hr>
-<h2 id="LOJ6435-「PKUSC2018」星际穿越"><a href="#LOJ6435-「PKUSC2018」星际穿越" class="headerlink" title="LOJ6435 「PKUSC2018」星际穿越"></a>LOJ6435 「PKUSC2018」星际穿越</h2><p><a href="https://www.cnblogs.com/HocRiser/p/9166459.html" target="_blank" rel="noopener">参考这篇blog</a></p>
-<p>设$f_{i,k}$为从$i$出发，走$k$步能够到达的最靠左的点。则有$f_{i,k+1} &lt; f_{i,k}$。</p>
-<p>显然$f_{i,1} = l_i$。</p>
-<p>然后是$f_{i,2} = \min_{j \ge l_i} \{l_j\}$：</p>
-<ul>
-<li>对于$j\in [l_i,i)$，$i$可以在第一步走到$j$；</li>
-<li>对于$j&gt;i$，如果$l_j\le i$我们可以选择在第一步走到$j$，否则$l_j &gt; i$，$l_j$一定不会被$\min_{x\ge l_i}\{l_x\}$取到。</li>
-</ul>
-<p>对于$f_{i,k} (k &gt; 2)$，有$f_{i,k} = \min_{j\in [f_{i,k-1},f_{i,k-2})} \{ l_j \} = \min_{j\in [f_{i,k-1},i)} \{ l_j \}$。由于显然$f_{i,k} &lt; f_{i,2} \le \min_{j\ge i} \{l_j\}(k &gt; 2)$，所以也可以写作$f_{i,k} = \min_{j\in [f_{i,k-1},n]} \{ l_j \}$。这个式子中$f_{i,k}$的取值与$i$无关而只与$f_{i,k-1}$有关，所以可以倍增求出$k=2^j$时的$f_{i,k}$和$\sum_{x\in [1,k]}f_{i,x}$。</p>
-<p>实现上，可以强制先走$k=1$的第一步$f_{i,1} = l_i$，这样的话之后的每一步的转移都满足$f_{i,k} = \min_{j\ge f_{i,k-1}} \{ l_j\}$</p>
-<p><a href="https://loj.ac/submission/730991" target="_blank" rel="noopener">Code</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/27/%E4%B8%80%E7%B1%BB%E5%BA%8F%E5%88%97%E4%B8%8A%E7%9A%84%E6%9C%80%E7%9F%AD%E8%B7%AF%E9%97%AE%E9%A2%98-%E5%80%8D%E5%A2%9E/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -524,51 +461,14 @@ u - a_u = x</script><p>将所有式子加起来，会得到$a_x+a_y+\cdots a_u =
       
           <h2 id="TopCoder14929-MaxSquare"><a href="#TopCoder14929-MaxSquare" class="headerlink" title="TopCoder14929 MaxSquare"></a>TopCoder14929 MaxSquare</h2><p><a href="https://www.topcoder.com/single-round-match-735-editorials/" target="_blank" rel="noopener">official editorial</a></p>
 <p>设$s_i$表示$B$的前缀和。</p>
-<script type="math/tex; mode=display">
-Ans = \max_{r_1-l_1=r_2-l_2} \{(r_1-l_1)(s_{r_2}-s_{l_2}) +(r_2-l_2)(s_{r_1}-s_{l_1})\}</script><p>显然最优的时候$r_2=r_1,l_2=l_1$，所以</p>
-<script type="math/tex; mode=display">
-Ans = 2 \max_{l,r} \{ (r-l)(s_r-s_l) \}</script><p>想象成平面上有$n$个点$(i,s_i)$，那么上式等价于：选择两个点作为矩形的两个相对的顶点，矩形的面积的最大值。</p>
-<p>我们先考虑一个点作为左下角的点，另一个点作为右上角的点的情况（一个点作为左上角，另一个作为右下角是同理的）。</p>
-<p>显然对于作为左下角的那些点来说，如果$i &lt; j\wedge s_i &lt; s_j$，那么$(i,s_i)$是没有用的。右上角同理。</p>
-<p>所以有用的点会形成这样的分布：</p>
-<p><img src="https://i.loli.net/2020/01/20/aDlrPFwYMVf6nTN.png" alt="TopCoder14929_1_.png"></p>
-<p>然后对于每个右上角的点，考虑矩形面积在左下角的哪一个点取到最大值。观察下图：</p>
-<p><img src="https://i.loli.net/2020/01/20/LXA8iwFR3cjnDvJ.png" alt="TopCoder14929_2_.png"></p>
-<p>可以得到结论：如果对于$p_1$，$q_2$比$q_1$优，那么对于$p_2$，$q_2$一定比$q_1$优秀。</p>
-<p>证明：考虑反证</p>
-<script type="math/tex; mode=display">
-S_{p_1,q_1} < S_{p_1,q_2},S_{p_2,q_1} > S_{p_2,q_2}\\
-\Rightarrow S_{p_1,q_1} + S_{p_2,q_2} < S_{p_1,q_2} +S_{p_2,q_1}\\
-\Rightarrow S_{p_1,q_1} + S_{p_2,q_2} - S_{p_1,q_2} - S_{p_2,q_1} < 0\\</script><p>也就是上图中绿色标出的部分，其面积要小于$0$，推出了矛盾。</p>
-<p>用经典的决策单调性的分治算法，就可以在$O(n\log n)$的时间内解决问题。</p>
-<h2 id="CF908H-New-Year-and-Boolean-Bridges"><a href="#CF908H-New-Year-and-Boolean-Bridges" class="headerlink" title="CF908H New Year and Boolean Bridges"></a>CF908H New Year and Boolean Bridges</h2><p>$f(i,j) \operatorname{AND} f(j,i) =1$的肯定在同一个SCC里面，而$f(i,j) \operatorname{XOR} f(j,i) =1$的肯定不在同一个SCC里面。而由于$f(i,j) \operatorname{AND} f(j,i) =1,f(i,j) \operatorname{XOR} f(j,i) =1$中都蕴含着$f(i,j) \operatorname{OR} f(j,i) =1$，所以我们必须把所有的SCC都连成一条链。由于要让边数尽可能少，所以每个SCC一定都是单独一个点或者一个环。我们只要最小化点数大于$1$的SCC的数量就可以了。</p>
-<p>$f(i,j) \operatorname{AND} f(j,i) =1$的点可以直接缩起来。缩完点之后，在原图中的点数为$1$的都不需要考虑；对于剩下的点，对所有的$f(i,j) \operatorname{XOR} f(j,i) =1$在$i,j$之间建一条边，问题转化成求最小的$k$，使得在这张图中可以将这些点划分成$k$个独立集。</p>
-<p>注意到在原图中对应的点数大于$1$的点的数量不超过$\lfloor{n\over 2}\rfloor = 23$。</p>
-<p>直接子集$dp$的复杂度是$O(3^{n\over 2})$或者$O(n^22^{n\over 2})$。</p>
-<p>先枚举$k$，在判断的时候我们把条件放松一些：我们只要求能够选出$k$个独立集，它们的并是全集就可以了。</p>
-<p>设$f_S$表示$S$的子集中是独立集的数量，通过容斥就可以得到：</p>
-<script type="math/tex; mode=display">
-Ans = \sum_{T\in V} (-1)^{|V|-|T|}f_T^k</script><p>这个$Ans$会很大，但是我们只关心$Ans$是否为$0$，用取模或者直接溢出后的结果判断就可以了。</p>
-<p>时间复杂度$O(n2^{n\over 2})$。</p>
-<p><a href="https://codeforces.com/contest/908/submission/69094070" target="_blank" rel="noopener">Code</a></p>
-<h2 id="LOJ2292-「THUSC-2016」成绩单"><a href="#LOJ2292-「THUSC-2016」成绩单" class="headerlink" title="LOJ2292 「THUSC 2016」成绩单"></a>LOJ2292 「THUSC 2016」成绩单</h2><p>设$f_{i,j,l,r}$表示区间$[i,j]$已经删掉若干，剩下的那些元素中的最大值为$r$，最小值为$l$，删掉那若干个元素的最小代价；$g_{i,j}$表示将区间$[i,j]$全部删完的最小代价。</p>
-<p>对于$f_{i,j,l,r}$，考虑$j$这个元素是否被删掉了：</p>
-<ul>
-<li>如果它已经被删掉，我们枚举它是和哪些元素一起删掉的，就有：<script type="math/tex; mode=display">
-f_{i,k,l,r} + g_{k+1,j} \to f_{i,j,l,r}</script></li>
-<li>否则，$j$没有被删掉，则得到<script type="math/tex; mode=display">
-f_{i,j-1,l,r} \to f_{i,j,\min\{l,w_j\},\max\{r,w_j\}}</script></li>
-</ul>
-<p>对于$g$，考虑我们是否对$[i,j]$整体进行过操作：</p>
-<ul>
-<li>如果没有，则<script type="math/tex; mode=display">
-g_{i,k} + g_{k+1,j}\to g_{i,j}</script></li>
-<li>否则<script type="math/tex; mode=display">
-f_{i,j,l,r} + a + b(r-l)^2 \to g_{i,j}</script></li>
-</ul>
-<p>复杂度$O(n^5)$。</p>
-<p><a href="https://loj.ac/submission/726342" target="_blank" rel="noopener">Code</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%BB%83%E4%B9%A0%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -636,57 +536,14 @@ f_{i,j,l,r} + a + b(r-l)^2 \to g_{i,j}</script></li>
       
           <h2 id="LOJ2146-「SHOI2017」寿司餐厅"><a href="#LOJ2146-「SHOI2017」寿司餐厅" class="headerlink" title="LOJ2146 「SHOI2017」寿司餐厅"></a>LOJ2146 「SHOI2017」寿司餐厅</h2><p>把$mx^2 + cx$拆一下就是：只要吃的寿司里面有代号为$x$的就要付出$mx^2$的代价；每吃一种代号为$x$的寿司就要付出$x$的代价。直接令$d_{i,i}$减掉$a_i$，就可以不再考虑$cx$这部分。</p>
 <p>对每个区间$[l,r]$建一个点，权值为$d_{l,r}$；对每个代号建一个点，权值为$-mx^2$。如果选了$d_{l,r}$就必须选$d_{l,r-1}$和$d_{l+1,r}$，如果选了$d_{i,i}$就必须选$ma_i^2$。求出这张图的最大权闭合子图即可。</p>
-<p><a href="https://loj.ac/submission/723604" target="_blank" rel="noopener">Code</a></p>
-<h2 id="LOJ2100-「TJOI2015」线性代数"><a href="#LOJ2100-「TJOI2015」线性代数" class="headerlink" title="LOJ2100 「TJOI2015」线性代数"></a>LOJ2100 「TJOI2015」线性代数</h2><p>把$A$想象成$\{1,2,\cdots n\}$的一个子集，$0$表示不选，$1$表示选。则：</p>
-<script type="math/tex; mode=display">
-val(A) = \sum_{i\in A\wedge j\in A} B_{i,j} - \sum_{i\in A} C_i</script><p>对每个$B_{i,j}$和$C_i$建一个点，权值分别为$B_{i,j},-C_i$，要求如果选了$B_{i,j}$则必须选$-C_i$和$-C_j$。求出这张图的最大权闭合子图即可。</p>
-<p><a href="https://loj.ac/submission/723647" target="_blank" rel="noopener">Code</a></p>
-<h2 id="UOJ41-【清华集训2014】矩阵变换"><a href="#UOJ41-【清华集训2014】矩阵变换" class="headerlink" title="UOJ41 【清华集训2014】矩阵变换"></a>UOJ41 【清华集训2014】矩阵变换</h2><p>考虑什么样的方案是不合法的：第$x$行选择了$y$，并且存在另一行$x’$，$y$在$x’$行的出现的列编号大于$y$在$x$行出现的列编号，且$x’$行选择的那个数字的列编号在$y$之后。</p>
-<p>可以转化成稳定婚姻问题：由于要求每列中每个数至多出现一次，所以每一行选择的数显然是不同的，所以可以把问题看作求行和数字的匹配。对于每一行，在那一行出现的列编号越小的数字越好；对于每一个数字，它在其中出现的位置越靠后的行越好。这样求出的解显然能够规避上面说的不合法情况。</p>
-<p><a href="http://uoj.ac/submission/380077" target="_blank" rel="noopener">Code</a></p>
-<h2 id="LOJ2052-「HNOI2016」矿区"><a href="#LOJ2052-「HNOI2016」矿区" class="headerlink" title="LOJ2052 「HNOI2016」矿区"></a>LOJ2052 「HNOI2016」矿区</h2><p>分母很容易算，考虑怎么求分子。</p>
-<p>将平面图转化成对偶图之后，以无穷域为根，求出一棵dfs树，并处理出子树内的块的矿量和。</p>
-<p>考虑给出的开发区域的每一条边：如果它在对偶图中是非树边则不管它；如果它是树边，且它连接的两个点中，开发区域外的点是父亲，那么就让总和加上区域内的那个子树的权值；如果它是树边，且它连接的两个点中，区域里的点是父亲，那么就让总和减去区域外的那个子树的权值。</p>
-<p>注意对偶图中可能是有重边的。</p>
-<p><a href="https://loj.ac/submission/725254" target="_blank" rel="noopener">Code</a></p>
-<h2 id="TopCoder14750-HeroicSchedule"><a href="#TopCoder14750-HeroicSchedule" class="headerlink" title="TopCoder14750 HeroicSchedule"></a>TopCoder14750 HeroicSchedule</h2><p><a href="https://vjudge.net/problem/TopCoder-14750" target="_blank" rel="noopener">可以在vjudge上提交</a> </p>
-<p>下面用$n$表示点数，$m$表示边数。</p>
-<p>由费用流的过程可以知道，将所有的任务按照收益从大到小排序之后，依次考虑每个任务，能够加入则加入，则一定能够得到最优的解。</p>
-<p>尝试加入的过程就是求匹配的过程，考虑用匈牙利算法来实现这一部分。直接做的复杂度是$O(n^2m^2)$的。</p>
-<p>发现尽管边数很大，但是遍历边集的时候我们实际上是在一个区间内的点中找到一个vis不为$0$的点，用set就可以在$O(\log m)$的时间内完成。复杂度优化到$O(n(\log m + m\log m))$。</p>
-<p>更进一步观察发现，只要当前已经求出的匹配没有变化，就没有清空vis的必要。而匹配的大小只会从$1$变到至多$m$，也意味着匹配至多会改变$m$次。所以我们的等到匹配改变的时候才清空vis，就能把复杂度做到$O(n\log m + m^2 \log m)$。</p>
-<p><a href="https://vjudge.net/solution/23740620" target="_blank" rel="noopener">Code</a></p>
-<h2 id="HDU6431-NewNippori"><a href="#HDU6431-NewNippori" class="headerlink" title="HDU6431 NewNippori"></a>HDU6431 NewNippori</h2><p>分别求出$maxflow(x,y)$为1,2的点对的数量，就可以算出答案。</p>
-<p>$maxflow(x,y)=1$的点对即不在同一个边双连通分量的点对。</p>
-<p>$maxflow(x,y)=2$的点对一定在同一个边双连通分量且可以通过割掉两条边使它们不连通。</p>
-<p>对每个边双连通分量分别考虑。首先求出一棵dfs树。考虑割掉哪些边能够把这个边双分成不连通的两个部分：</p>
-<ul>
-<li>割一条树边和一条非树边。我们称一条非树边覆盖了一条树边，当且仅当非树边的两个端点在树上的最短路包含了那条树边。由于这是一个边双，所以每条树边至少被一条非树边覆盖；又由于我们只能割一条非树边，而覆盖了我们割的那条树边的非树边必须全部被割掉，所以我们割的树边一定恰好只有一条非树边覆盖了它。把那条树边和覆盖它的非树边割掉，可以把dfs树上树边两侧的部分割开。</li>
-<li><p>割两条树边。考虑这两条树边割开之后树边将dfs树分成了三部分：<br><img src="https://i.loli.net/2020/01/18/28qR5MKJlmvCa3w.png" alt="hdu6431.png"><br>其中黑色的圈表示树上的连通块，黑色的虚线表示割掉的树边，1，2，3分别表示在这三个连通块之间的非树边。</p>
-<ul>
-<li>如果1存在，由于每条树边都至少有一条非树边覆盖了它，所以2和3至少有一条边存在，所以这时三个块仍然连通。2存在同理。</li>
-<li>如果这三种边中，只有3这种边存在，发现割了两条树边之后，A和B组成的连通块和C之间没有边。</li>
-</ul>
-<p>所以，割的两条树边一定满足：所有的非树边要么同时覆盖这两条边，要么同时不覆盖这两条边。</p>
-</li>
-</ul>
-<p>如何判断覆盖了两条树边的非树边集合是否相同：可以用与<a href="http://uoj.ac/problem/207" target="_blank" rel="noopener">uoj207</a>那道题一样的方法，给每一条非树边随机一个$[0,2^{64})$的权值，设每个点的权值为所有以它作为一端的非树边的权值的异或和。则当两个点的子树内所有点的权值的异或和相同的时候，我们认为这两个点到它们的父亲的那两条边被非树边覆盖的情况相同；当某个点子树内点的权值异或和为某条非树边的权值，我们就认为这个点到父亲的那条边只被那条非树边覆盖。</p>
-<p>首先统计跨越了只被一条非树边覆盖了的树边的点对的贡献，然后把这些树边都断开。下面考虑的是断开了这些边之后的每个连通块。</p>
-<p>对每个点$x$，统计出满足下面条件的点的数量：存在一对树边，割开之后能够把$x$和这个点隔开，且$x$位于与两条树边都相邻的那个连通块里面（上图中的连通块C）。</p>
-<p>由于我们求的是dfs树，所有的非树边都是返祖边，不存在横叉边。所以，被覆盖情况相同的两条树边也一定是祖孙关系。</p>
-<p>考虑把$x$夹在了中间的那些可以割掉的树边对：</p>
-<p><img src="https://i.loli.net/2020/01/18/8cZQa4xRTtLAPCl.jpg" width="40%" height="100%" ></p>
-<p>观察到：</p>
-<ul>
-<li>对于某条树边，能够和它配对的边显然都在一条祖孙链上。</li>
-<li>不可能存在两对树边$(u,v),(x,y)$，满足$dep_u &lt; dep_x &lt; dep_v &lt; dep_y$。</li>
-</ul>
-<p>所以，对于某个$x$，把它夹在了中间的树边对一定满足：假设这些树边对按照在$x$的上面的那条边的深度升序排序得到的序列是$w_1,w_2,\cdots w_k$，那么按照在$x$的下面的那条边的深度升序排序得到的序列就是$w_k,w_{k-1},\cdots w_1$。我们只需要找出$w_k$：$w_k$把整棵树分成三部分中不包含$x$的那两部分的大小，就是能够通过割两条树边与$x$隔开的点数。</p>
-<p>对连通块进行dfs，到达某个点$u$的时候，先递归处理$u$的子树内的点，然后再处理$u$到它的父亲之间的这条边与$u$的子树内的边配对所能够产生的贡献。</p>
-<p>找出最后一次访问到的与$e(u,fa_u)$的覆盖情况相同的边$e’$，如果这条边不在$u$的子树内说明$e(u,fa_u)$无法与子树内的边配对；否则，我们只需要考虑$e(u,fa_u)$与$e’$配对就可以了（因为对每个$x$我们只关心包含了它且离它最近的边对，$e(u,fa_u)$和其它的边配对显然不满足这个条件）。我们找出$e’,e(u,fa_u)$之间还没有找到最近的树边对的点，统计它们的贡献，并把它们标记为已经找到了最近的树边对的点。实现上可以用一个数组$ex[u]$来记录每个点的子树内还没有找到最近树边对的点数；由于$e(u,fa_u)$已经和$e’$配对了，所以$e(u,fa_u)$上方的边不可能与$e(u,fa_u)$和$e’$之间的边配对，因此我们不需要维护$e(u,fa_u),e’$之间的点的$ex$，只对$ex[u]$做出相应的更新就可以了。</p>
-<p>总复杂度$O(n+m)$或者$O(n\log n + m)$（取决于使用map还是hash_table）</p>
-<p>下面是我的代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PB push_back</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MP make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PII pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FIR first</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SEC second</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ull unsigned long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">rd</span>(<span class="title">T</span> &amp;<span class="title">x</span>) &#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c)) &#123; <span class="keyword">if</span>(c==<span class="string">'-'</span>) f=<span class="number">-1</span>; c=getchar(); &#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> RNG &#123;</span><br><span class="line">    ull seed=<span class="number">13244074693642402u</span>ll;</span><br><span class="line">    <span class="function">ull <span class="title">rnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        seed^=seed&lt;&lt;<span class="number">13</span>,seed^=seed&gt;&gt;<span class="number">7</span>,seed^=seed&lt;&lt;<span class="number">17</span>;</span><br><span class="line">        <span class="keyword">return</span> seed;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">using</span> RNG::rnd;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e5</span>+<span class="number">10</span>,M=<span class="number">3e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ed</span> &#123;</span> <span class="keyword">int</span> to,id; &#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;ed&gt; G[N];</span><br><span class="line">ll ans0,ans1;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">namespace</span> tree &#123;</span><br><span class="line">    <span class="keyword">int</span> In[N],vis[N];</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; son[N];</span><br><span class="line">    <span class="built_in">set</span>&lt;ull&gt; val;</span><br><span class="line">    ull xi[N];</span><br><span class="line">    <span class="keyword">int</span> vise[M];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        vis[u]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;G[u].size();++i) <span class="keyword">if</span>(!vise[G[u][i].id]&amp;&amp;In[G[u][i].to]) &#123;</span><br><span class="line">            <span class="keyword">int</span> v=G[u][i].to; vise[G[u][i].id]=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(vis[v]) &#123;</span><br><span class="line">                ull tmp=rnd();</span><br><span class="line">                val.insert(tmp),xi[u]^=tmp,xi[v]^=tmp;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> son[u].PB(v),dfs1(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">map</span>&lt;ull,<span class="keyword">int</span>&gt; mp;</span><br><span class="line">    <span class="keyword">int</span> _size,__size;</span><br><span class="line">    <span class="keyword">int</span> ex[N];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs3</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        ex[u]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> pre_c=mp.count(xi[u])?mp[xi[u]]:<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;son[u].size();++i)</span><br><span class="line">            <span class="keyword">if</span>(vis[son[u][i]]!=<span class="number">2</span>) dfs3(son[u][i]),ex[u]+=ex[son[u][i]];</span><br><span class="line">        <span class="keyword">int</span> c=mp.count(xi[u])?mp[xi[u]]:<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(c&amp;&amp;c!=pre_c) &#123;</span><br><span class="line">            ans1+=<span class="number">2l</span>l*(ex[u]-ex[c])*(ll)(_size-(ex[u]-ex[c]));</span><br><span class="line">            _size-=ex[u]-ex[c];</span><br><span class="line">            ex[u]=ex[c];</span><br><span class="line">        &#125;</span><br><span class="line">        mp[xi[u]]=u;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tot=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;son[u].size();++i)</span><br><span class="line">            tot+=dfs2(son[u][i]),xi[u]^=xi[son[u][i]];</span><br><span class="line">        <span class="keyword">if</span>(val.count(xi[u])) &#123;</span><br><span class="line">            ans1+=tot*(ll)(__size-tot);</span><br><span class="line">            mp.clear(),_size=tot,dfs3(u);</span><br><span class="line">            vis[u]=<span class="number">2</span>,tot=<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tot;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sol</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;a)</span> </span>&#123;</span><br><span class="line">        __size=a.size();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.size();++i) In[a[i]]=<span class="number">1</span>;</span><br><span class="line">        dfs1(a[<span class="number">0</span>]); val.insert(<span class="number">0</span>);</span><br><span class="line">        dfs2(a[<span class="number">0</span>]);</span><br><span class="line">        val.clear();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.size();++i) In[a[i]]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) xi[i]=vis[i]=<span class="number">0</span>,son[i].clear();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i) vise[i]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> st[N],top;</span><br><span class="line"><span class="keyword">int</span> dfn[N],low[N],id;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tarjan</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> lasteid)</span> </span>&#123;</span><br><span class="line">    dfn[u]=low[u]=++id,st[++top]=u;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;G[u].size();++i) <span class="keyword">if</span>(G[u][i].id!=lasteid) &#123;</span><br><span class="line">        <span class="keyword">int</span> v=G[u][i].to;</span><br><span class="line">        <span class="keyword">if</span>(dfn[v]) low[u]=min(low[u],dfn[v]);</span><br><span class="line">        <span class="keyword">else</span> tarjan(v,G[u][i].id),low[u]=min(low[u],low[v]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(low[u]==dfn[u]) &#123;</span><br><span class="line">        <span class="keyword">do</span> a.PB(st[top]); <span class="keyword">while</span>(st[top--]!=u);</span><br><span class="line">        tree::sol(a),ans0+=a.size()*(n-a.size());</span><br><span class="line">        a.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T; rd(T);</span><br><span class="line">    <span class="keyword">while</span>(T--) &#123;</span><br><span class="line">        rd(n),rd(m);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,x,y;i&lt;=m;++i) &#123;</span><br><span class="line">            rd(x),rd(y);</span><br><span class="line">            G[x].PB((ed)&#123;y,i&#125;),G[y].PB((ed)&#123;x,i&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        tarjan(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">        ans0/=<span class="number">2</span>,ans1/=<span class="number">2</span>;</span><br><span class="line">        ll ans2=n*(ll)(n<span class="number">-1</span>)/<span class="number">2</span>-ans0-ans1;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,ans0+ans1*<span class="number">2</span>+ans2*<span class="number">3</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) G[i].clear(),dfn[i]=<span class="number">0</span>; id=top=<span class="number">0</span>;</span><br><span class="line">        ans0=ans1=<span class="number">0</span>;</span><br><span class="line">        tree::init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/19/%E5%9B%BE%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -755,64 +612,14 @@ val(A) = \sum_{i\in A\wedge j\in A} B_{i,j} - \sum_{i\in A} C_i</script><p>对�
           <h2 id="UOJ422-小z的礼物"><a href="#UOJ422-小z的礼物" class="headerlink" title="UOJ422 小z的礼物"></a>UOJ422 小z的礼物</h2><p>考虑min-max容斥：</p>
 <script type="math/tex; mode=display">
 \max (S) = \sum_{T\subseteq S} (-1)^{|T|+1} \min (T)</script><p>对希望得到的物品的每一个子集，求出期望最早什么时候子集里至少有一个物品被拿到了，就能算出答案。</p>
-<p>设包含了至少一个这个子集内的物品的相邻的格子对的数量是$a$，所有的相邻的格子对的数量是$b$，那么这个期望值就是$b\over a$。$a$是一个定值；$b$则可以看做（子集内每一个物品包含它的相邻格子对数量的和）-（同时包含了子集内的两个物品的相邻格子对的数量）。</p>
-<p>设$f_{S,t}$表示上一列选了的格子的集合是$S$，之前选过的格子的（子集内每一个物品包含它的相邻格子对数量的和）-（同时包含了子集内的两个物品的相邻格子对的数量）为$t$，所有方案的容斥系数的和。用类似轮廓线dp的方法转移，就可以做到$O(2^n n^2m^2)$的复杂度。</p>
-<p><a href="http://uoj.ac/submission/379524" target="_blank" rel="noopener">Code</a></p>
-<h2 id="LOJ2320「清华集训-2017」生成树计数"><a href="#LOJ2320「清华集训-2017」生成树计数" class="headerlink" title="LOJ2320「清华集训 2017」生成树计数"></a>LOJ2320「清华集训 2017」生成树计数</h2><p>把原题的式子换一个表达的方式：把每个连通块看做一个点，设$d_i$为每个点的度数，则</p>
-<script type="math/tex; mode=display">
-val (T) = (\sum_{i=1}^n d_i^m) (\prod_{i=1}^n d_i^m )(\prod_{i=1}^n a_i^{d_i})</script><p>因为式子里面有度数，所以考虑用prufer序列来计数。枚举每一个点在prufer序列中出现的次数$k_i$，得到</p>
-<script type="math/tex; mode=display">
-Ans = \sum_{k_1+k_2+\cdots +k_n=n-2} {(n-2)!\over k_1!k_2!\cdots k_n!} \cdot \sum_{i=1}^n (k_i+1)^{2m}a_i^{k_i+1} \prod_{j\neq i} (k_j+1)^ma_j^{k_j+1}</script><p>设</p>
-<script type="math/tex; mode=display">
-A_i(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^m\over k!} x^k\\
-B_i(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^{2m} \over k!}x^k</script><p>则</p>
-<script type="math/tex; mode=display">
-Ans= (n-2)!\sum_{i=1}^n (B_i(x)\prod_{j\neq i} A_j(x) )[x^{n-2}]</script><p>因为$A_i(x)$里面有指数为$k+1$，还有$x^k \over k!$，所以尝试对$A_i(x)$积分得到$T(x)$：</p>
-<script type="math/tex; mode=display">
-T(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^m \over (k+1)!} x^{k+1}\\
-=\sum_{k=1}^\infty {a_i^kk^m\over k!}x^k</script><p>将$k^m$展开：</p>
-<script type="math/tex; mode=display">
-T(x) = \sum_{k=1}^\infty {a_i^k \over k!} x^k \sum_{j=0}^{\min\{m,k\}} \begin{Bmatrix}m\\ j\end{Bmatrix} {k\choose j} j!</script><p>把${k\choose j}j!$与前面的$k!$抵消，得到</p>
-<script type="math/tex; mode=display">
-T(x) = \sum_{k=1}^\infty a_i^k x^k \sum_{j=0}^{\min\{m,k\}} {1\over (k-j)!}\begin{Bmatrix}m\\ j\end{Bmatrix}</script><p>把$j$提前</p>
-<script type="math/tex; mode=display">
-T(x) = \sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} \sum_{k=j}^\infty {a_ix^k\over (k-j)!}\\
-=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} a_i^jx^j \sum_{k=0}^\infty {a_i^kx^k\over k!}\\
-=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} a_i^jx^j e^{a_ix}</script><p>然后对$T(x)$求导得到$A_i(x)$</p>
-<script type="math/tex; mode=display">
-A_i(x) = T'(x)\\
-=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} (j \cdot a_i^jx^{j-1} e^{a_ix} + a_i \cdot a_i^jx^j e^{a_ix}) \\
-=\sum_{j=0}^{m} \begin{Bmatrix}m\\ j+1\end{Bmatrix} (j+1)( a_i^{j+1}x^je^{a_ix}) + \sum_{j=0}^{m} \begin{Bmatrix}m\\ j\end{Bmatrix} (a_i^{j+1} x^j e^{a_ix}) \\
-= \sum_{j=0}^{m}(\begin{Bmatrix}m\\ j+1\end{Bmatrix} (j+1)+\begin{Bmatrix}m\\ j\end{Bmatrix} ) a_i^{j+1}x^je^{a_ix}\\
-= e^{a_ix}\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\</script><p>对$B_i(x)$同理，得到</p>
-<script type="math/tex; mode=display">
-B_i(x) = e^{a_ix}\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\</script><p>所以</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^n B_i(x)\prod_{j\neq i} A_i(x)\\
-= e^s \sum_{i=1}^n (\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j) \prod_{k\neq i}(\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_k^{j+1}x^j)\\</script><p>上式可以分治NTT求出。</p>
-<p><a href="https://loj.ac/submission/719326" target="_blank" rel="noopener">Code</a></p>
-<h2 id="ARC062D-Painting-Graphs-with-AtCoDeer"><a href="#ARC062D-Painting-Graphs-with-AtCoDeer" class="headerlink" title="ARC062D Painting Graphs with AtCoDeer"></a>ARC062D Painting Graphs with AtCoDeer</h2><p>每一个边双连通分量显然是独立的。所有边双的本质不同的染色方案数的乘积即是答案。</p>
-<p>如果一个边双只包含一条边，那么答案显然是$K$。</p>
-<p>如果一个边双恰好只有一个简单环，则是一个经典的Polya（有$K$种颜色的珠子，问有多少种旋转置换下本质不同的项链）。</p>
-<p>而如果一个边双包含多于一个环，则从下面的图（来自<a href="http://arc062.contest.atcoder.jp/data/arc/062/editorial.pdf" target="_blank" rel="noopener">官方题解</a>）可以看出，通过若干次操作我们可以交换一对相邻的边（下图中交换了绿色和蓝色的边）。故而两个给这个边双染色的方案是本质不同的，当且仅当它们染成某种颜色的边的数量不同。所以方案数为${K+C-1\choose K-1}$，其中$C$为这个边双内的边数。</p>
-<p><img src="https://i.loli.net/2020/01/15/gPTJSesGaVAMH6E.png" alt="image.png"></p>
-<p><a href="https://atcoder.jp/contests/arc062/submissions/9511619" target="_blank" rel="noopener">Code</a></p>
-<h2 id="HDU6402-Boolean-3-Array"><a href="#HDU6402-Boolean-3-Array" class="headerlink" title="HDU6402 Boolean 3-Array"></a>HDU6402 Boolean 3-Array</h2><p>可以参考<a href="https://projecteuler.net/problem=626" target="_blank" rel="noopener">PE626</a>，它是这道题的低维情形。</p>
-<p>下文中的$A,B,C$表示原题中每一维的大小。</p>
-<p>考虑简化题目中的置换：令$p_a,p_b,p_c$为三个长度分别为$A,B,C$的排列，每个排列的第$i$个元素表示这个维度上的swap操作使得最初的第$i$层到了哪个位置，令$a_i,b_i,c_i$分别表示每一维的第$i$层进行的翻转操作次数的奇偶性。我们规定先进行$p_a,p_b,p_c$的操作，再进行$a,b,c$的操作。那么原题中的一系列操作的结果将唯一对应到一组$(p_a,p_b,p_c,a,b,c)$。</p>
-<p>利用Burnside lemma，数每一个置换的不动点数目。</p>
-<p>先只考虑swap操作。枚举$p_a,p_b,p_c$的循环节，假设当前枚举到的循环节长度分别为$la,lb,lc$，考虑循环节中的方块对应的那个$la\times lb\times lc$的正方体。将每个点$(x,y,z)$与$({p_a}_x,{p_b}_y,{p_c}_z)$连边，则这些方块恰好会分裂成$la\cdot lb\cdot lc\over \operatorname{lcm}\{la,lb,lc\}$个连通块（并且每个连通块都是一个环）。显然每个连通块内的格子必须填同一个数，不同连通块的格子没有影响。</p>
-<p>考虑flip操作对每一个连通块的影响：记$d_{x,y,z} = (a_x+b_y+c_z) \bmod 2$，则如果连通块内所有点的$\sum d_{x,y,z}$为奇数，则不存在不动点；否则，如下图，环上打了叉的点表示$d_{x,y,z}=1$的点，箭头表示置换的方向：</p>
-<p><img src="https://i.loli.net/2020/01/15/iVUJvFXzDeO653Y.jpg" alt="1.jpg"></p>
-<p>那么显然只有两种填数方案是不动点：</p>
-<p><img src="https://i.loli.net/2020/01/15/hxeA8qLUlyd9QFX.jpg" alt="2.jpg"><br><img src="https://i.loli.net/2020/01/15/dRp3DWlBGZsJjEV.jpg" alt="3.jpg"></p>
-<p>首先枚举$p_a,p_b,p_c$的每种长度的循环节的出现次数（设$k_i,l_i$表示长度为$l_i$的循环节出现了$k_i$次，那么对应的排列数是$n!\over \prod l_i^{k_i} k_i!$），然后求出对于每一组循环节的每一个连通块都满足$\sum d_{x,y,z} \equiv 0 \pmod 2$的$a,b,c$的数量，就能够快速统计贡献。</p>
-<p>我们考虑某一组循环节（那个$la\times lb\times lc$的正方体）的某一个连通块对$a,b,c$的限制，设循环节包含的每个维度的下标集合为$a’,b’,c’$，则限制为</p>
-<script type="math/tex; mode=display">
-\sum_{x\in a'} a_x \operatorname{lcm}{\{la,lb,lc\}\over la} +\sum_{x\in b'} b_x \operatorname{lcm}{\{la,lb,lc\}\over lb} + \sum_{x\in c'} c_x {\operatorname{lcm}\{la,lb,lc\}\over lc} \equiv 0 \pmod 2</script><p>现在将每一个$a_x,b_x,c_x$看做未知数，则问题转化成求方程的解数，是一个经典的线性基问题。</p>
-<p>由于数据范围很小，可以直接打表。</p>
-<p>下面是我的代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PB push_back</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MP make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PII pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FIR first</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SEC second</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">rd</span>(<span class="title">T</span> &amp;<span class="title">x</span>) &#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c)) &#123; <span class="keyword">if</span>(c==<span class="string">'-'</span>) f=<span class="number">-1</span>; c=getchar(); &#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Pow</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(;y;x=x*(ll)x%mod,y&gt;&gt;=<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span>(y&amp;<span class="number">1</span>) res=res*(ll)x%mod;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> lcm[<span class="number">20</span>][<span class="number">20</span>][<span class="number">20</span>];</span><br><span class="line"><span class="keyword">int</span> fac[<span class="number">20</span>],inv[<span class="number">20</span>],ipw[<span class="number">8000</span>],pw[<span class="number">8000</span>];</span><br><span class="line"><span class="keyword">int</span> Inv[<span class="number">20</span>];</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;PII&gt; &gt; g[<span class="number">20</span>];</span><br><span class="line"><span class="keyword">namespace</span> Mat &#123;</span><br><span class="line">    <span class="built_in">bitset</span>&lt;39&gt; f[<span class="number">39</span>],b;</span><br><span class="line">    <span class="keyword">int</span> m,cnt;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> len)</span> </span>&#123; <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;++i) f[i].reset(); m=len,cnt=<span class="number">0</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">ins</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x&amp;<span class="number">1</span>) <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;r;++i) b[i]=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Ins</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// cout&lt;&lt;"INS:"; for(int i=0;i&lt;m;++i) cout&lt;&lt;(b[i]==1); cout&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;++i) <span class="keyword">if</span>(b[i]) &#123;</span><br><span class="line">            <span class="keyword">if</span>(f[i][i]) b^=f[i];</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                f[i]=b,cnt++;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        b.reset();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">sol</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> cnt; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Debug</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;++i,<span class="built_in">puts</span>(<span class="string">""</span>))</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;++j) <span class="built_in">cout</span>&lt;&lt;(f[i][j]==<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> predo_calc &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> b?gcd(b,a%b):a; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">LCM</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a/gcd(a,b)*b; &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;PII&gt; s;</span><br><span class="line">    <span class="keyword">int</span> cur;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> tot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(tot==cur) &#123; g[cur].PB(s); <span class="keyword">return</span>; &#125;</span><br><span class="line">        <span class="keyword">if</span>(tot+u&gt;cur) <span class="keyword">return</span>;</span><br><span class="line">        dfs(u+<span class="number">1</span>,tot);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;tot+j*u&lt;=cur;++j) &#123;</span><br><span class="line">            s.PB(MP(u,j));</span><br><span class="line">            dfs(u+<span class="number">1</span>,tot+j*u);</span><br><span class="line">            s.pop_back();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getpw</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        pw[<span class="number">0</span>]=<span class="number">1</span>; <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) pw[i]=pw[i<span class="number">-1</span>]*<span class="number">2l</span>l%mod;</span><br><span class="line">        ipw[n]=Pow(pw[n],mod<span class="number">-2</span>); <span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&gt;=<span class="number">1</span>;--i) ipw[i<span class="number">-1</span>]=ipw[i]*<span class="number">2l</span>l%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">predo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) Inv[i]=Pow(i,mod<span class="number">-2</span>);</span><br><span class="line">        fac[<span class="number">0</span>]=<span class="number">1</span>; <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) fac[i]=fac[i<span class="number">-1</span>]*(ll)i%mod;</span><br><span class="line">        inv[n]=Pow(fac[n],mod<span class="number">-2</span>); <span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&gt;=<span class="number">1</span>;--i) inv[i<span class="number">-1</span>]=inv[i]*(ll)i%mod;</span><br><span class="line">        getpw(n*n*n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;++j)</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;=n;++k)</span><br><span class="line">                    lcm[i][j][k]=LCM(LCM(i,j),k);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) cur=i,dfs(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sol</span><span class="params">(<span class="keyword">int</span> A,<span class="keyword">int</span> B,<span class="keyword">int</span> C)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> pa=<span class="number">0</span>;pa&lt;g[A].size();++pa)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> pb=<span class="number">0</span>;pb&lt;g[B].size();++pb)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> pc=<span class="number">0</span>;pc&lt;g[C].size();++pc) &#123;</span><br><span class="line">        <span class="keyword">int</span> tans=<span class="number">1</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;PII&gt; &amp;pA=g[A][pa],&amp;pB=g[B][pb],&amp;pC=g[C][pc];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;pA.size();++j) tans=tans*(ll)inv[pA[j].SEC]%mod*Pow(Inv[pA[j].FIR],pA[j].SEC)%mod;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;pB.size();++j) tans=tans*(ll)inv[pB[j].SEC]%mod*Pow(Inv[pB[j].FIR],pB[j].SEC)%mod;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;pC.size();++j) tans=tans*(ll)inv[pC[j].SEC]%mod*Pow(Inv[pC[j].FIR],pC[j].SEC)%mod;</span><br><span class="line">        Mat::init(A+B+C);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> iA=<span class="number">0</span>,tA=<span class="number">0</span>;iA&lt;pA.size();++iA)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> jA=<span class="number">0</span>;jA&lt;pA[iA].SEC;++jA,tA+=pA[iA].FIR)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> iB=<span class="number">0</span>,tB=A;iB&lt;pB.size();++iB)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> jB=<span class="number">0</span>;jB&lt;pB[iB].SEC;++jB,tB+=pB[iB].FIR)</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> iC=<span class="number">0</span>,tC=A+B;iC&lt;pC.size();++iC)</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> jC=<span class="number">0</span>;jC&lt;pC[iC].SEC;++jC,tC+=pC[iC].FIR) &#123;</span><br><span class="line">                    <span class="keyword">int</span> a=pA[iA].FIR,b=pB[iB].FIR,c=pC[iC].FIR;</span><br><span class="line">                    tans=tans*(ll)pw[a*b*c/lcm[a][b][c]]%mod;</span><br><span class="line">                    Mat::ins(tA,tA+pA[iA].FIR,lcm[a][b][c]/a);</span><br><span class="line">                    Mat::ins(tB,tB+pB[iB].FIR,lcm[a][b][c]/b);</span><br><span class="line">                    Mat::ins(tC,tC+pC[iC].FIR,lcm[a][b][c]/c);</span><br><span class="line">                    Mat::Ins();</span><br><span class="line">                &#125;</span><br><span class="line">        tans=tans*(ll)pw[A+B+C-Mat::sol()]%mod;</span><br><span class="line">        <span class="comment">// Mat::Debug();</span></span><br><span class="line">        ans=(ans+tans)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    ans=ans*(ll)ipw[A+B+C]%mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    predo_calc::predo(<span class="number">13</span>);</span><br><span class="line">    <span class="keyword">int</span> T; rd(T);</span><br><span class="line">    <span class="keyword">while</span>(T--) &#123;</span><br><span class="line">        <span class="keyword">int</span> A,B,C; rd(A),rd(B),rd(C);</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;sol(A,B,C)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/15/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0%E7%BB%83%E4%B9%A0%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -881,50 +688,14 @@ B_i(x) = e^{a_ix}\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}
           <h2 id="loj6485-LJJ学二项式定理"><a href="#loj6485-LJJ学二项式定理" class="headerlink" title="loj6485 LJJ学二项式定理"></a>loj6485 LJJ学二项式定理</h2><p>首先枚举$i\pmod 4$的余数$t$，然后转化成对于每一个$t$，求</p>
 <script type="math/tex; mode=display">
 \sum_{i=0}^n {n\choose i}s^i [ 4\mid (i-t) ]\\</script><p>单位根反演：</p>
-<script type="math/tex; mode=display">
-= \sum_{i=0}^n {n\choose i}s^i {1\over 4}\sum_{j=0}^3 \omega_{4}^{j(i-t)}\\
-= {1\over 4} \sum_{j=0}^3 \omega_{4}^{-jt} \sum_{i=0}^n {n\choose i}s^i w_4^{ij}</script><p>最后面的那一坨东西，由二项式定理知$(1+x)^n = \sum_{i=0}^n {n\choose i}x^i$，所以：</p>
-<script type="math/tex; mode=display">
-= {1\over 4} \sum_{j=0}^3 \omega_{4}^{-jt} (s\omega_4^j + 1)^n</script><p>直接算就可以了。</p>
-<p><a href="https://loj.ac/submission/715070" target="_blank" rel="noopener">Code</a></p>
-<h2 id="uoj450【集训队作业2018】复读机"><a href="#uoj450【集训队作业2018】复读机" class="headerlink" title="uoj450【集训队作业2018】复读机"></a>uoj450【集训队作业2018】复读机</h2><p>考虑一个复读机复读次数的生成函数：</p>
-<script type="math/tex; mode=display">
-F(x) = \sum_{i=0}^{\infty} {x^i\over i!} [d\mid i]</script><p>而我们要算的实际上是$n! \cdot F^k(x) [x^n]$。</p>
-<p>对$F(x)$进行单位根反演：</p>
-<script type="math/tex; mode=display">
-F(x) = {1\over d}\sum_{i=0}^{\infty} {x^i\over i!} \sum_{j=0}^{d-1} \omega^{ij}\\
-= {1\over d}\sum_{j=0}^{d-1} \sum_{i=0}^{\infty} {x^iw^{ij}\over i!}\\
-= {1\over d} \sum_{j=0}^{d-1} e^{\omega^j x}</script><p>$1\over d$是常数，我们先把它忽视掉，最后再在答案里乘上一个$1\over d^k$。</p>
-<p>考虑$F^k(x)$的组合意义，相当于对于这$k$个多项式，从每一个里面选一项相乘，所有的方案得到的乘积的和。枚举$e^{\omega^jx}$被选的次数$p_j$，得到</p>
-<script type="math/tex; mode=display">
-F^k (x) = \sum_{p_0+p_1\cdots p_{d-1}=k}k!\prod_{j=0}^{d-1} {1\over p_j!}e^{p_j \omega_jx}\\
-= \sum_{p_0+p_1\cdots p_{d-1}=k} e^{(\sum_{j=0}^{d-1}p_jw_j)x} \cdot k!\prod_{j=0}^{d-1} {1\over p_j!}</script><p>而</p>
-<script type="math/tex; mode=display">
-F^k (x) [ x^n ] = \sum_{p_0+p_1\cdots p_{d-1}=k} {(\sum_{j=0}^{d-1}p_jw_j)^n \over n!} \cdot k!\prod_{j=0}^{d-1} {1\over p_j!}</script><p>直接计算，复杂度$O(k^d \log n)$。</p>
-<p><a href="http://uoj.ac/submission/376702" target="_blank" rel="noopener">Code</a></p>
-<h2 id="bzoj3328-PYXFIB"><a href="#bzoj3328-PYXFIB" class="headerlink" title="bzoj3328 PYXFIB"></a>bzoj3328 PYXFIB</h2><p>设</p>
-<script type="math/tex; mode=display">
-A = \begin{bmatrix}1 & 0\\1 & 1\end{bmatrix}\\
-B = \begin{bmatrix} 1\\1 \end{bmatrix}</script><p>则我们相当于要求出</p>
-<script type="math/tex; mode=display">
-(\sum_{i=0}^n {n\choose i} A^i [k\mid i] )B</script><p>对前面的那个括号里面的东西单位根反演，得到</p>
-<script type="math/tex; mode=display">
-{1\over k} \sum_{j=0}^{k-1} \sum_{i=0}^n {n\choose i}A^i\omega^{ij}\\
-= {1\over k} \sum_{j=0}^{k-1} (\omega^j\cdot A + E)^n</script><p>其中$E$表示单位矩阵。</p>
-<p>直接矩阵快速幂计算，时间复杂度为$O(2^3 \cdot \log n \cdot k)$。</p>
-<h2 id="loj3058-「HNOI2019」白兔之舞"><a href="#loj3058-「HNOI2019」白兔之舞" class="headerlink" title="loj3058 「HNOI2019」白兔之舞"></a>loj3058 「HNOI2019」白兔之舞</h2><p>设矩阵$A$是满足$A_{i,j} = w(i,j)$的$n\times n$的矩阵。</p>
-<p>走$m$步的方案数为${L\choose m}T_{x,y}$，其中$T=A^m$。</p>
-<p>则对于每一个$t$，我们需要求出</p>
-<script type="math/tex; mode=display">
-\sum_{m=0}^L {L\choose m}A^m [k\mid (t-m)]</script><p>单位根反演之后得到</p>
-<script type="math/tex; mode=display">
-{1\over k}\sum_{j=0}^{k-1} \omega_k^{-tj}(\omega_k^jA + E)^L</script><p>对于每一个$j$，分别算出$F_j = (\omega_k^j A+ E)^L$，设$f_j$为$F_j$的$x$行$y$列的元素，则$t$的答案就是</p>
-<script type="math/tex; mode=display">
-Ans_t = {1\over k}\sum_{j=0}^{k-1} f_j \omega_k^{-tj}</script><p>由于$-tj={t\choose 2}+{j\choose 2}-{t+j\choose 2}$，所以</p>
-<script type="math/tex; mode=display">
-Ans_t = {1\over k}\cdot \omega_k^{t\choose 2} \sum_{j=0}^{k-1} (f_j\cdot \omega_k^{j\choose 2} ) \omega_k^{-{i+j\choose 2}}</script><p>这是一个卷积的形式，用MTT优化一下就可以了。</p>
-<p>总时间复杂度$O(kn^3\log L + k\log k)$。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/14/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94%E7%BB%83%E4%B9%A0%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -993,50 +764,14 @@ Ans_t = {1\over k}\cdot \omega_k^{t\choose 2} \sum_{j=0}^{k-1} (f_j\cdot \omega_
           <h2 id="CF963E-Circles-of-Waiting"><a href="#CF963E-Circles-of-Waiting" class="headerlink" title="CF963E Circles of Waiting"></a>CF963E Circles of Waiting</h2><p>圆内的整点形成了一个类似方阵的结构。设$f_{x,y}$为$(x,y)$期望被经过的次数。我们可以对每一个点列出一个方程：</p>
 <script type="math/tex; mode=display">
 f_{x,y} = {p_0} f_{x+1,y} + p_1 f_{x,y+1} +p_2 f_{x-1,y} + p_3f_{x,y-1} + [(x,y)=(0,0)]</script><p>将每一行最左侧的点设为主元，其它的点都用主元表示。从左往右考虑每一列的点：$f_{x,y}$可以用$f_{x-1,y}$的方程表示出来（因为方程中涉及到的$f_{x-1,y},f_{x-1,y-1},f_{x-1,y+1},f_{x-2,y}$在之前都已经考虑过了，只有$f_{x,y}$是未知的）。</p>
-<p>这样过后，每一行最右侧的点对应的方程我们还没有用过，用这些方程一定可以解出主元的值，然后再带回去就可以得到每个点的期望被经过次数。</p>
-<p>时间复杂度$O(R^3)$。</p>
-<p><a href="https://codeforces.com/contest/963/submission/68692851" target="_blank" rel="noopener">Code</a></p>
-<h2 id="CTSC2006-歌唱王国"><a href="#CTSC2006-歌唱王国" class="headerlink" title="CTSC2006 歌唱王国"></a>CTSC2006 歌唱王国</h2><p>题号：luogu4548, bzoj1152</p>
-<p>设$f_i$为加入第$i$个字符的时候恰好结束的概率，$g_i$为加入$i$个字符之后还没有结束的概率。设$F(x) = \sum_{i=0}^\infty f_i x^i, G(x) = \sum_{i=0}^\infty g_ix^i$。</p>
-<p>则有$G(x)x - F(x) = G(x) - 1$，即：$g_{i-1}-f_i = g_i$。</p>
-<p>由$F(x)$的定义我们知道$F(1)=1$，即在每一轮结束的概率的和是$1$。</p>
-<p>而我们要求的答案是$F’(1)$。</p>
-<p>再设$H(x) = \sum_{i=j}^{m}x^{m-j} ({1\over n})^{m-j} [s_1s_2\cdots s_j\text{is a border of s}]$。</p>
-<p>则</p>
-<script type="math/tex; mode=display">
-G(x) ({1\over n})^mx^m = F(x) H(x)</script><p>这里$F(x)$的意义相当于是枚举了，$G(x)$在末尾加上一个$s$之后，最早在什么位置出现了完整的$s$。</p>
-<p>带入$x=1$得到</p>
-<script type="math/tex; mode=display">
-G(1) ({1\over n})^m = F(1) H(1)\\
-G(1) = n^m H(1)</script><p>此外</p>
-<script type="math/tex; mode=display">
-G(x)x-F(x) = G(x)-1\\</script><p>两边同时求导得到</p>
-<script type="math/tex; mode=display">
-G(x) + G'(x)x - F'(x) = G'(x)</script><p>带入$x=1$</p>
-<script type="math/tex; mode=display">
-G(1) + G'(1) - F'(1) = G'(1)\\
-G(1) = F'(1)</script><p>所以答案就是$n^m H(1)$。</p>
-<h2 id="PE522"><a href="#PE522" class="headerlink" title="PE522"></a><a href="https://projecteuler.net/problem=522" target="_blank" rel="noopener">PE522</a></h2><p>如果所有的连通块都是孤立的环（没有叶子），那么答案是环数。</p>
-<p>否则敲定一个不为孤立的环的连通块，对于这个连通块每一个入度为$0$的点，把某个入度大于$1$的点的某一个儿子拿过来接在它的下面（接过来的部分如果还有入度为$0$的点，就重复前面的操作）。</p>
-<p>如果图内存在孤立的环，就还必须在上述过程的最后一次操作之前（此时我们敲定的那个连通块内恰好只有一个叶子）对每一个孤立的环进行额外的操作：把环断成链接在叶子的下面。</p>
-<p>综上所述，一张图的答案为叶子数+孤立的环数。</p>
-<p>叶子数总和为：</p>
-<script type="math/tex; mode=display">
-n ((n-2)^{n-1} \cdot (n-1))</script><p>也就是每个点成为叶子的方案数。</p>
-<p>孤立的环的数量总和为</p>
-<script type="math/tex; mode=display">
-\sum_{i=2}^n {n\choose i} (i-1)!(n-i-1)^{n-i}</script><p>每一个长度为$i$的环出现的方案数是$(n-i-1)^{n-i}$，而这样的环有${n\choose i} \cdot (i-1)!$个。</p>
-<h2 id="CF457D-Bingo"><a href="#CF457D-Bingo" class="headerlink" title="CF457D Bingo!"></a>CF457D Bingo!</h2><p>考虑$2^s$的组合意义，也就是一个大小为$s$的集合的子集数量。所以权值的期望也就是：每一个行、列的子集在最后的矩阵中只包含了那$k$个数的概率的和。</p>
-<p>假设某一个子集包含了$t$个格子，那么它只包含了那$k$个数的概率是$f_t = {P_k^t \over P_m^t}$。直接预处理阶乘来计算$f_t$无法用long double存下；推导可得$f_t = f_{t-1} \cdot {k-t+1\over m-t+1}$，由这个递推计算就可以避免上面的问题。</p>
-<p>最后的答案就是</p>
-<script type="math/tex; mode=display">
-\sum_{i=0}^n \sum_{j=0}^n {n\choose i}{n\choose j} f_{(i+j)n-ij}</script><p><a href="https://codeforces.com/contest/457/submission/68708656" target="_blank" rel="noopener">Code</a></p>
-<h2 id="UOJ352-新年的五维几何"><a href="#UOJ352-新年的五维几何" class="headerlink" title="UOJ352 新年的五维几何"></a>UOJ352 新年的五维几何</h2><p>对于所有$l_i=r_i$的变量，考虑它们对其它变量的取值范围的影响，然后把这些变量删掉。</p>
-<p>不妨将$l_i \le x_i \le r_i$看做$l_i \le x_i &lt; r_i$，两者算出来的答案是一样的。所以$x_i$的整数部分的取值范围是$[l_i,r_i)$。</p>
-<p>我们首先枚举$x_i$的小数部分的大小关系，然后暴搜整数部分的合法的取值方案。由于$a_{i,j}$都是整数，所以$x_i - x_j \ge a_{i,j}$是否被满足只取决于$x_i$和$x_j$的整数部分和它们小数部分的大小关系。</p>
-<p>时间复杂度$O(n!\prod_i(r_i-l_i))$。</p>
-<p><a href="http://uoj.ac/submission/379410" target="_blank" rel="noopener">Code</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/14/%E6%A6%82%E7%8E%87%E4%B8%8E%E6%9C%9F%E6%9C%9B%E7%BB%83%E4%B9%A0%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
