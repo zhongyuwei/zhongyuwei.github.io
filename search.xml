@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Comet #3 F 毒瘤的菜菜子</title>
+    <url>/2020/02/29/Comet-3-F-%E6%AF%92%E7%98%A4%E7%9A%84%E8%8F%9C%E8%8F%9C%E5%AD%90/</url>
+    <content><![CDATA[<p><a href="https://www.cometoj.com/contest/38/problem/F?problem_id=1545" target="_blank" rel="noopener">link to the problem</a></p>
+<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>设 $s(a,b,c,d) = \sum_{i=a}^b \sum_{j=c}^d [ a_i \mid a_j ] + [ a_j \mid a_i ]$</p>
+<p>考虑莫队，相当于将原问题转化成了 $O(n)$ 次形如 $\sum_{i=r+1}^{r’} s(l,i-1,i,i)$ 或 $\sum_{i=l’}^{l-1} s(i+1,r,i,i)$ 的询问（分别对应了左端点和右端点的移动）。</p>
+<p>差分一下得到：</p>
+<script type="math/tex; mode=display">
+\sum_{i=r+1}^{r'} s(l,i-1,i,i) = \sum_{i=r+1}^{r'} s(1,i-1,i,i) - s(1,l-1,i,i)\\
+\sum_{i=l'}^{l-1} s(i+1,r,i,i) = \sum_{i=l'}^{l-1} s(1,r,i,i) - s(1,i,i,i)</script><p>这样我们就把原问题转化成了 $O(n)$ 个形如 $\sum_{i=l}^r s(1,p,i,i)$ 的询问，并且 $\sum r-l = O(n\sqrt n)$。</p>
+<p>考虑扫描线，那么我们要支持的操作就是：</p>
+<ul>
+<li>加入一个数</li>
+<li>给出一个区间，枚举这个区间中的每一个数 $x$ ，查询已经加入的数中<br> 1) 有多少个数是 $x$ 的倍数<br> 2) 有多少个数是 $x$ 的因数</li>
+</ul>
+<p>对于第一问：每加入一个数，我们就枚举它所有的约数、打上标记，查询的时候直接返回 $x$ 的标记即可。</p>
+<p>对于第二问：我们考虑对加入的数进行根号分治。对于超过 $\sqrt n$ 的数，直接枚举它所有的倍数打上标记；对于小于等于 $\sqrt n$ 的数，我们枚举所有的 $y\in [1,\sqrt n]$ ，然后处理出序列的每个前缀中有多少个数是 $y$ 的倍数（以支持查询一个区间内有多少个数是 $y$ 的倍数），扫描线的时候维护前 $p$ 个位置有多少个数等于 $y$ 即可。</p>
+<p>总时间复杂度 $O(n\sqrt n)$ ，空间复杂度 $O(n)$ 。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://www.cometoj.com/status/xscggv2xwqii3464k8bnj39h4di2dhi8" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>BZOJ3744 Gty的妹子序列</title>
     <url>/2020/02/29/BZOJ3744-Gty%E7%9A%84%E5%A6%B9%E5%AD%90%E5%BA%8F%E5%88%97/</url>
     <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p><a href="https://www.cnblogs.com/zzqsblog/p/7522528.html" target="_blank" rel="noopener">参考了zzq的blog</a></p>
