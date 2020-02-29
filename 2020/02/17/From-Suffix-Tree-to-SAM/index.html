@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="You may check this article on cp-algorithms.com (or OI-wiki if you prefer reading in Chinese) for more precise information and proof of complexity about SAM. Here I just want to write about another pe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="From Suffix Tree to SAM">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/02/17/From-Suffix-Tree-to-SAM/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="You may check this article on cp-algorithms.com (or OI-wiki if you prefer reading in Chinese) for more precise information and proof of complexity about SAM. Here I just want to write about another pe">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/vOGy15NqmpSt9wr.png">
+<meta property="article:published_time" content="2020-02-17T02:24:57.000Z">
+<meta property="article:modified_time" content="2020-02-27T13:57:40.546Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/17/vOGy15NqmpSt9wr.png">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/02/17/From-Suffix-Tree-to-SAM/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>From Suffix Tree to SAM | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/17/From-Suffix-Tree-to-SAM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          From Suffix Tree to SAM
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-17 10:24:57" itemprop="dateCreated datePublished" datetime="2020-02-17T10:24:57+08:00">2020-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-27 21:57:40" itemprop="dateModified" datetime="2020-02-27T21:57:40+08:00">2020-02-27</time>
+              </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>You may check <a href="https://cp-algorithms.com/string/suffix-automaton.html" target="_blank" rel="noopener">this article on cp-algorithms.com</a> (or OI-wiki if you prefer reading in Chinese) for more precise information and proof of complexity about SAM. Here I just want to write about another perspective to understand SAM, which I’ve learned from Huadun Hong, PKU, through Zhengruioi’s online courses on 4th, Feb, 2020.</p>
+<h2 id="0"><a href="#0" class="headerlink" title="0"></a>0</h2><p>We can get the suffix tree of string $S$ simply by inserting all of its suffixes into a trie (though this will involve $O(|S|^2)$ vertices). Note that: </p>
+<ul>
+<li>Each vertex in the suffix tree represents a substring of $S$ (since a substring is a prefix of a suffix of $S$). Let’s call the vertices that represent a suffix of $S$ ‘the suffix vertices’.</li>
+<li>The number a substring occurs in $S$ equals to the number of suffix vertices in the subtree of the corresponding  vertex.</li>
+<li>The well-known data structure Suffix Array is actually the DFS ordering of the suffix tree. (Sort the suffix vertices by the time we discover them.)</li>
+<li>LCP of two suffixes is the LCA of the corresponding suffix vertices in the suffix tree.</li>
+</ul>
+<p>Define:</p>
+<ul>
+<li>$len_x$:  the length of the string that vertex $x$ represents, also equals to the depth of $x$ in the suffix tree.</li>
+<li>$fail_x$: father of $x$ in the suffix tree.</li>
+<li>$go_{x,ch}$: (this definition <strong>differs from traditional definition of SAM</strong>) suppose $x$ represents string $T$, then $go_{x,ch}$ is the vertex that corresponds to the string $cT$. I may write $go_{T,ch}$ for $go_{x,ch}$ or the string $go_{x,ch}$ represents for convenience in the following paragraph, so don’t get confused with it.</li>
+</ul>
+<p>It seems there is some delicate contact between $go_{x,ch}$ and the suffix links in the Aho–Corasick algorithm, isn’t it? And when the suffix tree is compressed later it turns out that it’s no longer convenient to find the son of a pariticular vertex in the suffix tree, and that’s why we’ve got to maintain the array $go_{x,ch}$. Thus if we want to find the corresponding vertex of a particular string $T$, we just start from the root of the suffix tree, enumerate each character of $T$ from right to left and go to $go_{\text{current node,current character}}$.</p>
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>In this section we’ll talk about how to construct the suffix tree and maintain $len_x, fail_x, go_{x,ch}$ by adding characters of $S$ one by one from right to left.</p>
+<p>That is, we have already built SAM of $S$, now we wanna get SAM of $cS$ out of it.</p>
+<p>From $S$ to $cS$, only one more suffix’s added, that’s $cS$. So first we’ll insert $cS$ into the suffix tree (remember the suffix tree here is still a trie) and maintain $len_x, fail_x$ of the newly-added vertices. We do it in the following way: we create a new vertex $u$ that represents $cS$, then we find the longest $cS[1:i]$ that occurred in $S$ and let the corresponding vertex be $v$. Then we add vertices representing $cS[1:|S|-1],cS[1:|S|-2], \cdots S[1:i+1]$ between $u$ and $v$.</p>
+<p>Consider about the changes in $go_{x,ch}$, they can be divided into two types:</p>
+<ul>
+<li>$x$ is one of those newly-added vertices, or</li>
+<li>$go_{x,ch}$ is one of those newly-added vertices</li>
+</ul>
+<p>Note it’s impossible to have $x$ and $go_{x,ch}$ both newly-added.</p>
+<p>For the first type, since strings the newly-added vertices represent do not occur in $S$, so after adding $c$ at the front they won’t occur either. Then just set all $go_{x,ch}$ of the newly-added vertices to <code>null</code>.</p>
+<p>For the second type, we enumerate all prefixes of $S$ that $go_{S[1:j],c}$ is <code>null</code>, then let $go_{S[1:j],c}$ be $cS[1:j]$. This can be done by starting from $S$ and each time jumping to the father of current node until $go_{\text{current node},ch}$ is not <code>null</code>.</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>Note there can be $O(|S|^2)$ vertices in the suffix tree, but number of vertices with degree greater than $2$ is at most $2|S|-1$. Then if a vertex has only one child, we compress it and its’ only-child and say the original father is ‘compressed’. Specially, because suffix vertices contain a lot of important information so we’ll never compress a suffix vertex, even if it has only one child. We call all remaining vertices after the process ‘key vertices’.</p>
+<p>Define:</p>
+<ul>
+<li>$Z(x)$: let $Z(x)$ be the set of strings that vertices compressed into $x$ represented in the original suffix tree. Note that all strings in $Z(x)$ can be represented as one prefix of the longest string in $Z(x)$.</li>
+<li>$len_x$: the length of longest string in $Z(x)$.</li>
+<li>$fail_x$: the first key vertex we meet in the original suffix tree by starting from $x$ and continuously jumping to father of the current node.</li>
+<li>$go_{x,ch}$:<ul>
+<li>An important fact is that in the original suffix tree $go_{x,ch}$ must be compressed if $x$ is compressed. To prove this let $T$ be the string $x$ represents and $cT$ be some key vertex.<ul>
+<li>If $cT$ is a suffix vertex then $T$ should also be a suffix vertex which made $T$ impossible to be compressed.</li>
+<li>Then $cT$ must have two distinct children, let them be $cTx$ and $cTy$. It turns out that $T$ should also have $Tx$ and $Ty$ as its children, which meets a contradiction.</li>
+</ul>
+</li>
+<li>But if $x$ is a key vertex, $go_{x,ch}$ in the original suffix tree may be compressed. In this case we let $go_{x,ch}$ be the key vertex that the original $go_{x,ch}$ has been compressed into. Thus we can ensure $\forall Y\in Z(x), cY \in Z(go_{x,c})$.</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/02/17/vOGy15NqmpSt9wr.png" alt=""></p>
+<p>(This is a picture from Huadun Hong’s slide, representing $go_{x,c}$.)</p>
+<p>Then consider how to build SAM with our previous algorithm. First we create a new vertex stands for $cS$. </p>
+<p>Finding the greatest $i$ that $cS[1:i]$ occurs in $S$ is equivalent to finding the greatest $i$ that $go_{S[1:i],c}$ is not <code>null</code>. So we can just start from $S$ and continuously jump to $fail_{\text{current node}}$ until the current node satisfies $go_{\text{current node},c}$ is not <code>null</code>. Let this vertex be $Q$ and $E$ be $go_{Q,c}$.</p>
+<p>We should set $fail_{cS}$ to a vertex that the longest string it represents is $cQ$. But note that $cQ$ may not be the longest one in $Z(E)$, if so we shall ‘decompress’ it from $E$ since we’re about to add a new child to it. Let the newly-decompressed vertex be $K$ (let $K$ be $E$ in case that $cQ$ is the longest one in $Z(E)$) and let $fail_{cS} = K$.</p>
+<p>Now we’ll take a look at changes in $go_{x,ch}$: </p>
+<ul>
+<li>like the original $O(|S|^2)$ suffix tree, we set $go_{x,c}$ of all vertices on the chain from $S$ to $Q$ to $cS$</li>
+<li>and for $Q$ and $Q$’s ancestors satisfying $go_{x,c} = E$, we change $go_{x,c}$ to $K$.</li>
+</ul>
+<p>Thus we’ve completed contruction of SAM.</p>
+<p>It turns out that time complexity and memory complexity of this algorithm are both $O(|S|)$. </p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2020/02/17/From-Suffix-Tree-to-SAM/" title="From Suffix Tree to SAM">http://zhongyuwei.github.io/2020/02/17/From-Suffix-Tree-to-SAM/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/14/APIO2019/" rel="prev" title="APIO2019">
+      <i class="fa fa-chevron-left"></i> APIO2019
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/17/LOJ577-%E3%80%8CLibreOJ-NOI-Round-2%E3%80%8D%E7%AE%80%E5%8D%95%E7%AE%97%E6%9C%AF/" rel="next" title="LOJ577 「LibreOJ NOI Round #2」简单算术">
+      LOJ577 「LibreOJ NOI Round #2」简单算术 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0"><span class="nav-number">1.</span> <span class="nav-text">0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-number">2.</span> <span class="nav-text">1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2"><span class="nav-number">3.</span> <span class="nav-text">2</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

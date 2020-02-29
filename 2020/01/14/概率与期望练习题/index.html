@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="CF963E Circles of Waiting圆内的整点形成了一个类似方阵的结构。设$f_{x,y}$为$(x,y)$期望被经过的次数。我们可以对每一个点列出一个方程：  f_{x,y} &#x3D; {p_0} f_{x+1,y} + p_1 f_{x,y+1} +p_2 f_{x-1,y} + p_3f_{x,y-1} + [(x,y)&#x3D;(0,0)]将每一行最左侧的点设为主元，其它的点都用主元表示。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率与期望练习题">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/01/14/%E6%A6%82%E7%8E%87%E4%B8%8E%E6%9C%9F%E6%9C%9B%E7%BB%83%E4%B9%A0%E9%A2%98/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="CF963E Circles of Waiting圆内的整点形成了一个类似方阵的结构。设$f_{x,y}$为$(x,y)$期望被经过的次数。我们可以对每一个点列出一个方程：  f_{x,y} &#x3D; {p_0} f_{x+1,y} + p_1 f_{x,y+1} +p_2 f_{x-1,y} + p_3f_{x,y-1} + [(x,y)&#x3D;(0,0)]将每一行最左侧的点设为主元，其它的点都用主元表示。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-14T02:59:52.000Z">
+<meta property="article:modified_time" content="2020-02-18T10:27:40.035Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="专题练习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/01/14/%E6%A6%82%E7%8E%87%E4%B8%8E%E6%9C%9F%E6%9C%9B%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>概率与期望练习题 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/01/14/%E6%A6%82%E7%8E%87%E4%B8%8E%E6%9C%9F%E6%9C%9B%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          概率与期望练习题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-14 10:59:52" itemprop="dateCreated datePublished" datetime="2020-01-14T10:59:52+08:00">2020-01-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 18:27:40" itemprop="dateModified" datetime="2020-02-18T18:27:40+08:00">2020-02-18</time>
+              </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="CF963E-Circles-of-Waiting"><a href="#CF963E-Circles-of-Waiting" class="headerlink" title="CF963E Circles of Waiting"></a>CF963E Circles of Waiting</h2><p>圆内的整点形成了一个类似方阵的结构。设$f_{x,y}$为$(x,y)$期望被经过的次数。我们可以对每一个点列出一个方程：</p>
+<script type="math/tex; mode=display">
+f_{x,y} = {p_0} f_{x+1,y} + p_1 f_{x,y+1} +p_2 f_{x-1,y} + p_3f_{x,y-1} + [(x,y)=(0,0)]</script><p>将每一行最左侧的点设为主元，其它的点都用主元表示。从左往右考虑每一列的点：$f_{x,y}$可以用$f_{x-1,y}$的方程表示出来（因为方程中涉及到的$f_{x-1,y},f_{x-1,y-1},f_{x-1,y+1},f_{x-2,y}$在之前都已经考虑过了，只有$f_{x,y}$是未知的）。</p>
+<p>这样过后，每一行最右侧的点对应的方程我们还没有用过，用这些方程一定可以解出主元的值，然后再带回去就可以得到每个点的期望被经过次数。</p>
+<p>时间复杂度$O(R^3)$。</p>
+<p><a href="https://codeforces.com/contest/963/submission/68692851" target="_blank" rel="noopener">Code</a></p>
+<h2 id="CTSC2006-歌唱王国"><a href="#CTSC2006-歌唱王国" class="headerlink" title="CTSC2006 歌唱王国"></a>CTSC2006 歌唱王国</h2><p>题号：luogu4548, bzoj1152</p>
+<p>设$f_i$为加入第$i$个字符的时候恰好结束的概率，$g_i$为加入$i$个字符之后还没有结束的概率。设$F(x) = \sum_{i=0}^\infty f_i x^i, G(x) = \sum_{i=0}^\infty g_ix^i$。</p>
+<p>则有$G(x)x - F(x) = G(x) - 1$，即：$g_{i-1}-f_i = g_i$。</p>
+<p>由$F(x)$的定义我们知道$F(1)=1$，即在每一轮结束的概率的和是$1$。</p>
+<p>而我们要求的答案是$F’(1)$。</p>
+<p>再设$H(x) = \sum_{i=j}^{m}x^{m-j} ({1\over n})^{m-j} [s_1s_2\cdots s_j\text{is a border of s}]$。</p>
+<p>则</p>
+<script type="math/tex; mode=display">
+G(x) ({1\over n})^mx^m = F(x) H(x)</script><p>这里$F(x)$的意义相当于是枚举了，$G(x)$在末尾加上一个$s$之后，最早在什么位置出现了完整的$s$。</p>
+<p>带入$x=1$得到</p>
+<script type="math/tex; mode=display">
+G(1) ({1\over n})^m = F(1) H(1)\\
+G(1) = n^m H(1)</script><p>此外</p>
+<script type="math/tex; mode=display">
+G(x)x-F(x) = G(x)-1\\</script><p>两边同时求导得到</p>
+<script type="math/tex; mode=display">
+G(x) + G'(x)x - F'(x) = G'(x)</script><p>带入$x=1$</p>
+<script type="math/tex; mode=display">
+G(1) + G'(1) - F'(1) = G'(1)\\
+G(1) = F'(1)</script><p>所以答案就是$n^m H(1)$。</p>
+<h2 id="PE522"><a href="#PE522" class="headerlink" title="PE522"></a><a href="https://projecteuler.net/problem=522" target="_blank" rel="noopener">PE522</a></h2><p>如果所有的连通块都是孤立的环（没有叶子），那么答案是环数。</p>
+<p>否则敲定一个不为孤立的环的连通块，对于这个连通块每一个入度为$0$的点，把某个入度大于$1$的点的某一个儿子拿过来接在它的下面（接过来的部分如果还有入度为$0$的点，就重复前面的操作）。</p>
+<p>如果图内存在孤立的环，就还必须在上述过程的最后一次操作之前（此时我们敲定的那个连通块内恰好只有一个叶子）对每一个孤立的环进行额外的操作：把环断成链接在叶子的下面。</p>
+<p>综上所述，一张图的答案为叶子数+孤立的环数。</p>
+<p>叶子数总和为：</p>
+<script type="math/tex; mode=display">
+n ((n-2)^{n-1} \cdot (n-1))</script><p>也就是每个点成为叶子的方案数。</p>
+<p>孤立的环的数量总和为</p>
+<script type="math/tex; mode=display">
+\sum_{i=2}^n {n\choose i} (i-1)!(n-i-1)^{n-i}</script><p>每一个长度为$i$的环出现的方案数是$(n-i-1)^{n-i}$，而这样的环有${n\choose i} \cdot (i-1)!$个。</p>
+<h2 id="CF457D-Bingo"><a href="#CF457D-Bingo" class="headerlink" title="CF457D Bingo!"></a>CF457D Bingo!</h2><p>考虑$2^s$的组合意义，也就是一个大小为$s$的集合的子集数量。所以权值的期望也就是：每一个行、列的子集在最后的矩阵中只包含了那$k$个数的概率的和。</p>
+<p>假设某一个子集包含了$t$个格子，那么它只包含了那$k$个数的概率是$f_t = {P_k^t \over P_m^t}$。直接预处理阶乘来计算$f_t$无法用long double存下；推导可得$f_t = f_{t-1} \cdot {k-t+1\over m-t+1}$，由这个递推计算就可以避免上面的问题。</p>
+<p>最后的答案就是</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^n \sum_{j=0}^n {n\choose i}{n\choose j} f_{(i+j)n-ij}</script><p><a href="https://codeforces.com/contest/457/submission/68708656" target="_blank" rel="noopener">Code</a></p>
+<h2 id="UOJ352-新年的五维几何"><a href="#UOJ352-新年的五维几何" class="headerlink" title="UOJ352 新年的五维几何"></a>UOJ352 新年的五维几何</h2><p>对于所有$l_i=r_i$的变量，考虑它们对其它变量的取值范围的影响，然后把这些变量删掉。</p>
+<p>不妨将$l_i \le x_i \le r_i$看做$l_i \le x_i &lt; r_i$，两者算出来的答案是一样的。所以$x_i$的整数部分的取值范围是$[l_i,r_i)$。</p>
+<p>我们首先枚举$x_i$的小数部分的大小关系，然后暴搜整数部分的合法的取值方案。由于$a_{i,j}$都是整数，所以$x_i - x_j \ge a_{i,j}$是否被满足只取决于$x_i$和$x_j$的整数部分和它们小数部分的大小关系。</p>
+<p>时间复杂度$O(n!\prod_i(r_i-l_i))$。</p>
+<p><a href="http://uoj.ac/submission/379410" target="_blank" rel="noopener">Code</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2020/01/14/%E6%A6%82%E7%8E%87%E4%B8%8E%E6%9C%9F%E6%9C%9B%E7%BB%83%E4%B9%A0%E9%A2%98/" title="概率与期望练习题">http://zhongyuwei.github.io/2020/01/14/概率与期望练习题/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" rel="tag"># 专题练习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/14/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="next" title="单位根反演练习题">
+      单位根反演练习题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CF963E-Circles-of-Waiting"><span class="nav-number">1.</span> <span class="nav-text">CF963E Circles of Waiting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CTSC2006-歌唱王国"><span class="nav-number">2.</span> <span class="nav-text">CTSC2006 歌唱王国</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PE522"><span class="nav-number">3.</span> <span class="nav-text">PE522</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CF457D-Bingo"><span class="nav-number">4.</span> <span class="nav-text">CF457D Bingo!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UOJ352-新年的五维几何"><span class="nav-number">5.</span> <span class="nav-text">UOJ352 新年的五维几何</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

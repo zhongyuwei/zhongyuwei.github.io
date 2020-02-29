@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -17,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Muse","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -101,6 +102,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -111,17 +113,57 @@
   <ul id="menu" class="menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+    <a href="/archives/" rel="section">Archives</a>
 
   </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -146,7 +188,7 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <span class="collection-header">Um..! 1 post. Keep on posting.</span>
+        <span class="collection-header">Um..! 18 posts in total. Keep on posting.</span>
       </div>
 
       
@@ -159,15 +201,195 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-02-29T11:10:06+08:00"
+              datetime="2020-02-29T10:19:10+08:00"
               content="2020-02-29">
           02-29
         </time>
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/29/hello-world/" itemprop="url">
-            <span itemprop="name">Hello World</span>
+          <a class="post-title-link" href="/2020/02/29/BZOJ3289-Mato%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" itemprop="url">
+            <span itemprop="name">BZOJ3289 Mato的文件管理</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-27T19:01:55+08:00"
+              content="2020-02-27">
+          02-27
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/27/lemon%E9%85%8D%E7%BD%AE%E6%8D%86%E7%BB%91%E6%B5%8B%E8%AF%95/" itemprop="url">
+            <span itemprop="name">lemon配置捆绑测试</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-22T17:31:45+08:00"
+              content="2020-02-22">
+          02-22
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/22/BZOJ2498-Xavier-is-Learning-to-Count/" itemprop="url">
+            <span itemprop="name">BZOJ2498 Xavier is Learning to Count</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-21T15:55:59+08:00"
+              content="2020-02-21">
+          02-21
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/21/HDU3840-%E3%80%90WF2011%E3%80%91Chips-Challenge/" itemprop="url">
+            <span itemprop="name">HDU3840 【WF2011】Chips Challenge</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-20T09:55:24+08:00"
+              content="2020-02-20">
+          02-20
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/20/PKUWC2020/" itemprop="url">
+            <span itemprop="name">PKUWC2020</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-20T09:12:29+08:00"
+              content="2020-02-20">
+          02-20
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/20/IOI2020%E5%8C%97%E5%A4%A7%E9%9B%86%E8%AE%AD/" itemprop="url">
+            <span itemprop="name">IOI2020北大集训</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-19T23:52:42+08:00"
+              content="2020-02-19">
+          02-19
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/19/UOJ179-%E6%8C%91%E6%88%98NPC/" itemprop="url">
+            <span itemprop="name">UOJ179 挑战NPC</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-19T22:52:17+08:00"
+              content="2020-02-19">
+          02-19
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/19/%E5%AF%B9%E5%B8%A6%E8%8A%B1%E6%A0%91%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" itemprop="url">
+            <span itemprop="name">对带花树算法的一些思考</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-17T23:58:35+08:00"
+              content="2020-02-17">
+          02-17
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/17/LOJ577-%E3%80%8CLibreOJ-NOI-Round-2%E3%80%8D%E7%AE%80%E5%8D%95%E7%AE%97%E6%9C%AF/" itemprop="url">
+            <span itemprop="name">LOJ577 「LibreOJ NOI Round #2」简单算术</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-17T10:24:57+08:00"
+              content="2020-02-17">
+          02-17
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/02/17/From-Suffix-Tree-to-SAM/" itemprop="url">
+            <span itemprop="name">From Suffix Tree to SAM</span>
           </a>
       </h2>
 
@@ -182,6 +404,9 @@
   
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 
 
@@ -246,9 +471,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
@@ -281,7 +512,7 @@
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.1
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
   </div>
 
         
@@ -320,6 +551,10 @@
 
 
 
+  
+<script src="/js/local-search.js"></script>
+
+
 
 
 
@@ -334,6 +569,37 @@
   
 
   
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
 </body>
 </html>

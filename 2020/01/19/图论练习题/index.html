@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LOJ2146 「SHOI2017」寿司餐厅把$mx^2 + cx$拆一下就是：只要吃的寿司里面有代号为$x$的就要付出$mx^2$的代价；每吃一种代号为$x$的寿司就要付出$x$的代价。直接令$d_{i,i}$减掉$a_i$，就可以不再考虑$cx$这部分。 对每个区间$[l,r]$建一个点，权值为$d_{l,r}$；对每个代号建一个点，权值为$-mx^2$。如果选了$d_{l,r}$就必须选$d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图论练习题">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/01/19/%E5%9B%BE%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="LOJ2146 「SHOI2017」寿司餐厅把$mx^2 + cx$拆一下就是：只要吃的寿司里面有代号为$x$的就要付出$mx^2$的代价；每吃一种代号为$x$的寿司就要付出$x$的代价。直接令$d_{i,i}$减掉$a_i$，就可以不再考虑$cx$这部分。 对每个区间$[l,r]$建一个点，权值为$d_{l,r}$；对每个代号建一个点，权值为$-mx^2$。如果选了$d_{l,r}$就必须选$d">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/01/18/28qR5MKJlmvCa3w.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/18/8cZQa4xRTtLAPCl.jpg">
+<meta property="article:published_time" content="2020-01-19T02:31:30.000Z">
+<meta property="article:modified_time" content="2020-02-18T10:27:44.198Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="专题练习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/01/18/28qR5MKJlmvCa3w.png">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/01/19/%E5%9B%BE%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>图论练习题 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/01/19/%E5%9B%BE%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图论练习题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-19 10:31:30" itemprop="dateCreated datePublished" datetime="2020-01-19T10:31:30+08:00">2020-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 18:27:44" itemprop="dateModified" datetime="2020-02-18T18:27:44+08:00">2020-02-18</time>
+              </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="LOJ2146-「SHOI2017」寿司餐厅"><a href="#LOJ2146-「SHOI2017」寿司餐厅" class="headerlink" title="LOJ2146 「SHOI2017」寿司餐厅"></a>LOJ2146 「SHOI2017」寿司餐厅</h2><p>把$mx^2 + cx$拆一下就是：只要吃的寿司里面有代号为$x$的就要付出$mx^2$的代价；每吃一种代号为$x$的寿司就要付出$x$的代价。直接令$d_{i,i}$减掉$a_i$，就可以不再考虑$cx$这部分。</p>
+<p>对每个区间$[l,r]$建一个点，权值为$d_{l,r}$；对每个代号建一个点，权值为$-mx^2$。如果选了$d_{l,r}$就必须选$d_{l,r-1}$和$d_{l+1,r}$，如果选了$d_{i,i}$就必须选$ma_i^2$。求出这张图的最大权闭合子图即可。</p>
+<p><a href="https://loj.ac/submission/723604" target="_blank" rel="noopener">Code</a></p>
+<h2 id="LOJ2100-「TJOI2015」线性代数"><a href="#LOJ2100-「TJOI2015」线性代数" class="headerlink" title="LOJ2100 「TJOI2015」线性代数"></a>LOJ2100 「TJOI2015」线性代数</h2><p>把$A$想象成$\{1,2,\cdots n\}$的一个子集，$0$表示不选，$1$表示选。则：</p>
+<script type="math/tex; mode=display">
+val(A) = \sum_{i\in A\wedge j\in A} B_{i,j} - \sum_{i\in A} C_i</script><p>对每个$B_{i,j}$和$C_i$建一个点，权值分别为$B_{i,j},-C_i$，要求如果选了$B_{i,j}$则必须选$-C_i$和$-C_j$。求出这张图的最大权闭合子图即可。</p>
+<p><a href="https://loj.ac/submission/723647" target="_blank" rel="noopener">Code</a></p>
+<h2 id="UOJ41-【清华集训2014】矩阵变换"><a href="#UOJ41-【清华集训2014】矩阵变换" class="headerlink" title="UOJ41 【清华集训2014】矩阵变换"></a>UOJ41 【清华集训2014】矩阵变换</h2><p>考虑什么样的方案是不合法的：第$x$行选择了$y$，并且存在另一行$x’$，$y$在$x’$行的出现的列编号大于$y$在$x$行出现的列编号，且$x’$行选择的那个数字的列编号在$y$之后。</p>
+<p>可以转化成稳定婚姻问题：由于要求每列中每个数至多出现一次，所以每一行选择的数显然是不同的，所以可以把问题看作求行和数字的匹配。对于每一行，在那一行出现的列编号越小的数字越好；对于每一个数字，它在其中出现的位置越靠后的行越好。这样求出的解显然能够规避上面说的不合法情况。</p>
+<p><a href="http://uoj.ac/submission/380077" target="_blank" rel="noopener">Code</a></p>
+<h2 id="LOJ2052-「HNOI2016」矿区"><a href="#LOJ2052-「HNOI2016」矿区" class="headerlink" title="LOJ2052 「HNOI2016」矿区"></a>LOJ2052 「HNOI2016」矿区</h2><p>分母很容易算，考虑怎么求分子。</p>
+<p>将平面图转化成对偶图之后，以无穷域为根，求出一棵dfs树，并处理出子树内的块的矿量和。</p>
+<p>考虑给出的开发区域的每一条边：如果它在对偶图中是非树边则不管它；如果它是树边，且它连接的两个点中，开发区域外的点是父亲，那么就让总和加上区域内的那个子树的权值；如果它是树边，且它连接的两个点中，区域里的点是父亲，那么就让总和减去区域外的那个子树的权值。</p>
+<p>注意对偶图中可能是有重边的。</p>
+<p><a href="https://loj.ac/submission/725254" target="_blank" rel="noopener">Code</a></p>
+<h2 id="TopCoder14750-HeroicSchedule"><a href="#TopCoder14750-HeroicSchedule" class="headerlink" title="TopCoder14750 HeroicSchedule"></a>TopCoder14750 HeroicSchedule</h2><p><a href="https://vjudge.net/problem/TopCoder-14750" target="_blank" rel="noopener">可以在vjudge上提交</a> </p>
+<p>下面用$n$表示点数，$m$表示边数。</p>
+<p>由费用流的过程可以知道，将所有的任务按照收益从大到小排序之后，依次考虑每个任务，能够加入则加入，则一定能够得到最优的解。</p>
+<p>尝试加入的过程就是求匹配的过程，考虑用匈牙利算法来实现这一部分。直接做的复杂度是$O(n^2m^2)$的。</p>
+<p>发现尽管边数很大，但是遍历边集的时候我们实际上是在一个区间内的点中找到一个vis不为$0$的点，用set就可以在$O(\log m)$的时间内完成。复杂度优化到$O(n(\log m + m\log m))$。</p>
+<p>更进一步观察发现，只要当前已经求出的匹配没有变化，就没有清空vis的必要。而匹配的大小只会从$1$变到至多$m$，也意味着匹配至多会改变$m$次。所以我们的等到匹配改变的时候才清空vis，就能把复杂度做到$O(n\log m + m^2 \log m)$。</p>
+<p><a href="https://vjudge.net/solution/23740620" target="_blank" rel="noopener">Code</a></p>
+<h2 id="HDU6431-NewNippori"><a href="#HDU6431-NewNippori" class="headerlink" title="HDU6431 NewNippori"></a>HDU6431 NewNippori</h2><p>分别求出$maxflow(x,y)$为1,2的点对的数量，就可以算出答案。</p>
+<p>$maxflow(x,y)=1$的点对即不在同一个边双连通分量的点对。</p>
+<p>$maxflow(x,y)=2$的点对一定在同一个边双连通分量且可以通过割掉两条边使它们不连通。</p>
+<p>对每个边双连通分量分别考虑。首先求出一棵dfs树。考虑割掉哪些边能够把这个边双分成不连通的两个部分：</p>
+<ul>
+<li>割一条树边和一条非树边。我们称一条非树边覆盖了一条树边，当且仅当非树边的两个端点在树上的最短路包含了那条树边。由于这是一个边双，所以每条树边至少被一条非树边覆盖；又由于我们只能割一条非树边，而覆盖了我们割的那条树边的非树边必须全部被割掉，所以我们割的树边一定恰好只有一条非树边覆盖了它。把那条树边和覆盖它的非树边割掉，可以把dfs树上树边两侧的部分割开。</li>
+<li><p>割两条树边。考虑这两条树边割开之后树边将dfs树分成了三部分：<br><img src="https://i.loli.net/2020/01/18/28qR5MKJlmvCa3w.png" alt="hdu6431.png"><br>其中黑色的圈表示树上的连通块，黑色的虚线表示割掉的树边，1，2，3分别表示在这三个连通块之间的非树边。</p>
+<ul>
+<li>如果1存在，由于每条树边都至少有一条非树边覆盖了它，所以2和3至少有一条边存在，所以这时三个块仍然连通。2存在同理。</li>
+<li>如果这三种边中，只有3这种边存在，发现割了两条树边之后，A和B组成的连通块和C之间没有边。</li>
+</ul>
+<p>所以，割的两条树边一定满足：所有的非树边要么同时覆盖这两条边，要么同时不覆盖这两条边。</p>
+</li>
+</ul>
+<p>如何判断覆盖了两条树边的非树边集合是否相同：可以用与<a href="http://uoj.ac/problem/207" target="_blank" rel="noopener">uoj207</a>那道题一样的方法，给每一条非树边随机一个$[0,2^{64})$的权值，设每个点的权值为所有以它作为一端的非树边的权值的异或和。则当两个点的子树内所有点的权值的异或和相同的时候，我们认为这两个点到它们的父亲的那两条边被非树边覆盖的情况相同；当某个点子树内点的权值异或和为某条非树边的权值，我们就认为这个点到父亲的那条边只被那条非树边覆盖。</p>
+<p>首先统计跨越了只被一条非树边覆盖了的树边的点对的贡献，然后把这些树边都断开。下面考虑的是断开了这些边之后的每个连通块。</p>
+<p>对每个点$x$，统计出满足下面条件的点的数量：存在一对树边，割开之后能够把$x$和这个点隔开，且$x$位于与两条树边都相邻的那个连通块里面（上图中的连通块C）。</p>
+<p>由于我们求的是dfs树，所有的非树边都是返祖边，不存在横叉边。所以，被覆盖情况相同的两条树边也一定是祖孙关系。</p>
+<p>考虑把$x$夹在了中间的那些可以割掉的树边对：</p>
+<p><img src="https://i.loli.net/2020/01/18/8cZQa4xRTtLAPCl.jpg" width="40%" height="100%" ></p>
+<p>观察到：</p>
+<ul>
+<li>对于某条树边，能够和它配对的边显然都在一条祖孙链上。</li>
+<li>不可能存在两对树边$(u,v),(x,y)$，满足$dep_u &lt; dep_x &lt; dep_v &lt; dep_y$。</li>
+</ul>
+<p>所以，对于某个$x$，把它夹在了中间的树边对一定满足：假设这些树边对按照在$x$的上面的那条边的深度升序排序得到的序列是$w_1,w_2,\cdots w_k$，那么按照在$x$的下面的那条边的深度升序排序得到的序列就是$w_k,w_{k-1},\cdots w_1$。我们只需要找出$w_k$：$w_k$把整棵树分成三部分中不包含$x$的那两部分的大小，就是能够通过割两条树边与$x$隔开的点数。</p>
+<p>对连通块进行dfs，到达某个点$u$的时候，先递归处理$u$的子树内的点，然后再处理$u$到它的父亲之间的这条边与$u$的子树内的边配对所能够产生的贡献。</p>
+<p>找出最后一次访问到的与$e(u,fa_u)$的覆盖情况相同的边$e’$，如果这条边不在$u$的子树内说明$e(u,fa_u)$无法与子树内的边配对；否则，我们只需要考虑$e(u,fa_u)$与$e’$配对就可以了（因为对每个$x$我们只关心包含了它且离它最近的边对，$e(u,fa_u)$和其它的边配对显然不满足这个条件）。我们找出$e’,e(u,fa_u)$之间还没有找到最近的树边对的点，统计它们的贡献，并把它们标记为已经找到了最近的树边对的点。实现上可以用一个数组$ex[u]$来记录每个点的子树内还没有找到最近树边对的点数；由于$e(u,fa_u)$已经和$e’$配对了，所以$e(u,fa_u)$上方的边不可能与$e(u,fa_u)$和$e’$之间的边配对，因此我们不需要维护$e(u,fa_u),e’$之间的点的$ex$，只对$ex[u]$做出相应的更新就可以了。</p>
+<p>总复杂度$O(n+m)$或者$O(n\log n + m)$（取决于使用map还是hash_table）</p>
+<p>下面是我的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PB push_back</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MP make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PII pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FIR first</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SEC second</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ull unsigned long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">rd</span>(<span class="title">T</span> &amp;<span class="title">x</span>) &#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c)) &#123; <span class="keyword">if</span>(c==<span class="string">'-'</span>) f=<span class="number">-1</span>; c=getchar(); &#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> RNG &#123;</span><br><span class="line">    ull seed=<span class="number">13244074693642402u</span>ll;</span><br><span class="line">    <span class="function">ull <span class="title">rnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        seed^=seed&lt;&lt;<span class="number">13</span>,seed^=seed&gt;&gt;<span class="number">7</span>,seed^=seed&lt;&lt;<span class="number">17</span>;</span><br><span class="line">        <span class="keyword">return</span> seed;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">using</span> RNG::rnd;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e5</span>+<span class="number">10</span>,M=<span class="number">3e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ed</span> &#123;</span> <span class="keyword">int</span> to,id; &#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;ed&gt; G[N];</span><br><span class="line">ll ans0,ans1;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">namespace</span> tree &#123;</span><br><span class="line">    <span class="keyword">int</span> In[N],vis[N];</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; son[N];</span><br><span class="line">    <span class="built_in">set</span>&lt;ull&gt; val;</span><br><span class="line">    ull xi[N];</span><br><span class="line">    <span class="keyword">int</span> vise[M];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        vis[u]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;G[u].size();++i) <span class="keyword">if</span>(!vise[G[u][i].id]&amp;&amp;In[G[u][i].to]) &#123;</span><br><span class="line">            <span class="keyword">int</span> v=G[u][i].to; vise[G[u][i].id]=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(vis[v]) &#123;</span><br><span class="line">                ull tmp=rnd();</span><br><span class="line">                val.insert(tmp),xi[u]^=tmp,xi[v]^=tmp;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> son[u].PB(v),dfs1(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">map</span>&lt;ull,<span class="keyword">int</span>&gt; mp;</span><br><span class="line">    <span class="keyword">int</span> _size,__size;</span><br><span class="line">    <span class="keyword">int</span> ex[N];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs3</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        ex[u]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> pre_c=mp.count(xi[u])?mp[xi[u]]:<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;son[u].size();++i)</span><br><span class="line">            <span class="keyword">if</span>(vis[son[u][i]]!=<span class="number">2</span>) dfs3(son[u][i]),ex[u]+=ex[son[u][i]];</span><br><span class="line">        <span class="keyword">int</span> c=mp.count(xi[u])?mp[xi[u]]:<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(c&amp;&amp;c!=pre_c) &#123;</span><br><span class="line">            ans1+=<span class="number">2l</span>l*(ex[u]-ex[c])*(ll)(_size-(ex[u]-ex[c]));</span><br><span class="line">            _size-=ex[u]-ex[c];</span><br><span class="line">            ex[u]=ex[c];</span><br><span class="line">        &#125;</span><br><span class="line">        mp[xi[u]]=u;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> tot=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;son[u].size();++i)</span><br><span class="line">            tot+=dfs2(son[u][i]),xi[u]^=xi[son[u][i]];</span><br><span class="line">        <span class="keyword">if</span>(val.count(xi[u])) &#123;</span><br><span class="line">            ans1+=tot*(ll)(__size-tot);</span><br><span class="line">            mp.clear(),_size=tot,dfs3(u);</span><br><span class="line">            vis[u]=<span class="number">2</span>,tot=<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tot;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sol</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;a)</span> </span>&#123;</span><br><span class="line">        __size=a.size();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.size();++i) In[a[i]]=<span class="number">1</span>;</span><br><span class="line">        dfs1(a[<span class="number">0</span>]); val.insert(<span class="number">0</span>);</span><br><span class="line">        dfs2(a[<span class="number">0</span>]);</span><br><span class="line">        val.clear();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.size();++i) In[a[i]]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) xi[i]=vis[i]=<span class="number">0</span>,son[i].clear();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i) vise[i]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> st[N],top;</span><br><span class="line"><span class="keyword">int</span> dfn[N],low[N],id;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tarjan</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> lasteid)</span> </span>&#123;</span><br><span class="line">    dfn[u]=low[u]=++id,st[++top]=u;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;G[u].size();++i) <span class="keyword">if</span>(G[u][i].id!=lasteid) &#123;</span><br><span class="line">        <span class="keyword">int</span> v=G[u][i].to;</span><br><span class="line">        <span class="keyword">if</span>(dfn[v]) low[u]=min(low[u],dfn[v]);</span><br><span class="line">        <span class="keyword">else</span> tarjan(v,G[u][i].id),low[u]=min(low[u],low[v]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(low[u]==dfn[u]) &#123;</span><br><span class="line">        <span class="keyword">do</span> a.PB(st[top]); <span class="keyword">while</span>(st[top--]!=u);</span><br><span class="line">        tree::sol(a),ans0+=a.size()*(n-a.size());</span><br><span class="line">        a.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> T; rd(T);</span><br><span class="line">    <span class="keyword">while</span>(T--) &#123;</span><br><span class="line">        rd(n),rd(m);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>,x,y;i&lt;=m;++i) &#123;</span><br><span class="line">            rd(x),rd(y);</span><br><span class="line">            G[x].PB((ed)&#123;y,i&#125;),G[y].PB((ed)&#123;x,i&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        tarjan(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">        ans0/=<span class="number">2</span>,ans1/=<span class="number">2</span>;</span><br><span class="line">        ll ans2=n*(ll)(n<span class="number">-1</span>)/<span class="number">2</span>-ans0-ans1;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,ans0+ans1*<span class="number">2</span>+ans2*<span class="number">3</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) G[i].clear(),dfn[i]=<span class="number">0</span>; id=top=<span class="number">0</span>;</span><br><span class="line">        ans0=ans1=<span class="number">0</span>;</span><br><span class="line">        tree::init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2020/01/19/%E5%9B%BE%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98/" title="图论练习题">http://zhongyuwei.github.io/2020/01/19/图论练习题/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" rel="tag"># 专题练习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/15/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="prev" title="组合计数练习题">
+      <i class="fa fa-chevron-left"></i> 组合计数练习题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="next" title="动态规划练习题">
+      动态规划练习题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LOJ2146-「SHOI2017」寿司餐厅"><span class="nav-number">1.</span> <span class="nav-text">LOJ2146 「SHOI2017」寿司餐厅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LOJ2100-「TJOI2015」线性代数"><span class="nav-number">2.</span> <span class="nav-text">LOJ2100 「TJOI2015」线性代数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UOJ41-【清华集训2014】矩阵变换"><span class="nav-number">3.</span> <span class="nav-text">UOJ41 【清华集训2014】矩阵变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LOJ2052-「HNOI2016」矿区"><span class="nav-number">4.</span> <span class="nav-text">LOJ2052 「HNOI2016」矿区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TopCoder14750-HeroicSchedule"><span class="nav-number">5.</span> <span class="nav-text">TopCoder14750 HeroicSchedule</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDU6431-NewNippori"><span class="nav-number">6.</span> <span class="nav-text">HDU6431 NewNippori</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

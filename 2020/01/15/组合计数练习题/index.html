@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="UOJ422 小z的礼物考虑min-max容斥：  \max (S) &#x3D; \sum_{T\subseteq S} (-1)^{|T|+1} \min (T)对希望得到的物品的每一个子集，求出期望最早什么时候子集里至少有一个物品被拿到了，就能算出答案。 设包含了至少一个这个子集内的物品的相邻的格子对的数量是$a$，所有的相邻的格子对的数量是$b$，那么这个期望值就是$b\over a$。$a$是一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组合计数练习题">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/01/15/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0%E7%BB%83%E4%B9%A0%E9%A2%98/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="UOJ422 小z的礼物考虑min-max容斥：  \max (S) &#x3D; \sum_{T\subseteq S} (-1)^{|T|+1} \min (T)对希望得到的物品的每一个子集，求出期望最早什么时候子集里至少有一个物品被拿到了，就能算出答案。 设包含了至少一个这个子集内的物品的相邻的格子对的数量是$a$，所有的相邻的格子对的数量是$b$，那么这个期望值就是$b\over a$。$a$是一个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/01/15/gPTJSesGaVAMH6E.png">
+<meta property="og:image" content="https://i.loli.net/2020/01/15/iVUJvFXzDeO653Y.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/01/15/hxeA8qLUlyd9QFX.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/01/15/dRp3DWlBGZsJjEV.jpg">
+<meta property="article:published_time" content="2020-01-15T14:05:18.000Z">
+<meta property="article:modified_time" content="2020-02-18T10:27:58.457Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="专题练习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/01/15/gPTJSesGaVAMH6E.png">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/01/15/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>组合计数练习题 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/01/15/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          组合计数练习题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-15 22:05:18" itemprop="dateCreated datePublished" datetime="2020-01-15T22:05:18+08:00">2020-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 18:27:58" itemprop="dateModified" datetime="2020-02-18T18:27:58+08:00">2020-02-18</time>
+              </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="UOJ422-小z的礼物"><a href="#UOJ422-小z的礼物" class="headerlink" title="UOJ422 小z的礼物"></a>UOJ422 小z的礼物</h2><p>考虑min-max容斥：</p>
+<script type="math/tex; mode=display">
+\max (S) = \sum_{T\subseteq S} (-1)^{|T|+1} \min (T)</script><p>对希望得到的物品的每一个子集，求出期望最早什么时候子集里至少有一个物品被拿到了，就能算出答案。</p>
+<p>设包含了至少一个这个子集内的物品的相邻的格子对的数量是$a$，所有的相邻的格子对的数量是$b$，那么这个期望值就是$b\over a$。$a$是一个定值；$b$则可以看做（子集内每一个物品包含它的相邻格子对数量的和）-（同时包含了子集内的两个物品的相邻格子对的数量）。</p>
+<p>设$f_{S,t}$表示上一列选了的格子的集合是$S$，之前选过的格子的（子集内每一个物品包含它的相邻格子对数量的和）-（同时包含了子集内的两个物品的相邻格子对的数量）为$t$，所有方案的容斥系数的和。用类似轮廓线dp的方法转移，就可以做到$O(2^n n^2m^2)$的复杂度。</p>
+<p><a href="http://uoj.ac/submission/379524" target="_blank" rel="noopener">Code</a></p>
+<h2 id="LOJ2320「清华集训-2017」生成树计数"><a href="#LOJ2320「清华集训-2017」生成树计数" class="headerlink" title="LOJ2320「清华集训 2017」生成树计数"></a>LOJ2320「清华集训 2017」生成树计数</h2><p>把原题的式子换一个表达的方式：把每个连通块看做一个点，设$d_i$为每个点的度数，则</p>
+<script type="math/tex; mode=display">
+val (T) = (\sum_{i=1}^n d_i^m) (\prod_{i=1}^n d_i^m )(\prod_{i=1}^n a_i^{d_i})</script><p>因为式子里面有度数，所以考虑用prufer序列来计数。枚举每一个点在prufer序列中出现的次数$k_i$，得到</p>
+<script type="math/tex; mode=display">
+Ans = \sum_{k_1+k_2+\cdots +k_n=n-2} {(n-2)!\over k_1!k_2!\cdots k_n!} \cdot \sum_{i=1}^n (k_i+1)^{2m}a_i^{k_i+1} \prod_{j\neq i} (k_j+1)^ma_j^{k_j+1}</script><p>设</p>
+<script type="math/tex; mode=display">
+A_i(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^m\over k!} x^k\\
+B_i(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^{2m} \over k!}x^k</script><p>则</p>
+<script type="math/tex; mode=display">
+Ans= (n-2)!\sum_{i=1}^n (B_i(x)\prod_{j\neq i} A_j(x) )[x^{n-2}]</script><p>因为$A_i(x)$里面有指数为$k+1$，还有$x^k \over k!$，所以尝试对$A_i(x)$积分得到$T(x)$：</p>
+<script type="math/tex; mode=display">
+T(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^m \over (k+1)!} x^{k+1}\\
+=\sum_{k=1}^\infty {a_i^kk^m\over k!}x^k</script><p>将$k^m$展开：</p>
+<script type="math/tex; mode=display">
+T(x) = \sum_{k=1}^\infty {a_i^k \over k!} x^k \sum_{j=0}^{\min\{m,k\}} \begin{Bmatrix}m\\ j\end{Bmatrix} {k\choose j} j!</script><p>把${k\choose j}j!$与前面的$k!$抵消，得到</p>
+<script type="math/tex; mode=display">
+T(x) = \sum_{k=1}^\infty a_i^k x^k \sum_{j=0}^{\min\{m,k\}} {1\over (k-j)!}\begin{Bmatrix}m\\ j\end{Bmatrix}</script><p>把$j$提前</p>
+<script type="math/tex; mode=display">
+T(x) = \sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} \sum_{k=j}^\infty {a_ix^k\over (k-j)!}\\
+=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} a_i^jx^j \sum_{k=0}^\infty {a_i^kx^k\over k!}\\
+=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} a_i^jx^j e^{a_ix}</script><p>然后对$T(x)$求导得到$A_i(x)$</p>
+<script type="math/tex; mode=display">
+A_i(x) = T'(x)\\
+=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} (j \cdot a_i^jx^{j-1} e^{a_ix} + a_i \cdot a_i^jx^j e^{a_ix}) \\
+=\sum_{j=0}^{m} \begin{Bmatrix}m\\ j+1\end{Bmatrix} (j+1)( a_i^{j+1}x^je^{a_ix}) + \sum_{j=0}^{m} \begin{Bmatrix}m\\ j\end{Bmatrix} (a_i^{j+1} x^j e^{a_ix}) \\
+= \sum_{j=0}^{m}(\begin{Bmatrix}m\\ j+1\end{Bmatrix} (j+1)+\begin{Bmatrix}m\\ j\end{Bmatrix} ) a_i^{j+1}x^je^{a_ix}\\
+= e^{a_ix}\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\</script><p>对$B_i(x)$同理，得到</p>
+<script type="math/tex; mode=display">
+B_i(x) = e^{a_ix}\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\</script><p>所以</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n B_i(x)\prod_{j\neq i} A_i(x)\\
+= e^s \sum_{i=1}^n (\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j) \prod_{k\neq i}(\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_k^{j+1}x^j)\\</script><p>上式可以分治NTT求出。</p>
+<p><a href="https://loj.ac/submission/719326" target="_blank" rel="noopener">Code</a></p>
+<h2 id="ARC062D-Painting-Graphs-with-AtCoDeer"><a href="#ARC062D-Painting-Graphs-with-AtCoDeer" class="headerlink" title="ARC062D Painting Graphs with AtCoDeer"></a>ARC062D Painting Graphs with AtCoDeer</h2><p>每一个边双连通分量显然是独立的。所有边双的本质不同的染色方案数的乘积即是答案。</p>
+<p>如果一个边双只包含一条边，那么答案显然是$K$。</p>
+<p>如果一个边双恰好只有一个简单环，则是一个经典的Polya（有$K$种颜色的珠子，问有多少种旋转置换下本质不同的项链）。</p>
+<p>而如果一个边双包含多于一个环，则从下面的图（来自<a href="http://arc062.contest.atcoder.jp/data/arc/062/editorial.pdf" target="_blank" rel="noopener">官方题解</a>）可以看出，通过若干次操作我们可以交换一对相邻的边（下图中交换了绿色和蓝色的边）。故而两个给这个边双染色的方案是本质不同的，当且仅当它们染成某种颜色的边的数量不同。所以方案数为${K+C-1\choose K-1}$，其中$C$为这个边双内的边数。</p>
+<p><img src="https://i.loli.net/2020/01/15/gPTJSesGaVAMH6E.png" alt="image.png"></p>
+<p><a href="https://atcoder.jp/contests/arc062/submissions/9511619" target="_blank" rel="noopener">Code</a></p>
+<h2 id="HDU6402-Boolean-3-Array"><a href="#HDU6402-Boolean-3-Array" class="headerlink" title="HDU6402 Boolean 3-Array"></a>HDU6402 Boolean 3-Array</h2><p>可以参考<a href="https://projecteuler.net/problem=626" target="_blank" rel="noopener">PE626</a>，它是这道题的低维情形。</p>
+<p>下文中的$A,B,C$表示原题中每一维的大小。</p>
+<p>考虑简化题目中的置换：令$p_a,p_b,p_c$为三个长度分别为$A,B,C$的排列，每个排列的第$i$个元素表示这个维度上的swap操作使得最初的第$i$层到了哪个位置，令$a_i,b_i,c_i$分别表示每一维的第$i$层进行的翻转操作次数的奇偶性。我们规定先进行$p_a,p_b,p_c$的操作，再进行$a,b,c$的操作。那么原题中的一系列操作的结果将唯一对应到一组$(p_a,p_b,p_c,a,b,c)$。</p>
+<p>利用Burnside lemma，数每一个置换的不动点数目。</p>
+<p>先只考虑swap操作。枚举$p_a,p_b,p_c$的循环节，假设当前枚举到的循环节长度分别为$la,lb,lc$，考虑循环节中的方块对应的那个$la\times lb\times lc$的正方体。将每个点$(x,y,z)$与$({p_a}_x,{p_b}_y,{p_c}_z)$连边，则这些方块恰好会分裂成$la\cdot lb\cdot lc\over \operatorname{lcm}\{la,lb,lc\}$个连通块（并且每个连通块都是一个环）。显然每个连通块内的格子必须填同一个数，不同连通块的格子没有影响。</p>
+<p>考虑flip操作对每一个连通块的影响：记$d_{x,y,z} = (a_x+b_y+c_z) \bmod 2$，则如果连通块内所有点的$\sum d_{x,y,z}$为奇数，则不存在不动点；否则，如下图，环上打了叉的点表示$d_{x,y,z}=1$的点，箭头表示置换的方向：</p>
+<p><img src="https://i.loli.net/2020/01/15/iVUJvFXzDeO653Y.jpg" alt="1.jpg"></p>
+<p>那么显然只有两种填数方案是不动点：</p>
+<p><img src="https://i.loli.net/2020/01/15/hxeA8qLUlyd9QFX.jpg" alt="2.jpg"><br><img src="https://i.loli.net/2020/01/15/dRp3DWlBGZsJjEV.jpg" alt="3.jpg"></p>
+<p>首先枚举$p_a,p_b,p_c$的每种长度的循环节的出现次数（设$k_i,l_i$表示长度为$l_i$的循环节出现了$k_i$次，那么对应的排列数是$n!\over \prod l_i^{k_i} k_i!$），然后求出对于每一组循环节的每一个连通块都满足$\sum d_{x,y,z} \equiv 0 \pmod 2$的$a,b,c$的数量，就能够快速统计贡献。</p>
+<p>我们考虑某一组循环节（那个$la\times lb\times lc$的正方体）的某一个连通块对$a,b,c$的限制，设循环节包含的每个维度的下标集合为$a’,b’,c’$，则限制为</p>
+<script type="math/tex; mode=display">
+\sum_{x\in a'} a_x \operatorname{lcm}{\{la,lb,lc\}\over la} +\sum_{x\in b'} b_x \operatorname{lcm}{\{la,lb,lc\}\over lb} + \sum_{x\in c'} c_x {\operatorname{lcm}\{la,lb,lc\}\over lc} \equiv 0 \pmod 2</script><p>现在将每一个$a_x,b_x,c_x$看做未知数，则问题转化成求方程的解数，是一个经典的线性基问题。</p>
+<p>由于数据范围很小，可以直接打表。</p>
+<p>下面是我的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PB push_back</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MP make_pair</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PII pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FIR first</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SEC second</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">rd</span>(<span class="title">T</span> &amp;<span class="title">x</span>) &#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c)) &#123; <span class="keyword">if</span>(c==<span class="string">'-'</span>) f=<span class="number">-1</span>; c=getchar(); &#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Pow</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(;y;x=x*(ll)x%mod,y&gt;&gt;=<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span>(y&amp;<span class="number">1</span>) res=res*(ll)x%mod;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> lcm[<span class="number">20</span>][<span class="number">20</span>][<span class="number">20</span>];</span><br><span class="line"><span class="keyword">int</span> fac[<span class="number">20</span>],inv[<span class="number">20</span>],ipw[<span class="number">8000</span>],pw[<span class="number">8000</span>];</span><br><span class="line"><span class="keyword">int</span> Inv[<span class="number">20</span>];</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;PII&gt; &gt; g[<span class="number">20</span>];</span><br><span class="line"><span class="keyword">namespace</span> Mat &#123;</span><br><span class="line">    <span class="built_in">bitset</span>&lt;39&gt; f[<span class="number">39</span>],b;</span><br><span class="line">    <span class="keyword">int</span> m,cnt;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> len)</span> </span>&#123; <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;++i) f[i].reset(); m=len,cnt=<span class="number">0</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">ins</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x&amp;<span class="number">1</span>) <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;r;++i) b[i]=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Ins</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// cout&lt;&lt;"INS:"; for(int i=0;i&lt;m;++i) cout&lt;&lt;(b[i]==1); cout&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;++i) <span class="keyword">if</span>(b[i]) &#123;</span><br><span class="line">            <span class="keyword">if</span>(f[i][i]) b^=f[i];</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                f[i]=b,cnt++;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        b.reset();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">sol</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> cnt; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Debug</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;++i,<span class="built_in">puts</span>(<span class="string">""</span>))</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;++j) <span class="built_in">cout</span>&lt;&lt;(f[i][j]==<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> predo_calc &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> b?gcd(b,a%b):a; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">LCM</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a/gcd(a,b)*b; &#125;</span><br><span class="line">    <span class="built_in">vector</span>&lt;PII&gt; s;</span><br><span class="line">    <span class="keyword">int</span> cur;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> tot)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(tot==cur) &#123; g[cur].PB(s); <span class="keyword">return</span>; &#125;</span><br><span class="line">        <span class="keyword">if</span>(tot+u&gt;cur) <span class="keyword">return</span>;</span><br><span class="line">        dfs(u+<span class="number">1</span>,tot);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;tot+j*u&lt;=cur;++j) &#123;</span><br><span class="line">            s.PB(MP(u,j));</span><br><span class="line">            dfs(u+<span class="number">1</span>,tot+j*u);</span><br><span class="line">            s.pop_back();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getpw</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        pw[<span class="number">0</span>]=<span class="number">1</span>; <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) pw[i]=pw[i<span class="number">-1</span>]*<span class="number">2l</span>l%mod;</span><br><span class="line">        ipw[n]=Pow(pw[n],mod<span class="number">-2</span>); <span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&gt;=<span class="number">1</span>;--i) ipw[i<span class="number">-1</span>]=ipw[i]*<span class="number">2l</span>l%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">predo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) Inv[i]=Pow(i,mod<span class="number">-2</span>);</span><br><span class="line">        fac[<span class="number">0</span>]=<span class="number">1</span>; <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) fac[i]=fac[i<span class="number">-1</span>]*(ll)i%mod;</span><br><span class="line">        inv[n]=Pow(fac[n],mod<span class="number">-2</span>); <span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&gt;=<span class="number">1</span>;--i) inv[i<span class="number">-1</span>]=inv[i]*(ll)i%mod;</span><br><span class="line">        getpw(n*n*n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;++j)</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;=n;++k)</span><br><span class="line">                    lcm[i][j][k]=LCM(LCM(i,j),k);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) cur=i,dfs(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sol</span><span class="params">(<span class="keyword">int</span> A,<span class="keyword">int</span> B,<span class="keyword">int</span> C)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> pa=<span class="number">0</span>;pa&lt;g[A].size();++pa)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> pb=<span class="number">0</span>;pb&lt;g[B].size();++pb)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> pc=<span class="number">0</span>;pc&lt;g[C].size();++pc) &#123;</span><br><span class="line">        <span class="keyword">int</span> tans=<span class="number">1</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;PII&gt; &amp;pA=g[A][pa],&amp;pB=g[B][pb],&amp;pC=g[C][pc];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;pA.size();++j) tans=tans*(ll)inv[pA[j].SEC]%mod*Pow(Inv[pA[j].FIR],pA[j].SEC)%mod;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;pB.size();++j) tans=tans*(ll)inv[pB[j].SEC]%mod*Pow(Inv[pB[j].FIR],pB[j].SEC)%mod;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;pC.size();++j) tans=tans*(ll)inv[pC[j].SEC]%mod*Pow(Inv[pC[j].FIR],pC[j].SEC)%mod;</span><br><span class="line">        Mat::init(A+B+C);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> iA=<span class="number">0</span>,tA=<span class="number">0</span>;iA&lt;pA.size();++iA)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> jA=<span class="number">0</span>;jA&lt;pA[iA].SEC;++jA,tA+=pA[iA].FIR)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> iB=<span class="number">0</span>,tB=A;iB&lt;pB.size();++iB)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> jB=<span class="number">0</span>;jB&lt;pB[iB].SEC;++jB,tB+=pB[iB].FIR)</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> iC=<span class="number">0</span>,tC=A+B;iC&lt;pC.size();++iC)</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> jC=<span class="number">0</span>;jC&lt;pC[iC].SEC;++jC,tC+=pC[iC].FIR) &#123;</span><br><span class="line">                    <span class="keyword">int</span> a=pA[iA].FIR,b=pB[iB].FIR,c=pC[iC].FIR;</span><br><span class="line">                    tans=tans*(ll)pw[a*b*c/lcm[a][b][c]]%mod;</span><br><span class="line">                    Mat::ins(tA,tA+pA[iA].FIR,lcm[a][b][c]/a);</span><br><span class="line">                    Mat::ins(tB,tB+pB[iB].FIR,lcm[a][b][c]/b);</span><br><span class="line">                    Mat::ins(tC,tC+pC[iC].FIR,lcm[a][b][c]/c);</span><br><span class="line">                    Mat::Ins();</span><br><span class="line">                &#125;</span><br><span class="line">        tans=tans*(ll)pw[A+B+C-Mat::sol()]%mod;</span><br><span class="line">        <span class="comment">// Mat::Debug();</span></span><br><span class="line">        ans=(ans+tans)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    ans=ans*(ll)ipw[A+B+C]%mod;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    predo_calc::predo(<span class="number">13</span>);</span><br><span class="line">    <span class="keyword">int</span> T; rd(T);</span><br><span class="line">    <span class="keyword">while</span>(T--) &#123;</span><br><span class="line">        <span class="keyword">int</span> A,B,C; rd(A),rd(B),rd(C);</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;sol(A,B,C)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2020/01/15/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0%E7%BB%83%E4%B9%A0%E9%A2%98/" title="组合计数练习题">http://zhongyuwei.github.io/2020/01/15/组合计数练习题/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" rel="tag"># 专题练习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/14/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="prev" title="单位根反演练习题">
+      <i class="fa fa-chevron-left"></i> 单位根反演练习题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/19/%E5%9B%BE%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="next" title="图论练习题">
+      图论练习题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UOJ422-小z的礼物"><span class="nav-number">1.</span> <span class="nav-text">UOJ422 小z的礼物</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LOJ2320「清华集训-2017」生成树计数"><span class="nav-number">2.</span> <span class="nav-text">LOJ2320「清华集训 2017」生成树计数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARC062D-Painting-Graphs-with-AtCoDeer"><span class="nav-number">3.</span> <span class="nav-text">ARC062D Painting Graphs with AtCoDeer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDU6402-Boolean-3-Array"><span class="nav-number">4.</span> <span class="nav-text">HDU6402 Boolean 3-Array</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
