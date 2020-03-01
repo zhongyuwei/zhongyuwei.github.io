@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>NOI2018 你的名字</title>
+    <url>/2020/03/01/NOI2018-%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97/</url>
+    <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>答案相当于 $T$ 中不被 $S_{l\cdots r}$ 包含的本质不同的子串数量。</p>
+<p>求出 $T$ 中被 $S_{l\cdots r}$ 包含了的本质不同的子串数量，用 $T$ 的本质不同的子串数量减去它就是答案。后者容易求，我们考虑怎么求前者。</p>
+<h4 id="部分分：-l-1-r-S"><a href="#部分分：-l-1-r-S" class="headerlink" title="部分分：$l=1,r=|S|$"></a>部分分：$l=1,r=|S|$</h4><p>对 $T$ 建出 SAM ，然后对 SAM 中的每个节点，考虑这个节点代表的子串集合的贡献。这个集合形如“ $T$ 的某个子串 $w$ 的所有长度不小于 $minlen$ 的后缀”。我们只需要知道 $w$ 最长的、在 $S$ 中出现过的后缀是谁，就能够统计这个集合中有多少个串在 $S$ 中出现过（长度更短的都出现过，长度更长的都没有出现过）。更进一步观察发现，我们其实只需要知道，以 $w$ 结尾的那个前缀，它的最长的、在 $S$ 中出现过的后缀是谁，就可以了（ $w$ 的最长的在 $S$ 中出现过的后缀长度就是那个后缀的长度和 $|w|$ 的较小值）。</p>
+<p>这是个经典的后缀自动机问题。对 $S$ 建出 SAM ，然后让 $T$ 在 $S$ 上面跑匹配就可以了。具体地，维护一个 <code>u</code> 表示当前的位置，<code>len</code> 表示当前匹配上了的长度。每次从 <code>u</code> 走向 <code>ch[u][T[i]]</code> 的时候，就把变成 <code>len+1</code>；如果转移不存在，就从 <code>u</code> 跳到 <code>fail[u]</code> ， <code>len</code> 变成现在的 <code>u</code> 中最长的子串的长度。复杂度分析：一次跳 <code>fail</code> 会让匹配长度至少减少 1 ，而一次 <code>u -&gt; ch[u][T[i]]</code> 则会让匹配长度 + 1 ，匹配长度总是非负并且整个过程中匹配的长度只会增加 $|T|$ 次，所以复杂度是 $O(|T|)$ 的。</p>
+<h4 id="l-r-任意"><a href="#l-r-任意" class="headerlink" title="$l,r$ 任意"></a>$l,r$ 任意</h4><p>考虑对前面在 SAM 的匹配做一些修改：我们称一个节点“存在”，当且仅当它所代表的子串集合中，最短的那个串在 $S_{l\cdots r}$ 中出现过。那么匹配过程中我们相当于需要支持：</p>
+<ul>
+<li>查询一个点是否存在</li>
+<li>查询一个点所代表的子串集合中，在 $S_{l\cdots r}$ 中出现过的、最长的串</li>
+</ul>
+<p>第一问：设这个节点的子串集合中最短的串长度是 $minlen$ 。用可持久化线段树合并维护出每个节点的 endpos 集合，查询 $[l+minlen-1, r]$ 这个区间内是否有这个节点的 endpos 即可。</p>
+<p>第二问：找出 $[l+minlen-1, r]$ 中最靠右的那个 endpos ，它到 $l$ 的距离和这个节点代表的最长子串长度的较小值即为答案。</p>
+<p>具体细节见代码。</p>
+<h4 id="附：可持久化线段树合并的空间复杂度"><a href="#附：可持久化线段树合并的空间复杂度" class="headerlink" title="附：可持久化线段树合并的空间复杂度"></a>附：可持久化线段树合并的空间复杂度</h4><p>可能有锅，欢迎指正。</p>
+<p>分成两个部分：</p>
+<ol>
+<li>将 $n$ 个节点插进 $n$ 棵不同的树。</li>
+<li>合并两棵树，并复制两棵树的公共部分，得到一棵新的树。</li>
+</ol>
+<p>第一部分会用到至多 $n\lceil\log_2 n\rceil$ 个节点。</p>
+<p>第二部分中，考虑每个非叶子节点：每一次复制它，它子树内的叶子节点数量一定变多了，所以它被复制的次数至多是它子树内的叶子节点数量。每个叶子至多在 $\lceil \log_2 n\rceil$ 个节点的子树中，所以复制节点的次数至多是 $n\lceil\log_2 n\rceil$ 次。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://loj.ac/submission/756501" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Comet #3 F 毒瘤的菜菜子</title>
     <url>/2020/02/29/Comet-3-F-%E6%AF%92%E7%98%A4%E7%9A%84%E8%8F%9C%E8%8F%9C%E5%AD%90/</url>
     <content><![CDATA[<p><a href="https://www.cometoj.com/contest/38/problem/F?problem_id=1545" target="_blank" rel="noopener">link to the problem</a></p>
