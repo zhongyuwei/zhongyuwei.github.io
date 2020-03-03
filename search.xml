@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CF582D Number of Binominal Coefficients</title>
+    <url>/2020/03/03/CF582D-Number-of-Binominal-Coefficients/</url>
+    <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>如何判断 $p^\alpha \mid \binom{n}{k}$ 是否成立：只需要知道 $\binom{n}{k}$ 中 $p$ 的次数是否大于等于 $\alpha$ 。</p>
+<p>设 $f(n)$ 为 $n!$ 中 $p$ 的次数，显然有 $f(n) = \sum_{i=1}^\infty \lfloor \frac{n}{p^i} \rfloor$。而我们要做的就是检查 $f(n)-f(k)-f(n-k)$ 是否成立。</p>
+<p>$f(n)$ 实际上相当于：$n$ 的 $p$ 进制表示去掉最后一位后的值 + $n$ 的 $p$ 进制表示去掉最后两位后的值 + $n$ 的 $p$ 进制表示去掉最后三位后的值 ……</p>
+<p>考虑 $f(a+b)$ 和 $f(a)+f(b)$ 的区别：如果 $a+b$ 在 $p$ 进制下没有进位，那么两者显然相同；考虑如果 $a+b$ 在 $p^k$ 这一位进位了，那么相较于 $f(a)+f(b)$ ，$f(a+b)$ 在 $i\le k$ 的时候的贡献是不变的，但是在 $i=k+1$ 的时候就会多贡献 $1$ 。又因为这是两个数的加法，每一位至多进位一次，所以不会出现在第 $k$ 位的进位贡献到第 $k+2$ 位的情况。所以 $f(a+b)-(f(a)+f(b))$ 就是 $a+b$ 在 $p$ 进制加法中进位的次数。</p>
+<p>令 $a=k,b=n-k$ ，我们相当于要统计满足 $0\le a,0\le b, a+b\le A$ 且 $a+b$ 进位次数不小于 $\alpha$ 的 $(a,b)$ 的数量。这是一个基础的数位 dp 问题。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://codeforces.com/contest/582/submission/72292629" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NOI2018 你的名字</title>
     <url>/2020/03/01/NOI2018-%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97/</url>
     <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>答案相当于 $T$ 中不被 $S_{l\cdots r}$ 包含的本质不同的子串数量。</p>
