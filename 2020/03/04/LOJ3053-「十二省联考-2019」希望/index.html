@@ -29,7 +29,7 @@
 <meta property="og:description" content="Sol0部署方案合法的条件是：存在一个点$u$，使得所有搜救范围都包含$u$且所有在搜救范围中出现过的点到$u$的距离不超过$L$。此时我们称部署方案可以被点$u$识别。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-04T08:22:12.000Z">
-<meta property="article:modified_time" content="2020-03-04T08:23:00.758Z">
+<meta property="article:modified_time" content="2020-03-04T08:44:09.717Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="杂题">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-03-04 16:22:12 / Modified: 16:23:00" itemprop="dateCreated datePublished" datetime="2020-03-04T16:22:12+08:00">2020-03-04</time>
+              <time title="Created: 2020-03-04 16:22:12 / Modified: 16:44:09" itemprop="dateCreated datePublished" datetime="2020-03-04T16:22:12+08:00">2020-03-04</time>
             </span>
 
           
@@ -241,9 +241,11 @@ Ans = \sum_u s_u^k - \sum_{(x,y) \in T} s_{(x,y)}^k</script><h3 id="1"><a href="
 <p>设$f_{u,j}$表示只包含$u$子树内的点，且所有点到$u$的距离不超过$j$，且包含了$u$的连通块数。设$g_{u,j}$表示包含了$u$的父亲$fa_u$，且不包含$u$的子树内的点，且所有点到$fa_u$的距离不超过$j$的连通块数。距离定义为两个点之间最短路上的边数。</p>
 <p>则</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 f_{u,j} = \prod_{v\in son_u} (f_{v,j-1}+1) - 1\\
 g_{u,j} = (g_{fa_u,j-1}+1)\prod_{v\in son_{fa_u},v\neq u}(f_{v,j-1}+1)\\
-s_u = f_{u,L}\cdot (g_{u,L-1}+1),s_{(u,fa_u)}=f_{u,L-1}\cdot g_{u,L-1}</script><h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>用长链剖分优化dp。</p>
+s_u = f_{u,L}\cdot (g_{u,L-1}+1),s_{(u,fa_u)}=f_{u,L-1}\cdot g_{u,L-1}
+\end{aligned}</script><h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>用长链剖分优化dp。</p>
 <p>设$len_u$表示$u$的子树中深度最深的点到$u$的距离。观察可知$f_{u,len_u} = f_{u,len_u+1} = f_{u,len_u+2} \cdots$，所以我们只需要算$f_{u,0},f_{u,1},\cdots f_{u,len_u}$就可以了。</p>
 <p>处理某个点的$f$的时候，直接让它继承重儿子的信息（这一步要求支持全局+1的操作）。合并轻儿子$v$的时候，对于$f_{v,0},f_{v,1}\cdots f_{v,len_v}$可以直接暴力，剩下的相当于是令$f_u$数组的一个后缀乘上$f_{v,len_v}$。</p>
 <p>如果$f_{v,len_v}$不为$0$的话，我们可以让$f_{u,0},f_{u,1} \cdots f_{u,len_v}$都乘上$f_{v,len_v}$的逆元（注意，不应是直接对数组中的数进行乘$f_{v,len_v}$的逆元的操作，而应该将数组中的值赋为“经过当前的全局标记的运算之后为$f_{u,i}\over f_{v,len_v}$”的值），然后打上全局乘以$f_{v,len_v}$的标记。</p>
