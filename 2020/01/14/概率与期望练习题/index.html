@@ -29,7 +29,7 @@
 <meta property="og:description" content="CF963E Circles of Waiting圆内的整点形成了一个类似方阵的结构。设$f_{x,y}$为$(x,y)$期望被经过的次数。我们可以对每一个点列出一个方程：  f_{x,y} &#x3D; {p_0} f_{x+1,y} + p_1 f_{x,y+1} +p_2 f_{x-1,y} + p_3f_{x,y-1} + [(x,y)&#x3D;(0,0)]将每一行最左侧的点设为主元，其它的点都用主元表示。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-01-14T02:59:52.000Z">
-<meta property="article:modified_time" content="2020-02-18T10:27:40.035Z">
+<meta property="article:modified_time" content="2020-03-04T08:57:23.109Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="专题练习">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 18:27:40" itemprop="dateModified" datetime="2020-02-18T18:27:40+08:00">2020-02-18</time>
+                <time title="Modified: 2020-03-04 16:57:23" itemprop="dateModified" datetime="2020-03-04T16:57:23+08:00">2020-03-04</time>
               </span>
 
           
@@ -255,15 +255,19 @@ f_{x,y} = {p_0} f_{x+1,y} + p_1 f_{x,y+1} +p_2 f_{x-1,y} + p_3f_{x,y-1} + [(x,y)
 G(x) ({1\over n})^mx^m = F(x) H(x)</script><p>这里$F(x)$的意义相当于是枚举了，$G(x)$在末尾加上一个$s$之后，最早在什么位置出现了完整的$s$。</p>
 <p>带入$x=1$得到</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 G(1) ({1\over n})^m = F(1) H(1)\\
-G(1) = n^m H(1)</script><p>此外</p>
+G(1) = n^m H(1)
+\end{aligned}</script><p>此外</p>
 <script type="math/tex; mode=display">
-G(x)x-F(x) = G(x)-1\\</script><p>两边同时求导得到</p>
+G(x)x-F(x) = G(x)-1</script><p>两边同时求导得到</p>
 <script type="math/tex; mode=display">
 G(x) + G'(x)x - F'(x) = G'(x)</script><p>带入$x=1$</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 G(1) + G'(1) - F'(1) = G'(1)\\
-G(1) = F'(1)</script><p>所以答案就是$n^m H(1)$。</p>
+G(1) = F'(1)
+\end{aligned}</script><p>所以答案就是$n^m H(1)$。</p>
 <h2 id="PE522"><a href="#PE522" class="headerlink" title="PE522"></a><a href="https://projecteuler.net/problem=522" target="_blank" rel="noopener">PE522</a></h2><p>如果所有的连通块都是孤立的环（没有叶子），那么答案是环数。</p>
 <p>否则敲定一个不为孤立的环的连通块，对于这个连通块每一个入度为$0$的点，把某个入度大于$1$的点的某一个儿子拿过来接在它的下面（接过来的部分如果还有入度为$0$的点，就重复前面的操作）。</p>
 <p>如果图内存在孤立的环，就还必须在上述过程的最后一次操作之前（此时我们敲定的那个连通块内恰好只有一个叶子）对每一个孤立的环进行额外的操作：把环断成链接在叶子的下面。</p>

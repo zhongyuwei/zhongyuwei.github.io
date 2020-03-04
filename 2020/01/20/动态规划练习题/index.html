@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/01/20/aDlrPFwYMVf6nTN.png">
 <meta property="og:image" content="https://i.loli.net/2020/01/20/LXA8iwFR3cjnDvJ.png">
 <meta property="article:published_time" content="2020-01-20T02:46:42.000Z">
-<meta property="article:modified_time" content="2020-02-18T10:27:35.057Z">
+<meta property="article:modified_time" content="2020-03-04T08:56:36.228Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="专题练习">
 <meta name="twitter:card" content="summary">
@@ -225,7 +225,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 18:27:35" itemprop="dateModified" datetime="2020-02-18T18:27:35+08:00">2020-02-18</time>
+                <time title="Modified: 2020-03-04 16:56:36" itemprop="dateModified" datetime="2020-03-04T16:56:36+08:00">2020-03-04</time>
               </span>
 
           
@@ -256,9 +256,11 @@ Ans = 2 \max_{l,r} \{ (r-l)(s_r-s_l) \}</script><p>想象成平面上有$n$个�
 <p>可以得到结论：如果对于$p_1$，$q_2$比$q_1$优，那么对于$p_2$，$q_2$一定比$q_1$优秀。</p>
 <p>证明：考虑反证</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 S_{p_1,q_1} < S_{p_1,q_2},S_{p_2,q_1} > S_{p_2,q_2}\\
 \Rightarrow S_{p_1,q_1} + S_{p_2,q_2} < S_{p_1,q_2} +S_{p_2,q_1}\\
-\Rightarrow S_{p_1,q_1} + S_{p_2,q_2} - S_{p_1,q_2} - S_{p_2,q_1} < 0\\</script><p>也就是上图中绿色标出的部分，其面积要小于$0$，推出了矛盾。</p>
+\Rightarrow S_{p_1,q_1} + S_{p_2,q_2} - S_{p_1,q_2} - S_{p_2,q_1} < 0\\
+\end{aligned}</script><p>也就是上图中绿色标出的部分，其面积要小于$0$，推出了矛盾。</p>
 <p>用经典的决策单调性的分治算法，就可以在$O(n\log n)$的时间内解决问题。</p>
 <h2 id="CF908H-New-Year-and-Boolean-Bridges"><a href="#CF908H-New-Year-and-Boolean-Bridges" class="headerlink" title="CF908H New Year and Boolean Bridges"></a>CF908H New Year and Boolean Bridges</h2><p>$f(i,j) \operatorname{AND} f(j,i) =1$的肯定在同一个SCC里面，而$f(i,j) \operatorname{XOR} f(j,i) =1$的肯定不在同一个SCC里面。而由于$f(i,j) \operatorname{AND} f(j,i) =1,f(i,j) \operatorname{XOR} f(j,i) =1$中都蕴含着$f(i,j) \operatorname{OR} f(j,i) =1$，所以我们必须把所有的SCC都连成一条链。由于要让边数尽可能少，所以每个SCC一定都是单独一个点或者一个环。我们只要最小化点数大于$1$的SCC的数量就可以了。</p>
 <p>$f(i,j) \operatorname{AND} f(j,i) =1$的点可以直接缩起来。缩完点之后，在原图中的点数为$1$的都不需要考虑；对于剩下的点，对所有的$f(i,j) \operatorname{XOR} f(j,i) =1$在$i,j$之间建一条边，问题转化成求最小的$k$，使得在这张图中可以将这些点划分成$k$个独立集。</p>

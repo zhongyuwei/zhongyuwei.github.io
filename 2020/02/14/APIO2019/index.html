@@ -29,7 +29,7 @@
 <meta property="og:description" content="桥梁将所有的操作按照时间顺序分成$T$个大小为$\frac{q}{T}$的块。对于每个块，将块内的询问按照$w_j$排序，将未被块内的操作修改过的边按照执行这个块内的操作之前的边权排序。 按照$w_j$降序枚举块内的询问，然后将所有重$w_j$的车能够通过的、“未被块内的操作修改过的”边加入；再加入块内修改过的、这次询问的时候的边权$\ge w_j$的边，查询$s_j$所在连通块的大小，然后再撤销">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-14T12:10:18.000Z">
-<meta property="article:modified_time" content="2020-02-18T10:27:00.288Z">
+<meta property="article:modified_time" content="2020-03-04T08:45:34.122Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="杂题">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 18:27:00" itemprop="dateModified" datetime="2020-02-18T18:27:00+08:00">2020-02-18</time>
+                <time title="Modified: 2020-03-04 16:45:34" itemprop="dateModified" datetime="2020-03-04T16:45:34+08:00">2020-03-04</time>
               </span>
 
           
@@ -254,17 +254,23 @@
 <h2 id="奇怪装置"><a href="#奇怪装置" class="headerlink" title="奇怪装置"></a>奇怪装置</h2><p>考虑什么情况下两个时刻的$(x,y)$会相同。</p>
 <p>因为$y=(t\bmod B)$，所以这两个时刻可以写成$t,t+kB$。</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 t + \lfloor \frac{t}{B} \rfloor \equiv t + kB + \lfloor \frac{t+kB}{B} \rfloor \pmod A\\
 t + \lfloor \frac{t}{B} \rfloor \equiv t + kB + \lfloor \frac{t}{B} \rfloor + k \pmod A\\
 0 \equiv k(B+1) \pmod A\\
-A \mid k(B+1)</script><p>考虑$B+1,A$的质因数分解：</p>
+A \mid k(B+1)
+\end{aligned}</script><p>考虑$B+1,A$的质因数分解：</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 B+1 = \prod p_i^{b_i}\\
-A = \prod p_i^{a_i}</script><p>则最小的满足条件的$k$就是</p>
+A = \prod p_i^{a_i}
+\end{aligned}</script><p>则最小的满足条件的$k$就是</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 k_{min}\prod p_i^{\max\{a_i - b_i,0\}}\\
 = \prod p_i^{a_i - \min\{b_i,a_i\}}\\
-= \frac{A}{\gcd(A,B+1)}</script><p>且其它满足条件的$k$都是它的倍数。</p>
+= \frac{A}{\gcd(A,B+1)}
+\end{aligned}</script><p>且其它满足条件的$k$都是它的倍数。</p>
 <p>所以$t_1,t_2$的二元组$(x,y)$相同当且仅当$t_1\equiv t_2\pmod{k_{min}B}$</p>
 <p>这样就转化成了简单的区间并问题。</p>
 <p>注意考虑$k_{min}B$超过long long范围的情况。</p>

@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/01/15/hxeA8qLUlyd9QFX.jpg">
 <meta property="og:image" content="https://i.loli.net/2020/01/15/dRp3DWlBGZsJjEV.jpg">
 <meta property="article:published_time" content="2020-01-15T14:05:18.000Z">
-<meta property="article:modified_time" content="2020-02-18T10:27:58.457Z">
+<meta property="article:modified_time" content="2020-03-04T08:59:05.360Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="专题练习">
 <meta name="twitter:card" content="summary">
@@ -227,7 +227,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 18:27:58" itemprop="dateModified" datetime="2020-02-18T18:27:58+08:00">2020-02-18</time>
+                <time title="Modified: 2020-03-04 16:59:05" itemprop="dateModified" datetime="2020-03-04T16:59:05+08:00">2020-03-04</time>
               </span>
 
           
@@ -255,32 +255,48 @@ val (T) = (\sum_{i=1}^n d_i^m) (\prod_{i=1}^n d_i^m )(\prod_{i=1}^n a_i^{d_i})</
 <script type="math/tex; mode=display">
 Ans = \sum_{k_1+k_2+\cdots +k_n=n-2} {(n-2)!\over k_1!k_2!\cdots k_n!} \cdot \sum_{i=1}^n (k_i+1)^{2m}a_i^{k_i+1} \prod_{j\neq i} (k_j+1)^ma_j^{k_j+1}</script><p>设</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 A_i(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^m\over k!} x^k\\
-B_i(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^{2m} \over k!}x^k</script><p>则</p>
+B_i(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^{2m} \over k!}x^k
+\end{aligned}</script><p>则</p>
 <script type="math/tex; mode=display">
 Ans= (n-2)!\sum_{i=1}^n (B_i(x)\prod_{j\neq i} A_j(x) )[x^{n-2}]</script><p>因为$A_i(x)$里面有指数为$k+1$，还有$x^k \over k!$，所以尝试对$A_i(x)$积分得到$T(x)$：</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 T(x) = \sum_{k=0}^\infty {a_i^{k+1}(k+1)^m \over (k+1)!} x^{k+1}\\
-=\sum_{k=1}^\infty {a_i^kk^m\over k!}x^k</script><p>将$k^m$展开：</p>
+=\sum_{k=1}^\infty {a_i^kk^m\over k!}x^k
+\end{aligned}</script><p>将$k^m$展开：</p>
 <script type="math/tex; mode=display">
-T(x) = \sum_{k=1}^\infty {a_i^k \over k!} x^k \sum_{j=0}^{\min\{m,k\}} \begin{Bmatrix}m\\ j\end{Bmatrix} {k\choose j} j!</script><p>把${k\choose j}j!$与前面的$k!$抵消，得到</p>
+\begin{aligned}
+T(x) = \sum_{k=1}^\infty {a_i^k \over k!} x^k \sum_{j=0}^{\min\{m,k\}} \begin{Bmatrix}m\\ j\end{Bmatrix} {k\choose j} j!
+\end{aligned}</script><p>把${k\choose j}j!$与前面的$k!$抵消，得到</p>
 <script type="math/tex; mode=display">
-T(x) = \sum_{k=1}^\infty a_i^k x^k \sum_{j=0}^{\min\{m,k\}} {1\over (k-j)!}\begin{Bmatrix}m\\ j\end{Bmatrix}</script><p>把$j$提前</p>
+\begin{aligned}
+T(x) = \sum_{k=1}^\infty a_i^k x^k \sum_{j=0}^{\min\{m,k\}} {1\over (k-j)!}\begin{Bmatrix}m\\ j\end{Bmatrix}
+\end{aligned}</script><p>把$j$提前</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 T(x) = \sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} \sum_{k=j}^\infty {a_ix^k\over (k-j)!}\\
 =\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} a_i^jx^j \sum_{k=0}^\infty {a_i^kx^k\over k!}\\
-=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} a_i^jx^j e^{a_ix}</script><p>然后对$T(x)$求导得到$A_i(x)$</p>
+=\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} a_i^jx^j e^{a_ix}
+\end{aligned}</script><p>然后对$T(x)$求导得到$A_i(x)$</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 A_i(x) = T'(x)\\
 =\sum_{j=0}^m \begin{Bmatrix}m\\ j\end{Bmatrix} (j \cdot a_i^jx^{j-1} e^{a_ix} + a_i \cdot a_i^jx^j e^{a_ix}) \\
 =\sum_{j=0}^{m} \begin{Bmatrix}m\\ j+1\end{Bmatrix} (j+1)( a_i^{j+1}x^je^{a_ix}) + \sum_{j=0}^{m} \begin{Bmatrix}m\\ j\end{Bmatrix} (a_i^{j+1} x^j e^{a_ix}) \\
 = \sum_{j=0}^{m}(\begin{Bmatrix}m\\ j+1\end{Bmatrix} (j+1)+\begin{Bmatrix}m\\ j\end{Bmatrix} ) a_i^{j+1}x^je^{a_ix}\\
-= e^{a_ix}\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\</script><p>对$B_i(x)$同理，得到</p>
+= e^{a_ix}\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\
+\end{aligned}</script><p>对$B_i(x)$同理，得到</p>
 <script type="math/tex; mode=display">
-B_i(x) = e^{a_ix}\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\</script><p>所以</p>
+\begin{aligned}
+B_i(x) = e^{a_ix}\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j\\
+\end{aligned}</script><p>所以</p>
 <script type="math/tex; mode=display">
+\begin{aligned}
 \sum_{i=1}^n B_i(x)\prod_{j\neq i} A_i(x)\\
-= e^s \sum_{i=1}^n (\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j) \prod_{k\neq i}(\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_k^{j+1}x^j)\\</script><p>上式可以分治NTT求出。</p>
+= e^s \sum_{i=1}^n (\sum_{j=0}^{2m}\begin{Bmatrix}2m+1\\ j+1\end{Bmatrix} a_i^{j+1}x^j) \prod_{k\neq i}(\sum_{j=0}^{m}\begin{Bmatrix}m+1\\ j+1\end{Bmatrix} a_k^{j+1}x^j)\\
+\end{aligned}</script><p>上式可以分治NTT求出。</p>
 <p><a href="https://loj.ac/submission/719326" target="_blank" rel="noopener">Code</a></p>
 <h2 id="ARC062D-Painting-Graphs-with-AtCoDeer"><a href="#ARC062D-Painting-Graphs-with-AtCoDeer" class="headerlink" title="ARC062D Painting Graphs with AtCoDeer"></a>ARC062D Painting Graphs with AtCoDeer</h2><p>每一个边双连通分量显然是独立的。所有边双的本质不同的染色方案数的乘积即是答案。</p>
 <p>如果一个边双只包含一条边，那么答案显然是$K$。</p>
