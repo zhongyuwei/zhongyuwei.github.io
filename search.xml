@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>markdown preview enhanced 以及 hexo 中的行间公式换行符问题</title>
+    <url>/2020/03/04/markdown-preview-enhanced-%E4%BB%A5%E5%8F%8A-hexo-%E4%B8%AD%E7%9A%84%E8%A1%8C%E9%97%B4%E5%85%AC%E5%BC%8F%E6%8D%A2%E8%A1%8C%E7%AC%A6%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="0"><a href="#0" class="headerlink" title="0"></a>0</h2><p>在使用 <code>vscode</code> 的 <code>markdown preview enhanced</code> 进行预览的时候，经常会出现这种情况：如果行间公式包含了 <code>\\</code> ，预览就会显示：<code>ParseError: KaTeX parse error: \cr valid only within a tabular/array environment</code> 。重启 <code>vscode</code> 就能恢复正常。</p>
+<p>最近无意中发现，如果把公式用 <code>\begin{aligned}</code> 和 <code>\end{aligned}</code> 包围起来，就不会出现上面的问题。</p>
+<p><img src="https://i.loli.net/2020/03/04/axokF4XUdT7uqQ6.jpg" alt=""></p>
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>我最近重装了 <code>hexo</code> ，可能是配置的问题，行间公式里面的 <code>\\</code> 全部都没有换行。</p>
+<p><img src="https://i.loli.net/2020/03/04/qiH6rVBmd7NLZ5l.jpg" alt=""><br><img src="https://i.loli.net/2020/03/04/MDGLWf1OtgrjRmH.jpg" alt=""></p>
+<p>上图中，两个公式之间本来应该有一个换行，但是却挤在了一行。</p>
+<p>我发现，把公式用 <code>\begin{aligned}</code> 和 <code>\end{aligned}</code> 包围起来，就可以正常换行了，效果如下</p>
+<p><img src="https://i.loli.net/2020/03/04/D6NOPGvhljZmIrk.jpg" alt=""></p>
+]]></content>
+      <tags>
+        <tag>其它</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3053 「十二省联考 2019」希望</title>
     <url>/2020/03/04/LOJ3053-%E3%80%8C%E5%8D%81%E4%BA%8C%E7%9C%81%E8%81%94%E8%80%83-2019%E3%80%8D%E5%B8%8C%E6%9C%9B/</url>
     <content><![CDATA[<h2 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h2><h3 id="0"><a href="#0" class="headerlink" title="0"></a>0</h3><p>部署方案合法的条件是：存在一个点$u$，使得所有搜救范围都包含$u$且所有在搜救范围中出现过的点到$u$的距离不超过$L$。此时我们称部署方案可以被点$u$识别。</p>
