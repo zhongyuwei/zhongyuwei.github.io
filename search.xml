@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3042 「ZJOI2019」麻将</title>
+    <url>/2020/03/05/LOJ3042-%E3%80%8CZJOI2019%E3%80%8D%E9%BA%BB%E5%B0%86/</url>
+    <content><![CDATA[<p>参考 <a href="https://blog.csdn.net/qq_39972971/article/details/88981526" target="_blank" rel="noopener">cz_xuyixuan的blog</a></p>
+<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>把原问题转化成 $\sum_{i=0}^\infty P(S_i 不存在一个子集能胡)$ 。要算这个玩意则需要对每个 $i$ ，求出大小为 $i$ 且加上初始的牌之后不存在胡子集的子集的数量。</p>
+<p>怎样判断一副牌能不能胡：</p>
+<ol>
+<li>如果有不少于 $7$ 种牌，每种牌的数量都不少于 $2$ ，就能胡；</li>
+<li>设 $f_{i,x,y,0/1}$ 表示考虑了前 $i$ 种牌，从 $i-1$ 开始的 $(a,a+1,a+2)$ 型的面子有 $x$ 个，从 $i$ 开始的 $(a,a+1,a+2)$ 型的面子有 $y$ 个，前 $i$ 种牌是否凑出过对子，这种情况下能够得到的面子数量的最大值（不包括从 $i,i-1$ 开始的 $(a,a+1,a+2)$ 型面子）。由于三个 $(a,a+1,a+2)$ 型的面子可以转化成三个 $(a,a,a)$ 型的面子，所以 $0\le x,y &lt; 3$ 。如果 $f_{n,x,y,1} \ge 4$ ，就能胡；</li>
+</ol>
+<p>把 $f_i$ 每个位置的取值、以及能凑出对子的牌的数量，作为 dp 的状态进行 dp 即可。搜索发现状态数不超过 3227 。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://loj.ac/submission/759458" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>markdown preview enhanced 以及 hexo 中的行间公式换行符问题</title>
     <url>/2020/03/04/markdown-preview-enhanced-%E4%BB%A5%E5%8F%8A-hexo-%E4%B8%AD%E7%9A%84%E8%A1%8C%E9%97%B4%E5%85%AC%E5%BC%8F%E6%8D%A2%E8%A1%8C%E7%AC%A6%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h2 id="0"><a href="#0" class="headerlink" title="0"></a>0</h2><p>在使用 <code>vscode</code> 的 <code>markdown preview enhanced</code> 进行预览的时候，经常会出现这种情况：如果行间公式包含了 <code>\\</code> ，预览就会显示：<code>ParseError: KaTeX parse error: \cr valid only within a tabular/array environment</code> 。重启 <code>vscode</code> 就能恢复正常。</p>
