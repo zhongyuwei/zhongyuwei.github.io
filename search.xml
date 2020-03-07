@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3046-「ZJOI2019」语言</title>
+    <url>/2020/03/07/LOJ3046-%E3%80%8CZJOI2019%E3%80%8D%E8%AF%AD%E8%A8%80/</url>
+    <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>考虑对每个点算出能够与它进行贸易活动的点数，也就是到它的路径被那 $m$ 条路径中的某一条完全包含的点数。</p>
+<p>对原树进行链分治（重链剖分），这样每条路径最多会经过 $\log n$ 条链。</p>
+<p>对每条链考虑，经过了它的路径长这样：</p>
+<p><img src="https://i.loli.net/2020/03/07/3dRAXn2xeM1B6Qt.png" alt=""></p>
+<p>黑色代表那条链，其它每种颜色代表了一条路径。</p>
+<p>对于这条链上的一个点，它能进行贸易的点数实际上就是：那些左端点在这个点左侧、右端点在这个点右侧的路径，它们的端点的虚树大小。</p>
+<p>对链上的点扫描线，并动态维护满足条件的路径的虚树大小即可。</p>
+<p>复杂度 $O(n\log ^ 2 n)$ 。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://loj.ac/submission/760970" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3042 「ZJOI2019」麻将</title>
     <url>/2020/03/05/LOJ3042-%E3%80%8CZJOI2019%E3%80%8D%E9%BA%BB%E5%B0%86/</url>
     <content><![CDATA[<p>参考 <a href="https://blog.csdn.net/qq_39972971/article/details/88981526" target="_blank" rel="noopener">cz_xuyixuan的blog</a></p>
