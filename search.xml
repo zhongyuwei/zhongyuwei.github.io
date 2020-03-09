@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>UOJ346 【清华集训2017】某位歌姬的故事</title>
+    <url>/2020/03/09/UOJ346-%E3%80%90%E6%B8%85%E5%8D%8E%E9%9B%86%E8%AE%AD2017%E3%80%91%E6%9F%90%E4%BD%8D%E6%AD%8C%E5%A7%AC%E7%9A%84%E6%95%85%E4%BA%8B/</url>
+    <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>分开考虑 $h$ 不同的限制。每个的位置的值在包含它的、 $h$ 最小的限制那里确定。</p>
+<p>对于某个确定的 $h$ ，如果有两个限制满足 $l_1\le l_2\le r_2\le r_1$ 的，只保留 $[l_2,r_2]$ 就可以了（注意最后要给答案乘上给 $[l_1,l_2)\cup (r_2,r_1]$ 赋值的方案数）。这样处理以后，限制的区间的左右端点都是单调的。</p>
+<p>然后，将区间按照端点位置排序之后，考虑极长的、相邻的两个区间都有交的段，对每个段单独统计方案数。</p>
+<p>考虑容斥（即区间内所有数都 $\le h$ 的方案数 - 区间内所有数都 $\le h-1$ 的方案数）。设 $f_{i,j}$ 为考虑了前 $i$ 个区间、上一个要求所有数 $\le h-1$ 的区间右端点是 $j$ 时，给 $\le j$ 的位置赋值的方案数 * 对应的容斥系数。每次枚举下一个要求所有数 $\le h-1$ 的区间是谁进行转移即可。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="http://uoj.ac/submission/386686" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3046 「ZJOI2019」语言</title>
     <url>/2020/03/07/LOJ3046-%E3%80%8CZJOI2019%E3%80%8D%E8%AF%AD%E8%A8%80/</url>
     <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>考虑对每个点算出能够与它进行贸易活动的点数，也就是到它的路径被那 $m$ 条路径中的某一条完全包含的点数。</p>
@@ -297,8 +310,8 @@ g(n) = (n-1) \cdot f(n-1) + f(n) =0</script><p>令$f(n) = -(n-1)f(n-1), f(1) = 1
       </tags>
   </entry>
   <entry>
-    <title>UOJ179 挑战NPC</title>
-    <url>/2020/02/19/UOJ179-%E6%8C%91%E6%88%98NPC/</url>
+    <title>UOJ171 【WC2016】挑战NPC</title>
+    <url>/2020/02/19/UOJ171-%E3%80%90WC2016%E3%80%91%E6%8C%91%E6%88%98NPC/</url>
     <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>这道题的建图方法：</p>
 <ol>
 <li>每个筐拆成三个点分别代表三个位置，三个点两两之间互相连边</li>
