@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>AGC002E Candy Piles</title>
+    <url>/2020/03/19/AGC002E-Candy-Piles/</url>
+    <content><![CDATA[<p>简单转化之后（可以参考<a href="http://agc002.contest.atcoder.jp/data/agc/002/editorial.pdf" target="_blank" rel="noopener">官方题解</a>），变成了：网格中有个阶梯形状的轮廓线，棋子从 $(0,0)$ 开始走，每次可以往左走或者往上走，走到边界的那一步的操作者输（即，边界上的点是必胜态）。</p>
+<p>可以证明，如果 $(x+1,y+1)$ 不在边界上，那么 $(x,y)$ 的胜负状态和 $(x+1,y+1)$ 的胜负状态相同。</p>
+<p>证明：</p>
+<p>1）可以从 $(x+1,y+1)$ 为必败态推出 $(x,y)$ 为必败态：如果 $(x+1,y+1)$ 必败，那么 $(x,y+1), (x+1,y)$ 都是必胜态，那么 $(x,y)$ 就必败。</p>
+<p>2）可以从 $(x+1,y+1), (x+2,y+2)$ 是必胜态推出 $(x,y)$ 是必胜态：$(x+3,y+2)$ 和 $(x+2,y+3)$ 中至少有一个是必败态，我们假设 $(x+3,y+2)$ 是必败态，可以推出：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>\</th>
+<th>x</th>
+<th>x+1</th>
+<th>x+2</th>
+<th>x+3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>y+2</td>
+<td>*</td>
+<td>*</td>
+<td><em>1</em></td>
+<td><em>0</em></td>
+<td></td>
+</tr>
+<tr>
+<td>y+1</td>
+<td>*</td>
+<td><em>1</em></td>
+<td>0 (b)</td>
+<td>1 (a)</td>
+<td></td>
+</tr>
+<tr>
+<td>y</td>
+<td>1 (e)</td>
+<td>0 (d)</td>
+<td>1 (c)</td>
+<td>*</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中，* 表示不确定，斜体表示已知的条件，(a) ~ (e) 代表推理的顺序。</p>
+<p>对于 $(x+2,y+3)$ 必败的情况可以同理证明。</p>
+<p>代码实现：从 $(0,0)$ 出发往右上走，直到下一步会碰到边界，然后算出其上方和右边的格子的状态。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	rd(n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) rd(a[i]);</span><br><span class="line">	sort(a,a+n,greater&lt;<span class="keyword">int</span>&gt;());</span><br><span class="line">	<span class="keyword">int</span> x=<span class="number">0</span>,y=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(y+<span class="number">1</span>&lt;a[x+<span class="number">1</span>]) x++,y++;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> t1=!((a[x]-(y+<span class="number">1</span>))&amp;<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">int</span> r=x; <span class="keyword">while</span>(y&lt;a[r+<span class="number">1</span>]) r++;</span><br><span class="line">	<span class="keyword">int</span> t2=!((r+<span class="number">1</span>-(x+<span class="number">1</span>))&amp;<span class="number">1</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(!(t1&amp;t2)) <span class="built_in">printf</span>(<span class="string">"First"</span>);</span><br><span class="line">	<span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"Second"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>UOJ346 【清华集训2017】某位歌姬的故事</title>
     <url>/2020/03/09/UOJ346-%E3%80%90%E6%B8%85%E5%8D%8E%E9%9B%86%E8%AE%AD2017%E3%80%91%E6%9F%90%E4%BD%8D%E6%AD%8C%E5%A7%AC%E7%9A%84%E6%95%85%E4%BA%8B/</url>
     <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>分开考虑 $h$ 不同的限制。每个的位置的值在包含它的、 $h$ 最小的限制那里确定。</p>
