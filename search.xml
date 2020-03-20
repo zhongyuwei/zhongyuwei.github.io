@@ -1,6 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>三角函数及其反函数的导数 整理+证明</title>
+    <url>/2020/03/20/%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E5%8F%8A%E5%85%B6%E5%8F%8D%E5%87%BD%E6%95%B0%E7%9A%84%E5%AF%BC%E6%95%B0-%E6%95%B4%E7%90%86-%E8%AF%81%E6%98%8E/</url>
+    <content><![CDATA[<h2 id="定义-三角函数"><a href="#定义-三角函数" class="headerlink" title="定义-三角函数"></a>定义-三角函数</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>函数名称</th>
+<th>符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正弦</td>
+<td>$\sin \theta$</td>
+</tr>
+<tr>
+<td>余弦</td>
+<td>$\cos \theta$</td>
+</tr>
+<tr>
+<td>正切</td>
+<td>$\tan \theta$</td>
+</tr>
+<tr>
+<td>余切</td>
+<td>$\cot \theta$</td>
+</tr>
+<tr>
+<td>正割</td>
+<td>$\sec \theta = \frac{1}{\cos \theta}$</td>
+</tr>
+<tr>
+<td>余割</td>
+<td>$\csc \theta = \frac{1}{\sin \theta}$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\cot \theta &= \frac{1}{\tan \theta}\\
+\sec \theta &= \frac{1}{\cos \theta}\\
+\csc \theta &= \frac{1}{\sin \theta}
+\end{aligned}</script><p>相关恒等式：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sin(x+y) &= \sin x \cos y + \cos x \sin y\\
+\cos(x+y) &= \cos x \cos y - \sin x \sin y\\
+\tan(x+y) &= \frac{\tan x + tan y}{1 - \tan x \tan y}\\
+\sin^2 \theta + \cos^2 \theta &= 1\\
+1 + \tan^2 \theta &= \sec^2 \theta\\
+1 + \cot^2 \theta &= \csc^2 \theta
+\end{aligned}</script><h2 id="求导-三角函数"><a href="#求导-三角函数" class="headerlink" title="求导-三角函数"></a>求导-三角函数</h2><h3 id="几个非常有用的结论"><a href="#几个非常有用的结论" class="headerlink" title="几个非常有用的结论"></a>几个非常有用的结论</h3><h4 id="a-lim-theta-to-0-frac-sin-theta-theta-1"><a href="#a-lim-theta-to-0-frac-sin-theta-theta-1" class="headerlink" title="a) $\lim_{\theta\to 0} \frac{\sin \theta}{\theta} = 1$"></a>a) $\lim_{\theta\to 0} \frac{\sin \theta}{\theta} = 1$</h4><h5 id="1-cos-theta-lt-frac-sin-theta-theta"><a href="#1-cos-theta-lt-frac-sin-theta-theta" class="headerlink" title="1. $\cos \theta &lt; \frac{\sin \theta}{\theta}$"></a>1. $\cos \theta &lt; \frac{\sin \theta}{\theta}$</h5><p><img src="https://i.loli.net/2020/02/28/6QbjXn4qyVBx5er.jpg" alt="0.jpg"></p>
+<p>如图， $\odot A$ 是单位圆， $AC$ 为一条过 $A$ 的射线，它与 $x$ 轴正方向的夹角为 $\theta$ 。则：</p>
+<ul>
+<li>$\theta = \overset{\large\frown}{BC}$（由弧度制的定义得)</li>
+<li>$\sin \theta = CH$</li>
+<li>$\tan \theta = EB$</li>
+</ul>
+<p>于是</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\theta = \overset{\large\frown}{BC}\\
+< CD+DB\\
+< ED + DB\\
+= EB = \tan \theta\\
+\therefore \theta < \tan \theta\\
+\Rightarrow \theta < \frac{\sin \theta}{\cos \theta}\\
+\Rightarrow \cos \theta < \frac{\sin \theta}{\theta}
+\end{aligned}</script><h5 id="2-frac-sin-theta-theta-lt-1"><a href="#2-frac-sin-theta-theta-lt-1" class="headerlink" title="2. $\frac{\sin\theta}{\theta} &lt; 1$"></a>2. $\frac{\sin\theta}{\theta} &lt; 1$</h5><p>从上面的图可以看出来：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\sin \theta &= CH < BC < \overset{\large\frown}{BC} = \theta\\
+\therefore \sin \theta &< \theta\\
+\Rightarrow \frac{\sin \theta}{\theta} &< 1
+\end{aligned}</script><h5 id="3-final-proof"><a href="#3-final-proof" class="headerlink" title="3. final proof"></a>3. final proof</h5><p>因为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\cos \theta < \frac{\sin \theta}{\theta} < 1\\
+\lim_{\theta \to 0} \cos \theta = 1\\
+\lim_{\theta \to 0} 1 = 1
+\end{aligned}</script><p>由夹逼定理知</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\lim_{\theta\to 0} \frac{\sin \theta}{\theta} = 1
+\end{aligned}</script><h4 id="b-lim-theta-to-0-frac-cos-theta-1-theta-0"><a href="#b-lim-theta-to-0-frac-cos-theta-1-theta-0" class="headerlink" title="b) $\lim_{\theta\to 0} \frac{\cos \theta -1 }{\theta} = 0$"></a>b) $\lim_{\theta\to 0} \frac{\cos \theta -1 }{\theta} = 0$</h4><script type="math/tex; mode=display">
+\begin{aligned}
+&\lim_{\theta\to 0} \frac{\cos \theta -1 }{\theta}\\
+=& \lim_{\theta\to 0} \frac{\cos \theta - 1}{\theta} \cdot \frac{\cos \theta + 1}{\cos \theta + 1}\\
+=& \lim_{\theta\to 0} \frac{-\sin^2 \theta}{\theta(\cos \theta + 1)}\\
+=& - \lim_{\theta\to 0} \frac{\sin \theta}{\theta} \cdot \lim_{\theta \to 0} \frac{\sin \theta}{\cos \theta + 1}\\
+=& - 1 \cdot \frac{0}{1+1} = 0
+\end{aligned}</script><h4 id="c-lim-x-to-0-frac-1-cos-x-frac-x-2-2-1"><a href="#c-lim-x-to-0-frac-1-cos-x-frac-x-2-2-1" class="headerlink" title="c) $\lim_{x\to 0} \frac{1-\cos x }{\frac{x^2}{2}} = 1$"></a>c) $\lim_{x\to 0} \frac{1-\cos x }{\frac{x^2}{2}} = 1$</h4><script type="math/tex; mode=display">
+\begin{aligned}
+& \lim_{x\to 0} \frac{1-\cos x}{\frac{x^2}{2}}\\
+= & 2\lim_{x\to 0} \frac{1-\cos x}{x^2}\\
+= & 2\lim_{x\to 0} \frac{(1-\cos x)(1+\cos x)}{x^2(\cos x +1)}\\
+= & 2\lim_{x\to 0} \frac{\sin^2 x}{x^2(\cos x +1)}\\
+= & 2\lim_{x\to 0} \left(\frac{\sin x}{x}\right)^2 \lim_{x\to 0} \frac{1}{1+\cos x}\\
+= & 2 \cdot 1 \cdot \frac{1}{2}\\
+= & 1
+\end{aligned}</script><h3 id="sin-x-’-cos-x"><a href="#sin-x-’-cos-x" class="headerlink" title="$(\sin x)’ = \cos x$"></a>$(\sin x)’ = \cos x$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&(\sin x)'\\
+=& \lim_{h\to 0} \frac{\sin (x+h) - \sin x}{h}\\
+=& \lim_{h\to 0} \frac{\sin x \cos h + \sin h \cos x - \sin x}{h}\\
+=& \sin x \cdot \lim_{h\to 0} \frac{ \cos h - 1}{h} + \cos x\cdot \lim_{h\to 0} \frac{\sin h}{h}\\
+=& \cos x
+\end{aligned}</script><h3 id="cos-x-’-sin-x"><a href="#cos-x-’-sin-x" class="headerlink" title="$(\cos x)’ = -\sin x$"></a>$(\cos x)’ = -\sin x$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&(\cos x)'\\
+=& \lim_{h\to 0} \frac{\cos(x+h)-\cos x}{h}\\
+=& \lim_{h\to 0} \frac{\cos x\cos h - \sin x \sin h - \cos x}{h}\\
+=& \cos x \cdot \lim_{h\to 0} \frac{\cos h - 1}{h} - \sin x \lim_{h\to 0} \frac{\sin h}{h}\\
+=& - \sin x
+\end{aligned}</script><h3 id="tan-x-’-sec-2-x"><a href="#tan-x-’-sec-2-x" class="headerlink" title="$(\tan x)’ = \sec^2 x$"></a>$(\tan x)’ = \sec^2 x$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&(\tan x)'\\
+=& (\frac{\sin x}{\cos x})'\\
+=& \frac{\cos^2 x + \sin^2 x}{\cos^2 x}\\
+=& \sec^2 x
+\end{aligned}</script><h3 id="cot-x-’-csc-2-x"><a href="#cot-x-’-csc-2-x" class="headerlink" title="$(\cot x)’ = -\csc^2 x$"></a>$(\cot x)’ = -\csc^2 x$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&(\cot x)'\\
+=& (\frac{\cos x}{\sin x})'\\
+=& \frac{-\sin^2 x - \cos^2 x}{\sin^2 x}\\
+=& - \csc^2 x
+\end{aligned}</script><h3 id="sec-x-’-sec-x-cdot-tan-x"><a href="#sec-x-’-sec-x-cdot-tan-x" class="headerlink" title="$(\sec x)’ = \sec x \cdot \tan x$"></a>$(\sec x)’ = \sec x \cdot \tan x$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&(\sec x)'\\
+=& (\frac{1}{\cos x})'\\
+=& \frac{\cos x \cdot 0 + \sin x \cdot 1}{\cos ^ 2 x}\\
+=& \sec x\cdot \tan x
+\end{aligned}</script><h3 id="csc-x-’-csc-x-cot-x"><a href="#csc-x-’-csc-x-cot-x" class="headerlink" title="$(\csc x)’ = -\csc x \cot x$"></a>$(\csc x)’ = -\csc x \cot x$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+&(\csc x)'\\
+=& (\frac{1}{\sin x})'\\
+=& \frac{\sin x \cdot 0 - \cos x \cdot 1}{\sin^2 x}\\
+=& - \csc x\cdot \cot x
+\end{aligned}</script><h2 id="求导-反三角函数"><a href="#求导-反三角函数" class="headerlink" title="求导-反三角函数"></a>求导-反三角函数</h2><h3 id="sin-1-x-’-frac-1-sqrt-1-x-2"><a href="#sin-1-x-’-frac-1-sqrt-1-x-2" class="headerlink" title="$(\sin^{-1} x)’ = \frac{1}{\sqrt {1-x^2}}$"></a>$(\sin^{-1} x)’ = \frac{1}{\sqrt {1-x^2}}$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+\sin y &= x\\
+\cos y \cdot y'&= 1\\
+y' &= \frac{1}{\cos \left(\sin^{-1} x\right)}\\
+y' &= \frac{1}{\sqrt{1-x^2}}
+\end{aligned}</script><h3 id="cos-1-x-’-frac-1-sqrt-1-x-2"><a href="#cos-1-x-’-frac-1-sqrt-1-x-2" class="headerlink" title="$(\cos^{-1} x)’ = -\frac{1}{\sqrt{1-x^2}}$"></a>$(\cos^{-1} x)’ = -\frac{1}{\sqrt{1-x^2}}$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+\cos y &= x\\
+-\sin y \cdot y' &= 1\\
+y' &= \frac{1}{-\sin \left(\cos^{-1} x\right)}\\
+y' &= - \frac{1}{\sqrt{1-x^2}}
+\end{aligned}</script><h3 id="tan-1-x-’-frac-1-1-x-2"><a href="#tan-1-x-’-frac-1-1-x-2" class="headerlink" title="$(\tan^{-1} x)’ = \frac{1}{1+x^2}$"></a>$(\tan^{-1} x)’ = \frac{1}{1+x^2}$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+\tan y &= x\\
+\sec^2 y \cdot y' &=1\\
+y' &= \frac{1}{\sec^2\left(\tan^{-1}x\right)}\\
+\because \sec^2 \theta - 1 &= \left(\sec \theta \cdot \sqrt{1-\frac{1}{\sec^2 \theta }}\right)^2 = \tan^2 \theta\\
+\therefore y'&= \frac{1}{1+x^2}
+\end{aligned}</script><h3 id="cot-1-x-’-frac-1-1-x-2"><a href="#cot-1-x-’-frac-1-1-x-2" class="headerlink" title="$(\cot^{-1} x)’ = - \frac{1}{1+x^2}$"></a>$(\cot^{-1} x)’ = - \frac{1}{1+x^2}$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+\cot y &= x\\
+-\csc^2 y \cdot y' &= 1\\
+y' &= -\frac{1}{\csc^2 \left( \cot^{-1} x\right)}\\
+\because \csc^2 \theta -1 &= \left( \csc x \sqrt{1-\frac{1}{\csc^2 x} }\right)^2 = \cot^2 x\\
+y' &= -\frac{1}{x^2+1}
+\end{aligned}</script><h3 id="sec-1-x-’-frac-1-x-sqrt-x-2-1"><a href="#sec-1-x-’-frac-1-x-sqrt-x-2-1" class="headerlink" title="$(\sec^{-1} x)’ = \frac{1}{x\sqrt{x^2 - 1}}$"></a>$(\sec^{-1} x)’ = \frac{1}{x\sqrt{x^2 - 1}}$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+\sec y &= x\\
+\sec y' \cdot \tan y' \cdot y' &= 1\\
+y' &= \frac{1}{\sec\left(\sec^{-1}{x}\right) \tan \left( \sec^{-1} x\right)}\\
+y' &= \frac{1}{x\sqrt{x^2-1}}
+\end{aligned}</script><h3 id="csc-1-x-’-frac-1-x-sqrt-x-2-1"><a href="#csc-1-x-’-frac-1-x-sqrt-x-2-1" class="headerlink" title="$(\csc^{-1} x)’ = - \frac{1}{x\sqrt{x^2 - 1}}$"></a>$(\csc^{-1} x)’ = - \frac{1}{x\sqrt{x^2 - 1}}$</h3><script type="math/tex; mode=display">
+\begin{aligned}
+\csc y &= x\\
+-\csc y' \cdot \cot y' \cdot y' &= 1\\
+y' &= -\frac{1}{\csc\left(\csc^{-1}{x}\right) \cot \left(\csc^{-1} x\right)}\\
+y' &= \frac{1}{x\sqrt{x^2-1}}
+\end{aligned}</script>]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ2743 「JOI Open 2016」摩天大楼</title>
     <url>/2020/03/20/LOJ2743-%E3%80%8CJOI-Open-2016%E3%80%8D%E6%91%A9%E5%A4%A9%E5%A4%A7%E6%A5%BC/</url>
     <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>假设 $A$ 按照从小到大排好序之后得到的数组是 $B$ 。对于相邻的两个位置，假设其中一个是 $B_i$ ，另一个是 $B_j$ ，其中 $i&lt;j$ ，那么这两个位置对 $\sum |f_i - f_{i+1}|$ 的贡就是 $B_j - B_i = \sum_{k=i}^{j-1} (B_{i+1}-B_i)$ 。这个式子启发我们，对每个 $B_{i+1} - B_i$ 算有多少对相邻的位置满足其中一个数 $\le B_i$ 另一个 $\ge B_{i+1}$ ，就能得到 $\sum |f_{i+1}-f_i|$ 。这也等价于我们把所有 $\le B_i$ 的数插入之后得到的序列中，极大连续段的端点数。</p>
