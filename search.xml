@@ -583,7 +583,7 @@ g(n) = (n-1) \cdot f(n-1) + f(n) =0</script><p>令$f(n) = -(n-1)f(n-1), f(1) = 1
 </div>
 <script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       <tags>
-        <tag>Contests</tag>
+        <tag>比赛</tag>
       </tags>
   </entry>
   <entry>
@@ -599,7 +599,7 @@ g(n) = (n-1) \cdot f(n-1) + f(n) =0</script><p>令$f(n) = -(n-1)f(n-1), f(1) = 1
 </div>
 <script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       <tags>
-        <tag>Contests</tag>
+        <tag>比赛</tag>
       </tags>
   </entry>
   <entry>
@@ -787,7 +787,7 @@ u - a_u = x
 <p><a href="https://codeforces.com/contest/1270/submission/68155123" target="_blank" rel="noopener">Code</a></p>
 ]]></content>
       <tags>
-        <tag>Contests</tag>
+        <tag>比赛</tag>
       </tags>
   </entry>
   <entry>
