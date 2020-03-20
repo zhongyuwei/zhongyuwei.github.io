@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ2743 「JOI Open 2016」摩天大楼</title>
+    <url>/2020/03/20/LOJ2743-%E3%80%8CJOI-Open-2016%E3%80%8D%E6%91%A9%E5%A4%A9%E5%A4%A7%E6%A5%BC/</url>
+    <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>假设 $A$ 按照从小到大排好序之后得到的数组是 $B$ 。对于相邻的两个位置，假设其中一个是 $B_i$ ，另一个是 $B_j$ ，其中 $i&lt;j$ ，那么这两个位置对 $\sum |f_i - f_{i+1}|$ 的贡就是 $B_j - B_i = \sum_{k=i}^{j-1} (B_{i+1}-B_i)$ 。这个式子启发我们，对每个 $B_{i+1} - B_i$ 算有多少对相邻的位置满足其中一个数 $\le B_i$ 另一个 $\ge B_{i+1}$ ，就能得到 $\sum |f_{i+1}-f_i|$ 。这也等价于我们把所有 $\le B_i$ 的数插入之后得到的序列中，极大连续段的端点数。</p>
+<p>设 $f_{i,j,k,d}$ 表示已经插入了 $i$ 个数，插入了的数在序列中形成了 $j$ 个极长的连续段，已经统计过的 $\sum |f_i-f_{i+1}|$ 的贡献和是 $k$ ，两个端点是否被占用过，对应的方案数。转移 $O(1)$ ，最后的答案是 $\sum_{j\le m} f_{n,1,j,2}$ ，总复杂度 $O(n^2m)$ 。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://loj.ac/submission/769208" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AGC026D Histogram Coloring</title>
+    <url>/2020/03/20/AGC026D-Histogram-Coloring/</url>
+    <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>考虑给一个第一行确定的矩形涂色的方案数：</p>
+<ul>
+<li>第一行是红蓝交错的（RBRBRBR…或者BRBRBRB…）<ul>
+<li>那么，接下来的每一行都有恰好两种选择，RBRBR…或者BRBRBR…，方案数是 $2^{n-1}$ </li>
+</ul>
+</li>
+<li>第一行存在两个相邻的位置颜色相同<ul>
+<li>显然在第二行中，那两个位置的颜色也是相同的；以此类推，这个矩形中的每一行都会有两个相邻的位置颜色相同</li>
+<li>对于第二行来说，由于上一行和这一行的至少两个格子的颜色是确定的，所以第二行每个格子的颜色都是确定的；后面的行也是同理</li>
+<li>所以涂色的方案数是 $1$</li>
+</ul>
+</li>
+</ul>
+<p>考虑按照区间最小值进行分治，按照 $[1,n]$ 的最小值的出现位置把区间割开，对每个子区间分治下去，求出每个区间内：红蓝交错/不红蓝交错地填到区间最小值-1的高度的方案数，记为 $f_{l,r,0/1}$ 。</p>
+<p><img src="https://i.loli.net/2020/03/20/6XYyhN7aCkvzmZg.png" alt=""></p>
+<p>图中紫色的框出的是每一个子区间，红色标出每个子区间的 $f_{l,r,0/1}$ 考虑过的格子，蓝色标出大区间的 $f_{l,r,0/1}$ 需要考虑的格子。</p>
+<p>合并子区间的信息，得到大区间的 $f_{l,r,0/1}$ 。直接算 $f_{l,r,1}$ 比较困难，可以考虑算总方案数，然后用总方案数减去 $f_{l,r,0}$ 。具体细节参见代码。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://atcoder.jp/contests/agc026/submissions/11021955" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CF908G New Year and Original Order</title>
+    <url>/2020/03/20/CF908G-New-Year-and-Original-Order/</url>
+    <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>设 $c_i(0\le i\le 9)$ 表示 $i$ 这个数字在 $k$ 中出现了几次，则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j=i+1}^9 c_j}}{9}\\
+&= \sum_{k=1}^X \sum_{i=1}^9 \sum_{y=1}^i \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j=i+1}^9 c_j}}{9}\\
+&= \sum_{k=1}^X \sum_{y=1}^9 \sum_{i=y}^9 \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j=i+1}^9 c_j}}{9}\\
+&= \sum_{k=1}^X \sum_{y=1}^9 \frac{10^{\sum_{j=y}^9 c_j}-1}{9}\\
+\end{aligned}</script><p>在最外层枚举 $y$ 之后，可以用数位 dp 在 $O(\lg^2 X)$ 的时间内算出答案。</p>
+<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://codeforces.com/contest/908/submission/73772415" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>AGC002E Candy Piles</title>
     <url>/2020/03/19/AGC002E-Candy-Piles/</url>
     <content><![CDATA[<p>简单转化之后（可以参考<a href="http://agc002.contest.atcoder.jp/data/agc/002/editorial.pdf" target="_blank" rel="noopener">官方题解</a>），变成了：网格中有个阶梯形状的轮廓线，棋子从 $(0,0)$ 开始走，每次可以往左走或者往上走，走到边界的那一步的操作者输（即，边界上的点是必胜态）。</p>
