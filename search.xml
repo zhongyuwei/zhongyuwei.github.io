@@ -482,7 +482,7 @@ s_u = f_{u,L}\cdot (g_{u,L-1}+1),s_{(u,fa_u)}=f_{u,L-1}\cdot g_{u,L-1}
     <title>BZOJ3289 Mato的文件管理</title>
     <url>/2020/02/29/BZOJ3289-Mato%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>设 $s(l_1,r_1,l_2,r_2) = \sum_{i\in [l_1,r_1]} \sum_{j\in [l_2,r_2]} [i &lt; j \wedge a_i &gt; a_j]$ 。</p>
-<p>考虑莫队算法，当右端点从$r$移动到$r+1$的时候，答案的改变量是</p>
+<p>考虑莫队算法，当右端点从$r-1$移动到$r$的时候，答案的改变量是</p>
 <script type="math/tex; mode=display">
 s(l,r-1,r,r) = s(1,r-1,r,r) - s(1,l-1,r,r)</script><p>第一项只与 $r$ 有关，可以预处理；第二项中， $[1,l-1]$ 是整个序列的一段前缀。我们把所有第二项的询问都离线下来，然后扫描线处理。注意到总共有 $O(n)$ 次修改以及 $O(n\sqrt n)$ 次询问，我们用修改 $O(\sqrt n)$ ，查询 $O(1)$ 的分块，即可在 $O(n\sqrt n)$ 的复杂度解决问题。</p>
 <p>右端点的左移、左端点的移动都是同理。</p>
