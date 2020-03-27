@@ -8,7 +8,7 @@
 <li><a href="https://en.wikipedia.org/wiki/K-d_tree" target="_blank" rel="noopener">wikipedia</a></li>
 <li><a href="https://courses.cs.washington.edu/courses/cse373/02au/lectures/lecture22l.pdf" target="_blank" rel="noopener">一份有详细图解的课件</a></li>
 </ol>
-<h2 id="KD-Tree是什么"><a href="#KD-Tree是什么" class="headerlink" title="KD-Tree是什么"></a>KD-Tree是什么</h2><p>KD-Tree（k-dimensional tree）的简写，是一种用来维护 $k$ 维的<strong>点集</strong>的数据结构。它是一棵深度为 $O(\log n)$ 的二叉搜索树，每个结点代表了点集中的一个点。</p>
+<h2 id="KD-Tree-是什么"><a href="#KD-Tree-是什么" class="headerlink" title="KD-Tree 是什么"></a>KD-Tree 是什么</h2><p>KD-Tree（k-dimensional tree 的简写）是一种用来维护 $k$ 维的<strong>点集</strong>的数据结构。它是一棵深度为 $O(\log n)$ 的二叉搜索树，每个结点代表了点集中的一个点。</p>
 <p>它可以支持以下的操作（设 $n$ 为点集的大小）：</p>
 <ol>
 <li>插入/删除一个点，时间复杂度为均摊 $O(\log n)$</li>

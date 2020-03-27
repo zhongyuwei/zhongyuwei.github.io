@@ -21,15 +21,15 @@
     var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="参考资料 OI-wiki wikipedia 一份有详细图解的课件  KD-Tree是什么">
+  <meta name="description" content="参考资料 OI-wiki wikipedia 一份有详细图解的课件  KD-Tree 是什么">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KD-Tree 学习笔记">
 <meta property="og:url" content="http://zhongyuwei.github.io/2020/03/27/KD-Tree-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="zhongyuwei&#39;s blog">
-<meta property="og:description" content="参考资料 OI-wiki wikipedia 一份有详细图解的课件  KD-Tree是什么">
+<meta property="og:description" content="参考资料 OI-wiki wikipedia 一份有详细图解的课件  KD-Tree 是什么">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-27T15:29:16.000Z">
-<meta property="article:modified_time" content="2020-03-27T15:29:48.544Z">
+<meta property="article:modified_time" content="2020-03-27T15:32:36.254Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-03-27 23:29:16 / Modified: 23:29:48" itemprop="dateCreated datePublished" datetime="2020-03-27T23:29:16+08:00">2020-03-27</time>
+              <time title="Created: 2020-03-27 23:29:16 / Modified: 23:32:36" itemprop="dateCreated datePublished" datetime="2020-03-27T23:29:16+08:00">2020-03-27</time>
             </span>
 
           
@@ -237,7 +237,7 @@
 <li><a href="https://en.wikipedia.org/wiki/K-d_tree" target="_blank" rel="noopener">wikipedia</a></li>
 <li><a href="https://courses.cs.washington.edu/courses/cse373/02au/lectures/lecture22l.pdf" target="_blank" rel="noopener">一份有详细图解的课件</a></li>
 </ol>
-<h2 id="KD-Tree是什么"><a href="#KD-Tree是什么" class="headerlink" title="KD-Tree是什么"></a>KD-Tree是什么</h2><p>KD-Tree（k-dimensional tree）的简写，是一种用来维护 $k$ 维的<strong>点集</strong>的数据结构。它是一棵深度为 $O(\log n)$ 的二叉搜索树，每个结点代表了点集中的一个点。</p>
+<h2 id="KD-Tree-是什么"><a href="#KD-Tree-是什么" class="headerlink" title="KD-Tree 是什么"></a>KD-Tree 是什么</h2><p>KD-Tree（k-dimensional tree 的简写）是一种用来维护 $k$ 维的<strong>点集</strong>的数据结构。它是一棵深度为 $O(\log n)$ 的二叉搜索树，每个结点代表了点集中的一个点。</p>
 <p>它可以支持以下的操作（设 $n$ 为点集的大小）：</p>
 <ol>
 <li>插入/删除一个点，时间复杂度为均摊 $O(\log n)$</li>
@@ -386,7 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD-Tree是什么"><span class="nav-number">2.</span> <span class="nav-text">KD-Tree是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建树"><span class="nav-number">3.</span> <span class="nav-text">建树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入-删除"><span class="nav-number">4.</span> <span class="nav-text">插入&#x2F;删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形查询"><span class="nav-number">5.</span> <span class="nav-text">矩形查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形修改"><span class="nav-number">6.</span> <span class="nav-text">矩形修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询一个点的最近-最远点"><span class="nav-number">7.</span> <span class="nav-text">查询一个点的最近&#x2F;最远点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拓展：查询一个点的第-k-近-远的点"><span class="nav-number">7.1.</span> <span class="nav-text">拓展：查询一个点的第 $k$ 近&#x2F;远的点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题表"><span class="nav-number">8.</span> <span class="nav-text">题表</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD-Tree-是什么"><span class="nav-number">2.</span> <span class="nav-text">KD-Tree 是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建树"><span class="nav-number">3.</span> <span class="nav-text">建树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入-删除"><span class="nav-number">4.</span> <span class="nav-text">插入&#x2F;删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形查询"><span class="nav-number">5.</span> <span class="nav-text">矩形查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形修改"><span class="nav-number">6.</span> <span class="nav-text">矩形修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询一个点的最近-最远点"><span class="nav-number">7.</span> <span class="nav-text">查询一个点的最近&#x2F;最远点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拓展：查询一个点的第-k-近-远的点"><span class="nav-number">7.1.</span> <span class="nav-text">拓展：查询一个点的第 $k$ 近&#x2F;远的点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题表"><span class="nav-number">8.</span> <span class="nav-text">题表</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
