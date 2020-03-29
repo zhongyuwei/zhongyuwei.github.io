@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="Sol分开考虑 $h$ 不同的限制。每个的位置的值在包含它的、 $h$ 最小的限制那里确定。 对于某个确定的 $h$ ，如果有两个限制满足 $l_1\le l_2\le r_2\le r_1$ 的，只保留 $[l_2,r_2]$ 就可以了（注意最后要给答案乘上给 $[l_1,l_2)\cup (r_2,r_1]$ 赋值的方案数）。这样处理以后，限制的区间的左右端点都是单调的。">
@@ -195,7 +195,7 @@
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/09/UOJ346-%E3%80%90%E6%B8%85%E5%8D%8E%E9%9B%86%E8%AE%AD2017%E3%80%91%E6%9F%90%E4%BD%8D%E6%AD%8C%E5%A7%AC%E7%9A%84%E6%95%85%E4%BA%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
       <meta itemprop="name" content="zhongyuwei">
       <meta itemprop="description" content="">
     </span>
@@ -344,6 +344,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
   <p class="site-author-name" itemprop="name">zhongyuwei</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -364,8 +366,27 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+    </ul>
+  </div>
 
       </div>
 

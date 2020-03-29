@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="桥梁将所有的操作按照时间顺序分成$T$个大小为$\frac{q}{T}$的块。对于每个块，将块内的询问按照$w_j$排序，将未被块内的操作修改过的边按照执行这个块内的操作之前的边权排序。 按照$w_j$降序枚举块内的询问，然后将所有重$w_j$的车能够通过的、“未被块内的操作修改过的”边加入；再加入块内修改过的、这次询问的时候的边权$\ge w_j$的边，查询$s_j$所在连通块的大小，然后再撤销">
@@ -195,7 +195,7 @@
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/14/APIO2019/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
       <meta itemprop="name" content="zhongyuwei">
       <meta itemprop="description" content="">
     </span>
@@ -382,6 +382,8 @@ k_{min}\prod p_i^{\max\{a_i - b_i,0\}}\\
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
   <p class="site-author-name" itemprop="name">zhongyuwei</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -402,8 +404,27 @@ k_{min}\prod p_i^{\max\{a_i - b_i,0\}}\\
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
 
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+    </ul>
+  </div>
 
       </div>
 
