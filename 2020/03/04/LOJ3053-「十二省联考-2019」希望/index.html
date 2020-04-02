@@ -373,7 +373,7 @@ s_u = f_{u,L}\cdot (g_{u,L-1}+1),s_{(u,fa_u)}=f_{u,L-1}\cdot g_{u,L-1}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -485,6 +485,25 @@ s_u = f_{u,L}\cdot (g_{u,L-1}+1),s_{(u,fa_u)}=f_{u,L-1}\cdot g_{u,L-1}
 
 
 
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '700px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
 
 
 
