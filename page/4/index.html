@@ -187,6 +187,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/14/APIO2019/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/14/APIO2019/" class="post-title-link" itemprop="url">APIO2019</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-14 20:10:18" itemprop="dateCreated datePublished" datetime="2020-02-14T20:10:18+08:00">2020-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-04 16:45:34" itemprop="dateModified" datetime="2020-03-04T16:45:34+08:00">2020-03-04</time>
+              </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="桥梁"><a href="#桥梁" class="headerlink" title="桥梁"></a>桥梁</h2><p>将所有的操作按照时间顺序分成$T$个大小为$\frac{q}{T}$的块。对于每个块，将块内的询问按照$w_j$排序，将未被块内的操作修改过的边按照执行这个块内的操作之前的边权排序。</p>
+<p>按照$w_j$降序枚举块内的询问，然后将所有重$w_j$的车能够通过的、“未被块内的操作修改过的”边加入；再加入块内修改过的、这次询问的时候的边权$\ge w_j$的边，查询$s_j$所在连通块的大小，然后再撤销掉加入的块内修改过的边。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/14/APIO2019/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/01/27/CF1270-Goodbye-2019-C-D-E-F-G-H/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -785,7 +860,7 @@ f_{x,y} = {p_0} f_{x+1,y} + p_1 f_{x,y+1} +p_2 f_{x-1,y} + p_3f_{x,y-1} + [(x,y)
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
