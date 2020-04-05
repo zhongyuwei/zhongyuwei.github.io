@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="参考 cz_xuyixuan的blog Sol把原问题转化成 $\sum_{i&#x3D;0}^\infty P(S_i 不存在一个子集能胡)$ 。要算这个玩意则需要对每个 $i$ ，求出大小为 $i$ 且加上初始的牌之后不存在胡子集的子集的数量。">
+  <meta name="description" content="参考资料 一份通过google search找到的资料 OI-wiki  定义们">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LOJ3042 「ZJOI2019」麻将">
-<meta property="og:url" content="http://zhongyuwei.github.io/2020/03/05/LOJ3042-%E3%80%8CZJOI2019%E3%80%8D%E9%BA%BB%E5%B0%86/index.html">
+<meta property="og:title" content="弦图、完美消除序列与MCS算法">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="zhongyuwei&#39;s blog">
-<meta property="og:description" content="参考 cz_xuyixuan的blog Sol把原问题转化成 $\sum_{i&#x3D;0}^\infty P(S_i 不存在一个子集能胡)$ 。要算这个玩意则需要对每个 $i$ ，求出大小为 $i$ 且加上初始的牌之后不存在胡子集的子集的数量。">
+<meta property="og:description" content="参考资料 一份通过google search找到的资料 OI-wiki  定义们">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-05T09:58:39.000Z">
-<meta property="article:modified_time" content="2020-03-05T09:59:07.061Z">
+<meta property="article:published_time" content="2020-04-05T06:14:14.000Z">
+<meta property="article:modified_time" content="2020-04-05T06:14:32.928Z">
 <meta property="article:author" content="zhongyuwei">
-<meta property="article:tag" content="杂题">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://zhongyuwei.github.io/2020/03/05/LOJ3042-%E3%80%8CZJOI2019%E3%80%8D%E9%BA%BB%E5%B0%86/">
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>LOJ3042 「ZJOI2019」麻将 | zhongyuwei's blog</title>
+  <title>弦图、完美消除序列与MCS算法 | zhongyuwei's blog</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/05/LOJ3042-%E3%80%8CZJOI2019%E3%80%8D%E9%BA%BB%E5%B0%86/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LOJ3042 「ZJOI2019」麻将
+          弦图、完美消除序列与MCS算法
         </h1>
 
         <div class="post-meta">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-03-05 17:58:39 / Modified: 17:59:07" itemprop="dateCreated datePublished" datetime="2020-03-05T17:58:39+08:00">2020-03-05</time>
+              <time title="Created: 2020-04-05 14:14:14 / Modified: 14:14:32" itemprop="dateCreated datePublished" datetime="2020-04-05T14:14:14+08:00">2020-04-05</time>
             </span>
 
           
@@ -232,15 +232,65 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>参考 <a href="https://blog.csdn.net/qq_39972971/article/details/88981526" target="_blank" rel="noopener">cz_xuyixuan的blog</a></p>
-<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>把原问题转化成 $\sum_{i=0}^\infty P(S_i 不存在一个子集能胡)$ 。要算这个玩意则需要对每个 $i$ ，求出大小为 $i$ 且加上初始的牌之后不存在胡子集的子集的数量。</p>
-<p>怎样判断一副牌能不能胡：</p>
+        <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.cs.cmu.edu/~janh/courses/411/18/lec/03-chordal-mcs.pdf" target="_blank" rel="noopener">一份通过google search找到的资料</a></li>
+<li><a href="https://oi-wiki.org/graph/chord/#_8" target="_blank" rel="noopener">OI-wiki</a></li>
+</ul>
+<h2 id="定义们"><a href="#定义们" class="headerlink" title="定义们"></a>定义们</h2><p>记 $N(u)$ 为 $u$ 的所有的邻居构成的集合。对于一个点集 $S$，定义 $N(S)$ 为 $\{ x\mid \forall v\in S, x\in N(v)\}$。</p>
+<p><strong>弦图 (chordal graph)</strong>：满足任意一个长度大于 3 的环都有弦的图。</p>
+<p><strong>单纯点 (simplicial vertex)</strong>：如果 $N(u)$ 的导出子图为团，就称 $u$ 为单纯点。</p>
+<p><strong>完美消除序列 (perfect elimination ordering)</strong>：称 $G$ 的结点的一个排列 $\{v_1,v_2,\cdots v_n\}$ 为 $G$ 的完美消除序列，当且仅当对于每一个 $i$ ，$v_i$ 在 $v_i,v_{i+1},\cdots v_n$ 的导出子图中是单纯点。</p>
+<p>下文中，称完美消除序列的逆序为<strong>单纯消除序列 (simplicial elimination ordering)</strong>（这个中文名称是我编的，因为没有在网上找到相应的中文资料），也就是满足 $v_i$ 在 $v_1,v_2,\cdots v_i$ 的导出子图中为单纯点的排列。</p>
+<h2 id="一个定理"><a href="#一个定理" class="headerlink" title="一个定理"></a>一个定理</h2><p>引理 1：弦图的任意导出子图也是弦图。</p>
+<p>引理 2：任何弦图都至少有一个单纯点；不是完全图的弦图至少有两个不相邻的单纯点。</p>
+<p>定理：$G$ 是弦图当且仅当 $G$ 存在完美消除序列。</p>
+<p><a href="https://oi-wiki.org/graph/chord/" target="_blank" rel="noopener">证明可参考 OI-wiki</a></p>
+<h2 id="完美消除序列判定"><a href="#完美消除序列判定" class="headerlink" title="完美消除序列判定"></a>完美消除序列判定</h2><p>判断一个序列是否为完美消除序列。</p>
+<p>设 $v_i$ 在 $v_{i+1},v_{i+2}\cdots v_n$ 中相邻的点按照它们在序列中出现的顺序依次为 $v_{c_1},v_{c_2},\cdots v_{c_k}$，只需要判断 $v_{c_1}$ 与其它点是否相邻即可。</p>
+<p>正确性证明：假设已知 $v_{i+1},v_{i+2},\cdots v_n$ 是合法的完美消除序列的后缀，那么由于 $v_{c_1}$ 在 $\{v_{c_1},v_{c_1+1},\cdots v_n\}$ 的导出子图中为单纯点，如果 $v_{c_1}$ 与 $v_{c_2},v_{c_3},\cdots v_{c_k}$ 都相邻，那么 $v_{c_2},v_{c_3},\cdots v_{c_k}$ 一定形成团。</p>
+<h2 id="最大势算法"><a href="#最大势算法" class="headerlink" title="最大势算法"></a>最大势算法</h2><p>又称为<strong>maximum cardinality search algorithm</strong>、<strong>MCS algorithm</strong>。是用来求完美消除序列的一种算法。</p>
+<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><p>设图 $G$ 的点集为 $V$；用 $weight(u)$ 表示点 $u$ 的权重。</p>
 <ol>
-<li>如果有不少于 $7$ 种牌，每种牌的数量都不少于 $2$ ，就能胡；</li>
-<li>设 $f_{i,x,y,0/1}$ 表示考虑了前 $i$ 种牌，从 $i-1$ 开始的 $(a,a+1,a+2)$ 型的面子有 $x$ 个，从 $i$ 开始的 $(a,a+1,a+2)$ 型的面子有 $y$ 个，前 $i$ 种牌是否凑出过对子，这种情况下能够得到的面子数量的最大值（不包括从 $i,i-1$ 开始的 $(a,a+1,a+2)$ 型面子）。由于三个 $(a,a+1,a+2)$ 型的面子可以转化成三个 $(a,a,a)$ 型的面子，所以 $0\le x,y &lt; 3$ 。如果 $f_{n,x,y,1} \ge 4$ ，就能胡；</li>
+<li>初始化 $W$ 为 $V$，并将 $V$ 中所有点的权重置为 $0$</li>
+<li>对 $i=1,2,\cdots n$ ，执行以下过程<ol>
+<li>令 $u$ 为此时 $W$ 中权重最大的点</li>
+<li>令 $v_i = u$</li>
+<li>将 $u$ 的所有邻居的权重增加 $1$</li>
+<li>将 $u$ 从 $W$ 中删除</li>
 </ol>
-<p>把 $f_i$ 每个位置的取值、以及能凑出对子的牌的数量，作为 dp 的状态进行 dp 即可。搜索发现状态数不超过 3227 。</p>
-<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://loj.ac/submission/759458" target="_blank" rel="noopener">link</a></p>
+</li>
+<li>返回 $\{v_1,v_2,\cdots v_n\}$</li>
+</ol>
+<p>用链表实现可以做到 $O(n+m)$ 的复杂度。</p>
+<p>可以证明，当 $G$ 为弦图时，MCS 算法返回的序列是 $G$ 的单纯消除序列。</p>
+<h3 id="正确性证明"><a href="#正确性证明" class="headerlink" title="正确性证明"></a>正确性证明</h3><p>令 $V_i = \{v_,v_2,\cdots v_i\}$ ；令 $W_i$ 为第 2 步进行了 $i$ 次之后的 $W$ ；令 $weight_i(v)$ 表示第 2 步进行了 $i$ 次之后 $v$ 点的权重；令 $a \prec b$ 表示在返回的序列中 $a$ 在 $b$ 的前面。</p>
+<p>我们通过证明以下循环不变式来证明命题：</p>
+<ol>
+<li>$v_i$ 在 $V_i$ 的导出子图中为单纯点</li>
+<li>令 $S$ 为 $V$ 的一个子集，其中的每个点 $v_x$ 都满足 $v_x$ 在 $V_x$ 的导出子图中为单纯点；对于两个点 $a,v_i \in N(S) - S$ ，如果 $a\prec v_i$ 且 $N(S)-S$ 中存在一条从 $a$ 到 $v_i$ 的路径，那么 $N(S)-S$ 中存在一条从从 $a$ 到 $v_i$ 且经过的所有点都满足 $\prec v_i$ 的路径</li>
+</ol>
+<h4 id="证明-1"><a href="#证明-1" class="headerlink" title="证明 1."></a>证明 1.</h4><p>考虑反证：假设 $v_i$ 在 $V_i$ 的导出子图中不是单纯点，那么必定存在 $v_j,v_k\in N(v_i)\cap V_{i-1}$ 满足 $j&lt; k &lt; i, v_k\notin N(v_j)$。</p>
+<h5 id="case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing"><a href="#case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing" class="headerlink" title="case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$"></a>case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$</h5><p>对于连通图 $G$ ，我们可以归纳地证明 $V_i$ 都是连通的。而 $N(v_i)$ 中的点显然在 $G$ 的同一个连通块中，所以 $N(v_i)\cap V_{i-1}$ 中的点在 $V_{i-1}$ 的导出子图中是连通的。</p>
+<p>找出一对 $V_{i-1}$ 中的 $v_j,v_k$ 使其满足 $v_k \notin N(v_j)$ 且它们在 $V_{i-1}$ 的导出子图中的最短路最短。由于 $v_k \notin N(v_j)$ ，所以最短路的点数大于 2（含 $v_j,v_k$）。</p>
+<p>那么最短路上的每个点一定都和 $v_i$ 直接有边相连（如果没有加额外的边则不符合弦图的定义；如果是加的其它的边则不符合最短路的定义）：</p>
+<ul>
+<li>如果最短路的长度大于 3，那么从这条最短路上随便选取连续的三个点，把第一个点和第三个点作为 $v_j,v_k$，就能得到更短的最短路</li>
+<li>如果最短路的长度等于 3，那么最短路上的第二个点属于集合 $V_{i-1}\cap N(v_i) \cap N(v_j) \cap N(v_k)$，与 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$ 矛盾。</li>
+</ul>
+<h5 id="case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing"><a href="#case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing" class="headerlink" title="case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$"></a>case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$</h5><p>令 $S$ 为满足 $v_i,v_j,v_k\in N(S)-S$ 的仅由 $V_{i-1}$ 中的点构成的集合（显然不为空集的 $S$ 一定存在，并且由归纳假设我们知道 $S$ 中的每个点 $v_x$ 都满足 $v_x$ 在 $V_x$ 的导出子图中为单纯点）。那么 $v_j \to v_i \to v_k$ 是 $N(S)-S$ 中的一条路径，所以一定存在一条 $N(S)-S$ 中的路径 $P=\{v_j = x_0 \to x_1 \to x_2 \cdots x_{m-1} \to x_m = v_k\}$，路径上的每个点都满足 $\prec v_i$（应用不变式2.，注意这里与不变式中的形式不完全一样）。在所有可能的四元组 $(v_j,v_k,S,P)$ 中，我们选择一个 $|S|$ 最大的；如果有两个 $|S|$ 相同的，我们选择 $P$ 的长度更短的。如此，$v_i,v_j=x_0,x_1,\cdots x_m=v_k,v_i$ 将会是一个长度大于 3 的环。根据弦图的定义这个环上一定有弦：</p>
+<ul>
+<li>如果弦为 $(x_a,x_b)$，其中 $a+1&lt;b$，那么 $P$ 可以更短</li>
+<li>如果弦为 $(x_a,v_i)$，其中 $0&lt;a&lt;m-1$，那么令 $v_j=x_a,P=\{v_j=x_a\to x_{a+1}\cdots x_{m-1}\to x_m=v_k\}$ 将会使 $P$ 更短；弦为 $(x_a,v_i), 1 &lt; a &lt; m$ 同理</li>
+<li>否则，$m=2$ 且弦为 $(x_1,v_i)$ ，但是显然此时 $S\cup \{x_1\}$ 是一个更大的满足 $v_i,v_j,v_k \in N(S)-S$ 且每个点都属于 $V_{i-1}$ 的点集。</li>
+</ul>
+<h4 id="证明-2"><a href="#证明-2" class="headerlink" title="证明 2."></a>证明 2.</h4><p>如果 $a\in N(v_i)$ ，证毕。接下来考虑 $a\notin N(v_i)$ 的情况。</p>
+<p>如果存在一个 $b\in (V_{i-1}-S) \cap N(v_i)$，那么对于每个 $s\in S$：</p>
+<ul>
+<li>若 $s\prec v_i$，则因为 $b,s\in N(v_i)$，在 $V_i$ 的导出子图中我们可以推出 $b,s$ 相邻，所以 $G$ 中 $b,s$ 相邻；</li>
+<li>若 $a\prec v_i\prec s$，由于 $a,v_i\in N(s)$，在 $V_s$ 的导出子图中可以推出 $a\in N(v_i)$，矛盾</li>
+</ul>
+<p>所以一定有 $b\in N(S)-S$，由归纳假设知 $N(S)-S$ 中存在一条从 $a$ 到 $b$ 的只经过 $\prec \max\{a,b\}$ 的点的路径，在这条路径后面加上点 $v_i$ 即得证。</p>
+<p>否则 $N(v_i) \cap (V_{i-1}-S)=\varnothing$，所以 $weight_{i-1}(v_i) = \left|S\cap V_{i-1} \right|$。由于 $N(S)-S$ 中存在一条从 $a$ 到 $v_i$ 的路径，这段路径上一定存在两个相邻的点 $c,d$，满足 $c\prec v_i\prec d$（因为从 $v_i$ 出发的第一个点一定 $\succ v_i$，而 $a\prec v_i$），于是推出 $weight_{i-1}(d) \ge |S\cap V_{i-1}|+1$（+1是因为 $c\in N(d),c\prec v_i$），这和 $weight_{i-1}(v_i)$ 为 $weight_{i-1}$ 的最大值矛盾。</p>
 
     </div>
 
@@ -256,7 +306,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://zhongyuwei.github.io/2020/03/05/LOJ3042-%E3%80%8CZJOI2019%E3%80%8D%E9%BA%BB%E5%B0%86/" title="LOJ3042 「ZJOI2019」麻将">http://zhongyuwei.github.io/2020/03/05/LOJ3042-「ZJOI2019」麻将/</a>
+    <a href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/" title="弦图、完美消除序列与MCS算法">http://zhongyuwei.github.io/2020/04/05/弦图、完美消除序列与MCS算法/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -267,7 +317,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%9D%82%E9%A2%98/" rel="tag"># 杂题</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           </div>
 
         
@@ -276,13 +326,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/04/markdown-preview-enhanced-%E4%BB%A5%E5%8F%8A-hexo-%E4%B8%AD%E7%9A%84%E8%A1%8C%E9%97%B4%E5%85%AC%E5%BC%8F%E6%8D%A2%E8%A1%8C%E7%AC%A6%E9%97%AE%E9%A2%98/" rel="prev" title="markdown preview enhanced 以及 hexo 中的行间公式换行符问题">
-      <i class="fa fa-chevron-left"></i> markdown preview enhanced 以及 hexo 中的行间公式换行符问题
+    <a href="/2020/04/03/LOJ2719%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" rel="prev" title="LOJ2719「NOI2018」冒泡排序">
+      <i class="fa fa-chevron-left"></i> LOJ2719「NOI2018」冒泡排序
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/07/LOJ3046-%E3%80%8CZJOI2019%E3%80%8D%E8%AF%AD%E8%A8%80/" rel="next" title="LOJ3046 「ZJOI2019」语言">
-      LOJ3046 「ZJOI2019」语言 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -342,7 +389,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sol"><span class="nav-text">Sol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code"><span class="nav-text">Code</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义们"><span class="nav-text">定义们</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个定理"><span class="nav-text">一个定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完美消除序列判定"><span class="nav-text">完美消除序列判定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大势算法"><span class="nav-text">最大势算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法流程"><span class="nav-text">算法流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确性证明"><span class="nav-text">正确性证明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#证明-1"><span class="nav-text">证明 1.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing"><span class="nav-text">case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) &#x3D; \varnothing$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing"><span class="nav-text">case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#证明-2"><span class="nav-text">证明 2.</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
