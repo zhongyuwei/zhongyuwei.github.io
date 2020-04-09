@@ -187,6 +187,75 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/20/LOJ2743-%E3%80%8CJOI-Open-2016%E3%80%8D%E6%91%A9%E5%A4%A9%E5%A4%A7%E6%A5%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/20/LOJ2743-%E3%80%8CJOI-Open-2016%E3%80%8D%E6%91%A9%E5%A4%A9%E5%A4%A7%E6%A5%BC/" class="post-title-link" itemprop="url">LOJ2743 「JOI Open 2016」摩天大楼</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-20 19:45:16 / Modified: 19:45:35" itemprop="dateCreated datePublished" datetime="2020-03-20T19:45:16+08:00">2020-03-20</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>假设 $A$ 按照从小到大排好序之后得到的数组是 $B$ 。对于相邻的两个位置，假设其中一个是 $B_i$ ，另一个是 $B_j$ ，其中 $i&lt;j$ ，那么这两个位置对 $\sum |f_i - f_{i+1}|$ 的贡就是 $B_j - B_i = \sum_{k=i}^{j-1} (B_{i+1}-B_i)$ 。这个式子启发我们，对每个 $B_{i+1} - B_i$ 算有多少对相邻的位置满足其中一个数 $\le B_i$ 另一个 $\ge B_{i+1}$ ，就能得到 $\sum |f_{i+1}-f_i|$ 。这也等价于我们把所有 $\le B_i$ 的数插入之后得到的序列中，极大连续段的端点数。</p>
+<p>设 $f_{i,j,k,d}$ 表示已经插入了 $i$ 个数，插入了的数在序列中形成了 $j$ 个极长的连续段，已经统计过的 $\sum |f_i-f_{i+1}|$ 的贡献和是 $k$ ，两个端点是否被占用过，对应的方案数。转移 $O(1)$ ，最后的答案是 $\sum_{j\le m} f_{n,1,j,2}$ ，总复杂度 $O(n^2m)$ 。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/20/LOJ2743-%E3%80%8CJOI-Open-2016%E3%80%8D%E6%91%A9%E5%A4%A9%E5%A4%A7%E6%A5%BC/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/20/AGC026D-Histogram-Coloring/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -821,80 +890,11 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/01/NOI2018-%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/03/29/uahpE4AMjsH1X5B.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/01/NOI2018-%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97/" class="post-title-link" itemprop="url">NOI2018 你的名字</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-03-01 21:11:53 / Modified: 21:12:06" itemprop="dateCreated datePublished" datetime="2020-03-01T21:11:53+08:00">2020-03-01</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>答案相当于 $T$ 中不被 $S_{l\cdots r}$ 包含的本质不同的子串数量。</p>
-<p>求出 $T$ 中被 $S_{l\cdots r}$ 包含了的本质不同的子串数量，用 $T$ 的本质不同的子串数量减去它就是答案。后者容易求，我们考虑怎么求前者。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/01/NOI2018-%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -962,7 +962,7 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

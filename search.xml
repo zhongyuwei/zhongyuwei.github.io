@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3093 「BJOI2019」光线</title>
+    <url>/2020/04/09/LOJ3093-%E3%80%8CBJOI2019%E3%80%8D%E5%85%89%E7%BA%BF/</url>
+    <content><![CDATA[<p>设 $f_i$ 表示从第 $i-1$ 块玻璃和第 $i$ 块玻璃之间向第 $n$ 块玻璃的方向射出了一束大小为 $1$ 的光线，最终能穿过第 $n$ 层玻璃的光的数量。特别地，$f_{n+1} = 1$，你可以想象成在第 $n$ 块玻璃的后面还有一块反射率为 $0\%$、透光率为 $100\%$ 的玻璃。</p>
+<p>下文中的 $a_i,b_i$ 为原题中的 $a_i\%, b_i\%$。</p>
+<p>根据定义有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f_i &= a_i f_{i+1} + b_i \left( b_{i-1}f_i + a_{i-1}b_{i-2}f_{i-1} + a_{i-1}a_{i-2}b_{i-3}f_{i-2}+\cdots \right)
+\end{aligned}</script><p>移项得</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f_{i+1} &= \frac{1}{a_i} \left( f_i - b_i \left( b_{i-1}f_i + a_{i-1}b_{i-2}f_{i-1} + a_{i-1}a_{i-2}b_{i-3}f_{i-2}+\cdots \right) \right)
+\end{aligned}</script><p>这样等号右边的项下标都小于等于 $i$。</p>
+<p>设 $f_1 = x$，则所有的 $f_i$ 都可以用上面的递推式表示成 $kx$ 的形式。最后由 $f_{n+1} = 1$ 就可以解出 $x$ 的取值。</p>
+<p>优化递推：设 $s_i = b_{i-1}f_i + a_{i-1}b_{i-2}f_{i-1} + a_{i-1}a_{i-2}b_{i-3}f_{i-2}+\cdots$，那么</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+s_1 &= 0\\
+s_i &= a_{i-1}s_{i-1} + b_{i-1}f_i\\
+f_{i+1} &= \frac{1}{a_i}\left(f_i - b_is_i\right)
+\end{aligned}</script><p>时间复杂度为 $O(n)$ 或者 $O(n\log n)$，瓶颈为求逆元。</p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3090 「BJOI2019」勘破神机</title>
     <url>/2020/04/09/LOJ3090-%E3%80%8CBJOI2019%E3%80%8D%E5%8B%98%E7%A0%B4%E7%A5%9E%E6%9C%BA/</url>
     <content><![CDATA[<p><a href="https://loj.ac/submission/783396" target="_blank" rel="noopener">my submission on loj.ac</a></p>
