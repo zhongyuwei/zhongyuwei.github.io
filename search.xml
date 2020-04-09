@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3090 「BJOI2019」勘破神机</title>
+    <url>/2020/04/09/LOJ3090-%E3%80%8CBJOI2019%E3%80%8D%E5%8B%98%E7%A0%B4%E7%A5%9E%E6%9C%BA/</url>
+    <content><![CDATA[<p><a href="https://loj.ac/submission/783396" target="_blank" rel="noopener">my submission on loj.ac</a></p>
+<h3 id="m-2"><a href="#m-2" class="headerlink" title="$m=2$"></a>$m=2$</h3><p>设填满 $2\times n$ 的方案数为 $f_n$，则 $F(n,k) = \binom {f_n}{k}$，而 $\binom{f_n}{k}$ 可以展开为一个关于 $f_n$ 的 $k$ 次多项式。故而问题转化为了：对于每个 $j\in [0,k]$，求 $\sum_{n=l}^r f_n^j$ 。</p>
+<p>显然 $f_n = f_{n-1}+f_{n-2}$（考虑最后一列填两个横着的还是填一个竖着的）。</p>
+<p>该递推式的特征根为 $x_1 = \frac{1+\sqrt 5}{2}, x_2 = \frac{1-\sqrt 5}{2}$，由 $f_0=1,f_1=1$ 解得通项公式为 $f_n = \frac{5+\sqrt 5}{10}x_1^n +\frac{5-\sqrt 5}{10} x_2^n$。</p>
+<p>令 $A=x_1,B=x_2,p=\frac{5+\sqrt 5}{10},q=\frac{5-\sqrt 5}{10}$，则 $f_n = pA^n + qB^n$。</p>
+<p>而我们要求的是</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\sum_{n=l}^r f_n^j\\
+=& \sum_{n=l}^r (pA^n + qB^n)^j\\
+=& \sum_{n=l}^r \sum_{i=0}^j \binom{j}{i} (pA^n)^i (qB^n)^{j-i}\\
+=& \sum_{i=0}^j \binom{j}{i} p^i q^{j-i} \sum_{n=l}^r (A^iB^{j-i})^n
+\end{aligned}</script><p>最后面是个等比数列求和，可以分治求解。</p>
+<h3 id="m-3"><a href="#m-3" class="headerlink" title="$m=3$"></a>$m=3$</h3><p>设填满一个 $3\times n$ 的网格的方案数是 $f_n$，填满一个 $3\times n + 2$ 的网格的方案数为 $g_n$。其中，$3\times n + 2$ 的网格定义如下：</p>
+<p><img src="https://i.loli.net/2020/04/09/XhTJzksyiePYjmB.png" alt="1.png"></p>
+<p>枚举 $3\times n$ 的网格中最靠右的颗粒进行讨论，得到 $f_n = f_{n-2} + 2g_{n-2}$</p>
+<p><img src="https://i.loli.net/2020/04/09/mqu8jTOraUHvS6Y.png" alt="0.png"></p>
+<p>同理得到 $g_n = f_{n} + g_{n-2}$</p>
+<p><img src="https://i.loli.net/2020/04/09/REkMnL24aOFHpvB.png" alt="2.png"></p>
+<p>将 $g$ 的递推式展开得到 $g_n = f_n + f_{n-2} + f_{n-4} + \cdots + f_0$</p>
+<p>对于任意的 $2\nmid n$ 显然有 $f_n = g_n = 0$。不妨设 $F_n = f_{2n}, l’=\lceil\frac{l}{2}\rceil, r’=\lfloor\frac{r}{2}\rfloor$。与 $m=2$ 的方法同理，我们只要求出 $\sum_{n=l’}^{r’} F_n^i$ 即可。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+F_n & = 3F_{n-1} + 2\sum_{i=0}^{n-2} F_i\\
+F_n - F_{n-1} & = (3F_{n-1} + 2F_{n-2}) - (3F_{n-2})\\
+& = 3F_{n-1}-F_{n-2}\\
+\therefore F_n &= 4F_{n-1}- F_{n-2}
+\end{aligned}</script><p>特征根为 $x_1 = 2+\sqrt 3, x_2 = 2-\sqrt 3$，带入 $F_0 = 1, F_1 = 3$ 得 $F_n = \frac{3+\sqrt 3}{6} x_1^n + \frac{3-\sqrt 3}{6} x_2^n$，和 $m=2$ 的情况类似做就可以了。</p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>弦图、完美消除序列与MCS算法</title>
     <url>/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
