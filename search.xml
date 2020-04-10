@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3044 「ZJOI2019」Minimax 搜索</title>
+    <url>/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="https://loj.ac/submission/784365" target="_blank" rel="noopener">my AC submission on loj.ac</a></li>
+<li><a href="https://loj.ac/submission/784068" target="_blank" rel="noopener">my O((R-L)n) solution on loj.ac</a></li>
+<li>参考了<a href="https://memset0.cn/luogu5281" target="_blank" rel="noopener">memset0的博客</a>和<a href="https://www.cnblogs.com/suika/p/10725476.html" target="_blank" rel="noopener">fcwww的博客</a></li>
+</ul>
+<p>设 $W$ 为初始根节点的权值。由于每个叶子的权值互不相同，所以 $W$ 来自的叶子结点唯一。</p>
+<p>改变 $W$ 的策略有以下三种：</p>
+<ol>
+<li>直接改变 $W$ 这个叶子的权值</li>
+<li>不改变 $W$ 这个叶子的权值，把若干小于 $W$ 的叶子的权值改得大于 $W$，使得根节点的权值变得大于 $W$</li>
+<li>不改变 $W$ 这个叶子的权值，把若干大于 $W$ 的叶子的权值改得小于 $W$，使得根节点的权值变得小于 $W$</li>
+</ol>
+<p>在可以采用第一种策略的时候 Cedyks 一定会采用第一种策略，因为把 $W$ 改成 $W-1$ 或者 $W+1$ 的花费仅为 $1$。所以，任何的包含 $W$ 这个叶子的集合，其稳定度都为 $1$。接下来我们只考虑不包含 $W$ 的集合。</p>
+<p>如果采用第二种策略，最优的方法一定是把若干个小于 $W$ 的叶子改成 $W+1$；如果采用第三种策略，最优的方法一定是把若干个大于 $W$ 的叶子改成 $W-1$。（你可以把叶子结点的权值根据与 $W$ 的大小关系替换成 -1/0/1 然后 dp 以判断根节点的值是否被改变了）</p>
+<p>差分一下答案，转化成对于 $k\in [L-1,\min\{n-1,R\}]$，求稳定度小于等于 $k$ 的子集数量。由于子集总数很好求，可以转化成有多少个集合 $S$ 满足：设 $T= S\cap ([W+1-k,W)\cup (W,W-1+k])$，将 $T$ 中所有小于 $W$ 的叶子的权值改成 $W+1$，所有大于 $W$ 的叶子改成 $W-1$，根节点的权值没有改变；也就是 $S$ 的稳定度大于 $k$。</p>
+<p>为了式子推起来更简洁，把方案数转化成概率，即：除 $W$ 以外的每个叶子均有 $\frac{1}{2}$ 的概率 $\in S$，有 $\frac{1}{2}$ 的概率 $\notin S$，求根节点权值被改变了的概率。</p>
+<p>显然第二种策略和第三种策略牵涉到的点是独立的，我们可以分别计算这两种策略无法改变根节点权值的概率，最后乘起来。</p>
+<p>两者的计算方式是相似的，下面以第二种策略为例。</p>
+<p>设 $f_u$ 为：将集合内所有在 $\left[W+1-k,W\right)$ 中的点改成 $W+1$，可以使得 $w_u &gt; W$ 的概率。</p>
+<p>对于叶子结点，如果它在 $\left[W+1-k,W\right)$ 内，那么 $f_u= \frac{1}{2}$；否则 $f_u = [u&gt;W]$。</p>
+<p>对于非叶子结点有</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+f_u = \begin{cases}
+\prod_{x\in son_u} f_v & 2\mid dep_u\\
+1- \prod_{x\in son_u} (1-f_v) & 2\nmid dep_u
+\end{cases}
+\end{gathered}</script><p>设</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+f'_u = \begin{cases}
+f_u & 2 \mid dep_u\\
+1-f_u & 2 \nmid dep_u
+\end{cases}
+\end{gathered}</script><p>那么有转移方程</p>
+<script type="math/tex; mode=display">
+f'_u = \prod_{v\in son_u} (1-f'_v)</script><p>这样每个点的转移方程就是一样的了。</p>
+<p>从小到大依次枚举 $k$，$k$ 每次变化的时候只有 $O(1)$ 个叶子的 $f’_u$ 会改变，用动态 dp 维护即可。</p>
+<p>具体地，设 $g_u = \prod_{v\in son_u, v\neq heavy_son_u} (1-f’_v)$，那么 $f’_u = (1-f’_{heavy_son_u}) g_u = - g_u \cdot f’_{heavy_son_u} + g_u$，如果把重儿子的 dp 值当成未知数则这是一个 $kx+b$ 的形式，可以区间合并（也就意味着可以用任意的数据结构维护）。</p>
+<p>时间复杂度 $O(n\log^2 n)$，瓶颈是在修改 $g_u$ 的时候需要求 $O(\log n)$ 次 $1-f’_v$ 的逆元。</p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3093 「BJOI2019」光线</title>
     <url>/2020/04/09/LOJ3093-%E3%80%8CBJOI2019%E3%80%8D%E5%85%89%E7%BA%BF/</url>
     <content><![CDATA[<p><a href="https://loj.ac/submission/783696" target="_blank" rel="noopener">my submission on loj.ac</a></p>
