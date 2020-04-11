@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3045 「ZJOI2019」开关</title>
+    <url>/2020/04/11/LOJ3045-%E3%80%8CZJOI2019%E3%80%8D%E5%BC%80%E5%85%B3/</url>
+    <content><![CDATA[<ul>
+<li><a href="https://loj.ac/submission/784772" target="_blank" rel="noopener">my submission on loj.ac</a></li>
+<li>参考了 <a href="https://www.cnblogs.com/zhoushuyu/p/10687696.html" target="_blank" rel="noopener">zsy的博客</a></li>
+</ul>
+<p>设</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+A(x) = \sum_{i=0}^\infty [\text{操作 i 次之后状态为 s 的概率}]\frac{x^i}{i!}\\
+B(x) = \sum_{i=0}^\infty [\text{操作 i 次之后状态为 000.....00 的概率}]\frac{x^i}{i!}
+\end{gathered}</script><p>那么（可以类比奇自然数和偶自然数的 EGF）</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+A(x) &=& \prod_{i=1}^n \frac{e^{\frac{p_i}{P}x}+(-1)^{s_i}e^{-\frac{p_i}{P}x}}{2}\\
+B(x) &=& \prod_{i=1}^n \frac{e^{\frac{p_i}{P}x}+e^{-\frac{p_i}{P}x}}{2}
+\end{gathered}</script><p>$A(x)$ 和 $B(x)$ 都可以表示为 $\sum_{i=-P}^P a_i e^{\frac{i}{P}x}$ 的形式。</p>
+<p>设 $A(x),B(x)$ 对应的 OGF 为 $F(x),G(x)$。（$e^{cx}$ 对应的 OGF 为 $\sum_{i=0}^\infty (cx)^i = \frac{1}{1-cx}$）</p>
+<p>设</p>
+<script type="math/tex; mode=display">
+H(x) = \sum_{i=0}^\infty [\text{操作 i 次之后第一次达到 s 的概率}]\frac{x^i}{i!}</script><p>则</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+H(x) G(x) = F(x)\\
+H(x) = \frac{F(x)}{G(x)}
+\end{gathered}</script><p>答案是 $H(1)’ = \frac{F’(1)G(1) - F(1)G’(1)}{G^2(1)}$。</p>
+<p>但是，因为 $\frac{1}{1-\frac{P}{P}x}$ 这一项在 $x=1$ 的时候没有定义，所以不能直接算。</p>
+<p>对 $H(x)$ 上下同时乘以 $\prod_{i=-P}^P(1-\frac{i}{P}x)$，这时候的 $F(x),G(x)$ 都是这样的形式：</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n a_i \prod_{j\neq i} (1-\frac{j}{P})</script><p>此时的 $F(x)$ 对应的 $F(1),F’(1)$ 为（由于 $x=1$，所以所有系数里面有 $(1-\frac{P}{P}x)$ 的项都没了）：</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+F(1) = a_P\prod_{i\neq P} (1-\frac{i}{P})\\
+F'(1) = \sum_{i} a_i \sum_{j\neq i} \left(-\frac{j}{P}\right) \prod_{k\neq i,k\neq j} \left(1-\frac{k}{P}x\right)\\
+= \sum_{i\neq P} a_i (-1) \prod_{k\neq i, k\neq P} \left(1-\frac{k}{P}\right) + a_P \sum_{j\neq P} \left(-\frac{j}{P}\right)\prod_{k\neq P,k\neq j} \left(1-\frac{k}{P}\right)\\
+= - \left(\prod_{k\neq P} ( 1-\frac{k}{P}) \right) \cdot \left( \sum_{i\neq P} \frac{1}{1-\frac{i}{P}} \left(a_i + a_P \cdot \frac{i}{P}\right)\right)
+\end{gathered}</script><p>$G(1),G’(1)$ 的计算同理。</p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3044 「ZJOI2019」Minimax 搜索</title>
     <url>/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/</url>
     <content><![CDATA[<ul>
@@ -180,8 +223,8 @@ F_n - F_{n-1} & = (3F_{n-1} + 2F_{n-2}) - (3F_{n-2})\\
       </tags>
   </entry>
   <entry>
-    <title>LOJ2719「NOI2018」冒泡排序</title>
-    <url>/2020/04/03/LOJ2719%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+    <title>LOJ2719 「NOI2018」冒泡排序</title>
+    <url>/2020/04/03/LOJ2719-%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p><a href="https://loj.ac/submission/779435" target="_blank" rel="noopener">my submission on loj.ac</a></p>
 <p>一个排列 $P$ 的冒泡排序交换次数达到下界当且仅当：对于某个位置 $i$ ，在它左边的、比 $P_i$ 大的数的个数不能超过 $\max\{0, i-P_i\}$ 个。</p>
 <p>这个条件也等价于：</p>
