@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3054 「HNOI2019」鱼</title>
+    <url>/2020/04/16/LOJ3054-%E3%80%8CHNOI2019%E3%80%8D%E9%B1%BC/</url>
+    <content><![CDATA[<ul>
+<li><a href="https://loj.ac/submission/788299" target="_blank" rel="noopener">my AC submission</a></li>
+</ul>
+<h2 id="关于题意的补充说明"><a href="#关于题意的补充说明" class="headerlink" title="关于题意的补充说明"></a>关于题意的补充说明</h2><ul>
+<li>令 $\alpha(0\le \alpha &lt; 2\pi)$ 为 $\overrightarrow{DA}$ 逆时针旋转到 $\overrightarrow{DE}$ 经过的角度，$\beta ( 0\le \beta &lt; 2\pi )$ 为 $\overrightarrow{DA}$ 逆时针旋转到 $\overrightarrow{DF}$ 经过的角度，那么题意中对 $\angle ADE, \angle ADF$ 的限制等价于：$\frac{1}{2} \pi &lt; \alpha, \beta &lt; \frac{3}{2} \pi$。</li>
+<li>可以参考我的这份<a href="https://loj.ac/submission/788307" target="_blank" rel="noopener">O(n^6)暴力</a>来确认自己没有读错题意。</li>
+</ul>
+<h2 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h2><p>枚举 $D$ 和 $A$，然后统计合法的 $B,C,E,F$ 的数量。</p>
+<p>发现 $B,C$ 和 $E,F$ 是独立的，可以分别统计然后相乘。</p>
+<p>统计 $B,C$ 的数量：某一对 $B,C$ 合法的充要条件是 $BC$ 的中垂线与 $AD$ 重合且交点（也就是 $BC$ 的中点）在线段 $AD$ 上（不含端点）。可以预先枚举所有的 $BC$，求出中垂线及中点并排好序，枚举 $AD$ 的时候直接在序列上二分即可。</p>
+<p>统计 $E,F$ 的数量：枚举 $D$ 之后对其它点进行极角排序，扫描线维护。</p>
+<p>总时间复杂度 $O(n^2 \log n)$。</p>
+<h2 id="实现细节：直线方程的处理"><a href="#实现细节：直线方程的处理" class="headerlink" title="实现细节：直线方程的处理"></a>实现细节：直线方程的处理</h2><p>用 $Ax + Bx + C = 0(A,B,C \in \mathbb{Z})$ 的形式来表示直线。</p>
+<h3 id="求-BC-的中垂线"><a href="#求-BC-的中垂线" class="headerlink" title="求 $BC$ 的中垂线"></a>求 $BC$ 的中垂线</h3><p>对于一个在 $BC$ 中垂线上的点 $P$，它满足</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+(\overrightarrow{P} - \overrightarrow{B})\cdot (\overrightarrow{C} - \overrightarrow{B}) = \frac{1}{2}(\overrightarrow{C} - \overrightarrow{B})\cdot (\overrightarrow{C} - \overrightarrow{B})\\
+2\overrightarrow{P}\cdot (\overrightarrow{C}-\overrightarrow{B}) - (\overrightarrow{C}-\overrightarrow{B}) \cdot (\overrightarrow{C} + \overrightarrow{B}) = 0
+\end{gathered}</script><p>带入点乘定义式即可。</p>
+<h3 id="求直线-AD"><a href="#求直线-AD" class="headerlink" title="求直线 $AD$"></a>求直线 $AD$</h3><p>对于一个直线 $AD$ 上的点 $P$，它满足</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+(\overrightarrow{P} - \overrightarrow{A}) \times (\overrightarrow{D} - \overrightarrow{A}) = 0\\
+\overrightarrow{P} \times (\overrightarrow{D} - \overrightarrow{A}) - \overrightarrow{A} \times (\overrightarrow{D} - \overrightarrow{A}) = 0
+\end{gathered}</script><p>带入叉乘的定义式即可。</p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3045 「ZJOI2019」开关</title>
     <url>/2020/04/11/LOJ3045-%E3%80%8CZJOI2019%E3%80%8D%E5%BC%80%E5%85%B3/</url>
     <content><![CDATA[<ul>
