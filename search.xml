@@ -3,9 +3,7 @@
   <entry>
     <title>LOJ3054 「HNOI2019」鱼</title>
     <url>/2020/04/16/LOJ3054-%E3%80%8CHNOI2019%E3%80%8D%E9%B1%BC/</url>
-    <content><![CDATA[<ul>
-<li><a href="https://loj.ac/submission/788299" target="_blank" rel="noopener">my AC submission</a></li>
-</ul>
+    <content><![CDATA[<p><a href="https://loj.ac/submission/788299" target="_blank" rel="noopener">my AC submission</a></p>
 <h2 id="关于题意的补充说明"><a href="#关于题意的补充说明" class="headerlink" title="关于题意的补充说明"></a>关于题意的补充说明</h2><ul>
 <li>令 $\alpha(0\le \alpha &lt; 2\pi)$ 为 $\overrightarrow{DA}$ 逆时针旋转到 $\overrightarrow{DE}$ 经过的角度，$\beta ( 0\le \beta &lt; 2\pi )$ 为 $\overrightarrow{DA}$ 逆时针旋转到 $\overrightarrow{DF}$ 经过的角度，那么题意中对 $\angle ADE, \angle ADF$ 的限制等价于：$\frac{1}{2} \pi &lt; \alpha, \beta &lt; \frac{3}{2} \pi$。</li>
 <li>可以参考我的这份<a href="https://loj.ac/submission/788307" target="_blank" rel="noopener">O(n^6)暴力</a>来确认自己没有读错题意。</li>
