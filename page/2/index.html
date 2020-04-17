@@ -187,79 +187,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/30/CSAcademy-Round-35-Counting-Quests/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/30/CSAcademy-Round-35-Counting-Quests/" class="post-title-link" itemprop="url">CSAcademy Round #35 Counting Quests</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-03-30 20:26:44 / Modified: 20:27:08" itemprop="dateCreated datePublished" datetime="2020-03-30T20:26:44+08:00">2020-03-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><a href="https://csacademy.com/contest/round-35/task/counting-quests/" target="_blank" rel="noopener">link to the problem</a></li>
-<li><a href="https://csacademy.com/submission/2707618/" target="_blank" rel="noopener">my submission</a></li>
-</ul>
-<p>对于一个序列和一个询问集合，设 $S_i$ 为包含了 $i$ 这个位置的询问的集合。一个询问集合合法当且仅当 $S_i$ 互不相同。</p>
-<p>性质 1 ：如果 $a&lt;b&lt;c&lt;d, S_a=S_c, S_b=S_d$，那么 $S_a=S_b=S_c=S_d$ 。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/30/CSAcademy-Round-35-Counting-Quests/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/30/20200328%E8%81%94%E8%80%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -938,6 +865,75 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/07/LOJ3046-%E3%80%8CZJOI2019%E3%80%8D%E8%AF%AD%E8%A8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/07/LOJ3046-%E3%80%8CZJOI2019%E3%80%8D%E8%AF%AD%E8%A8%80/" class="post-title-link" itemprop="url">LOJ3046 「ZJOI2019」语言</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-07 22:50:09 / Modified: 22:54:40" itemprop="dateCreated datePublished" datetime="2020-03-07T22:50:09+08:00">2020-03-07</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>考虑对每个点算出能够与它进行贸易活动的点数，也就是到它的路径被那 $m$ 条路径中的某一条完全包含的点数。</p>
+<p>对原树进行链分治（重链剖分），这样每条路径最多会经过 $\log n$ 条链。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/07/LOJ3046-%E3%80%8CZJOI2019%E3%80%8D%E8%AF%AD%E8%A8%80/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1010,7 +1006,7 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
