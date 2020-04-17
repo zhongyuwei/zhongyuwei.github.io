@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="参考资料 一份通过google search找到的资料 OI-wiki  定义们">
+  <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="弦图、完美消除序列与MCS算法">
-<meta property="og:url" content="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:title" content="20200416 SCOI模拟">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/04/17/20200416-SCOI%E6%A8%A1%E6%8B%9F/index.html">
 <meta property="og:site_name" content="zhongyuwei&#39;s blog">
-<meta property="og:description" content="参考资料 一份通过google search找到的资料 OI-wiki  定义们">
+<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-04-05T06:14:14.000Z">
-<meta property="article:modified_time" content="2020-04-05T06:14:32.928Z">
+<meta property="article:published_time" content="2020-04-17T08:16:38.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:20:55.041Z">
 <meta property="article:author" content="zhongyuwei">
-<meta property="article:tag" content="算法">
+<meta property="article:tag" content="比赛">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/">
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/04/17/20200416-SCOI%E6%A8%A1%E6%8B%9F/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>弦图、完美消除序列与MCS算法 | zhongyuwei's blog</title>
+  <title>20200416 SCOI模拟 | zhongyuwei's blog</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/17/20200416-SCOI%E6%A8%A1%E6%8B%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          弦图、完美消除序列与MCS算法
+          20200416 SCOI模拟
         </h1>
 
         <div class="post-meta">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-05 14:14:14 / Modified: 14:14:32" itemprop="dateCreated datePublished" datetime="2020-04-05T14:14:14+08:00">2020-04-05</time>
+              <time title="Created: 2020-04-17 16:16:38 / Modified: 16:20:55" itemprop="dateCreated datePublished" datetime="2020-04-17T16:16:38+08:00">2020-04-17</time>
             </span>
 
           
@@ -232,66 +232,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://www.cs.cmu.edu/~janh/courses/411/18/lec/03-chordal-mcs.pdf" target="_blank" rel="noopener">一份通过google search找到的资料</a></li>
-<li><a href="https://oi-wiki.org/graph/chord/#_8" target="_blank" rel="noopener">OI-wiki</a></li>
-</ul>
-<h2 id="定义们"><a href="#定义们" class="headerlink" title="定义们"></a>定义们</h2><p>记 $N(u)$ 为 $u$ 的所有的邻居构成的集合。对于一个点集 $S$，定义 $N(S)$ 为 $\{ x\mid \forall v\in S, x\in N(v)\}$。</p>
-<p><strong>弦图 (chordal graph)</strong>：满足任意一个长度大于 3 的环都有弦的图。</p>
-<p><strong>单纯点 (simplicial vertex)</strong>：如果 $N(u)$ 的导出子图为团，就称 $u$ 为单纯点。</p>
-<p><strong>完美消除序列 (perfect elimination ordering)</strong>：称 $G$ 的结点的一个排列 $\{v_1,v_2,\cdots v_n\}$ 为 $G$ 的完美消除序列，当且仅当对于每一个 $i$ ，$v_i$ 在 $v_i,v_{i+1},\cdots v_n$ 的导出子图中是单纯点。</p>
-<p>下文中，称完美消除序列的逆序为<strong>单纯消除序列 (simplicial elimination ordering)</strong>（这个中文名称是我编的，因为没有在网上找到相应的中文资料），也就是满足 $v_i$ 在 $v_1,v_2,\cdots v_i$ 的导出子图中为单纯点的排列。</p>
-<h2 id="一个定理"><a href="#一个定理" class="headerlink" title="一个定理"></a>一个定理</h2><p>引理 1：弦图的任意导出子图也是弦图。</p>
-<p>引理 2：任何弦图都至少有一个单纯点；不是完全图的弦图至少有两个不相邻的单纯点。</p>
-<p>定理：$G$ 是弦图当且仅当 $G$ 存在完美消除序列。</p>
-<p><a href="https://oi-wiki.org/graph/chord/" target="_blank" rel="noopener">证明可参考 OI-wiki</a></p>
-<h2 id="完美消除序列判定"><a href="#完美消除序列判定" class="headerlink" title="完美消除序列判定"></a>完美消除序列判定</h2><p>判断一个序列是否为完美消除序列。</p>
-<p>设 $v_i$ 在 $v_{i+1},v_{i+2}\cdots v_n$ 中相邻的点按照它们在序列中出现的顺序依次为 $v_{c_1},v_{c_2},\cdots v_{c_k}$，只需要判断 $v_{c_1}$ 与其它点是否相邻即可。</p>
-<p>正确性证明：假设已知 $v_{i+1},v_{i+2},\cdots v_n$ 是合法的完美消除序列的后缀，那么由于 $v_{c_1}$ 在 $\{v_{c_1},v_{c_1+1},\cdots v_n\}$ 的导出子图中为单纯点，如果 $v_{c_1}$ 与 $v_{c_2},v_{c_3},\cdots v_{c_k}$ 都相邻，那么 $v_{c_2},v_{c_3},\cdots v_{c_k}$ 一定形成团。</p>
-<h2 id="最大势算法"><a href="#最大势算法" class="headerlink" title="最大势算法"></a>最大势算法</h2><p>又称为<strong>maximum cardinality search algorithm</strong>、<strong>MCS algorithm</strong>。是用来求完美消除序列的一种算法。</p>
-<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><p>设图 $G$ 的点集为 $V$；用 $weight(u)$ 表示点 $u$ 的权重。</p>
-<ol>
-<li>初始化 $W$ 为 $V$，并将 $V$ 中所有点的权重置为 $0$</li>
-<li>对 $i=1,2,\cdots n$ ，执行以下过程<ol>
-<li>令 $u$ 为此时 $W$ 中权重最大的点</li>
-<li>令 $v_i = u$</li>
-<li>将 $u$ 的所有邻居的权重增加 $1$</li>
-<li>将 $u$ 从 $W$ 中删除</li>
-</ol>
-</li>
-<li>返回 $\{v_1,v_2,\cdots v_n\}$</li>
-</ol>
-<p>用链表实现可以做到 $O(n+m)$ 的复杂度。</p>
-<p>可以证明，当 $G$ 为弦图时，MCS 算法返回的序列是 $G$ 的单纯消除序列。</p>
-<h3 id="正确性证明"><a href="#正确性证明" class="headerlink" title="正确性证明"></a>正确性证明</h3><p>令 $V_i = \{v_,v_2,\cdots v_i\}$ ；令 $W_i$ 为第 2 步进行了 $i$ 次之后的 $W$ ；令 $weight_i(v)$ 表示第 2 步进行了 $i$ 次之后 $v$ 点的权重；令 $a \prec b$ 表示在返回的序列中 $a$ 在 $b$ 的前面。</p>
-<p>我们通过证明以下循环不变式来证明命题：</p>
-<ol>
-<li>$v_i$ 在 $V_i$ 的导出子图中为单纯点</li>
-<li>令 $S$ 为 $V$ 的一个子集，其中的每个点 $v_x$ 都满足 $v_x$ 在 $V_x$ 的导出子图中为单纯点；对于两个点 $a,v_i \in N(S) - S$ ，如果 $a\prec v_i$ 且 $N(S)-S$ 中存在一条从 $a$ 到 $v_i$ 的路径，那么 $N(S)-S$ 中存在一条从从 $a$ 到 $v_i$ 且经过的所有点都满足 $\prec v_i$ 的路径</li>
-</ol>
-<h4 id="证明-1"><a href="#证明-1" class="headerlink" title="证明 1."></a>证明 1.</h4><p>考虑反证：假设 $v_i$ 在 $V_i$ 的导出子图中不是单纯点，那么必定存在 $v_j,v_k\in N(v_i)\cap V_{i-1}$ 满足 $j&lt; k &lt; i, v_k\notin N(v_j)$。</p>
-<h5 id="case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing"><a href="#case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing" class="headerlink" title="case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$"></a>case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$</h5><p>对于连通图 $G$ ，我们可以归纳地证明 $V_i$ 都是连通的。而 $N(v_i)$ 中的点显然在 $G$ 的同一个连通块中，所以 $N(v_i)\cap V_{i-1}$ 中的点在 $V_{i-1}$ 的导出子图中是连通的。</p>
-<p>找出一对 $V_{i-1}$ 中的 $v_j,v_k$ 使其满足 $v_k \notin N(v_j)$ 且它们在 $V_{i-1}$ 的导出子图中的最短路最短。由于 $v_k \notin N(v_j)$ ，所以最短路的点数大于 2（含 $v_j,v_k$）。</p>
-<p>那么最短路上的每个点一定都和 $v_i$ 直接有边相连（如果没有加额外的边则不符合弦图的定义；如果是加的其它的边则不符合最短路的定义）：</p>
-<ul>
-<li>如果最短路的长度大于 3，那么从这条最短路上随便选取连续的三个点，把第一个点和第三个点作为 $v_j,v_k$，就能得到更短的最短路</li>
-<li>如果最短路的长度等于 3，那么最短路上的第二个点属于集合 $V_{i-1}\cap N(v_i) \cap N(v_j) \cap N(v_k)$，与 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$ 矛盾。</li>
-</ul>
-<h5 id="case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing"><a href="#case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing" class="headerlink" title="case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$"></a>case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$</h5><p>令 $S$ 为满足 $v_i,v_j,v_k\in N(S)-S$ 的仅由 $V_{i-1}$ 中的点构成的集合（显然不为空集的 $S$ 一定存在，并且由归纳假设我们知道 $S$ 中的每个点 $v_x$ 都满足 $v_x$ 在 $V_x$ 的导出子图中为单纯点）。那么 $v_j \to v_i \to v_k$ 是 $N(S)-S$ 中的一条路径，所以一定存在一条 $N(S)-S$ 中的路径 $P=\{v_j = x_0 \to x_1 \to x_2 \cdots x_{m-1} \to x_m = v_k\}$，路径上的每个点都满足 $\prec v_i$（应用不变式2.，注意这里与不变式中的形式不完全一样）。在所有可能的四元组 $(v_j,v_k,S,P)$ 中，我们选择一个 $|S|$ 最大的；如果有两个 $|S|$ 相同的，我们选择 $P$ 的长度更短的。如此，$v_i,v_j=x_0,x_1,\cdots x_m=v_k,v_i$ 将会是一个长度大于 3 的环。根据弦图的定义这个环上一定有弦：</p>
-<ul>
-<li>如果弦为 $(x_a,x_b)$，其中 $a+1&lt;b$，那么 $P$ 可以更短</li>
-<li>如果弦为 $(x_a,v_i)$，其中 $0&lt;a&lt;m-1$，那么令 $v_j=x_a,P=\{v_j=x_a\to x_{a+1}\cdots x_{m-1}\to x_m=v_k\}$ 将会使 $P$ 更短；弦为 $(x_a,v_i), 1 &lt; a &lt; m$ 同理</li>
-<li>否则，$m=2$ 且弦为 $(x_1,v_i)$ ，但是显然此时 $S\cup \{x_1\}$ 是一个更大的满足 $v_i,v_j,v_k \in N(S)-S$ 且每个点都属于 $V_{i-1}$ 的点集。</li>
-</ul>
-<h4 id="证明-2"><a href="#证明-2" class="headerlink" title="证明 2."></a>证明 2.</h4><p>如果 $a\in N(v_i)$ ，证毕。接下来考虑 $a\notin N(v_i)$ 的情况。</p>
-<p>如果存在一个 $b\in (V_{i-1}-S) \cap N(v_i)$，那么对于每个 $s\in S$：</p>
-<ul>
-<li>若 $s\prec v_i$，则因为 $b,s\in N(v_i)$，在 $V_i$ 的导出子图中我们可以推出 $b,s$ 相邻，所以 $G$ 中 $b,s$ 相邻；</li>
-<li>若 $a\prec v_i\prec s$，由于 $a,v_i\in N(s)$，在 $V_s$ 的导出子图中可以推出 $a\in N(v_i)$，矛盾</li>
-</ul>
-<p>所以一定有 $b\in N(S)-S$，由归纳假设知 $N(S)-S$ 中存在一条从 $a$ 到 $b$ 的只经过 $\prec \max\{a,b\}$ 的点的路径，在这条路径后面加上点 $v_i$ 即得证。</p>
-<p>否则 $N(v_i) \cap (V_{i-1}-S)=\varnothing$，所以 $weight_{i-1}(v_i) = \left|S\cap V_{i-1} \right|$。由于 $N(S)-S$ 中存在一条从 $a$ 到 $v_i$ 的路径，这段路径上一定存在两个相邻的点 $c,d$，满足 $c\prec v_i\prec d$（因为从 $v_i$ 出发的第一个点一定 $\succ v_i$，而 $a\prec v_i$），于是推出 $weight_{i-1}(d) \ge |S\cap V_{i-1}|+1$（+1是因为 $c\in N(d),c\prec v_i$），这和 $weight_{i-1}(v_i)$ 为 $weight_{i-1}$ 的最大值矛盾。</p>
-
+        <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="Oh, these decrypted content cannot be verified, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">本文密码为 http://u.gdfzoj.com/ 上本场比赛的密码。If you don't know the password but really need to see it, you can ask the author for access. See at the About page.</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="c4017c15fb95c05bd8c2a6c4b7f4605aaf713b198dc3150f43f75ad14a83a998">adb7769fffd80b4d6e6bb00fe29a8c977f7a2b3238175f0682a0875c2338f47c35c3935dc74b2c4eb97c429563da1cf8cd73500d1d26fc680aec70735414a85a4444a71eac13eb3b7a22b473fa8277d7d6bc3b356d033cd34788fa44ac2705723c21b0fe75fef6c884e70c5d9871d063244d098a4d9e64481edd78c0c0d4738a4965d412aae027f47703fb507fbe7379a230b4ae6b72be92e0899261758a598508ab0b948cc37f7d89582abe59cdf85e386aa25ef2edef5a1c5260d156894a7660195e3b9c950d60b9b3c9beacf435ab243e7dfb39aff5bbf74a5987a473108e0556d1b00f899a3fda583686ee8741e049c691e61131951463253814dd6c095c9a01f08acd9a2db64422e50013ef6011536411cb2590363c1a11d2c51f8fb423ff99e8f48ed7e66ae9cdd681aa501677f386b223ad4bae811d0bd2a1536c4b32f6409ada960c6da8aeb05069144cf6c8d91c1dc023f9b5389a91aa2bdc3ad936ef04d80642fb6f1c7090b33f98f18a31080096eeb843e1f9f3cc0fb931c0e715c111985c635e49dca3ec696efe27c2e5babfd2b2776fe5637efd8b8a90e0aa1f94aee0a55e73206ec78f20800f4f24552af8554444a1fa4e6e03d9c71c8eea46e665123671b6032cf2b35d0c867003e744d390819f56875eb56fe10418fdfadbde2211550452246583e58c74957b09e023cd67eafedba02039c60d1b9da38331bbc5b0ff0798d237f76a5579e3e2352287f889bdcc7992e41b8a78553451ae5629e8fc46d08445f27f82611d20e7fda9fd1dd4432afd83aaa07627ae089f5257c155384b9decac60612fd10f4b43facbd2fc262deca34721a2dc52e0261d164028707ed73d31615fab04764453a680f30c823aa9aaf61033bfdb2b3f750533b87c3f1ba976a984ea21c1cbbbd12f5c170520268b58bd834670edd603efff519f515c242845f3177cb74a029f6676d9be51bb9da713f665d6da047249fbf7958cb76c7db516f9293b0e7b70ed135a65f5693ea780ee38e6b9af672cb09045e9a7b30b8ccce72730ca42160e24c7dbfeec2d09112ae6a9137ccfd1a3e573f5c9c6a841aabd658d4cb27f5d4b2d1ae8bcb6851ca312debeee95ae6ecba58abdfc46d7132bd3ba1b60c2f4aea75ddeab78375eeb35f7e406d8b3d808ea507e3a63b20e223dc3b48553835bedca09d966aa24f167ce85b4ee150ac9cb9757869af4f67d51a90c44f3c9fd59941358782396fcc1b751bb3e259dea5d12b530800b25675ea79fc9a8a8b1e84e4b8ed1c03bae25320b5cdf5b74ce2fb2584aae7186a9753650c1c722447bd059e4944be9eaa21bd1267f495807821fa90f48737daef3f609f8b7f534e0f4755c8103c56dc91b0e31079c03510042ff374623fea00f9d47c90d4934c6f764149dc98d7a3b1781e04f9d3ee0089ee760995ff987ad930ea7390f8b14af79918b77ffaf1e280bc3e593564d274f4025ecfb3d251c31efc918f5c9bf89b088f7ea90a52e8fdd4b35b0a80cd0c864ea002842a776a489ba6da39bb768996c2ebdabf5b16d73177829f53d69e64804bbf40d1cc21b137a430fc77e3ae43c6371eeb8f2573f1ebb4e96bfa03260dc21a4f7648575b66ae7bc408e6062ad6ac92dd7341e20c279506074e8fe897097160c9aa0b78d56825bb373e9bce78ebbc4df77ddee1ab23d5b81b2b4317326012715a6e2661f2b127509959d8f0a64d270ff6fdca20161b70af8bc69999fffe9f78d0343f9542faf8f1ff987d006926cb87e4243d6da385406f62035e28aac2843d9e5618334af9ac1cd76a17c41b7abc5eaf60cf7377a33196882b8f572fccc2f743a49c1f5e0c09fa5cffab8bb7a9dd1c333d4170aa0315ebd9056872453170e38be5365d3a6a211ef1cc5ebbc7af4333e1977881e2fe73dd31e4d9242c69e3e047dc6205f77c54be34f90eb9d879c3e3158951c9e1bf8bc87668285c0dbf0db040e503c6d56c56b286a5e6ec42d1079fa3fc699321599efbe4e90563813dd5c37cc3faa6d8202f25bcbdb3acfdeb034c48db75d9104763065c9ba4f984c3ed9c6688b7943f7dac32a7664162a20d953ca23c138bccd92143d68ac763461f82759188c4e64033c5c21d253cd70dba69e4e18a5ac76a23787f204f811223275f51bd720da523b27d69d1f6d9934af858d91d96aba9d4bc6c16b9e8608a8a2ec6fa52223e25ad0d584b462bf6c8ac8bb7c4f0015fc25187860060fc760420c12e89cf88fed13b5925ca76e2970e6c6e37fc3c81d35cc5f76f86ab1e6987d1f0c8d373199a68949b3efb67a62e4535e30aceb688bdf0d94ee2372d2dc1b2072e9446bb3d6acd9a26d02f5c58c4beea98bdd86c408f5711cd149b8c5542fc444080801bda72cb3f93e9662b780921c529a738e5a39f611b839f1a356e690cd125c70d33e1fb871fda605c030a34f3e0d4d75c18d6db768fecbc5d11e55eb09c0630327ac96db42e246a8eea6004f2e4c1ef95ade718bb43dbd6d679a95c258bb6e994e886e2bf999899ab2403cbbbaa477e9a390f9ae330d920838370b174aed6a8f601f6005272f223a9b7ca01d39bd3e8521717ade87d4f62e576a3bd26d0a47f3066e64102f6bc4a9b86f5b9978375b218ac58855d8b8af034336f6f703ac46908488b0668acab999efd3cff03f6db0ea3a8d4ac4e7ff7c0e49f9944e5e9e260d8146137289c47301fbac80e4f22c32aeb3791dd669b4b89f9a3cf58ae126292830aacc14cad91d155cbfbf53a188a16bc96e02a30735dd77f32bff606749eb0d1d8103445704d3e55b6b549c738a976b709931d9f6e5c67d690bf9f8bfd846b3222bd644e9b6e0b077cf9be37a556b564cda2511228991da7e0108ceb6d06b304c7e99e15528c66d12f9bafce13def984007df0aff53e766cac04593ea0d0de1e2393df84c2ca81bb4f7dda3a2bf13e9db2c8a84009c836547a3982f33f52d7c7344b610e4635465777a3eec1082c700edb5796f80d5bbc7b0ecd14bb4406aa849d59cb2dae8e610d42590d08a0d58c7d745713b47ca237279ae5161e4c5510a550b4da49794bdd3978285d444749fc0dcc698c4c01f251ee145b6496532a6e80d0766ced8c534eb6e068dd2f0e46668f5ce962d6bf8ed853113fc92555b8f450cfd7f5320a9a17b6d07b943bde35f522b6cb04e8a25a8a1dd29e5349e6dda84808135dbc616fa4594f1acbcaf9ac333c0f3f98a4b9ab4d284267bec42965ebe7c1cb080981be1944b014da0264f3ac41d29a1413c4ecd5c2e6d9a397d858c1ac686b98d51aac34017748ce85ca97fcd6f0e3c530ac747758183bbd494816bc488fa436740e987d8d0e4dce2db42efc65b4676e4e5308ef6a58c9e616ba469b82b27a336ed558c92c375ec9bb85dc1e967702c0a8ecf1fc0f42e17e1e435528bea91a835e01c917f37308ce9a341de9afb85bf7194648489421bebfe08ffaa86ae5aedab2e20b9ddde65aa0da63b6120794af6ffc0ed601b55378aeeddb1dacff62b77bca5c14799310c7949c9290a6d2d3c2ad84393bea95f568d259581250c5c6dd4eba090af8f3c2abfad2b1c33deabba2592439aad05348fbcbeece383f5b174d10a73e410ff507fc153976d0fabd03ec75854e0d80acf8a2f996a3581698283ea2f10b0aa339e0ec30f7434400a9b9a4ec7d279535ed2803be431bf332f0b47fed2b882b676925ef316d27130937f876c67d9556770d470ef9af8d6e563f1500c09d8f68966c6d3aedd987fa3db1cb87c7ac6927d2a4864f69ee1dfab4deac53aa588912c8de05a88c60a7593f7a34b4301189cf718eb1d31bf91515a183943391d0d02e2416d69f0c337960694ba66a5462157d8c5998af9e43a553b7e6cfc57deac1c8f428e4a83cbb9836e92b5427a522e00b56345bd92b5e608f7423eb78ff23a30a9302dd49ac5895c374a63d9fa4f7a2958b5e07b465f9e5934da0ce3ee85090a8fa0345edf22a760ab4022fd13bb6adb7908c07c7864692c2272f2adccc67de74236bbad7871203190695731eaad59454adf5caab7d9d33edf93bd87ea0184aacd7b76a7ca82f0e87e237c8d083d6e3d83779ca8dfb4b1444cf68af957932f06058d18f5997a63158fa444ec6015c4075aa0803876bb32878b9eeaa6f5ec1d14863ed6df9994593425a923e2f2e033abc2bcb7309f6f46b4fc8e3226420f54019cf97afd114e086f67968724e752568c434b892663ee7054691fd72201c9871d7192e5e4515e82ef57dea69f735db2a38d21ad6e59</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -306,7 +255,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/" title="弦图、完美消除序列与MCS算法">http://zhongyuwei.github.io/2020/04/05/弦图、完美消除序列与MCS算法/</a>
+    <a href="http://zhongyuwei.github.io/2020/04/17/20200416-SCOI%E6%A8%A1%E6%8B%9F/" title="20200416 SCOI模拟">http://zhongyuwei.github.io/2020/04/17/20200416-SCOI模拟/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -317,7 +266,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E6%AF%94%E8%B5%9B/" rel="tag"># 比赛</a>
           </div>
 
         
@@ -326,13 +275,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/03/LOJ2719-%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" rel="prev" title="LOJ2719 「NOI2018」冒泡排序">
-      <i class="fa fa-chevron-left"></i> LOJ2719 「NOI2018」冒泡排序
+    <a href="/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%8F%8A%E8%AF%81%E6%98%8E/" rel="prev" title="矩阵树定理及证明">
+      <i class="fa fa-chevron-left"></i> 矩阵树定理及证明
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/09/LOJ3090-%E3%80%8CBJOI2019%E3%80%8D%E5%8B%98%E7%A0%B4%E7%A5%9E%E6%9C%BA/" rel="next" title="LOJ3090 「BJOI2019」勘破神机">
-      LOJ3090 「BJOI2019」勘破神机 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -392,7 +338,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义们"><span class="nav-text">定义们</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个定理"><span class="nav-text">一个定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完美消除序列判定"><span class="nav-text">完美消除序列判定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大势算法"><span class="nav-text">最大势算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法流程"><span class="nav-text">算法流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确性证明"><span class="nav-text">正确性证明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#证明-1"><span class="nav-text">证明 1.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing"><span class="nav-text">case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) &#x3D; \varnothing$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing"><span class="nav-text">case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#证明-2"><span class="nav-text">证明 2.</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
