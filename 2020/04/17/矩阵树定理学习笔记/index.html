@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="参考资料 一份通过google search找到的资料 OI-wiki  定义们">
+  <meta name="description" content="参考资料 OI-wiki(没有证明) 通过 google search 找到的一篇资料  引理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="弦图、完美消除序列与MCS算法">
-<meta property="og:url" content="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:title" content="矩阵树定理学习笔记">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="zhongyuwei&#39;s blog">
-<meta property="og:description" content="参考资料 一份通过google search找到的资料 OI-wiki  定义们">
+<meta property="og:description" content="参考资料 OI-wiki(没有证明) 通过 google search 找到的一篇资料  引理">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-04-05T06:14:14.000Z">
-<meta property="article:modified_time" content="2020-04-05T06:14:32.928Z">
+<meta property="article:published_time" content="2020-04-17T05:24:57.000Z">
+<meta property="article:modified_time" content="2020-04-17T05:25:26.080Z">
 <meta property="article:author" content="zhongyuwei">
-<meta property="article:tag" content="算法">
+<meta property="article:tag" content="杂题">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/">
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>弦图、完美消除序列与MCS算法 | zhongyuwei's blog</title>
+  <title>矩阵树定理学习笔记 | zhongyuwei's blog</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          弦图、完美消除序列与MCS算法
+          矩阵树定理学习笔记
         </h1>
 
         <div class="post-meta">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-05 14:14:14 / Modified: 14:14:32" itemprop="dateCreated datePublished" datetime="2020-04-05T14:14:14+08:00">2020-04-05</time>
+              <time title="Created: 2020-04-17 13:24:57 / Modified: 13:25:26" itemprop="dateCreated datePublished" datetime="2020-04-17T13:24:57+08:00">2020-04-17</time>
             </span>
 
           
@@ -233,65 +233,57 @@
 
       
         <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://www.cs.cmu.edu/~janh/courses/411/18/lec/03-chordal-mcs.pdf" target="_blank" rel="noopener">一份通过google search找到的资料</a></li>
-<li><a href="https://oi-wiki.org/graph/chord/#_8" target="_blank" rel="noopener">OI-wiki</a></li>
+<li><a href="https://oi-wiki.org/graph/matrix-tree/" target="_blank" rel="noopener">OI-wiki(没有证明)</a></li>
+<li><a href="http://math.mit.edu/~levine/18.312/alg-comb-lecture-19.pdf" target="_blank" rel="noopener">通过 google search 找到的一篇资料</a></li>
 </ul>
-<h2 id="定义们"><a href="#定义们" class="headerlink" title="定义们"></a>定义们</h2><p>记 $N(u)$ 为 $u$ 的所有的邻居构成的集合。对于一个点集 $S$，定义 $N(S)$ 为 $\{ x\mid \forall v\in S, x\in N(v)\}$。</p>
-<p><strong>弦图 (chordal graph)</strong>：满足任意一个长度大于 3 的环都有弦的图。</p>
-<p><strong>单纯点 (simplicial vertex)</strong>：如果 $N(u)$ 的导出子图为团，就称 $u$ 为单纯点。</p>
-<p><strong>完美消除序列 (perfect elimination ordering)</strong>：称 $G$ 的结点的一个排列 $\{v_1,v_2,\cdots v_n\}$ 为 $G$ 的完美消除序列，当且仅当对于每一个 $i$ ，$v_i$ 在 $v_i,v_{i+1},\cdots v_n$ 的导出子图中是单纯点。</p>
-<p>下文中，称完美消除序列的逆序为<strong>单纯消除序列 (simplicial elimination ordering)</strong>（这个中文名称是我编的，因为没有在网上找到相应的中文资料），也就是满足 $v_i$ 在 $v_1,v_2,\cdots v_i$ 的导出子图中为单纯点的排列。</p>
-<h2 id="一个定理"><a href="#一个定理" class="headerlink" title="一个定理"></a>一个定理</h2><p>引理 1：弦图的任意导出子图也是弦图。</p>
-<p>引理 2：任何弦图都至少有一个单纯点；不是完全图的弦图至少有两个不相邻的单纯点。</p>
-<p>定理：$G$ 是弦图当且仅当 $G$ 存在完美消除序列。</p>
-<p><a href="https://oi-wiki.org/graph/chord/" target="_blank" rel="noopener">证明可参考 OI-wiki</a></p>
-<h2 id="完美消除序列判定"><a href="#完美消除序列判定" class="headerlink" title="完美消除序列判定"></a>完美消除序列判定</h2><p>判断一个序列是否为完美消除序列。</p>
-<p>设 $v_i$ 在 $v_{i+1},v_{i+2}\cdots v_n$ 中相邻的点按照它们在序列中出现的顺序依次为 $v_{c_1},v_{c_2},\cdots v_{c_k}$，只需要判断 $v_{c_1}$ 与其它点是否相邻即可。</p>
-<p>正确性证明：假设已知 $v_{i+1},v_{i+2},\cdots v_n$ 是合法的完美消除序列的后缀，那么由于 $v_{c_1}$ 在 $\{v_{c_1},v_{c_1+1},\cdots v_n\}$ 的导出子图中为单纯点，如果 $v_{c_1}$ 与 $v_{c_2},v_{c_3},\cdots v_{c_k}$ 都相邻，那么 $v_{c_2},v_{c_3},\cdots v_{c_k}$ 一定形成团。</p>
-<h2 id="最大势算法"><a href="#最大势算法" class="headerlink" title="最大势算法"></a>最大势算法</h2><p>又称为<strong>maximum cardinality search algorithm</strong>、<strong>MCS algorithm</strong>。是用来求完美消除序列的一种算法。</p>
-<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><p>设图 $G$ 的点集为 $V$；用 $weight(u)$ 表示点 $u$ 的权重。</p>
-<ol>
-<li>初始化 $W$ 为 $V$，并将 $V$ 中所有点的权重置为 $0$</li>
-<li>对 $i=1,2,\cdots n$ ，执行以下过程<ol>
-<li>令 $u$ 为此时 $W$ 中权重最大的点</li>
-<li>令 $v_i = u$</li>
-<li>将 $u$ 的所有邻居的权重增加 $1$</li>
-<li>将 $u$ 从 $W$ 中删除</li>
-</ol>
-</li>
-<li>返回 $\{v_1,v_2,\cdots v_n\}$</li>
-</ol>
-<p>用链表实现可以做到 $O(n+m)$ 的复杂度。</p>
-<p>可以证明，当 $G$ 为弦图时，MCS 算法返回的序列是 $G$ 的单纯消除序列。</p>
-<h3 id="正确性证明"><a href="#正确性证明" class="headerlink" title="正确性证明"></a>正确性证明</h3><p>令 $V_i = \{v_,v_2,\cdots v_i\}$ ；令 $W_i$ 为第 2 步进行了 $i$ 次之后的 $W$ ；令 $weight_i(v)$ 表示第 2 步进行了 $i$ 次之后 $v$ 点的权重；令 $a \prec b$ 表示在返回的序列中 $a$ 在 $b$ 的前面。</p>
-<p>我们通过证明以下循环不变式来证明命题：</p>
-<ol>
-<li>$v_i$ 在 $V_i$ 的导出子图中为单纯点</li>
-<li>令 $S$ 为 $V$ 的一个子集，其中的每个点 $v_x$ 都满足 $v_x$ 在 $V_x$ 的导出子图中为单纯点；对于两个点 $a,v_i \in N(S) - S$ ，如果 $a\prec v_i$ 且 $N(S)-S$ 中存在一条从 $a$ 到 $v_i$ 的路径，那么 $N(S)-S$ 中存在一条从从 $a$ 到 $v_i$ 且经过的所有点都满足 $\prec v_i$ 的路径</li>
-</ol>
-<h4 id="证明-1"><a href="#证明-1" class="headerlink" title="证明 1."></a>证明 1.</h4><p>考虑反证：假设 $v_i$ 在 $V_i$ 的导出子图中不是单纯点，那么必定存在 $v_j,v_k\in N(v_i)\cap V_{i-1}$ 满足 $j&lt; k &lt; i, v_k\notin N(v_j)$。</p>
-<h5 id="case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing"><a href="#case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing" class="headerlink" title="case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$"></a>case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$</h5><p>对于连通图 $G$ ，我们可以归纳地证明 $V_i$ 都是连通的。而 $N(v_i)$ 中的点显然在 $G$ 的同一个连通块中，所以 $N(v_i)\cap V_{i-1}$ 中的点在 $V_{i-1}$ 的导出子图中是连通的。</p>
-<p>找出一对 $V_{i-1}$ 中的 $v_j,v_k$ 使其满足 $v_k \notin N(v_j)$ 且它们在 $V_{i-1}$ 的导出子图中的最短路最短。由于 $v_k \notin N(v_j)$ ，所以最短路的点数大于 2（含 $v_j,v_k$）。</p>
-<p>那么最短路上的每个点一定都和 $v_i$ 直接有边相连（如果没有加额外的边则不符合弦图的定义；如果是加的其它的边则不符合最短路的定义）：</p>
+<h2 id="引理"><a href="#引理" class="headerlink" title="引理"></a>引理</h2><p>一个排列的逆序对数的奇偶性与（排列的长度-环数）相同。</p>
+<p>证明：</p>
+<p>观察 1：如果交换排列中的两个元素，逆序对数的奇偶性恰好会改变。</p>
 <ul>
-<li>如果最短路的长度大于 3，那么从这条最短路上随便选取连续的三个点，把第一个点和第三个点作为 $v_j,v_k$，就能得到更短的最短路</li>
-<li>如果最短路的长度等于 3，那么最短路上的第二个点属于集合 $V_{i-1}\cap N(v_i) \cap N(v_j) \cap N(v_k)$，与 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) = \varnothing$ 矛盾。</li>
+<li>假设交换的元素是 $i, j (i &lt; j)$</li>
+<li>$i$ 左侧，$j$ 右侧的元素的贡献不会变化</li>
+<li>开区间 $(i,j)$ 中的元素的贡献的奇偶性不变</li>
+<li>$i,j$ 的贡献会变化 1（加 1 或者减 1）</li>
 </ul>
-<h5 id="case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing"><a href="#case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing" class="headerlink" title="case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$"></a>case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$</h5><p>令 $S$ 为满足 $v_i,v_j,v_k\in N(S)-S$ 的仅由 $V_{i-1}$ 中的点构成的集合（显然不为空集的 $S$ 一定存在，并且由归纳假设我们知道 $S$ 中的每个点 $v_x$ 都满足 $v_x$ 在 $V_x$ 的导出子图中为单纯点）。那么 $v_j \to v_i \to v_k$ 是 $N(S)-S$ 中的一条路径，所以一定存在一条 $N(S)-S$ 中的路径 $P=\{v_j = x_0 \to x_1 \to x_2 \cdots x_{m-1} \to x_m = v_k\}$，路径上的每个点都满足 $\prec v_i$（应用不变式2.，注意这里与不变式中的形式不完全一样）。在所有可能的四元组 $(v_j,v_k,S,P)$ 中，我们选择一个 $|S|$ 最大的；如果有两个 $|S|$ 相同的，我们选择 $P$ 的长度更短的。如此，$v_i,v_j=x_0,x_1,\cdots x_m=v_k,v_i$ 将会是一个长度大于 3 的环。根据弦图的定义这个环上一定有弦：</p>
-<ul>
-<li>如果弦为 $(x_a,x_b)$，其中 $a+1&lt;b$，那么 $P$ 可以更短</li>
-<li>如果弦为 $(x_a,v_i)$，其中 $0&lt;a&lt;m-1$，那么令 $v_j=x_a,P=\{v_j=x_a\to x_{a+1}\cdots x_{m-1}\to x_m=v_k\}$ 将会使 $P$ 更短；弦为 $(x_a,v_i), 1 &lt; a &lt; m$ 同理</li>
-<li>否则，$m=2$ 且弦为 $(x_1,v_i)$ ，但是显然此时 $S\cup \{x_1\}$ 是一个更大的满足 $v_i,v_j,v_k \in N(S)-S$ 且每个点都属于 $V_{i-1}$ 的点集。</li>
-</ul>
-<h4 id="证明-2"><a href="#证明-2" class="headerlink" title="证明 2."></a>证明 2.</h4><p>如果 $a\in N(v_i)$ ，证毕。接下来考虑 $a\notin N(v_i)$ 的情况。</p>
-<p>如果存在一个 $b\in (V_{i-1}-S) \cap N(v_i)$，那么对于每个 $s\in S$：</p>
-<ul>
-<li>若 $s\prec v_i$，则因为 $b,s\in N(v_i)$，在 $V_i$ 的导出子图中我们可以推出 $b,s$ 相邻，所以 $G$ 中 $b,s$ 相邻；</li>
-<li>若 $a\prec v_i\prec s$，由于 $a,v_i\in N(s)$，在 $V_s$ 的导出子图中可以推出 $a\in N(v_i)$，矛盾</li>
-</ul>
-<p>所以一定有 $b\in N(S)-S$，由归纳假设知 $N(S)-S$ 中存在一条从 $a$ 到 $b$ 的只经过 $\prec \max\{a,b\}$ 的点的路径，在这条路径后面加上点 $v_i$ 即得证。</p>
-<p>否则 $N(v_i) \cap (V_{i-1}-S)=\varnothing$，所以 $weight_{i-1}(v_i) = \left|S\cap V_{i-1} \right|$。由于 $N(S)-S$ 中存在一条从 $a$ 到 $v_i$ 的路径，这段路径上一定存在两个相邻的点 $c,d$，满足 $c\prec v_i\prec d$（因为从 $v_i$ 出发的第一个点一定 $\succ v_i$，而 $a\prec v_i$），于是推出 $weight_{i-1}(d) \ge |S\cap V_{i-1}|+1$（+1是因为 $c\in N(d),c\prec v_i$），这和 $weight_{i-1}(v_i)$ 为 $weight_{i-1}$ 的最大值矛盾。</p>
-
+<p>观察 2：单位排列的逆序对数为 0，是一个偶数。</p>
+<p>观察 3：可以通过（排列 $P$ 的长度-环数）次“交换两个元素”的操作，将单位排列变成 $P$。</p>
+<h2 id="定义们"><a href="#定义们" class="headerlink" title="定义们"></a>定义们</h2><p>定义有向图 $G$ 的以 $r$ 为根的有向生成树 (oriented spanning tree) 为：$r$ 出度为 $0$、其余点出度为 $1$ 的弱连通生成图。</p>
+<p>定义有向图 $G$ 的拉普拉斯矩阵 $L$ 为 $D-A$，其中</p>
+<script type="math/tex; mode=display">
+D_{i,j} = \begin{cases}
+\text{i 号点的出度} & i = j\\
+0 & i\neq j
+\end{cases}</script><p>而 $A$ 为 $G$ 的邻接矩阵（$A$ 为 01 矩阵且 $A_{i,j}$ 为 $1$ 当且仅当 $G$ 中存在一条从 $i$ 到 $j$ 的边）。</p>
+<p>设 $L_r$ 为去掉 $L$ 的第 $r$ 行、第 $r$ 列之后得到的 $(n-1)\times (n-1)$ 的矩阵。</p>
+<p>矩阵树定理：$G$ 的以 $r$ 为根的有向生成树个数为 $\det(L_r)$。</p>
+<p>容易把矩阵树定理扩展到无向图的生成树计数。</p>
+<h2 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h2><p>如果选取的根 $r \neq n$，则可以通过重标号让 $r=n$。所以下面我们只考虑 $r=n$ 的情况。</p>
+<p>定义 $S_n$ 为长度为 $n$ 在所有排列构成的集合。对于一个排列 $\sigma$，定义 $\operatorname{sgn}(\sigma)$ 为 $(-1)^{\sigma \text{的逆序对个数}}$。</p>
+<script type="math/tex; mode=display">
+\det (L_r) = \sum_{\sigma \in S_{n-1}} \operatorname{sgn}(\sigma) L_{1,\sigma(1)} L_{2,\sigma(2)} \cdots L_{n-1,\sigma(n-1)}</script><p>考虑这个式子的组合意义：不考虑正负号，当 $\sigma(i) = i$ 的时候，$L_{i,\sigma(i)}$ 相当于选择一条从 $i$ 出发的边的方案数；当 $\sigma(i) \neq i$ 的时候，$L_{i,\sigma(i)}$ 相当于选择一条从 $i$ 到 $\sigma (i)$ 的边的方案数。注意到这也就相当于是在枚举 $n$ 点出度为 $0$、其余点出度为 $1$ 的子图。</p>
+<p>我们要证明的是：在枚举 $\sigma$ 的过程中，所有是树的子图被统计到的系数都是 $1$，所有不是树的子图被统计到的系数都是 $0$。</p>
+<p>注意到：由于 $\sigma$ 是一个排列，所以 $i\to \sigma(i)$ 必然形成若干个大小大于 $1$ 的环和一些 $i = \sigma(i)$ 的单点（自环）。</p>
+<p>对于树：由于树无环，所以这种子图绝对不可能选择 $i\to \sigma(i)(\sigma(i)\neq i)$ 的边，所以它只会在 $\sigma = \{1,2,\cdots n-1\}$ 的时候被数到，其系数显然为 $1$。</p>
+<p>对于不是树的子图：它至少包含了一个环。设子图中的环为 $C_1,C_2,\cdots C_k(k &gt; 0)$（$C_i$ 为第 $i$ 个环上的点构成的点集），设不在环上的点集为 $T$。考虑什么样的 $\sigma$ 会数到 $H$：$T$ 中的每个点 $x$ 一定都有 $\sigma(x) = x$；而对于每个 $C_i$，要么 $C_i$ 中的每个点都有 $\sigma(x) = x$，要么就用 $i\to \sigma(i)(i\neq \sigma(i))$ 这样的形式来表示出 $C_i$ 这个环。假设 $C_{i_1},C_{i_2},\cdots C_{i_l}$ 这些环上的点满足 $\sigma(x) = x$，而 $C_{j_1},C_{j_2},\cdots C_{j_m}$ 这些环是用 $i \to \sigma(i)(i\neq \sigma(i))$ 表示的，那么对应的 $\operatorname{sgn}(\sigma)$ 为（考虑前面的引理）</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\operatorname{sgn}(\sigma)\\
+=& (-1)^{n-1-(|C_{i_1}|+|C_{i_2}|+\cdots +|C_{i_l}|+m)}\\
+=& (-1)^{(|C_{j_1}|-1)+(|C_{j_2}|-1)+\cdots +(|C_{j_m}|-1)}\\
+\end{aligned}</script><p>而 $\prod_{i=1}^{n-1} L_{i,\sigma(i)}$ 所带的系数为</p>
+<script type="math/tex; mode=display">
+(-1)^{|C_{j_1}| + |C_{j_2}| + \cdots + |C_{j_m}|}</script><p>注意到两者的乘积恰好为 $(-1)^m$。</p>
+<p>所有可能的 $\sigma$ 对应的系数之和为</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \sum_{\{j_1,j_2,\cdots\}\subseteq \{1,2,\cdots k\}} (-1)^{|\{j_1,j_2,\cdots \}|}\\
+= & \sum_{i=0}^{k} \binom{k}{i} (-1)^i\\
+= &(1-1)^{k}
+\end{aligned}</script><p>在 $k&gt;1$ 的时候这个系数为 $0$。</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>这个证明的本质是：枚举所有的 $n$ 号点出度为 $0$、其余点出度为 $1$ 的子图，并说明这其中每个有环的子图贡献系数为 0，无环的子图贡献系数为 1。</p>
+<p>我们可以得到一个更加一般的形式：</p>
+<script type="math/tex; mode=display">
+\det(L_r)=\sum_{\text{T is a oriented spanning tree rooted at r }} \prod_{\text{ j is i's father in T}} A_{i,j}</script>
     </div>
 
     
@@ -306,7 +298,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/" title="弦图、完美消除序列与MCS算法">http://zhongyuwei.github.io/2020/04/05/弦图、完美消除序列与MCS算法/</a>
+    <a href="http://zhongyuwei.github.io/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="矩阵树定理学习笔记">http://zhongyuwei.github.io/2020/04/17/矩阵树定理学习笔记/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -317,7 +309,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E6%9D%82%E9%A2%98/" rel="tag"># 杂题</a>
           </div>
 
         
@@ -326,12 +318,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/03/LOJ2719-%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" rel="prev" title="LOJ2719 「NOI2018」冒泡排序">
-      <i class="fa fa-chevron-left"></i> LOJ2719 「NOI2018」冒泡排序
+    <a href="/2020/04/16/LOJ3054-%E3%80%8CHNOI2019%E3%80%8D%E9%B1%BC/" rel="prev" title="LOJ3054 「HNOI2019」鱼">
+      <i class="fa fa-chevron-left"></i> LOJ3054 「HNOI2019」鱼
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/09/LOJ3090-%E3%80%8CBJOI2019%E3%80%8D%E5%8B%98%E7%A0%B4%E7%A5%9E%E6%9C%BA/" rel="next" title="LOJ3090 「BJOI2019」勘破神机">
-      LOJ3090 「BJOI2019」勘破神机 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%8F%8A%E8%AF%81%E6%98%8E/" rel="next" title="矩阵树定理学习笔记">
+      矩阵树定理学习笔记 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -392,7 +384,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义们"><span class="nav-text">定义们</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个定理"><span class="nav-text">一个定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完美消除序列判定"><span class="nav-text">完美消除序列判定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大势算法"><span class="nav-text">最大势算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法流程"><span class="nav-text">算法流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确性证明"><span class="nav-text">正确性证明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#证明-1"><span class="nav-text">证明 1.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#case-1-对于所有的-v-j-v-k-in-N-v-i-cap-V-i-1-v-k-notin-N-v-j-，都有-V-i-1-cap-N-v-i-cap-N-v-j-cap-N-v-k-varnothing"><span class="nav-text">case 1: 对于所有的 $v_j,v_k\in N(v_i)\cap V_{i-1}, v_k \notin N(v_j)$，都有 $V_{i-1}\cap N(v_i)\cap N(v_j) \cap N(v_k) &#x3D; \varnothing$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#case-2-存在-v-j-v-k-in-V-i-1-cap-N-v-i-v-k-notin-N-v-j-满足-V-i-1-cap-N-v-j-cap-N-v-k-cap-N-v-i-neq-varnothing"><span class="nav-text">case 2: 存在 $v_j,v_k\in V_{i-1} \cap N(v_i), v_k \notin N(v_j)$ 满足 $V_{i-1} \cap N(v_j)\cap N(v_k) \cap N(v_i) \neq \varnothing$</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#证明-2"><span class="nav-text">证明 2.</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引理"><span class="nav-text">引理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义们"><span class="nav-text">定义们</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证明"><span class="nav-text">证明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-text">扩展</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
