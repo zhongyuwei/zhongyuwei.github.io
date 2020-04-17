@@ -50,7 +50,7 @@ D_{i,j} = \begin{cases}
 & \sum_{\{j_1,j_2,\cdots\}\subseteq \{1,2,\cdots k\}} (-1)^{|\{j_1,j_2,\cdots \}|}\\
 = & \sum_{i=0}^{k} \binom{k}{i} (-1)^i\\
 = &(1-1)^{k}
-\end{aligned}</script><p>在 $k&gt;1$ 的时候这个系数为 $0$。</p>
+\end{aligned}</script><p>在 $k&gt;0$ 的时候这个系数为 $0$。</p>
 <h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>这个证明的本质是：枚举所有的 $n$ 号点出度为 $0$、其余点出度为 $1$ 的子图，并说明这其中每个有环的子图贡献系数为 0，无环的子图贡献系数为 1。</p>
 <p>我们可以得到一个更加一般的形式：</p>
 <script type="math/tex; mode=display">

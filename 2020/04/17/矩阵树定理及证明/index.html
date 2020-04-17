@@ -29,7 +29,7 @@
 <meta property="og:description" content="参考资料 OI-wiki(没有证明) 通过 google search 找到的一篇资料  引理">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-17T05:24:57.000Z">
-<meta property="article:modified_time" content="2020-04-17T05:26:02.385Z">
+<meta property="article:modified_time" content="2020-04-17T05:28:11.949Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-17 13:24:57 / Modified: 13:26:02" itemprop="dateCreated datePublished" datetime="2020-04-17T13:24:57+08:00">2020-04-17</time>
+              <time title="Created: 2020-04-17 13:24:57 / Modified: 13:28:11" itemprop="dateCreated datePublished" datetime="2020-04-17T13:24:57+08:00">2020-04-17</time>
             </span>
 
           
@@ -279,7 +279,7 @@ D_{i,j} = \begin{cases}
 & \sum_{\{j_1,j_2,\cdots\}\subseteq \{1,2,\cdots k\}} (-1)^{|\{j_1,j_2,\cdots \}|}\\
 = & \sum_{i=0}^{k} \binom{k}{i} (-1)^i\\
 = &(1-1)^{k}
-\end{aligned}</script><p>在 $k&gt;1$ 的时候这个系数为 $0$。</p>
+\end{aligned}</script><p>在 $k&gt;0$ 的时候这个系数为 $0$。</p>
 <h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>这个证明的本质是：枚举所有的 $n$ 号点出度为 $0$、其余点出度为 $1$ 的子图，并说明这其中每个有环的子图贡献系数为 0，无环的子图贡献系数为 1。</p>
 <p>我们可以得到一个更加一般的形式：</p>
 <script type="math/tex; mode=display">
