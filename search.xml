@@ -13,8 +13,8 @@ Ans\\
 = \sum_{\text{S为符合题意的序列}} \frac{1}{c(S)}\sum_{\text{P是S的循环移位且P是好序列}} val(P)\\
 = 
 \sum_{\text{S为符合题意的序列}} \sum_{\text{P是S的循环移位且P是好序列}} \frac{1}{c(P)} val(P)\\
-= \sum_{P 是符合题意的好序列} \frac{ val(P)}{c(P)} \sum_{S 是 P 的循环移位} 1\\
-= \sum_{P 是符合题意的好序列} \frac{val(P)}{c(P)} |P|
+= \sum_{\text{P 是符合题意的好序列}} \frac{ val(P)}{c(P)} \sum_{\text{S 是 P 的循环移位}} 1\\
+= \sum_{\text{P 是符合题意的好序列}} \frac{val(P)}{c(P)} |P|
 \end{gathered}</script><p>因为序列的长度是固定的，我们只需要统计 $\sum_{\text{P是符合题意的好序列}} \frac{val(P)}{c(P)}$ 就能得到答案。</p>
 <p>将 $a$ 个相同的数字划分成 $b$ 段的所有方案的权值和为</p>
 <script type="math/tex; mode=display">

@@ -29,7 +29,7 @@
 <meta property="og:description" content="Sol定义一个序列是好的，当且仅当它以 $1$ 开始且不以 $1$ 结尾。 任意一个序列 $S$，假设它对应的圆排列中有 $c(S)$ 段 $1$，那么它的循环移位中有 $c(S)$ 个好的序列（这其中可能有相同的好序列）。也就是说，所有的好序列的、等于 $S$ 的循环移位的数量为 $c(S)$。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-22T03:24:16.000Z">
-<meta property="article:modified_time" content="2020-04-22T03:25:55.380Z">
+<meta property="article:modified_time" content="2020-04-22T03:34:27.088Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="杂题">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-22 11:24:16 / Modified: 11:25:55" itemprop="dateCreated datePublished" datetime="2020-04-22T11:24:16+08:00">2020-04-22</time>
+              <time title="Created: 2020-04-22 11:24:16 / Modified: 11:34:27" itemprop="dateCreated datePublished" datetime="2020-04-22T11:24:16+08:00">2020-04-22</time>
             </span>
 
           
@@ -242,8 +242,8 @@ Ans\\
 = \sum_{\text{S为符合题意的序列}} \frac{1}{c(S)}\sum_{\text{P是S的循环移位且P是好序列}} val(P)\\
 = 
 \sum_{\text{S为符合题意的序列}} \sum_{\text{P是S的循环移位且P是好序列}} \frac{1}{c(P)} val(P)\\
-= \sum_{P 是符合题意的好序列} \frac{ val(P)}{c(P)} \sum_{S 是 P 的循环移位} 1\\
-= \sum_{P 是符合题意的好序列} \frac{val(P)}{c(P)} |P|
+= \sum_{\text{P 是符合题意的好序列}} \frac{ val(P)}{c(P)} \sum_{\text{S 是 P 的循环移位}} 1\\
+= \sum_{\text{P 是符合题意的好序列}} \frac{val(P)}{c(P)} |P|
 \end{gathered}</script><p>因为序列的长度是固定的，我们只需要统计 $\sum_{\text{P是符合题意的好序列}} \frac{val(P)}{c(P)}$ 就能得到答案。</p>
 <p>将 $a$ 个相同的数字划分成 $b$ 段的所有方案的权值和为</p>
 <script type="math/tex; mode=display">
