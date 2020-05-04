@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>LOJ3047 「ZJOI2019」浙江省选</title>
+    <url>/2020/05/04/LOJ3047-%E3%80%8CZJOI2019%E3%80%8D%E6%B5%99%E6%B1%9F%E7%9C%81%E9%80%89/</url>
+    <content><![CDATA[<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>能够排名第 $k$ 的一定满足：存在一个 $x$，使得分数比这个人高的人不超过 $k-1$ 个。可以枚举其它的每一个人，然后计算它比这个人优秀的 $x$ 区间，最后检查一下被覆盖次数最小的部分被覆盖了多少次即可。这样是 $O(n^2 \log n)$ 的。</p>
+<p>由于 $m$ 很小，我们考虑对每个 $k\in [1,m]$ 分别求解。假设现在已经求出了排名为 $1$ 到 $k-1$ 的人，则排名为 $k$ 的人一定在剩下的人的半平面交上，并且让它能进队的 $x$ 也一定在半平面交中它贡献的线段上。对其它人求出：对于哪些 $x$，它会比半平面交上对应位置的直线优秀；由于半平面交的形状是个凸壳，所以这样的 $x$ 一定也会构成一个连续区间。而一个人的排名为 $k$ 的条件就是：半平面交中它贡献的线段上，存在整点 $x$，满足 $x$ 只被那些区间覆盖了不到 $k$ 次。时间复杂度 $O(nm\log n)$。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ol>
+<li><p>排名为“分数<strong>严格</strong>大于自己的人数+1”，所以：</p>
+<ol>
+<li>对每个人求出的可以覆盖的 $x$ 区间，其端点是不能取到的</li>
+<li>半平面交中，如果三条直线交于一点，则三条直线都应该保留</li>
+</ol>
+</li>
+<li><p>题目中要求 $x$ 为非负<strong>整数</strong>，所以要特殊判断半平面交中的某条线段上没有整点的情况</p>
+</li>
+<li><p>判断某个人是否排名为 $k$：事先求出所有的被覆盖次数不到 $k$ 的区间（称为好区间），然后检查这些好区间与这个人在半平面交上的区间是否有交，这个可以转化成判断与这个人在半平面交上的区间无交的好区间数量是否等于总数量。</p>
+</li>
+<li><p>（似乎）<code>long double</code> 会精度爆炸，所以用了两个 <code>__int128</code> 来表示一个分数。从 <a href="https://blog.csdn.net/qq_39972971/article/details/92386663" target="_blank" rel="noopener">cz_xuyixuan</a> 的代码中学到了一个很妙的判断直线和凸壳上的点的位置关系的实现：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">frac</span> &#123;</span></span><br><span class="line">	__int128 a,b;</span><br><span class="line">	frac(__int128 a=<span class="number">0</span>,__int128 b=<span class="number">1</span>): a(a),b(b) &#123;&#125;</span><br><span class="line">	<span class="keyword">friend</span> <span class="keyword">bool</span> <span class="keyword">operator</span> &lt;(frac A,frac B) &#123; <span class="keyword">return</span> A.a*B.b &lt; A.b*B.a; &#125;</span><br><span class="line">	<span class="keyword">friend</span> <span class="keyword">bool</span> <span class="keyword">operator</span> &lt;=(frac A,frac B) &#123; <span class="keyword">return</span> A.a*B.b &lt;= A.b*B.a; </span><br><span class="line">&#125;s[N];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Line</span> &#123;</span></span><br><span class="line">	ll k,b;</span><br><span class="line">&#125;q[N],L[N];</span><br><span class="line"><span class="keyword">int</span> tl;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> frac <span class="title">INTER</span><span class="params">(Line A,Line B)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(B.k&gt;A.k) <span class="keyword">return</span> frac(A.b-B.b,B.k-A.k);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">return</span> frac(B.b-A.b,A.k-B.k);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(L[x].k!=L[y].k) <span class="keyword">return</span> L[x].k&lt;L[y].k;</span><br><span class="line">	<span class="keyword">return</span> L[x].b&gt;L[y].b;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// p 为要求半平面交的直线的编号</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">HPI</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;p)</span> </span>&#123;</span><br><span class="line">	sort(p.begin(),p.end(),cmp);</span><br><span class="line">	tl=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.size();++i) &#123;</span><br><span class="line">		Line c=L[p[i]];</span><br><span class="line">		<span class="keyword">if</span>(tl&amp;&amp;c.k==L[p[i<span class="number">-1</span>]].k) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">while</span>(tl&gt;=<span class="number">2</span> &amp;&amp; INTER(q[tl],c)&lt;s[tl]) tl--;</span><br><span class="line">		<span class="keyword">while</span>(tl&gt;=<span class="number">1</span> &amp;&amp; q[tl].b&lt;c.b) tl--;</span><br><span class="line">		q[++tl]=c;</span><br><span class="line">		<span class="keyword">if</span>(tl==<span class="number">1</span>) s[tl]=frac(<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">else</span> s[tl]=INTER(q[tl],q[tl<span class="number">-1</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	s[tl+<span class="number">1</span>]=frac(inf,<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><a href="https://loj.ac/submission/801213" target="_blank" rel="noopener">my submission on loj.ac</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>20200423 SCOI模拟2</title>
     <url>/2020/04/24/20200423-SCOI%E6%A8%A1%E6%8B%9F2/</url>
     <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="Oh, these decrypted content cannot be verified, but you can still have a look.">
