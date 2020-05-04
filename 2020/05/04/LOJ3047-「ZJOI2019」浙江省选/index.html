@@ -29,7 +29,7 @@
 <meta property="og:description" content="题解能够排名第 $k$ 的一定满足：存在一个 $x$，使得分数比这个人高的人不超过 $k-1$ 个。可以枚举其它的每一个人，然后计算它比这个人优秀的 $x$ 区间，最后检查一下被覆盖次数最小的部分被覆盖了多少次即可。这样是 $O(n^2 \log n)$ 的。 由于 $m$ 很小，我们考虑对每个 $k\in [1,m]$ 分别求解。假设现在已经求出了排名为 $1$ 到 $k-1$ 的人，则排名为">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-04T03:24:16.000Z">
-<meta property="article:modified_time" content="2020-05-04T03:24:57.232Z">
+<meta property="article:modified_time" content="2020-05-04T03:27:17.632Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="杂题">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-05-04 11:24:16 / Modified: 11:24:57" itemprop="dateCreated datePublished" datetime="2020-05-04T11:24:16+08:00">2020-05-04</time>
+              <time title="Created: 2020-05-04 11:24:16 / Modified: 11:27:17" itemprop="dateCreated datePublished" datetime="2020-05-04T11:24:16+08:00">2020-05-04</time>
             </span>
 
           
@@ -234,7 +234,7 @@
       
         <h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>能够排名第 $k$ 的一定满足：存在一个 $x$，使得分数比这个人高的人不超过 $k-1$ 个。可以枚举其它的每一个人，然后计算它比这个人优秀的 $x$ 区间，最后检查一下被覆盖次数最小的部分被覆盖了多少次即可。这样是 $O(n^2 \log n)$ 的。</p>
 <p>由于 $m$ 很小，我们考虑对每个 $k\in [1,m]$ 分别求解。假设现在已经求出了排名为 $1$ 到 $k-1$ 的人，则排名为 $k$ 的人一定在剩下的人的半平面交上，并且让它能进队的 $x$ 也一定在半平面交中它贡献的线段上。对其它人求出：对于哪些 $x$，它会比半平面交上对应位置的直线优秀；由于半平面交的形状是个凸壳，所以这样的 $x$ 一定也会构成一个连续区间。而一个人的排名为 $k$ 的条件就是：半平面交中它贡献的线段上，存在整点 $x$，满足 $x$ 只被那些区间覆盖了不到 $k$ 次。时间复杂度 $O(nm\log n)$。</p>
-<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><ol>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><ol>
 <li><p>排名为“分数<strong>严格</strong>大于自己的人数+1”，所以：</p>
 <ol>
 <li>对每个人求出的可以覆盖的 $x$ 区间，其端点是不能取到的</li>
@@ -348,7 +348,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题解"><span class="nav-text">题解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题解"><span class="nav-text">题解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
