@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>关于Burnside Lemma的证明</title>
+    <url>/2020/05/06/%E5%85%B3%E4%BA%8EBurnside-Lemma%E7%9A%84%E8%AF%81%E6%98%8E/</url>
+    <content><![CDATA[<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://tgsteven.github.io/2018/07/10/2018-07-10-polya/" target="_blank" rel="noopener">TGSteven 的博客</a>（那篇博客现在已经被TGSteven删掉了）</li>
+<li><a href="https://en.wikipedia.org/wiki/Burnside&#39;s_lemma" target="_blank" rel="noopener">wikipedia: Burside’s lemma</a></li>
+</ul>
+<h3 id="轨道-orbit"><a href="#轨道-orbit" class="headerlink" title="轨道 orbit"></a>轨道 orbit</h3><p>我们记$X$中的元素$x$在置换群$G$作用下的轨道为：</p>
+<script type="math/tex; mode=display">
+G\cdot x = \{ g\cdot x \mid g\in G\}</script><p>那么，$x$的轨道中的所有元素一定和$x$属于同一个等价类，并且不在$x$的轨道中的元素一定不与$x$属于同一个等价类。比如说，$2$种颜色的珠子串长度为$4$的项链，允许旋转，那么0101和1010都是0101的轨道中的元素。又比如给$2\times 2$的方格涂色，允许进行旋转，那么$\begin{matrix} 1&amp; 0 \ 0 &amp; 1\end{matrix}$的轨道中的元素有$\begin{matrix} 1&amp; 0 \ 0 &amp; 1\end{matrix}$和$\begin{matrix} 0&amp; 1 \ 1 &amp; 0\end{matrix}$。一个元素的轨道，就是它在$G$的作用下能够得到的元素组成的集合。</p>
+<p>定义一个集合$X$的轨道是所有元素的轨道的集合，记为$X/G$。实际上，一个轨道就是我们之前提到的一个等价类。</p>
+<hr>
+<h3 id="不动点与稳定子集"><a href="#不动点与稳定子集" class="headerlink" title="不动点与稳定子集"></a>不动点与稳定子集</h3><p>定义一个置换$g$的不动点为：</p>
+<script type="math/tex; mode=display">
+X^g=\{ x\in X \mid g\cdot x=x\}</script><p>定义$X$中的一个元素$x$的稳定子集为：</p>
+<script type="math/tex; mode=display">
+G_x = \{g\in G\mid g\cdot x=x\}</script><hr>
+<h3 id="证明orbit-stabilizer-theorem（口胡）"><a href="#证明orbit-stabilizer-theorem（口胡）" class="headerlink" title="证明orbit-stabilizer theorem（口胡）"></a>证明orbit-stabilizer theorem（口胡）</h3><blockquote>
+<p>orbit-stabilizer theorem：一个元素的轨道中的元素数量与这个元素的稳定子集的大小的乘积等于置换群中置换的数量，即$\forall x\in X,| G\cdot x|\cdot |G_x| = |G|$</p>
+</blockquote>
+<p>限于本人的水平，以下内容是在阅读了若干资料之后用口水话胡的。</p>
+<p>对于一个元素$x$，我们可以将$G$中的置换分为两类，一类是$G_x$中的，一类是不属于$G_x$的。那么对于$x$的轨道中的所有元素，这个“分类”的结果是一样的。即对于一个置换$g$，如果$g\cdot x=x$，那么$\forall x’\in G\cdot x,g\cdot x’=x’$；如果$g\cdot x\not= x$，那么$\forall x’\in G\cdot x,g\cdot x’\not =x’$。</p>
+<p>一个置换作用在$x$上，得到的结果一定在$x$的轨道中。那么任意一个置换，它可以表达为：$x$的轨道中的一个元素在$G_x$中的一个置换下得到的结果。并且，“$x$的轨道中的一个元素在$G_x$中的一个置换下得到的结果”和“$G$中的一个置换”，这两者是一一对应的关系。因此，$|G\cdot x|\cdot |G_x|=|G|$。</p>
+<p>这也就是为什么我们要求置换构成群：这个定理成立的前提是置换结合满足封闭性。如果从$x$到达“$x$的轨道中的一个元素在$G_x$中的一个置换下得到的结果”这个置换不在$G$中，那么在计数的时候就会出错。</p>
+<hr>
+<h3 id="证明Burnside-Lemma"><a href="#证明Burnside-Lemma" class="headerlink" title="证明Burnside Lemma"></a>证明Burnside Lemma</h3><blockquote>
+<p>Burnside Lemma：一个集合$X$在置换群$G$作用下的等价类（轨道）的数量，等于$G$中每一个置换的不动点的数量的平均值。即$|X/G|={1\over |G|}\sum_{g\in G}|X^g|$</p>
+</blockquote>
+<p>首先，显然有</p>
+<script type="math/tex; mode=display">
+\sum_{g\in G}|X^g| = \sum_{x\in X} |G_x| \tag{1}</script><p>考虑某一个轨道$G\cdot x$，轨道中的每一个元素的轨道都是$G\cdot x$，每一个元素对$(1)$的贡献是$|G_x|$，所以每一个轨道对$(1)$的贡献就是$|G\cdot x|\cdot |G_x| = |G|$（轨道稳定定理）。也就是说每个轨道对$(1)$的贡献是一样的。</p>
+<p>由于轨道的数量为 $|X/G|$，故而 $\sum_{g\in G}|X^g| = |G||X/G|$，即$\frac{1}{|G|} \sum_{g\in G} |X^g| = |X/G|$。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LOJ3047 「ZJOI2019」浙江省选</title>
     <url>/2020/05/04/LOJ3047-%E3%80%8CZJOI2019%E3%80%8D%E6%B5%99%E6%B1%9F%E7%9C%81%E9%80%89/</url>
     <content><![CDATA[<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>能够排名第 $k$ 的一定满足：存在一个 $x$，使得分数比这个人高的人不超过 $k-1$ 个。可以枚举其它的每一个人，然后计算它比这个人优秀的 $x$ 区间，最后检查一下被覆盖次数最小的部分被覆盖了多少次即可。这样是 $O(n^2 \log n)$ 的。</p>
