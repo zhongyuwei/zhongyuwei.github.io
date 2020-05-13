@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CF516E Drazil and His Happy Friends</title>
+    <url>/2020/05/13/CF516E-Drazil-and-His-Happy-Friends/</url>
+    <content><![CDATA[<p>如果 $n\not \perp m$，则只有编号 $\bmod \{\gcd(n,m)\}$ 同余的编号才会互相影响，对每组同余的编号单独求解（相当于转化成了 $n\perp m$ 的问题）取最大值即可。</p>
+<p>以下只考虑 $n\perp m$ 的情况。</p>
+<p>观察：</p>
+<ul>
+<li><p>如果在 $t$ 时刻，第 $i$ 个男生让第 $j$ 个女生变得快乐了，那么第 $t+n$ 时刻第 $i$ 个男生会让第 $j+n \bmod m$ 个女生变得快乐。不妨看作，如果 $j$ 这个女生在 $t$ 这个时刻变得快乐了，那么她会让第 $j+n\bmod m$ 个女生在 $t+n$ 时刻变得快乐。男生同理。</p>
+</li>
+<li><p>如果男生 $i$ 是被某个女生 $j$ 变快乐的，那么未来的时间里，被这个男生变快乐的女生都可以用前文的方法看作是被 $j$ 变快乐的女生。换而言之，初始的时候不快乐的男生，对于女生们来说是没有用的。初始时不快乐的女生同理。</p>
+</li>
+</ul>
+<p>所以，计算每个人最早什么时候变快乐，只需要考虑以下两种情况：</p>
+<ol>
+<li>男生 / 女生 $i$ 在 $t$ 时刻变快乐了，那么男生 $i+m\bmod n$ / 女生 $i+n\bmod m$ 会在 $t+m$ / $t+n$ 时刻变快乐</li>
+<li>男生 / 女生 $i$ 在初始时是快乐的，他 / 她会在时刻 $i$ 让女生 $i\bmod m$ / 男生 $i\bmod n$ 变得快乐</li>
+</ol>
+<p>第一种情况中，考虑女生，可以看出这样的“路径”会形成一个环（$i \to i+n\bmod m \to i+2n \bmod m \cdots$）。按照点在环上的出现位置重编号，令原来的 $0$ 重标号后的编号为 $0$，则原来的 $i$ 重编号后的编号为 $i \cdot n^{-1} \bmod m$。令环上第二种情况涉及到的点和初始时开心的点为关键点，发现每个关键点能贡献到的一定是重标号后的环上以它开头的一段区间。直接计算每个关键点能贡献到的区间中最晚的变开心的时间即可。注意如果关键点是第二种情况造成的，则关键点变开心的时间也要计入答案。男生同理。</p>
+<p><a href="https://codeforces.com/contest/516/submission/79937328" target="_blank" rel="noopener">my submission on codeforces.com</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HDU6309 Absolute</title>
     <url>/2020/05/11/HDU6309-Absolute/</url>
     <content><![CDATA[<h2 id="做法-1：容斥"><a href="#做法-1：容斥" class="headerlink" title="做法 1：容斥"></a>做法 1：容斥</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>参考 <a href="https://blog.csdn.net/qq_33229466/article/details/99415814" target="_blank" rel="noopener">SFN1036的博客</a>。</p>
