@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Atcoder Panasonic Programming Contest 2020 F Fractal Shortest Path</title>
+    <url>/2020/05/18/Atcoder-Panasonic-Programming-Contest-2020-F-Fractal-Shortest-Path/</url>
+    <content><![CDATA[<h2 id="observation"><a href="#observation" class="headerlink" title="observation"></a>observation</h2><p> 阶分形的第一列、最后一列、第一行、最后一行都是白色的格子。</p>
+<h2 id="lemma"><a href="#lemma" class="headerlink" title="lemma"></a>lemma</h2><p>对于一个  阶分形，从其中的任意一个点走到这个分形的右下角的最短路长度为这两个点的曼哈顿距离。</p>
+<p>证明：考虑归纳，对于  显然成立；当结论对于  成立时，构造  阶分形中的行走方案：先走到点所属的  阶分形的右下角，然后沿着其它  阶分形的边缘走过去即可。</p>
+<h2 id="solution"><a href="#solution" class="headerlink" title="solution"></a>solution</h2><p>将当前的图分为八个部分：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A B C</span><br><span class="line">D x E</span><br><span class="line">F G H</span><br></pre></td></tr></table></figure>
+<p>如果两个点不在同一行或者同一列，那么它们之间的最短路就是它们之间的曼哈顿距离（与 lemma 证明类似构造）。</p>
+<p>如果两个点都在 <code>B x G</code> 这一列或者都在 <code>D x E</code> 这一行（以 <code>B x G</code> 为例）：最短路径要么是（起点 -&gt; B 的左下角 -&gt; G 的左上角 -&gt; 终点），要么是（起点 -&gt; B 的右下角 -&gt; G 的右上角 -&gt; 终点）。可以直接算出来。</p>
+<p>否则两个点在同一行或者同一列，并且之间全部是  阶分形。递归下去做即可。</p>
+<p>为了减少讨论量，可以在初始的时候令点的横坐标绝对值之差大于纵坐标绝对值之差。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><p><a href="https://atcoder.jp/contests/panasonic2020/submissions/13379144" target="_blank" rel="noopener">link</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CF516E Drazil and His Happy Friends</title>
     <url>/2020/05/13/CF516E-Drazil-and-His-Happy-Friends/</url>
     <content><![CDATA[<p>如果 $n\not \perp m$，则只有编号 $\bmod \{\gcd(n,m)\}$ 同余的编号才会互相影响，对每组同余的编号单独求解（相当于转化成了 $n\perp m$ 的问题）取最大值即可。</p>
