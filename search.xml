@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Atcoder Social Infrastructure Information Systems Division, Hitachi Programming Contest 2020 D Manga Market</title>
+    <url>/2020/05/19/Atcoder-Social-Infrastructure-Information-Systems-Division-Hitachi-Programming-Contest-2020-D-Manga-Market/</url>
+    <content><![CDATA[<h2 id="D-Manga-Market"><a href="#D-Manga-Market" class="headerlink" title="D - Manga Market"></a>D - Manga Market</h2><p>稍微转化一下题目：</p>
+<ol>
+<li>把在商店之间行走的时间加到 $b_i$ 里面（也就是让所有的 $b_i$ 自增 1）；由于最后一次购物之后不需要走到别的商店去，所以这样算出来的所需时间会多 1，所以让 $T$ 相应地加 1。</li>
+<li>令 $t$ 为当前已经花费的时间，发现 $t’=t+ at + b =(a+1)t+b$，所以令 $a_i$ 自增 1；这样转化以后，已经用了 $t$ 时间后再在第 $i$ 家商店购物，结束的时间恰为 $a_it + b_i$。</li>
+</ol>
+<p>考虑如果我们已经知道了在要在哪些商店购物，如何确定购物所需的最小时间：假设最优的购物顺序是第 $i$ 次去商店 $p_i$，则</p>
+<script type="math/tex; mode=display">
+\begin{gathered}a_{p_{i+1}} ( a_{p_i} t + b_{p_i}) + b_{p_{i+1}} < a_{p_i} ( a_{p_{i+1}} t + b_{p_{i+1}}) + b_{p_i}\\\Rightarrow a_{p_{i+1}} b_{p_i} + b_{p_{i+1}} < a_{p_i} b_{p_{i+1}} + b_{p_i}\\\Rightarrow (a_{p_{i+1}} - 1)b_{p_i} < (a_{p_i}-1)b_{p_{i+1}}\\\Rightarrow \frac{a_{p_{i+1}} - 1}{b_{p_{i+1}}} < \frac{a_{p_i}-1}{b_{p_i}}\end{gathered}</script><p>所以最优的购物顺序一定是按照 $\frac{a_i - 1}{b_i}$ 降序。</p>
+<p>不妨将所有的商店按照 $\frac{a_i - 1}{b_i}$ 排序，然后进行 dp。设 $f_{i,j}$ 表示考虑完前 $i$ 家店，在 $j$ 家店购物所需的最小时间，然后直接枚举第 $i+1$ 个商店选或者不选转移即可。时间复杂度 $O(N^2)$。</p>
+<p>注意到如果所有的 $a_i$ 都大于 $1$，那么 $j$ 取值不超过 $\lfloor \log_2 T \rfloor$。所以可以对 $a_i &gt; 1$ 的商店单独 dp，对于 $a_i = 1$ 的商店直接贪心取 $b_i$ 最小的即可。</p>
+<p>时间复杂度 $O(N\log T)$。</p>
+<p><a href="https://atcoder.jp/contests/hitachi2020/submissions/13398909" target="_blank" rel="noopener">my submission</a></p>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Atcoder Panasonic Programming Contest 2020 F Fractal Shortest Path</title>
     <url>/2020/05/18/Atcoder-Panasonic-Programming-Contest-2020-F-Fractal-Shortest-Path/</url>
     <content><![CDATA[<h2 id="observation"><a href="#observation" class="headerlink" title="observation"></a>observation</h2><p> 阶分形的第一列、最后一列、第一行、最后一行都是白色的格子。</p>

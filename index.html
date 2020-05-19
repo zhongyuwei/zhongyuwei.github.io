@@ -187,6 +187,78 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/05/19/Atcoder-Social-Infrastructure-Information-Systems-Division-Hitachi-Programming-Contest-2020-D-Manga-Market/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/19/Atcoder-Social-Infrastructure-Information-Systems-Division-Hitachi-Programming-Contest-2020-D-Manga-Market/" class="post-title-link" itemprop="url">Atcoder Social Infrastructure Information Systems Division, Hitachi Programming Contest 2020 D Manga Market</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-19 16:42:44 / Modified: 16:44:40" itemprop="dateCreated datePublished" datetime="2020-05-19T16:42:44+08:00">2020-05-19</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="D-Manga-Market"><a href="#D-Manga-Market" class="headerlink" title="D - Manga Market"></a>D - Manga Market</h2><p>稍微转化一下题目：</p>
+<ol>
+<li>把在商店之间行走的时间加到 $b_i$ 里面（也就是让所有的 $b_i$ 自增 1）；由于最后一次购物之后不需要走到别的商店去，所以这样算出来的所需时间会多 1，所以让 $T$ 相应地加 1。</li>
+<li>令 $t$ 为当前已经花费的时间，发现 $t’=t+ at + b =(a+1)t+b$，所以令 $a_i$ 自增 1；这样转化以后，已经用了 $t$ 时间后再在第 $i$ 家商店购物，结束的时间恰为 $a_it + b_i$。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/19/Atcoder-Social-Infrastructure-Information-Systems-Division-Hitachi-Programming-Contest-2020-D-Manga-Market/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/05/18/Atcoder-Panasonic-Programming-Contest-2020-F-Fractal-Shortest-Path/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -812,76 +884,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/18/LOJ3056-%E3%80%8CHNOI2019%E3%80%8D%E5%A4%9A%E8%BE%B9%E5%BD%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/18/LOJ3056-%E3%80%8CHNOI2019%E3%80%8D%E5%A4%9A%E8%BE%B9%E5%BD%A2/" class="post-title-link" itemprop="url">LOJ3056 「HNOI2019」多边形</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-04-18 14:05:41 / Modified: 14:06:01" itemprop="dateCreated datePublished" datetime="2020-04-18T14:05:41+08:00">2020-04-18</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://loj.ac/submission/790203" target="_blank" rel="noopener">my submission on loj.ac</a></p>
-<p>对于一个已经无法继续旋转的多边形，我们考虑它上面的一个四边形，其顶点依次为 $A,B,C,D$（$O$ 点表示多边形的 $1$ 号顶点）：</p>
-<p><img src="https://i.loli.net/2020/04/18/rAujCUZgbMqxNYH.jpg" alt="0.jpg"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/18/LOJ3056-%E3%80%8CHNOI2019%E3%80%8D%E5%A4%9A%E8%BE%B9%E5%BD%A2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -954,7 +956,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
