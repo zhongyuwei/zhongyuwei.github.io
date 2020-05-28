@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>拉格朗日插值练习题</title>
+    <url>/2020/05/28/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC%E7%BB%83%E4%B9%A0%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="luogu-P5437-【XR-2】约定"><a href="#luogu-P5437-【XR-2】约定" class="headerlink" title="luogu P5437 【XR-2】约定"></a>luogu P5437 【XR-2】约定</h2><p>考虑每条边的贡献。所有生成树的边数和为 $n^{n-2} \cdot (n-1)$，原图中的边数为 $\frac{n(n-1)}{2}$，因为原图中每条边在最终的树中出现的概率是相同的，所以某条边出现在生成树中的概率为 $\frac{\frac{n^{n-2} \cdot (n-1)}{\frac{n(n-1)}{2}}}{n^{n-2}} = \frac{2}{n}$。</p>
+<p>所以</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+Ans = \frac{2}{n} \sum_{i=1}^n \sum_{j=1}^{i-1} (i+j)^k\\
+= \frac{1}{n}\left(\sum_{i=1}^n \sum_{j=1}^n (i+j)^k - \sum_{i=1}^n (i+i)^k\right)
+\end{gathered}</script><p>$\sum_{i=1}^n (2i)^k = 2^k \sum_{i=1}^n i^k$ 可以一次拉格朗日插值求出来。</p>
+<p>可以证明 $f(n) = \sum_{i=1}^n \sum_{j=1}^n (i+j)^k$ 是一个关于 $n$ 的 $k+2$ 次多项式。</p>
+<p>方法 1：$\sum_{t=0}^k \binom{k}{t} \left(\sum_{i=1}^n i^t\right) \left( \sum_{j=1}^n j^{k-t}\right)$，一个 $t+1$ 次多项式和 $k-t+1$ 次多项式相乘后为 $k+2$ 次多项式，求和后仍为 $k+2$ 次多项式。</p>
+<p>方法 2：做差，分析得知 $f(n) - f(n-1)$ 是个 $k+1$ 次多项式。</p>
+<p>最后的问题是如何算出 $f(1),f(2),\cdots f(k+3)$。</p>
+<p>枚举 $u = i+j$，则合法的 $i$ 必须满足 $1\le i\le n, 1\le u-i \le n$。讨论一下可知</p>
+<script type="math/tex; mode=display">
+f(n) = \sum_{u=1}^n u^k (u-1) + \sum_{u=n+1}^{2n} u^k (2n-u+1)</script><p>预处理 $i^k$ 的前缀和即可。</p>
+<h2 id="BZOJ4559-luogu-P3270-JLOI2016-成绩比较"><a href="#BZOJ4559-luogu-P3270-JLOI2016-成绩比较" class="headerlink" title="BZOJ4559 / luogu P3270 [JLOI2016]成绩比较"></a>BZOJ4559 / luogu P3270 [JLOI2016]成绩比较</h2><p>考虑求出 $F(x)$ 表示钦定 $x$ 个同学被碾压，此时给所有人赋分使得 B 神的排名符合题意的方案数。</p>
+<script type="math/tex; mode=display">
+F(x) = \prod_{i=1}^M \left(\binom{N-x}{R_i - x} \cdot \sum_{j=1}^{U_i} j^{N-R_i}(U_i-j)^{R_i-1}\right)</script><p>则由二项式反演知答案为 $\sum_{x=K}^N \binom{x}{K}(-1)^{x-K} F(x)$。</p>
+<p>可以看出 $\sum_{j=1}^{U_i} j^{N-R_i}(U_i-j)^{R_i-1}$ 是一个关于 $U_i$ 的 $N$ 次多项式，可以用拉格朗日插值算。</p>
+<p>总时间复杂度 $O(MN^2)$。</p>
+<h2 id="BZOJ2655-luogu-P4463-集训队互测2012-calc"><a href="#BZOJ2655-luogu-P4463-集训队互测2012-calc" class="headerlink" title="BZOJ2655 / luogu P4463 [集训队互测2012] calc"></a>BZOJ2655 / luogu P4463 [集训队互测2012] calc</h2><p>钦定 $a_1 &lt; a_2 &lt; \cdots &lt; a_n$ 算答案，最后乘上一个 $n!$ 即可。</p>
+<p>设 $f_{i,j}$ 表示：考虑了前 $i$ 个数，最大的数为 $j$，所有方案的权值和。</p>
+<p>则 $f_{i,j} = \sum_{k&lt;j} f_{i-1,k} \cdot j$。</p>
+<p>注意到，如果 $f_{i,j}$ 是个关于 $j$ 的 $p$ 次多项式，则 $f_{i,j} \cdot j$ 是个关于 $j$ 的 $p+1$ 次多项式，$\sum_{k &lt; j} f_{i,k}$ 是个关于 $j$ 的 $p+1$ 次多项式。</p>
+<p>所以 $f_{n,j}$ 是个关于 $j$ 的 $2n+1$ 次多项式。</p>
+<p>直接 dp + 拉格朗日插值，可以做到 $O(n^2)$。</p>
+<h2 id="luogu-P5850-calc加强版"><a href="#luogu-P5850-calc加强版" class="headerlink" title="luogu P5850 calc加强版"></a>luogu P5850 calc加强版</h2><p>考虑答案关于 $n$ 的生成函数</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+F(x) = \prod_{i=1}^A (1+ix)\\
+= \exp\left( \sum_{i=1}^A \ln\left(1+ix\right) \right)\\
+= \exp\left( \sum_{i=1}^A \sum_{j=1}^\infty \frac{(ix)^j (-1)^{j+1}}{j} \right)\\
+= \exp\left(\sum_{j=1}^\infty \frac{x^j(-1)^{j+1}}{j} \sum_{i=1}^A i^j\right)\\
+\end{gathered}</script><p>剩下的问题就是对每个 $j$ 算 $\sum_{i=1}^A i^j$：</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\sum_{i=0}^\infty \frac{x^i}{i!} \sum_{j=0}^A j^i\\
+= \sum_{j=0}^A \frac{x^i j^i}{i!}\\
+= \sum_{j=0}^A e^{jx}\\
+= \frac{e^{(A+1)x} - 1}{e^x - 1}
+\end{gathered}</script><p>复杂度 $O(n\log n)$，需要卡常。</p>
+<p><del>所以拉格朗日插值有什么用呢？</del></p>
+<h2 id="BZOJ3453-tyvj-1858-XLkxc"><a href="#BZOJ3453-tyvj-1858-XLkxc" class="headerlink" title="BZOJ3453 tyvj 1858 XLkxc"></a>BZOJ3453 tyvj 1858 XLkxc</h2><p>$f(n) = \sum_{i=1}^n i^k$ 是关于 $n$ 的 $k+1$ 次多项式；</p>
+<p>所以 $g(n) = \sum_{i=1}^n f(i)$ 是关于 $n$ 的 $k+2$ 次多项式。</p>
+<p>注意到 $h(n) = g(a+nd)$ 仍然是关于 $n$ 的 $k+2$ 次多项式。</p>
+<p>所以 $p(n) = \sum_{i=0}^n h(n)$ 是关于 $n$ 的 $k+3$ 次多项式。</p>
+<p>拉格朗日插值即可，复杂度大约 $O(k^2)$。</p>
+]]></content>
+      <tags>
+        <tag>专题练习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Atcoder Social Infrastructure Information Systems Division, Hitachi Programming Contest 2020 D Manga Market</title>
     <url>/2020/05/19/Atcoder-Social-Infrastructure-Information-Systems-Division-Hitachi-Programming-Contest-2020-D-Manga-Market/</url>
     <content><![CDATA[<h2 id="D-Manga-Market"><a href="#D-Manga-Market" class="headerlink" title="D - Manga Market"></a>D - Manga Market</h2><p>稍微转化一下题目：</p>

@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="my AC submission on loj.ac my O((R-L)n) solution on loj.ac 参考了memset0的博客和fcwww的博客  设 $W$ 为初始根节点的权值。由于每个叶子的权值互不相同，所以 $W$ 来自的叶子结点唯一。 改变 $W$ 的策略有以下三种：">
+  <meta name="description" content="luogu P5437 【XR-2】约定考虑每条边的贡献。所有生成树的边数和为 $n^{n-2} \cdot (n-1)$，原图中的边数为 $\frac{n(n-1)}{2}$，因为原图中每条边在最终的树中出现的概率是相同的，所以某条边出现在生成树中的概率为 $\frac{\frac{n^{n-2} \cdot (n-1)}{\frac{n(n-1)}{2}}}{n^{n-2}} &#x3D; \frac{">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LOJ3044 「ZJOI2019」Minimax 搜索">
-<meta property="og:url" content="http://zhongyuwei.github.io/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/index.html">
+<meta property="og:title" content="拉格朗日插值练习题">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/05/28/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC%E7%BB%83%E4%B9%A0%E9%A2%98/index.html">
 <meta property="og:site_name" content="zhongyuwei&#39;s blog">
-<meta property="og:description" content="my AC submission on loj.ac my O((R-L)n) solution on loj.ac 参考了memset0的博客和fcwww的博客  设 $W$ 为初始根节点的权值。由于每个叶子的权值互不相同，所以 $W$ 来自的叶子结点唯一。 改变 $W$ 的策略有以下三种：">
+<meta property="og:description" content="luogu P5437 【XR-2】约定考虑每条边的贡献。所有生成树的边数和为 $n^{n-2} \cdot (n-1)$，原图中的边数为 $\frac{n(n-1)}{2}$，因为原图中每条边在最终的树中出现的概率是相同的，所以某条边出现在生成树中的概率为 $\frac{\frac{n^{n-2} \cdot (n-1)}{\frac{n(n-1)}{2}}}{n^{n-2}} &#x3D; \frac{">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-04-10T15:27:33.000Z">
-<meta property="article:modified_time" content="2020-04-10T15:27:52.574Z">
+<meta property="article:published_time" content="2020-05-28T09:11:24.000Z">
+<meta property="article:modified_time" content="2020-05-28T09:11:56.052Z">
 <meta property="article:author" content="zhongyuwei">
-<meta property="article:tag" content="杂题">
+<meta property="article:tag" content="专题练习">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://zhongyuwei.github.io/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/">
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/05/28/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC%E7%BB%83%E4%B9%A0%E9%A2%98/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>LOJ3044 「ZJOI2019」Minimax 搜索 | zhongyuwei's blog</title>
+  <title>拉格朗日插值练习题 | zhongyuwei's blog</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/05/28/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC%E7%BB%83%E4%B9%A0%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LOJ3044 「ZJOI2019」Minimax 搜索
+          拉格朗日插值练习题
         </h1>
 
         <div class="post-meta">
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-10 23:27:33 / Modified: 23:27:52" itemprop="dateCreated datePublished" datetime="2020-04-10T23:27:33+08:00">2020-04-10</time>
+              <time title="Created: 2020-05-28 17:11:24 / Modified: 17:11:56" itemprop="dateCreated datePublished" datetime="2020-05-28T17:11:24+08:00">2020-05-28</time>
             </span>
 
           
@@ -232,46 +232,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
-<li><a href="https://loj.ac/submission/784365" target="_blank" rel="noopener">my AC submission on loj.ac</a></li>
-<li><a href="https://loj.ac/submission/784068" target="_blank" rel="noopener">my O((R-L)n) solution on loj.ac</a></li>
-<li>参考了<a href="https://memset0.cn/luogu5281" target="_blank" rel="noopener">memset0的博客</a>和<a href="https://www.cnblogs.com/suika/p/10725476.html" target="_blank" rel="noopener">fcwww的博客</a></li>
-</ul>
-<p>设 $W$ 为初始根节点的权值。由于每个叶子的权值互不相同，所以 $W$ 来自的叶子结点唯一。</p>
-<p>改变 $W$ 的策略有以下三种：</p>
-<ol>
-<li>直接改变 $W$ 这个叶子的权值</li>
-<li>不改变 $W$ 这个叶子的权值，把若干小于 $W$ 的叶子的权值改得大于 $W$，使得根节点的权值变得大于 $W$</li>
-<li>不改变 $W$ 这个叶子的权值，把若干大于 $W$ 的叶子的权值改得小于 $W$，使得根节点的权值变得小于 $W$</li>
-</ol>
-<p>在可以采用第一种策略的时候 Cedyks 一定会采用第一种策略，因为把 $W$ 改成 $W-1$ 或者 $W+1$ 的花费仅为 $1$。所以，任何的包含 $W$ 这个叶子的集合，其稳定度都为 $1$。接下来我们只考虑不包含 $W$ 的集合。</p>
-<p>如果采用第二种策略，最优的方法一定是把若干个小于 $W$ 的叶子改成 $W+1$；如果采用第三种策略，最优的方法一定是把若干个大于 $W$ 的叶子改成 $W-1$。（你可以把叶子结点的权值根据与 $W$ 的大小关系替换成 -1/0/1 然后 dp 以判断根节点的值是否被改变了）</p>
-<p>差分一下答案，转化成对于 $k\in [L-1,\min\{n-1,R\}]$，求稳定度小于等于 $k$ 的子集数量。由于子集总数很好求，可以转化成有多少个集合 $S$ 满足：设 $T= S\cap ([W+1-k,W)\cup (W,W-1+k])$，将 $T$ 中所有小于 $W$ 的叶子的权值改成 $W+1$，所有大于 $W$ 的叶子改成 $W-1$，根节点的权值没有改变；也就是 $S$ 的稳定度大于 $k$。</p>
-<p>为了式子推起来更简洁，把方案数转化成概率，即：除 $W$ 以外的每个叶子均有 $\frac{1}{2}$ 的概率 $\in S$，有 $\frac{1}{2}$ 的概率 $\notin S$，求根节点权值被改变了的概率。</p>
-<p>显然第二种策略和第三种策略牵涉到的点是独立的，我们可以分别计算这两种策略无法改变根节点权值的概率，最后乘起来。</p>
-<p>两者的计算方式是相似的，下面以第二种策略为例。</p>
-<p>设 $f_u$ 为：将集合内所有在 $\left[W+1-k,W\right)$ 中的点改成 $W+1$，可以使得 $w_u &gt; W$ 的概率。</p>
-<p>对于叶子结点，如果它在 $\left[W+1-k,W\right)$ 内，那么 $f_u= \frac{1}{2}$；否则 $f_u = [u&gt;W]$。</p>
-<p>对于非叶子结点有</p>
+        <h2 id="luogu-P5437-【XR-2】约定"><a href="#luogu-P5437-【XR-2】约定" class="headerlink" title="luogu P5437 【XR-2】约定"></a>luogu P5437 【XR-2】约定</h2><p>考虑每条边的贡献。所有生成树的边数和为 $n^{n-2} \cdot (n-1)$，原图中的边数为 $\frac{n(n-1)}{2}$，因为原图中每条边在最终的树中出现的概率是相同的，所以某条边出现在生成树中的概率为 $\frac{\frac{n^{n-2} \cdot (n-1)}{\frac{n(n-1)}{2}}}{n^{n-2}} = \frac{2}{n}$。</p>
+<p>所以</p>
 <script type="math/tex; mode=display">
 \begin{gathered}
-f_u = \begin{cases}
-\prod_{x\in son_u} f_v & 2\mid dep_u\\
-1- \prod_{x\in son_u} (1-f_v) & 2\nmid dep_u
-\end{cases}
-\end{gathered}</script><p>设</p>
+Ans = \frac{2}{n} \sum_{i=1}^n \sum_{j=1}^{i-1} (i+j)^k\\
+= \frac{1}{n}\left(\sum_{i=1}^n \sum_{j=1}^n (i+j)^k - \sum_{i=1}^n (i+i)^k\right)
+\end{gathered}</script><p>$\sum_{i=1}^n (2i)^k = 2^k \sum_{i=1}^n i^k$ 可以一次拉格朗日插值求出来。</p>
+<p>可以证明 $f(n) = \sum_{i=1}^n \sum_{j=1}^n (i+j)^k$ 是一个关于 $n$ 的 $k+2$ 次多项式。</p>
+<p>方法 1：$\sum_{t=0}^k \binom{k}{t} \left(\sum_{i=1}^n i^t\right) \left( \sum_{j=1}^n j^{k-t}\right)$，一个 $t+1$ 次多项式和 $k-t+1$ 次多项式相乘后为 $k+2$ 次多项式，求和后仍为 $k+2$ 次多项式。</p>
+<p>方法 2：做差，分析得知 $f(n) - f(n-1)$ 是个 $k+1$ 次多项式。</p>
+<p>最后的问题是如何算出 $f(1),f(2),\cdots f(k+3)$。</p>
+<p>枚举 $u = i+j$，则合法的 $i$ 必须满足 $1\le i\le n, 1\le u-i \le n$。讨论一下可知</p>
+<script type="math/tex; mode=display">
+f(n) = \sum_{u=1}^n u^k (u-1) + \sum_{u=n+1}^{2n} u^k (2n-u+1)</script><p>预处理 $i^k$ 的前缀和即可。</p>
+<h2 id="BZOJ4559-luogu-P3270-JLOI2016-成绩比较"><a href="#BZOJ4559-luogu-P3270-JLOI2016-成绩比较" class="headerlink" title="BZOJ4559 / luogu P3270 [JLOI2016]成绩比较"></a>BZOJ4559 / luogu P3270 [JLOI2016]成绩比较</h2><p>考虑求出 $F(x)$ 表示钦定 $x$ 个同学被碾压，此时给所有人赋分使得 B 神的排名符合题意的方案数。</p>
+<script type="math/tex; mode=display">
+F(x) = \prod_{i=1}^M \left(\binom{N-x}{R_i - x} \cdot \sum_{j=1}^{U_i} j^{N-R_i}(U_i-j)^{R_i-1}\right)</script><p>则由二项式反演知答案为 $\sum_{x=K}^N \binom{x}{K}(-1)^{x-K} F(x)$。</p>
+<p>可以看出 $\sum_{j=1}^{U_i} j^{N-R_i}(U_i-j)^{R_i-1}$ 是一个关于 $U_i$ 的 $N$ 次多项式，可以用拉格朗日插值算。</p>
+<p>总时间复杂度 $O(MN^2)$。</p>
+<h2 id="BZOJ2655-luogu-P4463-集训队互测2012-calc"><a href="#BZOJ2655-luogu-P4463-集训队互测2012-calc" class="headerlink" title="BZOJ2655 / luogu P4463 [集训队互测2012] calc"></a>BZOJ2655 / luogu P4463 [集训队互测2012] calc</h2><p>钦定 $a_1 &lt; a_2 &lt; \cdots &lt; a_n$ 算答案，最后乘上一个 $n!$ 即可。</p>
+<p>设 $f_{i,j}$ 表示：考虑了前 $i$ 个数，最大的数为 $j$，所有方案的权值和。</p>
+<p>则 $f_{i,j} = \sum_{k&lt;j} f_{i-1,k} \cdot j$。</p>
+<p>注意到，如果 $f_{i,j}$ 是个关于 $j$ 的 $p$ 次多项式，则 $f_{i,j} \cdot j$ 是个关于 $j$ 的 $p+1$ 次多项式，$\sum_{k &lt; j} f_{i,k}$ 是个关于 $j$ 的 $p+1$ 次多项式。</p>
+<p>所以 $f_{n,j}$ 是个关于 $j$ 的 $2n+1$ 次多项式。</p>
+<p>直接 dp + 拉格朗日插值，可以做到 $O(n^2)$。</p>
+<h2 id="luogu-P5850-calc加强版"><a href="#luogu-P5850-calc加强版" class="headerlink" title="luogu P5850 calc加强版"></a>luogu P5850 calc加强版</h2><p>考虑答案关于 $n$ 的生成函数</p>
 <script type="math/tex; mode=display">
 \begin{gathered}
-f'_u = \begin{cases}
-f_u & 2 \mid dep_u\\
-1-f_u & 2 \nmid dep_u
-\end{cases}
-\end{gathered}</script><p>那么有转移方程</p>
+F(x) = \prod_{i=1}^A (1+ix)\\
+= \exp\left( \sum_{i=1}^A \ln\left(1+ix\right) \right)\\
+= \exp\left( \sum_{i=1}^A \sum_{j=1}^\infty \frac{(ix)^j (-1)^{j+1}}{j} \right)\\
+= \exp\left(\sum_{j=1}^\infty \frac{x^j(-1)^{j+1}}{j} \sum_{i=1}^A i^j\right)\\
+\end{gathered}</script><p>剩下的问题就是对每个 $j$ 算 $\sum_{i=1}^A i^j$：</p>
 <script type="math/tex; mode=display">
-f'_u = \prod_{v\in son_u} (1-f'_v)</script><p>这样每个点的转移方程就是一样的了。</p>
-<p>从小到大依次枚举 $k$，$k$ 每次变化的时候只有 $O(1)$ 个叶子的 $f’_u$ 会改变，用动态 dp 维护即可。</p>
-<p>具体地，设 $g_u = \prod_{v\in son_u, v\neq heavy_son_u} (1-f’_v)$，那么 $f’_u = (1-f’_{heavy_son_u}) g_u = - g_u \cdot f’_{heavy_son_u} + g_u$，如果把重儿子的 dp 值当成未知数则这是一个 $kx+b$ 的形式，可以区间合并（也就意味着可以用任意的数据结构维护）。</p>
-<p>时间复杂度 $O(n\log^2 n)$，瓶颈是在修改 $g_u$ 的时候需要求 $O(\log n)$ 次 $1-f’_v$ 的逆元。</p>
+\begin{gathered}
+\sum_{i=0}^\infty \frac{x^i}{i!} \sum_{j=0}^A j^i\\
+= \sum_{j=0}^A \frac{x^i j^i}{i!}\\
+= \sum_{j=0}^A e^{jx}\\
+= \frac{e^{(A+1)x} - 1}{e^x - 1}
+\end{gathered}</script><p>复杂度 $O(n\log n)$，需要卡常。</p>
+<p><del>所以拉格朗日插值有什么用呢？</del></p>
+<h2 id="BZOJ3453-tyvj-1858-XLkxc"><a href="#BZOJ3453-tyvj-1858-XLkxc" class="headerlink" title="BZOJ3453 tyvj 1858 XLkxc"></a>BZOJ3453 tyvj 1858 XLkxc</h2><p>$f(n) = \sum_{i=1}^n i^k$ 是关于 $n$ 的 $k+1$ 次多项式；</p>
+<p>所以 $g(n) = \sum_{i=1}^n f(i)$ 是关于 $n$ 的 $k+2$ 次多项式。</p>
+<p>注意到 $h(n) = g(a+nd)$ 仍然是关于 $n$ 的 $k+2$ 次多项式。</p>
+<p>所以 $p(n) = \sum_{i=0}^n h(n)$ 是关于 $n$ 的 $k+3$ 次多项式。</p>
+<p>拉格朗日插值即可，复杂度大约 $O(k^2)$。</p>
 
     </div>
 
@@ -287,7 +293,7 @@ f'_u = \prod_{v\in son_u} (1-f'_v)</script><p>这样每个点的转移方程就�
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://zhongyuwei.github.io/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/" title="LOJ3044 「ZJOI2019」Minimax 搜索">http://zhongyuwei.github.io/2020/04/10/LOJ3044-「ZJOI2019」Minimax-搜索/</a>
+    <a href="http://zhongyuwei.github.io/2020/05/28/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC%E7%BB%83%E4%B9%A0%E9%A2%98/" title="拉格朗日插值练习题">http://zhongyuwei.github.io/2020/05/28/拉格朗日插值练习题/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -298,7 +304,7 @@ f'_u = \prod_{v\in son_u} (1-f'_v)</script><p>这样每个点的转移方程就�
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%9D%82%E9%A2%98/" rel="tag"># 杂题</a>
+              <a href="/tags/%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" rel="tag"># 专题练习</a>
           </div>
 
         
@@ -307,13 +313,10 @@ f'_u = \prod_{v\in son_u} (1-f'_v)</script><p>这样每个点的转移方程就�
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/09/LOJ3093-%E3%80%8CBJOI2019%E3%80%8D%E5%85%89%E7%BA%BF/" rel="prev" title="LOJ3093 「BJOI2019」光线">
-      <i class="fa fa-chevron-left"></i> LOJ3093 「BJOI2019」光线
+    <a href="/2020/05/19/Atcoder-Social-Infrastructure-Information-Systems-Division-Hitachi-Programming-Contest-2020-D-Manga-Market/" rel="prev" title="Atcoder Social Infrastructure Information Systems Division, Hitachi Programming Contest 2020 D Manga Market">
+      <i class="fa fa-chevron-left"></i> Atcoder Social Infrastructure Information Systems Division, Hitachi Programming Contest 2020 D Manga Market
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/11/LOJ3045-%E3%80%8CZJOI2019%E3%80%8D%E5%BC%80%E5%85%B3/" rel="next" title="LOJ3045 「ZJOI2019」开关">
-      LOJ3045 「ZJOI2019」开关 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -373,6 +376,7 @@ f'_u = \prod_{v\in son_u} (1-f'_v)</script><p>这样每个点的转移方程就�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#luogu-P5437-【XR-2】约定"><span class="nav-text">luogu P5437 【XR-2】约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BZOJ4559-luogu-P3270-JLOI2016-成绩比较"><span class="nav-text">BZOJ4559 &#x2F; luogu P3270 [JLOI2016]成绩比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BZOJ2655-luogu-P4463-集训队互测2012-calc"><span class="nav-text">BZOJ2655 &#x2F; luogu P4463 [集训队互测2012] calc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#luogu-P5850-calc加强版"><span class="nav-text">luogu P5850 calc加强版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BZOJ3453-tyvj-1858-XLkxc"><span class="nav-text">BZOJ3453 tyvj 1858 XLkxc</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
