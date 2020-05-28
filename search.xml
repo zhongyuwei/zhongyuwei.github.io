@@ -57,7 +57,7 @@ F(x) = \prod_{i=1}^A (1+ix)\\
   <entry>
     <title>Atcoder Social Infrastructure Information Systems Division, Hitachi Programming Contest 2020 D Manga Market</title>
     <url>/2020/05/19/Atcoder-Social-Infrastructure-Information-Systems-Division-Hitachi-Programming-Contest-2020-D-Manga-Market/</url>
-    <content><![CDATA[<h2 id="D-Manga-Market"><a href="#D-Manga-Market" class="headerlink" title="D - Manga Market"></a>D - Manga Market</h2><p>稍微转化一下题目：</p>
+    <content><![CDATA[<p>稍微转化一下题目：</p>
 <ol>
 <li>把在商店之间行走的时间加到 $b_i$ 里面（也就是让所有的 $b_i$ 自增 1）；由于最后一次购物之后不需要走到别的商店去，所以这样算出来的所需时间会多 1，所以让 $T$ 相应地加 1。</li>
 <li>令 $t$ 为当前已经花费的时间，发现 $t’=t+ at + b =(a+1)t+b$，所以令 $a_i$ 自增 1；这样转化以后，已经用了 $t$ 时间后再在第 $i$ 家商店购物，结束的时间恰为 $a_it + b_i$。</li>
