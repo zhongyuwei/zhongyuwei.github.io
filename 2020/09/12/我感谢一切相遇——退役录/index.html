@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Sol设 $c_i(0\le i\le 9)$ 表示 $i$ 这个数字在 $k$ 中出现了几次，则  \begin{aligned} Ans &amp;&#x3D; \sum_{k&#x3D;1}^X \sum_{i&#x3D;1}^9 i \cdot \frac{10^{\sum_{j&#x3D;i}^9 c_j}-10^{\sum_{j&#x3D;i+1}^9 c_j}}{9}\\ &amp;&#x3D; \sum_{k&#x3D;1}^X \sum_{i&#x3D;1}^9 \sum_">
+  <meta name="description" content="并不想记叙那些太多细节，也没有那么多心力和时间去仔细地回忆。随手写几句这些年学习竞赛的感想，也算是认真地跟 OI 道个别吧。 也许这就是为什么学竞赛的女生很少吧？让一个多愁善感的人在这个多愁善感的年纪只是安安静静地做学问，简直是无法想象。学 OI 的这几年里我所追寻的不过是一种感觉而已：称其为“虐”也罢，称其为“追求挑战和刺激”也罢。那时候我还不懂得人间其实有温情在，只有对精神的堕落与死亡的恐惧会">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CF908G New Year and Original Order">
-<meta property="og:url" content="http://zhongyuwei.github.io/2020/03/20/CF908G-New-Year-and-Original-Order/index.html">
+<meta property="og:title" content="我感谢一切相遇——退役录">
+<meta property="og:url" content="http://zhongyuwei.github.io/2020/09/12/%E6%88%91%E6%84%9F%E8%B0%A2%E4%B8%80%E5%88%87%E7%9B%B8%E9%81%87%E2%80%94%E2%80%94%E9%80%80%E5%BD%B9%E5%BD%95/index.html">
 <meta property="og:site_name" content="zhongyuwei&#39;s blog">
-<meta property="og:description" content="Sol设 $c_i(0\le i\le 9)$ 表示 $i$ 这个数字在 $k$ 中出现了几次，则  \begin{aligned} Ans &amp;&#x3D; \sum_{k&#x3D;1}^X \sum_{i&#x3D;1}^9 i \cdot \frac{10^{\sum_{j&#x3D;i}^9 c_j}-10^{\sum_{j&#x3D;i+1}^9 c_j}}{9}\\ &amp;&#x3D; \sum_{k&#x3D;1}^X \sum_{i&#x3D;1}^9 \sum_">
+<meta property="og:description" content="并不想记叙那些太多细节，也没有那么多心力和时间去仔细地回忆。随手写几句这些年学习竞赛的感想，也算是认真地跟 OI 道个别吧。 也许这就是为什么学竞赛的女生很少吧？让一个多愁善感的人在这个多愁善感的年纪只是安安静静地做学问，简直是无法想象。学 OI 的这几年里我所追寻的不过是一种感觉而已：称其为“虐”也罢，称其为“追求挑战和刺激”也罢。那时候我还不懂得人间其实有温情在，只有对精神的堕落与死亡的恐惧会">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-20T08:16:36.000Z">
-<meta property="article:modified_time" content="2020-03-20T08:17:13.471Z">
+<meta property="article:published_time" content="2020-09-12T14:47:50.000Z">
+<meta property="article:modified_time" content="2020-09-12T16:15:12.358Z">
 <meta property="article:author" content="zhongyuwei">
-<meta property="article:tag" content="杂题">
+<meta property="article:tag" content="杂记">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://zhongyuwei.github.io/2020/03/20/CF908G-New-Year-and-Original-Order/">
+<link rel="canonical" href="http://zhongyuwei.github.io/2020/09/12/%E6%88%91%E6%84%9F%E8%B0%A2%E4%B8%80%E5%88%87%E7%9B%B8%E9%81%87%E2%80%94%E2%80%94%E9%80%80%E5%BD%B9%E5%BD%95/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>CF908G New Year and Original Order | zhongyuwei's blog</title>
+  <title>我感谢一切相遇——退役录 | zhongyuwei's blog</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/03/20/CF908G-New-Year-and-Original-Order/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/09/12/%E6%88%91%E6%84%9F%E8%B0%A2%E4%B8%80%E5%88%87%E7%9B%B8%E9%81%87%E2%80%94%E2%80%94%E9%80%80%E5%BD%B9%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CF908G New Year and Original Order
+          我感谢一切相遇——退役录
         </h1>
 
         <div class="post-meta">
@@ -214,10 +214,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-03-20 16:16:36 / Modified: 16:17:13" itemprop="dateCreated datePublished" datetime="2020-03-20T16:16:36+08:00">2020-03-20</time>
+              <time title="Created: 2020-09-12 22:47:50" itemprop="dateCreated datePublished" datetime="2020-09-12T22:47:50+08:00">2020-09-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-13 00:15:12" itemprop="dateModified" datetime="2020-09-13T00:15:12+08:00">2020-09-13</time>
+              </span>
 
           
   
@@ -232,15 +238,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>设 $c_i(0\le i\le 9)$ 表示 $i$ 这个数字在 $k$ 中出现了几次，则</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j=i+1}^9 c_j}}{9}\\
-&= \sum_{k=1}^X \sum_{i=1}^9 \sum_{y=1}^i \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j=i+1}^9 c_j}}{9}\\
-&= \sum_{k=1}^X \sum_{y=1}^9 \sum_{i=y}^9 \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j=i+1}^9 c_j}}{9}\\
-&= \sum_{k=1}^X \sum_{y=1}^9 \frac{10^{\sum_{j=y}^9 c_j}-1}{9}\\
-\end{aligned}</script><p>在最外层枚举 $y$ 之后，可以用数位 dp 在 $O(\lg^2 X)$ 的时间内算出答案。</p>
-<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><p><a href="https://codeforces.com/contest/908/submission/73772415" target="_blank" rel="noopener">link</a></p>
+        <p>并不想记叙那些太多细节，也没有那么多心力和时间去仔细地回忆。随手写几句这些年学习竞赛的感想，也算是认真地跟 OI 道个别吧。</p>
+<p>也许这就是为什么学竞赛的女生很少吧？让一个多愁善感的人在这个多愁善感的年纪只是安安静静地做学问，简直是无法想象。学 OI 的这几年里我所追寻的不过是一种感觉而已：称其为“虐”也罢，称其为“追求挑战和刺激”也罢。那时候我还不懂得人间其实有温情在，只有对精神的堕落与死亡的恐惧会刺激我、让我振奋；于是没有麻烦也要制造麻烦，没有困难也要制造困难，总之绝对不能停下来（尽管当时的我根本不可能意识到“我在给自己找麻烦”这一点）。这是我所以选择了竞赛。</p>
+<p>这样做的结果是，我在消灭麻烦这件事情上变得越来越强大，我却愈发不能和平地与自己相处。我所取得的成绩越好，我就越是用别的方式惩罚自己，比如生病，比如失眠，比如抑郁。只是因为我内心深处从不承认自己应该得到这些而已。只是因为我相信折磨（区别于“为了某个目标而奋斗”）真的应该成为我的主旋律而已。</p>
+<p>我很幸运，在这条路上我遇见的人们，先让我明白“他人”其实并不是什么会伤害我的大怪兽，然后告诉我每一个人其实都很善良，最后使我慢慢体会到“他人”的头脑中也存在着和我类似的“心理活动”，我和“他人”是能够彼此理解的。我感激他们的友善，他们对我的那些如对待幼儿一般的教诲，也感激那双在我极度困顿时向北四楼的窗台上犹豫的我伸出的手，那双把我往回拉的手。</p>
+<p>如今，我知道了我曾经所选择的，它们不是我曾以为的“唯一的选择”。我知道了一种可以成为生活的动力、并且比恐惧更加强大的力量——“爱”，我还知道了自己也是可以成为这个词语的主体和对象的。曾经总是坐在角落、感觉自己比机房里的耗子还要卑微的我，现在却敢怀揣着对自己的爱站着从这里走出去。</p>
+<p>此刻我听着窗外的雨声——我曾经万般眷恋、却从某一天开始无比惧怕、后来又重新为之感慨的，来自天空的乐音；倘若要谈什么理想，我希望我能为我曾经遇见的人们和即将遇见的人们，给这个世界增添一点“美好”，我希望能怀揣着这份“生命可贵”的心情，去珍惜自己的和他人的生命。</p>
+<p>“当你真的决定了要认真生活下去以后，剩下的一切事情其实都很容易。”</p>
+<p>雨声渐渐消停、远去，一切归于平静。一切归于空境。这不是结束，这只是开始而已。</p>
+<p>“我感谢一切相遇。”</p>
 
     </div>
 
@@ -256,7 +262,7 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
   </li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://zhongyuwei.github.io/2020/03/20/CF908G-New-Year-and-Original-Order/" title="CF908G New Year and Original Order">http://zhongyuwei.github.io/2020/03/20/CF908G-New-Year-and-Original-Order/</a>
+    <a href="http://zhongyuwei.github.io/2020/09/12/%E6%88%91%E6%84%9F%E8%B0%A2%E4%B8%80%E5%88%87%E7%9B%B8%E9%81%87%E2%80%94%E2%80%94%E9%80%80%E5%BD%B9%E5%BD%95/" title="我感谢一切相遇——退役录">http://zhongyuwei.github.io/2020/09/12/我感谢一切相遇——退役录/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
@@ -267,7 +273,7 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%9D%82%E9%A2%98/" rel="tag"># 杂题</a>
+              <a href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag"># 杂记</a>
           </div>
 
         
@@ -276,13 +282,10 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/19/AGC002E-Candy-Piles/" rel="prev" title="AGC002E Candy Piles">
-      <i class="fa fa-chevron-left"></i> AGC002E Candy Piles
+    <a href="/2020/05/28/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="prev" title="拉格朗日插值练习题">
+      <i class="fa fa-chevron-left"></i> 拉格朗日插值练习题
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/20/AGC026D-Histogram-Coloring/" rel="next" title="AGC026D Histogram Coloring">
-      AGC026D Histogram Coloring <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -342,7 +345,6 @@ Ans &= \sum_{k=1}^X \sum_{i=1}^9 i \cdot \frac{10^{\sum_{j=i}^9 c_j}-10^{\sum_{j
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sol"><span class="nav-text">Sol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code"><span class="nav-text">Code</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
