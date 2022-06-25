@@ -21,15 +21,15 @@
     var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
+  <meta name="description" content="A - 矩阵求和答案是  \begin{gathered} \sum_{i&#x3D;lx}^{rx} \sum_{j&#x3D;ly}^{ry} (a_i (m-1) + b_j) \binom{rx-i+k}{k} \binom{ry-j+k}{k} \end{gathered}把组合数拆开，用树状数组维护区间的 $\sum a_i i^j (j\in [0,maxk])$。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20200423 SCOI模拟2">
 <meta property="og:url" content="http://zhongyuwei.github.io/2020/04/24/20200423-SCOI%E6%A8%A1%E6%8B%9F2/index.html">
 <meta property="og:site_name" content="zhongyuwei&#39;s blog">
-<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:description" content="A - 矩阵求和答案是  \begin{gathered} \sum_{i&#x3D;lx}^{rx} \sum_{j&#x3D;ly}^{ry} (a_i (m-1) + b_j) \binom{rx-i+k}{k} \binom{ry-j+k}{k} \end{gathered}把组合数拆开，用树状数组维护区间的 $\sum a_i i^j (j\in [0,maxk])$。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-24T07:30:59.000Z">
-<meta property="article:modified_time" content="2020-04-24T07:36:29.215Z">
+<meta property="article:modified_time" content="2022-06-25T12:39:43.269Z">
 <meta property="article:author" content="zhongyuwei">
 <meta property="article:tag" content="比赛">
 <meta name="twitter:card" content="summary">
@@ -214,10 +214,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-04-24 15:30:59 / Modified: 15:36:29" itemprop="dateCreated datePublished" datetime="2020-04-24T15:30:59+08:00">2020-04-24</time>
+              <time title="Created: 2020-04-24 15:30:59" itemprop="dateCreated datePublished" datetime="2020-04-24T15:30:59+08:00">2020-04-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-06-25 20:39:43" itemprop="dateModified" datetime="2022-06-25T20:39:43+08:00">2022-06-25</time>
+              </span>
 
           
   
@@ -232,15 +238,49 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="Oh, these decrypted content cannot be verified, but you can still have a look.">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">本文密码为 http://u.gdfzoj.com/ 上本场比赛的密码。If you don't know the password but really need to see it, you can ask the author for access. See at the About page.</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="fcdb6a73485e1b553ac6cb375c69ed45d81536627775e7dc75a7d2424e7d62f7">5b7b1470b10e59b161b3cf33310e23ae40d271e145586555140033c41974c6cdaf4e6c8583fbefa4b79f86da3b600a1ab0190c96e116b08c0693271b0ee0a75550322c9eaded5655f5d996c4f8901c21ba704b8246afa6cdaeed2c201a6e6a1abec75a7d063a2c06164daebfd147e494663a47125a6f93cb5dc25a3ceb6df6f2ee28b22780e47584937f458e53d86d21683694cbd56426c90b3bb67e73053b7c6e7da40b5eb0fdb1295b18bd85fd9f5df15c3f38c8161351af0cbe32fec31e58047107c8f013cfdc1c720b0d2044445feb131b181fcf3bea8583f4037dae4ef021817fd637c994e60a0f17bf889710162b2db1b056cbcda86e324d9bdb2d4c49ac9a49ffbc4a917c72c50379e89a609c55d2d41b545443cfc48d385e431c210feb7347d904d01bc3555d13d550a4498ed6d87f1710cca9357f175b039c950c7c44aa23d44455b3e7a2c6fa9edfdacab60606648150e750cf16cefa4addd9fea52c603f7a21d41cf7417b3c79dc17262a07ca06ca8b3c934673d44b290efd38e94ac27633773aad9a86f2aeaff82130f3be75c634679dbb72595a04d9c39dc9ef6757f4e0a55cd607f29f1100a9af36d678c4e6c93f95d1c448d6440b168237f06e3f6617ff237cceadd32775542a87e91b5b62cf659bf2b91bb54140ad4012be4e2181731108107551a6951f9515203ca7d62761444a3d68025abc06ae5fe5accf8e4011af193f8e42c923e2cea10976ad9b8e38ad67a3e4d55e45560906d26592e089a1f531107e8fecd95014167927c597ce651b6e5335c8ec395fbaeb58fd38246bdfe6f63b74ccca9e688e62f196138038f69a688770c9de4a7560e3e19b7a2815ae4197f4795f4226d6057c73df632602cd8b193e85f1eca6e38e9a5c1c81de6ebe1fbae9d7db0911dca959c439fc74725526cd02fd946016912a05b2d8e481f7dbd1c35ba6d3b76d7aba084391ccc0eb0b0d7bf467e4442fb43c5b795a56dbff2c9ab759020f6163ed03423ff381073c455db0fda2ba18d25ed472d3432c4e733b58004feaf8fa2cefa920c258af23434c8453785779d658beb1956c79fef02c580f7c62f10d54ad897ba725cc4cb2156b6f225784e6b4aedef51d3a318df9d5f645a3576b1f4fe1852d0c7eb34aa6c4ef9e3f198531200d34e7d1dc6471bab9bda4e480b72e76aaa540e6e46c7ec8d6f2fe7e1691f8b91e27c60546f0214a87836950e455ae99f3e4592271fd98b46588c46999445059bb90d405911a5e6e7ee3a79dc877a5374b919596d24dd324ec332994799347380bc45da3b50fbb78bfb7ed360c0344c25a27d360904463efd74dcf3c2ea5ca51cf49f30f60c4bd0da13223ada61004a78bd4a642261cdbd854adfd80d82b1bced656e2308f9dbc322319542eadeea372f73ca6a20d81c83db49b868af7510d7f816fc26a00729c88510263fb7c780119cff34d7eb93724b1d90559d8e5c4196317ec2da72a0f70c2eb18b11c9236ae4e333d68e583409fcd710d43338abf286702bb07d6786522b27b5950a84cbda9c5de865d2d72d3c803cac891c1a86390adfb23be83fede95cc4fec4aa069f8d8f9772015b7ae8aeceb098ec9b9a81c3a3f90873bedff17a0169532959e9896e92723369268c42e5650a10dff78b1b559da0b25c04a07c3bfec54fe60c4ba83415ee86128789742200296cf850d6df6154bdf292fd8633c8f57c9afebf7b679745275eac3e69cd0e13411a492847bf91e0c79a256fe56cea174ccd24d780687fcae1e4b6f73be919c33ee828c31a8a6a4ae149fe52a46c24d36597c407acfcc931338ceb7cde8510602108dc4ea942de3607ad1e4fb95e8ed0612f3d83a93d119a897437d4a9ebb79ff991af581af545ac73ea079b158f34cb93558a1d6d1b477c9f2c15ac8dbae998b42ee033a94663d3656c68df35b4f3077b0841916a3e963224396378a3492de0b62d6573cf94cbad2dfbe2f75a4cee4b6fadfd38b7a5a9ed1cd8d3b70c4bad78b7fc4df9ff1f3cf22cf68529864ef600e01b86b4e76ab138de118d4b40def7f2cdf0806a5b5a5000c547f429a9e2bb780a355ce498af4d5d1c0f8d6fa159e2dc1215165e9742d3cbb9ece23137f25f8423445eb06951ea03d73640b8e5339763025c612c9ea051d86882b0998768aebd0d7ec736f2da6f5c23eb65208437ebc4aba4d37b6ec35748a378edecf597be98cb358a3463e6f66e316330584acbc3535892f57c69e887f405b5cfcb8d91c9af0e49e3db0c77c10138915e2938b5a8d2829e9796ea726bb04e782309f55839b9f15b540ec572245df6f6efc5804d8345574a47f0ef3334ba72a6decd7fcf29e63feb78e3ea9063d32fab67ca5d4d94fe26511879e5f5ecd3db395ca82edcd0d463c94946505cdb84f736e6f4019f042d6e91c16c2118d43d8598df19b9870c4dd2191c4f7bc4ab1c6bfca7b6a5b4a29dd3a0b758c254d985f2df278b78cd47bacbdef539291cfff47217d8ca7dba5150784bd197e5cbd8100dd17b7fddaf8e7917046a5df42eed7cbfac15e2cadf20828a779b0c48383791b46af271ccb129c1be2e5aaf506b06be8525ef9b933baa3183ec235efa8ac1b26d06fe4c2f4dc38bed10a9bd2c78061f1437641b8a4ba738201790a99c56f002a7b820dd099a36438b0831243f742a4cd7555a8936b487819375ba46ee385967cb09cc7e6c88f7877f8212d43853d899b93463ddfec3979a41c5fd04f8398f04f4bec29b816dce7ad771dd9c4f49a2369e994706b4a1e283cb980f47da97d8b1a34871e1534428b320eb91ce5039ebdfde2e206c8be7d95a5002d40e3ff4cde93739d1c972f6369f2a8488cb675bfe159783d53f06b831b88a36ca2f3b4d99daae8889b843532d985cb513a72984a592fb7ac4ddeb4b2b8691d3c052e8773a388183ec462cef956754b7b3b47aa58dad14b83e40e1c2727c4b03f2a638caafaa2ef753c4c3d0c05731c1b30c0e960eec342f5602e08592ae09a159a7b0f74a3a8abeaf028998c31eab2f4211349df959b87be5f584cfb9f20ab9a2c4b171754ae2274696c0ee5da50cc1a23ec9d85d099a1f9c19e32f12d171d77a5ea8730dcd6d24bb3086c4080f50f2af3c5e7364105ab626284c9b71003c8c5dad42d20d37d3f85ab24f2e11bf582c5b0227a3176bae7502fd19056c49594cda2a71a60fce75afab4f807a3e22a059323bbec32007f2e5d6fa56353779c29dacef6a0e58f7d92bb40d895e540bdf46c814e6b6c87176557ba22ab8c4e2fb328c097580e53a31ef54010e0a0d83e28ce2c9bf0f51b5fe8b66a9478416336742ed2466f3b7d8005a2e51014a7d140d00ade49efcab84b93f9f1af1257dd4a660c9a2ddaa3668568aaff1af356848e6ae0f133fe312fea32930359ba685050818d76c18a4901a305cfbf117758199df2da880a9dbe3a33b125caf528a546a377cdfd9bc6281550f46a05a5abf4a0383ff5624474f04ee16f9d4083024bf070476518e17f64f04631e20c60f887017f559b26ad4900fad18e9cfa0df4f0797fd13fd77399da3e0cf30708b3e1980ff547041534d10ede50055a0f46db8a3185643913815e2f54fe8f35ea2ee3595f0a0f10936502999fe30fe17fa36d9012639e5acdc75622dccfd855a55c8a9c215fa3e37c1448c070dfcf3b99b75e0641e3fbaf850a9442d01d757b8be57d844dde7b96feb72065f77515cb14f8729929316fd7539e7d46f0c2f071375b96230a16fbb412a281e819e5e4951134ddb97bab9f076a887676d3d3a8e2f8149ca1565c055729f004a6520f5ddde789ed5151fc4fa563decb13803ea02c5c44dc0e1315e6fb64e920dd46074f176735050d6248a8da8b85e237bd34d038f88588b14d749db6f68d4e6a800c8a258d59119e97a3c2daba7f2a15a6ccdb993a3d33f41c952366d5bbdc48cd68c46cffec930d01efa18880c355c5fb8d159bbefa2491186040975da6381e4f04e67008eb8dc805e755fd5a3ac3c3a1d3ebd9a9f26147f8cc3ba033550d19fbfbfd77d83639659dc92f37448a595d13a7531bd0caeb70be507b8e9146ffc93a5f55dd37f868c9e2a4f70494370df4eaaf32bca1d144ac3ac51271370de795530591dcdae30ed2cd7fd59520cbb654d1fd9f06428beb76ab11cd3c209bb254825780aef033ac104d63c95bc8091220e0804f64b05c33770c327d95a333a751fdef001c43b78f7ca5da5bff53001048f7f34328a233d1f5ade5a4aa3df28dbe20ba091b5f1baf2f086d13c574bacf5ee12586a117eaecbdc3cec2ca30142fc870258894c933c1a7c015843e270c750e3ca130462e8221b80e6719f95b54147f7286cfe2603fcd5467ae2f560c059dad0f162783dcac4996f7a3b50a7f083d213c398ed7daaa830abf263122b2dd1e224da0a0d74986d3438a85e0bfd61c892f2aafefb7ab6e293f93c29d81f4c9a2b39fc39ec482b9300fce7be1d57be93ba1ce5b70225f186f3213b4e7bfd578c51d8e69bef473bfcb57827a58dd96375ad12ed90154a2916e55742d7071f1b6c237828c417bc53433b241a1ad4afe171354f2ec10c4694893341fcf6b8a70ace8299d2c7b7b9bd2abbefaeb97fa50c90184695f0643378887f38516001036e998e0ab199008f7c85a9cbaa8aa29617a9b8809c05dabb2c126d780a9b58b8bb959f3478f7e2187d8d0f9fb047d176b6dc8067e3e701bf6efe98b45b18ed6158d0d0c79e659479ed7d5f77abf0c543ac5971f1b4df4419f55191d8887680fbbd6f3e06aab55f648745cd0a2095a10239bbef5cdb8ddf83a7de45bf33c7200742d72e7f191a7f66d08ccb861822080c6b2d3ee86f23c0cd982c28ebc668e6ed41dc9419a6036eea1b894450920cddbac04481a498710fa1253d807e5e5d3a2c56e491c088f2808296b44c3113d0a185dae2b4f060b146078439c6a3ae85de653adc698871f64d595927ac3e3580bc40190918cb8779de59c919aa91269dfd46e0898bae1a6cb062e597f4b7d17e1ad7137120ec5a112e11275db7fef4cc38612ca9445f9043c914a5c9772352c44a45e58485de500a4fa7d58e736e49324a87f6f19ce473e55dc61a5c760abdf69a0b6dcfb65ddf650d07bac152014f1e712aa8af9d401e9a52fee05eea60ea523bb9e211e05ae125339ad189655295fcd058a5cefce5de33ec7ae3cf4cbeb07b3fd35e0c48c06e68831e24c8b6f7c955e808d38c232e2abfbac576eec686c3f3498b33a3cf87707975c9293cb0963cc88d9e9a18400e9278473d41a80d70eadee128213805c50a49b7db38e538aa9aa9e4e5efd9d2f60d1d4f6b503339d402ad053730d6d7b226737f31dcbe6bb3db6a014cc66d4be1ccdac103d64daa4f7b2d4d20227fe55c3ab905d3e891f31d55e7468617bd88a0a8b329027a6edc300ba5fd9fe8a9088c3c2951b8f12ff5b14bce3a1e3bb551ed0713ff0667f10deef0ef4cd6044856553e11d7a6ad9a6d8b7fbab8be577365097520b7740713054648e675f0aa15dab87c0413d914e4a4657f7ea02fb15cb565d2d5ac519ca15ff32be09a371f461c5b9c2900585f253ff025193d9eaa9170344c3ead4e8298650bafa7620cb0e16e00f92cda591c009de</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+        <h2 id="A-矩阵求和"><a href="#A-矩阵求和" class="headerlink" title="A - 矩阵求和"></a>A - 矩阵求和</h2><p>答案是</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\sum_{i=lx}^{rx} \sum_{j=ly}^{ry} (a_i (m-1) + b_j) \binom{rx-i+k}{k} \binom{ry-j+k}{k}
+\end{gathered}</script><p>把组合数拆开，用树状数组维护区间的 $\sum a_i i^j (j\in [0,maxk])$。</p>
+<p>时间复杂度 $O\left(q\left(k\log n + k^2\right)\right)$。</p>
+<h2 id="B-西行寺无余涅槃"><a href="#B-西行寺无余涅槃" class="headerlink" title="B - 西行寺无余涅槃"></a>B - 西行寺无余涅槃</h2><p>可以参考一下CF1119H（<a href="https://www.luogu.com.cn/blog/command-block/solution-cf1119h" target="_blank" rel="noopener">点此传送到command_block的题解</a>）的做法。</p>
+<p>下文中，把 $F$ 数组 FWT 之后的结果写为 $FWT(F)$，把其中第 $i$ 个元素写为 $FWT(F)[i]$。</p>
+<p>设</p>
+<script type="math/tex; mode=display">
+F_t[x] = \sum_{p_{t,j} = x} a_j</script><p>只要对每个 $i\in [0,2^m)$，求出 $\prod_{t=1}^n \left(FWT(F_t)[i]\right)$，就能得到答案。</p>
+<p>$FWT(F_t)$ 中的每一项一定都是 $(-1)^{x_1} a_1 + (-1)^{x_2}a_2 + \cdots + (-1)^{x_k}a_k$ 的形式，这只有 $2^k$ 种不同的取值。由于 $k$ 很小，考虑求出每种取值出现了多少次。</p>
+<p>设</p>
+<script type="math/tex; mode=display">
+C_{i,S} = \sum_{t=1}^n \prod_{j=0}^{k-1}\left[{bitcount(i\& p_{t,j})\bmod {2}} = [j\in S]\right]</script><p>显然有</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\prod_{t=1}^n (FWT(F_t)[i])\\
+= \prod_{S=0}^{2^k-1}\left( \sum_{j\notin S} a_j - \sum_{j\in S} a_j\right)^{C_{i,S}}
+\end{gathered}</script><p>想办法构建方程解出 $C_{i,S}$。</p>
+<p>选取一个 $\{0,1,\cdots k-1\}$ 的子集 $T$，令</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+G_{T,t}[j] = \left[\bigoplus_{x\in T} p_{t,x} = j\right]\\
+D_{i,T} = \sum_{t=1}^n \left(FWT(G_{T,t})[i]\right)
+\end{gathered}</script><p>则</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+FWT(G_{T,t})[i]=(-1)^{bitcount\left(i\& \left(\bigoplus_{x\in T} p_{t,x}\right)\right)}\\
+= (-1)^{\sum_{x\in T} bitcount(i\& p_{t,x})}\\
+D_{i,T}\\
+= \sum_{t=1}^n \left(FWT\left(G_{T,t}\right)[i] \right)\\
+= \sum_{t=1}^n (-1)^{\sum_{x\in T} bitcount(i\& p_{t,x})}\\
+= \sum_{S\in [0,2^k)} (-1)^{bitcount(S\&T)} \cdot C_{i,S}
+\end{gathered}</script><p>所以 $C_{i} = IFWT(D_i)$。</p>
+<p>而 $\sum_t FWT(G_{T,t}) = FWT\left(\sum_t G_{T,t} \right)$，枚举完 $T$ 之后 $O(nk + 2^m m)$ 计算即可求出所有的 $D_{i,T}$ 。</p>
+<p>总时间复杂度为 $O(2^k (nk+2^m m) + 2^m2^k k)$。</p>
+<h2 id="C-鱼贯而入"><a href="#C-鱼贯而入" class="headerlink" title="C - 鱼贯而入"></a>C - 鱼贯而入</h2><h3 id="做法-0"><a href="#做法-0" class="headerlink" title="做法 0"></a>做法 0</h3><p>特判 $n=1,2,3$。对于 $a_i$ 随机的数据来说，最优的 $len$ 一定不会比 $n$ 大太多。</p>
+<h3 id="做法-1"><a href="#做法-1" class="headerlink" title="做法 1"></a>做法 1</h3><p>显然只有当 $\exists i,j, len\mid (a_i - a_j)$ 的时候，$Ans &gt; 0$。如此直接枚举 $len$ 计算。</p>
+<h3 id="做法-3"><a href="#做法-3" class="headerlink" title="做法 3"></a>做法 3</h3><p>根据模运算的一些性质，$kp$ 有的寻址时间 $p$ 一定也有。设 $mind(n)$ 为 $n$ 的最小质因子，那么我们只需要检查满足 $\frac{len}{mind(len)} &lt; n \le len$  的 $len$。</p>
+<p>$a_i - a_j$ 的大于等于 $n$ 的质因子一定是可以的。可以的合数一定在 $[n,n^2]$ 内。分别枚举并检查即可。</p>
+<h3 id="做法-4"><a href="#做法-4" class="headerlink" title="做法 4"></a>做法 4</h3><p>把 Pollard-rho 求 gcd 的那个 $O(\log n)$ 优化掉（可以参考<a href="https://www.cnblogs.com/812-xiao-wen/p/10544546.html" target="_blank" rel="noopener">wch的博客</a>）。这样可以得到 100 分。</p>
+
     </div>
 
     
@@ -341,6 +381,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#A-矩阵求和"><span class="nav-text">A - 矩阵求和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-西行寺无余涅槃"><span class="nav-text">B - 西行寺无余涅槃</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-鱼贯而入"><span class="nav-text">C - 鱼贯而入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#做法-0"><span class="nav-text">做法 0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做法-1"><span class="nav-text">做法 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做法-3"><span class="nav-text">做法 3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做法-4"><span class="nav-text">做法 4</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -356,7 +397,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
