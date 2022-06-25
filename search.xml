@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>密码配置测试</title>
-    <url>/2022/06/25/%E5%AF%86%E7%A0%81%E9%85%8D%E7%BD%AE%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<p>title: 密码配置测试<br>mathjax: true<br>comments: false<br>date: 2022-06-25 20:44:24<br>tags: 杂记<br>password: password<br>abstract: Here’s something encrypted, password is required to continue reading.<br>message: Password is required. You can ask the author for access. See at the About page.<br>wrong_pass_message: Oh, this is an invalid password. Check and try again, please.<br>wrong_hash_message: Oh, these decrypted content cannot be verified, but you can still have a look.</p>
-]]></content>
-  </entry>
-  <entry>
     <title>拉格朗日插值</title>
     <url>/2022/06/25/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</url>
     <content><![CDATA[<p>有$n$个点$(x_1,y_1),(x_2,y_2)\cdots (x_n,y_n)$，满足$\forall i\not =j,x_i\not =x_j$。你需要求出一个次数小于等于$n-1$的多项式$f(x)$，使得$\forall i\in [1,n],f(x_i) = y_i$。</p>
