@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>拉格朗日插值</title>
+    <url>/2022/06/25/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</url>
+    <content><![CDATA[<p>有$n$个点$(x_1,y_1),(x_2,y_2)\cdots (x_n,y_n)$，满足$\forall i\not =j,x_i\not =x_j$。你需要求出一个次数小于等于$n-1$的多项式$f(x)$，使得$\forall i\in [1,n],f(x_i) = y_i$。</p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>考虑对于每一个$i$，构造出一个在$x_i$处取值为$1$、在另外$n-1$个点取值为$0$的多项式$\ell _i (x)$：</p>
+<script type="math/tex; mode=display">
+\ell_i(x) = {\prod_{j\not =i} (x-x_j)\over \prod _{j\not= i} (x_i-x_j)}</script><p>这个多项式显然是满足上面的条件的。</p>
+<p>由此我们可以构造出一个多项式$L(x) = \sum_{i=1}^n y_i\ell _i(x)$。这个多项式显然满足在$x_i$点取值为$y_i$。</p>
+<h2 id="唯一性证明"><a href="#唯一性证明" class="headerlink" title="唯一性证明"></a>唯一性证明</h2><p>假设存在两个次数小于等于$n-1$的满足条件的多项式$P_1$和$P_2$，那么$P_1-P_2$在$x_1,x_2\cdots x_n$的取值一定都是$0$，也就是说这个多项式是$(x-x_1)(x-x_2)\cdots (x-x_n)$的倍数。考虑到$P_1-P_2$的次数不可能超过$n-1$，而$(x-x_1)(x-x_2)\cdots (x-x_n)$是一个$n$次多项式，所以$P_1-P_2$一定是这个多项式的$0$倍，也就是说$P_1-P_2=0$，也就是$P_1=P_2$。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>一般我们是需要求出将某个值带入这个多项式得到的值。这个时候我们就没有必要求多项式的表达式了，直接把值带入式子里面算，时间复杂度$O(n^2)$。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    rd(n),rd(k);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) rd(x[i]),rd(y[i]);</span><br><span class="line">    <span class="keyword">int</span> Ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> d=<span class="number">1</span>,f=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;++j)</span><br><span class="line">            <span class="keyword">if</span>(i!=j) &#123;</span><br><span class="line">                d=d*(ll)(k-x[j])%mod;</span><br><span class="line">                f=f*(ll)(x[i]-x[j])%mod;</span><br><span class="line">            &#125;</span><br><span class="line">        f=Pow(f,mod<span class="number">-2</span>);</span><br><span class="line">        Ans=(Ans+y[i]*(ll)f%mod*d)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,(Ans+mod)%mod);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="取值连续时的优化"><a href="#取值连续时的优化" class="headerlink" title="取值连续时的优化"></a>取值连续时的优化</h2><p>当$x$的取值是连续的一段自然数的时候，我们可以算出$(x-x_i)$的前缀积和后缀积，就可以在$O(1)$的时间内得到分子。观察发现$\ell_i$分母的绝对值是${1\over (i-1)!(n-i)!}$，它的符号与$n-i$的奇偶性相关。预处理出阶乘的逆元也就可以$O(1) $算了。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>泰勒展开</title>
+    <url>/2022/06/25/%E6%B3%B0%E5%8B%92%E5%B1%95%E5%BC%80/</url>
+    <content><![CDATA[<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a href="https://blog.csdn.net/qq_42452134/article/details/83095736" target="_blank" rel="noopener">一个比较详细的介绍</a><br><a href="https://blog.csdn.net/qq_36330643/article/details/77288486" target="_blank" rel="noopener">一个微积分的推导</a><br><a href="https://blog.csdn.net/weixin_40100502/article/details/80531027" target="_blank" rel="noopener">一个我没有看懂的推导</a><br><a href="https://www.zhihu.com/question/21149770/answer/111173412" target="_blank" rel="noopener">知乎上一个提了拉格朗日中值定理的回答</a><br><a href="https://zhuanlan.zhihu.com/p/25413823" target="_blank" rel="noopener">知乎上一个使用了柯西中值定理的证明</a></p>
+<hr>
+<h2 id="泰勒公式推导"><a href="#泰勒公式推导" class="headerlink" title="泰勒公式推导"></a>泰勒公式推导</h2><p>简单来说，如果我们知道某一个函数在某一个点的取值，以及在这个点的各阶导数的取值，我们就可以通过泰勒公式构造出一个多项式，从而近似地得到这个点附近的点的这个函数取值。</p>
+<p>对于函数$f(x)$，我们已经知道$f(x_0)$以及$f$在$x_0$处的$1,2,3\cdots n$阶导数。我们需要构造一个关于$x$的多项式$P$，使得$P(x)$的取值尽可能地接近$f(x)$。</p>
+<p>考虑$P(x)$满足什么条件它才能够和$f(x)$比较接近：</p>
+<ul>
+<li>$P(x_0)$应该等于$f(x_0)$</li>
+<li>在$x_0$这个点，两个函数的切线的斜率应该相等，也就是他们的一阶导数相等。</li>
+<li>在$x_0$这个点，两个函数的曲率也应该相等，也就是他们的二阶导数也应该相等。</li>
+<li>$\cdots $</li>
+<li>在$x_0$这个点，两个函数的$1,2,3\cdots n$阶导数都应该相等。</li>
+</ul>
+<p>我们设$P(x)= \sum_{i=0}^n A_i(x-x_0)^i + R_n(x)$，最后的$R_n(x)$是余项，也就是误差。那么根据前面的推导我们可以知道：</p>
+<ul>
+<li>$P(x_0) = A_0 =f(x_0)$</li>
+<li>$P’(x_0) = 1\cdot A_1 = f’(x_0) $（次数高于$1$的项此时因为$x-x_0=0$所以取值都是$0$；取值低于$1$的项因为求导已经没有了）</li>
+<li>$P’’(x_0) = 1\cdot 2\cdot A_2 = f’’(x_0)$</li>
+<li>$P’’’(x_0) = 1\cdot 2\cdot 3 \cdot A_3 = f’’’(x_0)$</li>
+<li>$\cdots $</li>
+<li>$P^{(n)}(x_0)= n!A_n = f^{(n)}(x_0)$</li>
+</ul>
+<p>于是我们得到了$A_i = {f^{(n)}(x_0)\over n!}$。</p>
+<p>因此我们有了泰勒公式：</p>
+<script type="math/tex; mode=display">
+f(x) = f(x_0) +\sum_{i=1}^n {f^{(i)}(x_0)\over i!} (x-x_0)^i + R_n(x)</script><p>当$x_0 = 0$的时候这就是麦克劳林公式：</p>
+<script type="math/tex; mode=display">
+f(x) = f(0) + \sum_{i=1}^n {f^{(i)}(0) \over i!} x^i + R_n(x)</script><hr>
+<h3 id="一些常用函数的泰勒展开"><a href="#一些常用函数的泰勒展开" class="headerlink" title="一些常用函数的泰勒展开"></a>一些常用函数的泰勒展开</h3><script type="math/tex; mode=display">
+e^x = \sum_{i=0}^{\infty } {x^i \over i!}\\
+\ln (1+x) = \sum_{i=1}^{\infty } {(-1)^{i+1} (i-1)!\over i!}x^i = \sum_{i=1}^{\infty }{(-1)^{i+1}\over i}x^i\\
+\sin(x) = {\cos(0)\over 1!}x^1 - {\sin(0) \over 2!}x^2 - {
+\cos(0)\over 3!}x^3 + {\sin(0)\over 4!}x^4\cdots \\
+={x^1\over 1!} - {x^3\over 3!} + {x^5\over 5!} - {x^7\over 7!}\cdots \\
+\cos(x) = 1-{x^2\over 2!} +{x^4\over 4!} - {x^6\over 6!}\\
+{1\over 1-x} = 1 + x + x^2 + x^3\cdots</script><hr>
+<p>upd 2020.1.15</p>
+<h3 id="余项的估计"><a href="#余项的估计" class="headerlink" title="余项的估计"></a>余项的估计</h3><ol>
+<li>函数$c \cdot {x^n \over n!}$的$n$阶导数是$c$。</li>
+<li>对于连续且可以求$n+1$阶导的函数$f(x)$，以及某两个点$a,b$，令$y=cx^{n+1}$过$(a,f(a)),(b,f(b))$，则至少存在一个点$\theta \in (a,b)$，满足${f^{(n+1)}(\theta)\over (n+1)!} = c$。（拉格朗日中值定理的推广？我不会证）</li>
+<li>$R_n(x) = f(x) - \sum_{i=0}^n {f^{(i)}(a)\over i!}(x-a)^i$，如果把$R_n(x)$看做一个关于$x$的函数，将$f(x)$泰勒展开为$f(x) = \sum_{i=0}^\infty {f^{(i)}(a)\over i!}(x-a)^i$，就可以得到$R_n^{(n+1)} (x)= f^{(n+1)}(x)$。</li>
+<li>必然存在一个点$\theta \in (a,x)$，满足$R_n(x) - R_n(a) = {R_n^{(n+1)}(\theta)\over (n+1)!} (x-a)^{n+1}$，也就是$R_n(x) = {f^{(n+1)}(\theta)\over (n+1)!}(x-a)^{n+1}$。</li>
+<li>所以，如果某个$M$满足$M\ge |R_n^{(n+1)}(\theta)|, \theta \in (a,x)$，那么就可以得到$|R_n(x)| \le {M\over (n+1)!}(x-a)^{n+1}$</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>20220625 多项式与生成函数 讲课资料</title>
+    <url>/2022/06/25/20220625-%E5%A4%9A%E9%A1%B9%E5%BC%8F%E4%B8%8E%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0-%E8%AE%B2%E8%AF%BE%E8%B5%84%E6%96%99/</url>
+    <content><![CDATA[<h2 id="多项式与组合数学-ppt："><a href="#多项式与组合数学-ppt：" class="headerlink" title="多项式与组合数学 ppt："></a>多项式与组合数学 ppt：</h2><div class="pdf" target="/files/多项式与组合数学20220623.pdf" height=""></div>
+<h2 id="FFT-NTT-FWT-ppt："><a href="#FFT-NTT-FWT-ppt：" class="headerlink" title="FFT NTT FWT ppt："></a>FFT NTT FWT ppt：</h2><div class="pdf" target="/files/FFT,NTT,FWT.pdf" height=""></div>
+<h2 id="jzoj6058-false-false-true题解"><a href="#jzoj6058-false-false-true题解" class="headerlink" title="jzoj6058 false-false-true题解"></a>jzoj6058 false-false-true题解</h2><p>（下面pdf里的T3）</p>
+<div class="pdf" target="/files/3.13纪中集训（联考5）.pdf" height=""></div>
+<h2 id="拉格朗日插值、泰勒展开、微积分"><a href="#拉格朗日插值、泰勒展开、微积分" class="headerlink" title="拉格朗日插值、泰勒展开、微积分"></a>拉格朗日插值、泰勒展开、微积分</h2><p>在博客内搜索就能找到。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>我感谢一切相遇——退役录</title>
     <url>/2020/09/12/%E6%88%91%E6%84%9F%E8%B0%A2%E4%B8%80%E5%88%87%E7%9B%B8%E9%81%87%E2%80%94%E2%80%94%E9%80%80%E5%BD%B9%E5%BD%95/</url>
     <content><![CDATA[<p>并不想记叙那些太多细节，也没有那么多心力和时间去仔细地回忆。随手写几句这些年学习竞赛的感想，也算是认真地跟 OI 道个别吧。</p>
