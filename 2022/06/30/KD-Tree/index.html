@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="参考资料 OI-wiki wikipedia 一份有详细图解的课件  KD-Tree 是什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KD-Tree">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/06/30/KD-Tree/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="参考资料 OI-wiki wikipedia 一份有详细图解的课件  KD-Tree 是什么">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T06:15:19.000Z">
+<meta property="article:modified_time" content="2022-06-30T06:15:30.743Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/06/30/KD-Tree/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>KD-Tree | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/KD-Tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          KD-Tree
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 14:15:19 / Modified: 14:15:30" itemprop="dateCreated datePublished" datetime="2022-06-30T14:15:19+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://oi-wiki.org/ds/kdt/" target="_blank" rel="noopener">OI-wiki</a></li>
+<li><a href="https://en.wikipedia.org/wiki/K-d_tree" target="_blank" rel="noopener">wikipedia</a></li>
+<li><a href="https://courses.cs.washington.edu/courses/cse373/02au/lectures/lecture22l.pdf" target="_blank" rel="noopener">一份有详细图解的课件</a></li>
+</ol>
+<h2 id="KD-Tree-是什么"><a href="#KD-Tree-是什么" class="headerlink" title="KD-Tree 是什么"></a>KD-Tree 是什么</h2><p>KD-Tree（k-dimensional tree 的简写）是一种用来维护 $k$ 维的<strong>点集</strong>的数据结构。它是一棵深度为 $O(\log n)$ 的二叉搜索树，每个结点代表了点集中的一个点。</p>
+<p>它可以支持以下的操作（设 $n$ 为点集的大小）：</p>
+<ol>
+<li>插入/删除一个点，时间复杂度为均摊 $O(\log n)$</li>
+<li>查询一个边界平行于坐标轴的矩形/超矩形内的点的信息，时间复杂度上界为 $O(n^{1-\frac{1}{k}})$</li>
+<li>对一个边界平行于坐标轴的矩形/超矩形内的点进行支持标记合并的修改（维护和线段树类似的标记），时间复杂度上界为 $O(n^{1-\frac{1}{k}})$</li>
+<li>查询一个点的最近点/最远点，数据随机的时候时间复杂度期望为 $O(\log n)$ ，最坏复杂度为 $O(n)$ 。</li>
+</ol>
+<h2 id="建树"><a href="#建树" class="headerlink" title="建树"></a>建树</h2><p>选择一个维度，然后在点集中选择一个这一维的坐标是中位数的点作为根，然后把其它的点按照这一维的坐标和根的大小关系分成左右两棵子树，递归到子树内进行建造。</p>
+<p>定义一个结点的<strong>范围</strong>是它子树内的点的坐标范围，也就是一个 $k$ 维的、所有边都平行于坐标轴的超矩形。</p>
+<p>注意到：对于某个点，显然它的左右子树的范围的交要么为空，要么只包含了这个点所在的、垂直于这一次所选的维度的坐标轴的一条线段。</p>
+<p>以下是二维情形的建树代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">rec[c] 代表 c 结点的范围</span></span><br><span class="line"><span class="comment">tr[c] 表示 c 结点所代表的点的坐标</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> &amp;c,<span class="keyword">int</span> d)</span> </span>&#123; </span><br><span class="line">	<span class="keyword">if</span>(l&gt;r) <span class="keyword">return</span> (<span class="keyword">void</span>)(c=<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	nth_element(P+l,P+mid,P+r+<span class="number">1</span>,(d&amp;<span class="number">1</span>?cmpx:cmpy));</span><br><span class="line">	tr[c=newnode()]=P[mid];</span><br><span class="line">	build(l,mid<span class="number">-1</span>,ch[c][<span class="number">0</span>],d+<span class="number">1</span>),build(mid+<span class="number">1</span>,r,ch[c][<span class="number">1</span>],d+<span class="number">1</span>);</span><br><span class="line">	rec[c].lx=min(tr[c].x,min(rec[ch[c][<span class="number">0</span>]].lx,rec[ch[c][<span class="number">1</span>]].lx));</span><br><span class="line">	rec[c].rx=max(tr[c].x,max(rec[ch[c][<span class="number">0</span>]].rx,rec[ch[c][<span class="number">1</span>]].rx));</span><br><span class="line">	rec[c].ly=min(tr[c].y,min(rec[ch[c][<span class="number">0</span>]].ly,rec[ch[c][<span class="number">1</span>]].ly));</span><br><span class="line">	rec[c].ry=max(tr[c].y,max(rec[ch[c][<span class="number">0</span>]].ry,rec[ch[c][<span class="number">1</span>]].ry));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="插入-删除"><a href="#插入-删除" class="headerlink" title="插入/删除"></a>插入/删除</h2><p>按照 KD-Tree 的子树划分方式递归到相应的位置，然后插入/删除即可。</p>
+<p>为了保证平衡，我们要在某个点的某个儿子的子树大小大于这个点的子树大小 $\times \alpha$ 的时候对这个子树进行重构。其中 $\alpha$ 一般取 0.75 左右。</p>
+<p>单次插入/删除的时间复杂度是均摊 $O(\log n)$ 的。</p>
+<p>以下是二维情形的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmpx</span><span class="params">(POINT A,POINT B)</span> </span>&#123; <span class="keyword">return</span> A.x&lt;B.x; &#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmpy</span><span class="params">(POINT A,POINT B)</span> </span>&#123; <span class="keyword">return</span> A.y&lt;B.y; &#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmptx</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123; <span class="keyword">return</span> tr[x].x&lt;tr[y].x; &#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmpty</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123; <span class="keyword">return</span> tr[x].y&lt;tr[y].y; &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push_up</span><span class="params">(<span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">	sum[c]=sum[ch[c][<span class="number">0</span>]]+sum[ch[c][<span class="number">1</span>]]+val[c];</span><br><span class="line">	sz[c]=sz[ch[c][<span class="number">0</span>]]+sz[ch[c][<span class="number">1</span>]]+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rebuild</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> &amp;c,<span class="keyword">int</span> d)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(l&gt;r) <span class="keyword">return</span> (<span class="keyword">void</span>)(c=<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	nth_element(b.begin()+l,b.begin()+mid,b.begin()+r+<span class="number">1</span>,(d?cmptx:cmpty));</span><br><span class="line">	c=b[mid];</span><br><span class="line">	rebuild(l,mid<span class="number">-1</span>,ch[c][<span class="number">0</span>],d^<span class="number">1</span>);</span><br><span class="line">	rebuild(mid+<span class="number">1</span>,r,ch[c][<span class="number">1</span>],d^<span class="number">1</span>);</span><br><span class="line">	rec[c].lx=min(tr[c].x,min(rec[ch[c][<span class="number">0</span>]].lx,rec[ch[c][<span class="number">1</span>]].lx));</span><br><span class="line">	rec[c].rx=max(tr[c].x,max(rec[ch[c][<span class="number">0</span>]].rx,rec[ch[c][<span class="number">1</span>]].rx));</span><br><span class="line">	rec[c].ly=min(tr[c].y,min(rec[ch[c][<span class="number">0</span>]].ly,rec[ch[c][<span class="number">1</span>]].ly));</span><br><span class="line">	rec[c].ry=max(tr[c].y,max(rec[ch[c][<span class="number">0</span>]].ry,rec[ch[c][<span class="number">1</span>]].ry));</span><br><span class="line">	push_up(c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recycle</span><span class="params">(<span class="keyword">int</span> rt)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!rt) <span class="keyword">return</span>; b.PB(rt);</span><br><span class="line">	recycle(ch[rt][<span class="number">0</span>]),recycle(ch[rt][<span class="number">1</span>]);</span><br><span class="line">&#125;	</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rebuild</span><span class="params">(<span class="keyword">int</span> &amp;rt,<span class="keyword">int</span> d)</span> </span>&#123;</span><br><span class="line">	recycle(rt),rebuild(<span class="number">0</span>,b.size()<span class="number">-1</span>,rt,d),b.clear();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ins</span><span class="params">(<span class="keyword">int</span> &amp;c,<span class="keyword">int</span> d,POINT p,<span class="keyword">int</span> v,<span class="keyword">int</span> flg)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!c) &#123;</span><br><span class="line">		tr[c=++ncnt]=p,val[c]=v,push_up(c);</span><br><span class="line">		rec[c].lx=rec[c].rx=tr[c].x;</span><br><span class="line">		rec[c].ly=rec[c].ry=tr[c].y;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> lr=(d?cmpx(tr[c],p):cmpy(tr[c],p));</span><br><span class="line">	<span class="keyword">int</span> cur_flg=(sz[c]<span class="number">-1</span>)*alpha&lt;=max(sz[ch[c][lr]]+<span class="number">1</span>,sz[ch[c][lr^<span class="number">1</span>]]);</span><br><span class="line">	ins(ch[c][lr],d^<span class="number">1</span>,p,v,flg|cur_flg);</span><br><span class="line">	rec[c].lx=min(rec[c].lx,p.x);</span><br><span class="line">	rec[c].rx=max(rec[c].rx,p.x);</span><br><span class="line">	rec[c].ly=min(rec[c].ly,p.y);</span><br><span class="line">	rec[c].ry=max(rec[c].ry,p.y);</span><br><span class="line">	push_up(c);</span><br><span class="line">	<span class="keyword">if</span>(!flg&amp;&amp;cur_flg) rebuild(c,d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="矩形查询"><a href="#矩形查询" class="headerlink" title="矩形查询"></a>矩形查询</h2><p>从根开始往下递归：</p>
+<ol>
+<li>如果当前结点的范围与查询的范围没有交，直接退出；</li>
+<li>如果当前结点的范围被完全包含在查询的范围内，返回当前结点的子树信息</li>
+<li>否则考虑当前结点所代表的点的贡献，并递归到子树内继续查询</li>
+</ol>
+<p>可以证明，单次操作的时间复杂度上界为 $O(n^{1-\frac{1}{k}})$ 。</p>
+<p>以下是二维情形的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">qry</span><span class="params">(<span class="keyword">int</span> c,<span class="keyword">int</span> d,<span class="keyword">int</span> lx,<span class="keyword">int</span> rx,<span class="keyword">int</span> ly,<span class="keyword">int</span> ry)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(rx&lt;rec[c].lx||lx&gt;rec[c].rx||ry&lt;rec[c].ly||ly&gt;rec[c].ry) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(lx&lt;=rec[c].lx&amp;&amp;rx&gt;=rec[c].rx&amp;&amp;ly&lt;=rec[c].ly&amp;&amp;ry&gt;=rec[c].ry) <span class="keyword">return</span> sum[c];</span><br><span class="line">	<span class="keyword">int</span> tot=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(lx&lt;=tr[c].x&amp;&amp;rx&gt;=tr[c].x&amp;&amp;ly&lt;=tr[c].y&amp;&amp;ry&gt;=tr[c].y) tot+=val[c];</span><br><span class="line">	tot+=qry(ch[c][<span class="number">0</span>],d^<span class="number">1</span>,lx,rx,ly,ry);</span><br><span class="line">	tot+=qry(ch[c][<span class="number">1</span>],d^<span class="number">1</span>,lx,rx,ly,ry);</span><br><span class="line">	<span class="keyword">return</span> tot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="矩形修改"><a href="#矩形修改" class="headerlink" title="矩形修改"></a>矩形修改</h2><p>与矩形查询是类似的。</p>
+<p>从根开始往下递归：</p>
+<ol>
+<li>如果当前结点的范围与查询的范围没有交，直接退出；</li>
+<li>如果当前结点的范围被完全包含在查询的范围内，对当前结点打子树修改标记</li>
+<li>否则考虑修改对当前结点代表的点的贡献，并递归到当前结点的子树内继续以上过程</li>
+</ol>
+<p>单次操作的时间复杂度上界是 $O(n^{1-\frac{1}{k}})$ 。</p>
+<p>以下是二维情形的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">upd</span><span class="params">(<span class="keyword">int</span> c,<span class="keyword">int</span> lx,<span class="keyword">int</span> rx,<span class="keyword">int</span> ly,<span class="keyword">int</span> ry,<span class="keyword">int</span> op,<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(rec[c].lx&gt;rx||rec[c].rx&lt;lx||rec[c].ly&gt;ry||rec[c].ry&lt;ly) <span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">if</span>(rec[c].lx&gt;=lx&amp;&amp;rec[c].rx&lt;=rx&amp;&amp;rec[c].ly&gt;=ly&amp;&amp;rec[c].ry&lt;=ry) <span class="keyword">return</span> (<span class="keyword">void</span>)(op==<span class="number">1</span>?add(c,v):mul(c,v));</span><br><span class="line">	push_down(c);</span><br><span class="line">	<span class="keyword">if</span>(lx&lt;=tr[c].x&amp;&amp;rx&gt;=tr[c].x&amp;&amp;ly&lt;=tr[c].y&amp;&amp;ry&gt;=tr[c].y) val[c]=(op==<span class="number">1</span>?(val[c]+v)%mod:<span class="number">1l</span>l*val[c]*v%mod);</span><br><span class="line">	upd(ch[c][<span class="number">0</span>],lx,rx,ly,ry,op,v);</span><br><span class="line">	upd(ch[c][<span class="number">1</span>],lx,rx,ly,ry,op,v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="查询一个点的最近-最远点"><a href="#查询一个点的最近-最远点" class="headerlink" title="查询一个点的最近/最远点"></a>查询一个点的最近/最远点</h2><p>本质上是对暴力搜索的剪枝。</p>
+<p>剪枝 1 ：如果一个结点的范围内的所有点到查询点的距离都不如现在的最优答案优秀，那么直接退出。</p>
+<p>剪枝 2 ：在决定先往左子树走还是往右子树走的时候，走范围边界上最优的那个点更优的那个子树。</p>
+<p>可以证明，随机数据的时候单次查询的期望复杂度为 $O(\log n)$ ，最坏情况下的时间复杂度为 $O(n)$ 。</p>
+<h3 id="拓展：查询一个点的第-k-近-远的点"><a href="#拓展：查询一个点的第-k-近-远的点" class="headerlink" title="拓展：查询一个点的第 $k$ 近/远的点"></a>拓展：查询一个点的第 $k$ 近/远的点</h3><p>用优先队列维护现在已经搜到的答案最优的 $k$ 个，搜索的过程中进行和前面同理的剪枝；复杂度和上面最近/最远点的复杂度是相同的。</p>
+<p>二维 $k$ 远点：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">db <span class="title">Sqr</span><span class="params">(db x)</span> </span>&#123; <span class="keyword">return</span> x*x; &#125;</span><br><span class="line"><span class="function">db <span class="title">dis_to_rec</span><span class="params">(<span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!c) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">return</span> max(Sqr(rec[c].lx-qx),Sqr(rec[c].rx-qx))+max(Sqr(rec[c].ly-qy),Sqr(rec[c].ry-qy));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">db <span class="title">dis</span><span class="params">(<span class="keyword">int</span> c)</span> </span>&#123; <span class="keyword">return</span> Sqr(tr[c].x-qx)+Sqr(tr[c].y-qy); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">qry</span><span class="params">(<span class="keyword">int</span> c)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!c) <span class="keyword">return</span>;</span><br><span class="line">	item tmp=(item)&#123;tr[c].id,dis(c)&#125;;</span><br><span class="line">	<span class="keyword">if</span>(tmp&lt;Q.top()) Q.pop(),Q.push(tmp);</span><br><span class="line">	db d[<span class="number">2</span>]=&#123;dis_to_rec(ch[c][<span class="number">0</span>]),dis_to_rec(ch[c][<span class="number">1</span>])&#125;;</span><br><span class="line">	<span class="keyword">int</span> lr=(d[<span class="number">1</span>]&gt;d[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">if</span>(sgn(d[lr]-Q.top().d)&gt;=<span class="number">0</span>) qry(ch[c][lr]);</span><br><span class="line">	<span class="keyword">if</span>(sgn(d[lr^<span class="number">1</span>]-Q.top().d)&gt;=<span class="number">0</span>) qry(ch[c][lr^<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="题表"><a href="#题表" class="headerlink" title="题表"></a>题表</h2><ul>
+<li>luogu P2093 【国家集训队】JZPFAR</li>
+<li>luogu P3710 方方方的数据结构</li>
+<li>luogu P3710 方方方的数据结构</li>
+<li>luogu P4148 简单题</li>
+<li>luogu P4357 【CQOI2016】K远点对</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/06/30/KD-Tree/" title="KD-Tree">http://zhongyuwei.github.io/2022/06/30/KD-Tree/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/30/Euler-Tour-Tree-ETT/" rel="prev" title="Euler Tour Tree(ETT)">
+      <i class="fa fa-chevron-left"></i> Euler Tour Tree(ETT)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/30/Link-Cut-Tree-LCT/" rel="next" title="Link Cut Tree(LCT)">
+      Link Cut Tree(LCT) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD-Tree-是什么"><span class="nav-text">KD-Tree 是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建树"><span class="nav-text">建树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入-删除"><span class="nav-text">插入&#x2F;删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形查询"><span class="nav-text">矩形查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩形修改"><span class="nav-text">矩形修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询一个点的最近-最远点"><span class="nav-text">查询一个点的最近&#x2F;最远点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拓展：查询一个点的第-k-近-远的点"><span class="nav-text">拓展：查询一个点的第 $k$ 近&#x2F;远的点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题表"><span class="nav-text">题表</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="treaptreap，又叫树堆。我们可以用它去维护一个序列，或者一个集合。裸的带旋的treap可以支持插入，删除，查第$k$大，查排名，以及其他的二叉搜索树的操作；无旋treap可以支持所有splay支持的操作（区间修改，翻转，覆盖，信息合并等等），操作的复杂度是$O(\log n)$的，并且不是均摊的！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="treap, 无旋treap(fha treap)及可持久化">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fha-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="treaptreap，又叫树堆。我们可以用它去维护一个序列，或者一个集合。裸的带旋的treap可以支持插入，删除，查第$k$大，查排名，以及其他的二叉搜索树的操作；无旋treap可以支持所有splay支持的操作（区间修改，翻转，覆盖，信息合并等等），操作的复杂度是$O(\log n)$的，并且不是均摊的！">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T06:18:48.000Z">
+<meta property="article:modified_time" content="2022-06-30T06:20:15.798Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fha-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>treap, 无旋treap(fha treap)及可持久化 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fha-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          treap, 无旋treap(fha treap)及可持久化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 14:18:48 / Modified: 14:20:15" itemprop="dateCreated datePublished" datetime="2022-06-30T14:18:48+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="treap"><a href="#treap" class="headerlink" title="treap"></a>treap</h2><p>treap，又叫树堆。我们可以用它去维护一个序列，或者一个集合。裸的带旋的treap可以支持插入，删除，查第$k$大，查排名，以及其他的二叉搜索树的操作；无旋treap可以支持所有splay支持的操作（区间修改，翻转，覆盖，信息合并等等），操作的复杂度是$O(\log n)$的，并且不是均摊的！</p>
+<hr>
+<h3 id="关于treap的形态"><a href="#关于treap的形态" class="headerlink" title="关于treap的形态"></a>关于treap的形态</h3><p>它是一棵二叉树，并且，从原序列的结构上来看，它是一棵二叉搜索树，中序遍历拖出来可以得到原来的序列；而每个节点还有一个随机的权值$key$，从$key$上来看，整棵树满足堆的性质。（下面我们都假设是小根堆）</p>
+<blockquote>
+<p>性质1：对于一个序列，每个点的$key$之间的大小关系确定的前提下，这个序列构造出来的treap是唯一的</p>
+</blockquote>
+<p>（哦对了这个treap也是一个笛卡尔树）</p>
+<p>我们考虑这个序列中$key$最小的那个位置，它必须是树的根（因为是堆）。然后它左边的那些位置必须在它的左子树内，右边那些位置则必须在它的右子树内（因为它是二叉搜索树）。并且它左边的、$key$最小的那个位置一定是它的左儿子（因为是堆）……这样下来，我们会发现这棵树形态是唯一确定的。</p>
+<blockquote>
+<p>性质2：一个随机生成的长度为$n$的序列，它的笛卡尔树的高度期望是$O(\log n)$。</p>
+</blockquote>
+<p>证明算法导论上面有，可是我太菜了看不懂qwq。</p>
+<hr>
+<h3 id="关于随机权值"><a href="#关于随机权值" class="headerlink" title="关于随机权值"></a>关于随机权值</h3><p>LYC建议我用xorshift，因为stl自带的rand()值域小而且慢。<br>下面这个写法，循环节是$2^{32}-1$，$seed$初始化为一个非$0$的数就可以了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> uint unsigned int</span></span><br><span class="line">uint seed=<span class="number">19260817</span>;</span><br><span class="line"><span class="function">uint <span class="title">Rand</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    seed^=seed&lt;&lt;<span class="number">13</span>,seed^=seed&gt;&gt;<span class="number">17</span>,seed^=seed&lt;&lt;<span class="number">5</span>;</span><br><span class="line">    <span class="keyword">return</span> seed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://en.wikipedia.org/wiki/Xorshift" target="_blank" rel="noopener">wiki上的介绍（点击References处的链接可以下载论文）</a></p>
+<hr>
+<h3 id="带旋treap"><a href="#带旋treap" class="headerlink" title="带旋treap"></a>带旋treap</h3><p>我没有写过呢，因为感觉它没啥用。</p>
+<p>大概的实现原理就是，插入一个数的时候，先把这个数在叶子的位置插入（要保证满足二叉搜索树的性质），然后它的$key$可能就不满足堆的性质了，我们就可以把它向上旋转（和splay类似，旋转后二叉搜索树的性质仍然满足，而该节点和父亲的位置交换了）。删除的时候，先把这个点向下旋转到叶子（选择$key$较小的儿子把它旋上来），然后把这个点删掉。其他操作和二叉搜索树是一样的。</p>
+<p>而且这个东西还不能支持区间操作，简直不如 01 Trie。</p>
+<p>参考这篇<a href="https://www.luogu.org/blog/zhongyuwei/solution-p5055" target="_blank" rel="noopener">blog</a></p>
+<hr>
+<h3 id="无旋treap"><a href="#无旋treap" class="headerlink" title="无旋treap"></a>无旋treap</h3><p>（又叫fhq treap）这是个好东西，splay支持的东西（什么区间翻转啊，区间修改啊）它都支持，而且还比splay好写，而且还可以可持久化！</p>
+<p>它的操作依赖于两个函数：<br>1.split：<br>1）将树的中序遍历里面的前$k$个节点分离出来，形成两个treap，一个里面是前$k$个节点，另一个里面是后$n-k$个节点。<br>2）（如果这棵树上的节点是对于$val$满足二叉搜索树的性质）将树中$val$小于等于$x$的节点分离到第一棵treap中，将其他的节点分离到第二棵treap当中。<br>2.merge：将两个treap（要求第一个treap的节点的$val$，也就是我们要让它满足二叉搜索树性质的那一维，必须全部小于第二个$treap$的节点的$val$）合并为一个treap。</p>
+<h4 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h4><p>假设第一个treap的根为$a$，第二个treap的根为$b$，那么分两种情况讨论：<br>1）$a$的$key$小于$b$的$key$，那么$a$应该在$b$的上面，又因为要满足二叉搜索树的性质，所以合并$a$的右儿子与$b$即可。<br>2）否则，合并$b$的左儿子与$a$即可。</p>
+<p>我实在是不知道它是怎么想出来的，不过它显然是对的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> &amp;r,<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!a||!b)&#123;r=a+b; <span class="keyword">return</span>;&#125;</span><br><span class="line">	push_down(a),push_down(b);</span><br><span class="line">	<span class="keyword">if</span>(key[a]&lt;=key[b]) merge(ch[r=a][<span class="number">1</span>],ch[a][<span class="number">1</span>],b);</span><br><span class="line">	<span class="keyword">else</span> merge(ch[r=b][<span class="number">0</span>],a,ch[b][<span class="number">0</span>]);</span><br><span class="line">	push_up(r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="split"><a href="#split" class="headerlink" title="split"></a>split</h4><p>分离出前$k$个节点：我们考虑根节点属于那一棵treap，这只需要判断它的左儿子的$sz$即可。<br>1）如果左儿子的$sz$大于等于$k$，那么根节点属于第二棵treap，并且它的右儿子全部属于第二棵treap，我们递归分离左子树。<br>2）否则，这个点属于第一棵treap，并且它的左子树全部属于第一棵treap，我们递归分离右子树即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">split</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> k,<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x)&#123;a=b=<span class="number">0</span>; <span class="keyword">return</span>;&#125; push_down(x);</span><br><span class="line">	<span class="keyword">if</span>(sz[ch[x][<span class="number">0</span>]]&gt;=k) split(ch[x][<span class="number">0</span>],k,a,ch[b=x][<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">else</span> split(ch[x][<span class="number">1</span>],k-sz[ch[x][<span class="number">0</span>]]<span class="number">-1</span>,ch[a=x][<span class="number">1</span>],b);</span><br><span class="line">	push_up(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分离出权值小于等于$x$的点：同理，判断根节点属于哪一棵treap即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">splitv</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> v,<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x)&#123;a=b=<span class="number">0</span>; <span class="keyword">return</span>;&#125;</span><br><span class="line">	<span class="keyword">if</span>(val[x]&lt;=v) a=x,splitv(ch[x][<span class="number">1</span>],v,ch[x][<span class="number">1</span>],b);</span><br><span class="line">	<span class="keyword">else</span> b=x,splitv(ch[x][<span class="number">0</span>],v,a,ch[x][<span class="number">0</span>]);</span><br><span class="line">	push_up(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面split和merge的实现可以看出来，和两个操作的复杂度与treap的高度是同级的，而由于$key$是随机的，所以树高的期望是$O(\log n)$的，所以这两个操作的复杂度是$O(\log n)$的。</p>
+<p>接下来我们来看一些常规的操作：</p>
+<h4 id="insert-插入"><a href="#insert-插入" class="headerlink" title="insert 插入"></a>insert 插入</h4><p>假如我们要在第$p$个元素后面插入一个元素，那么把前$p$个元素split出来，然后对将要新加入的元素单独建一棵树（实际上树中只有一个点），把原来的前$p$个元素，新加入的元素，后$n-p$个元素merge在一起就可以了。</p>
+<p>而如果是要插入一段区间，我们就需要先把这个区间build成一个treap，利用单调栈维护最右链即可，代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">new_node</span><span class="params">(<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> u=++ncnt;</span><br><span class="line">	val[u]=v,key[u]=Rand(),push_up(u); <span class="keyword">return</span> u;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> st[N],b[N],tot,p;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> &amp;r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> top; st[top=<span class="number">1</span>]=b[<span class="number">1</span>]=new_node(b[<span class="number">1</span>]);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=tot;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		b[i]=new_node(b[i]);</span><br><span class="line">		<span class="comment">//单调栈里面维护最右链。新加的点在中序遍历中必须处在末尾，所以前面的节点如果有key比它大的，那么必须作为它的左子树</span></span><br><span class="line">		<span class="keyword">while</span>(top&amp;&amp;key[b[i]]&lt;key[st[top]])</span><br><span class="line">		    ch[b[i]][<span class="number">0</span>]=st[top],push_up(st[top]),top--;</span><br><span class="line">		<span class="comment">//这里push_up的原因是，一个点出栈后，它的子树内的信息就不会再变化了，所以要及时push_up</span></span><br><span class="line">		<span class="keyword">if</span>(top) ch[st[top]][<span class="number">1</span>]=b[i];</span><br><span class="line">		st[++top]=b[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(top) push_up(st[top]),top--; r=st[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在第p个位置后面插入b数组中的tot个元素</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,z; split(rt,p,x,z); build(y);</span><br><span class="line">	merge(rt,x,y),merge(rt,rt,z);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意对新加入的元素单独建树的时候，所有维护区间信息的变量（$sz$，$su m$之类的）要赋初值，因为我们是采取了合并的方式，要保证它是一棵合法的<strong>树</strong>。这一点和splay不一样。</p>
+<p>维护$val$满足二叉搜索树性质的也是类似，只不过分离的是所有小于等于$v-1$的节点。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,c=make(v); splitv(rt,v,x,y);</span><br><span class="line">	merge(rt,x,c),merge(rt,rt,y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="delete-删除"><a href="#delete-删除" class="headerlink" title="delete 删除"></a>delete 删除</h4><p>假如要删除第$p$个元素，我们就两次split把原树分成三个部分：前$p-1$个，第$p$个，后$n-p$个。然后直接把前$p-1$个和后$n-p$个merge起来就可以了。删除一段区间也是类似的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下面的代码删除第p个元素开始的tot个元素，recycle是一个回收子树内所有节点的函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">del</span><span class="params">(<span class="keyword">int</span> p,<span class="keyword">int</span> tot)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,z; split(rt,p<span class="number">-1</span>,x,z),split(z,tot,y,z);</span><br><span class="line">	recycle(y); merge(rt,x,z);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是按照$val$满足二叉搜索树性质，并且可能有多个元素的$val$相同，假设我们现在要删除<strong>一个</strong>$val$等于$v$的元素，那么就把$val$等于$v$的单独分裂出来，把这棵treap根节点的左儿子和右儿子merge起来（本质上就是删掉一个节点），然后再把三棵树merge回去。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">del</span><span class="params">(<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,z;</span><br><span class="line">	splitv(rt,v,x,y),splitv(x,v<span class="number">-1</span>,x,z);</span><br><span class="line">	merge(z,ch[z][<span class="number">0</span>],ch[z][<span class="number">1</span>]);</span><br><span class="line">	merge(rt,x,z),merge(rt,rt,y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="区间操作"><a href="#区间操作" class="headerlink" title="区间操作"></a>区间操作</h4><p>区间修改：我们把这段区间分离出来，然后打标记就可以啦。<br>区间查询：我们把这段区间分离出来，返回这棵treap的根的子树信息就可以了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//区间翻转</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Swap</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;swap(ch[x][<span class="number">0</span>],ch[x][<span class="number">1</span>]),rev[x]^=<span class="number">1</span>;&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Rev</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,z;</span><br><span class="line">	split(rt,l<span class="number">-1</span>,x,y),split(y,r-l+<span class="number">1</span>,y,z);</span><br><span class="line">	Swap(y);</span><br><span class="line">	merge(rt,x,y),merge(rt,rt,z);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//查询从p开始的tot个元素的和</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> p,<span class="keyword">int</span> tot)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,z; split(rt,p<span class="number">-1</span>,x,z),split(z,tot,y,z);</span><br><span class="line">	<span class="keyword">int</span> ans=sum[y].sum; merge(rt,x,y),merge(rt,rt,z);</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="查排名"><a href="#查排名" class="headerlink" title="查排名"></a>查排名</h4><p>直接将小于等于$v-1$的分离出来，返回第一棵树的$sz+1$即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">rnk</span><span class="params">(<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y; splitv(rt,v<span class="number">-1</span>,x,y);</span><br><span class="line">	<span class="keyword">int</span> ans=sz[x]+<span class="number">1</span>; merge(rt,x,y);</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="查前驱后继"><a href="#查前驱后继" class="headerlink" title="查前驱后继"></a>查前驱后继</h4><p>前驱：将小于等于$v-1$的分离出来，然后返回第一棵树中最大的元素。<br>后继：将小于等于$v$的分离出来，然后返回第二棵树中最小的元素。<br>（当然也可以用二叉搜索树的写法）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回前驱，后继的节点编号</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pre</span><span class="params">(<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,z; splitv(rt,v<span class="number">-1</span>,z,y); x=z;</span><br><span class="line">	<span class="keyword">while</span>(ch[x][<span class="number">1</span>]) x=ch[x][<span class="number">1</span>];</span><br><span class="line">	merge(rt,z,y); <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">suf</span><span class="params">(<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> x,y,z; splitv(rt,v,y,z); x=z;</span><br><span class="line">	<span class="keyword">while</span>(ch[x][<span class="number">0</span>]) x=ch[x][<span class="number">0</span>];</span><br><span class="line">	merge(rt,y,z); <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h4><p>和splay，二叉搜索树一样的~</p>
+<hr>
+<h3 id="模板题"><a href="#模板题" class="headerlink" title="模板题"></a>模板题</h3><p><a href="https://www.luogu.org/problemnew/show/P3369" target="_blank" rel="noopener">普通平衡树</a> <a href="https://www.luogu.org/recordnew/show/16211628" target="_blank" rel="noopener">我的提交记录</a><br><a href="https://www.luogu.org/problemnew/show/P3391" target="_blank" rel="noopener">文艺平衡树</a> <a href="https://www.luogu.org/recordnew/show/16212287" target="_blank" rel="noopener">我的提交记录</a><br><a href="https://www.luogu.org/problemnew/show/P2042" target="_blank" rel="noopener">维护数列</a> <a href="https://www.luogu.org/recordnew/show/16217180" target="_blank" rel="noopener">我的提交记录</a></p>
+<h2 id="可持久化Treap"><a href="#可持久化Treap" class="headerlink" title="可持久化Treap"></a>可持久化Treap</h2><h3 id="split-与-merge"><a href="#split-与-merge" class="headerlink" title="split 与 merge"></a>split 与 merge</h3><h4 id="split-1"><a href="#split-1" class="headerlink" title="split"></a>split</h4><p>可持久化意味着我们在操作的时候不能够修改任何的东西。</p>
+<p>观察一下split的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">split</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> k,<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x)&#123;a=b=<span class="number">0</span>; <span class="keyword">return</span>;&#125;</span><br><span class="line">	<span class="keyword">if</span>(sz[ch[x][<span class="number">0</span>]]&gt;=k) split(ch[x][<span class="number">0</span>],k,a,ch[b=x][<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">else</span> split(ch[x][<span class="number">1</span>],k-sz[ch[x][<span class="number">0</span>]]<span class="number">-1</span>,ch[a=x][<span class="number">1</span>],b);</span><br><span class="line">	push_up(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们实际上修改了什么？分离完后，第一棵树的最右链上的点的右儿子，以及第二棵树上最左链上的点的左儿子。那么我们把这些最右链和最左链上的点复制一遍，在复制的版本上修改就可以了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">split</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> k,<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!x)&#123;a=b=<span class="number">0</span>; <span class="keyword">return</span>;&#125;</span><br><span class="line">	<span class="keyword">if</span>(sz[ch[x][<span class="number">0</span>]]&gt;=k) split(ch[x][<span class="number">0</span>],k,a,ch[b=cpy(x)][<span class="number">0</span>]),push_up(b);</span><br><span class="line">	<span class="keyword">else</span> split(ch[x][<span class="number">1</span>],k-sz[ch[x][<span class="number">0</span>]]<span class="number">-1</span>,ch[a=cpy(x)][<span class="number">1</span>],b),push_up(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="merge-1"><a href="#merge-1" class="headerlink" title="merge"></a>merge</h4><p>还是看代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> &amp;r,<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!a||!b)&#123;r=a+b; <span class="keyword">return</span>;&#125;</span><br><span class="line">    <span class="keyword">if</span>(key[a]&lt;=key[b]) merge(ch[r=a][<span class="number">1</span>],ch[a][<span class="number">1</span>],b);</span><br><span class="line">    <span class="keyword">else</span> merge(ch[r=b][<span class="number">0</span>],a,ch[b][<span class="number">0</span>]);</span><br><span class="line">    push_up(r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们实际上修改的，是第一棵树的最右链上的点和第二棵树最左链上的点。复制一遍即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> &amp;r,<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!a||!b)&#123;r=a+b; <span class="keyword">return</span>;&#125;</span><br><span class="line">    <span class="keyword">if</span>(key[a]&lt;=key[b]) r=cpy(a),merge(ch[r][<span class="number">1</span>],ch[a][<span class="number">1</span>],b);</span><br><span class="line">    <span class="keyword">else</span> r=cpy(b),merge(ch[r][<span class="number">0</span>],a,ch[b][<span class="number">0</span>]);</span><br><span class="line">    push_up(r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>等等，真的需要复制吗？对于许多的题目，我们都是先split，然后再merge，merge的时候第一棵树的最右链和第二棵树的最左链在split的时候都已经复制过了，所以其实可以直接赋值，不再复制节点，即和普通的无旋treap一样的写法。</p>
+<hr>
+<h3 id="区间操作-1"><a href="#区间操作-1" class="headerlink" title="区间操作"></a>区间操作</h3><p>有了函数式的split和merge，我们就可以可持久化带插入，单点修改，删除的无旋treap了。</p>
+<p>但是一旦涉及到区间操作，就涉及到打标记，就很难受了。</p>
+<p>看到网上的题解大多数是这样子实现的：下放标记的时候，把儿子节点复制一遍，像这样——</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push_down</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(rev[x])</span><br><span class="line">	&#123;</span><br><span class="line">		swap(ch[x][<span class="number">0</span>],ch[x][<span class="number">1</span>]);</span><br><span class="line">		<span class="keyword">if</span>(ch[x][<span class="number">0</span>]) ch[x][<span class="number">0</span>]=cpy(ch[x][<span class="number">0</span>]),rev[ch[x][<span class="number">0</span>]]^=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(ch[x][<span class="number">1</span>]) ch[x][<span class="number">1</span>]=cpy(ch[x][<span class="number">1</span>]),rev[ch[x][<span class="number">1</span>]]^=<span class="number">1</span>;</span><br><span class="line">		rev[x]=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样子显然是正确的，但是感觉空间会造成浪费。能不能直接像可持久化线段树那样，把标记永久化了呢？</p>
+<p>答案是肯定的！我在这篇<a href="https://www.luogu.org/blog/zhongyuwei/solution-p5055" target="_blank" rel="noopener">题解</a>中介绍了它。空间和时间相对于前面的写法都要优秀一些。</p>
+<hr>
+<h3 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h3><p>时间复杂度比较显然，单次操作是$O(\log n)$的。</p>
+<p>但是空间复杂度，尽管单次操作是$O(\log n)$的，但是每次操作要split和merge好几次，而且本来这个树高也不是严格$\log n$的，所以我觉得TGSteven的话很有道理：数组能开多大开多大！</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fha-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/" title="treap, 无旋treap(fha treap)及可持久化">http://zhongyuwei.github.io/2022/06/30/treap-无旋treap-fha-treap-及可持久化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/30/Segment-Tree-Beats%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" rel="prev" title="Segment Tree Beats专题练习">
+      <i class="fa fa-chevron-left"></i> Segment Tree Beats专题练习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/30/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E6%95%B0%E9%A2%9C%E8%89%B2%EF%BC%88%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%EF%BC%89/" rel="next" title="树上路径数颜色（树上莫队）">
+      树上路径数颜色（树上莫队） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#treap"><span class="nav-text">treap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于treap的形态"><span class="nav-text">关于treap的形态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于随机权值"><span class="nav-text">关于随机权值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带旋treap"><span class="nav-text">带旋treap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无旋treap"><span class="nav-text">无旋treap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#merge"><span class="nav-text">merge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#split"><span class="nav-text">split</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#insert-插入"><span class="nav-text">insert 插入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#delete-删除"><span class="nav-text">delete 删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#区间操作"><span class="nav-text">区间操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查排名"><span class="nav-text">查排名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查前驱后继"><span class="nav-text">查前驱后继</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他操作"><span class="nav-text">其他操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板题"><span class="nav-text">模板题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可持久化Treap"><span class="nav-text">可持久化Treap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#split-与-merge"><span class="nav-text">split 与 merge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#split-1"><span class="nav-text">split</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#merge-1"><span class="nav-text">merge</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区间操作-1"><span class="nav-text">区间操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂度"><span class="nav-text">复杂度</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
