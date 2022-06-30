@@ -111,8 +111,8 @@ f_i = \min\{ f_j \mid j<i 并且 p_j < i 并且不存在 k\in (j,i),p_j < p_k < 
       </tags>
   </entry>
   <entry>
-    <title>treap, 无旋treap(fha treap)及可持久化</title>
-    <url>/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fha-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/</url>
+    <title>treap, 无旋treap(fhq treap)及可持久化</title>
+    <url>/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fhq-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/</url>
     <content><![CDATA[<h2 id="treap"><a href="#treap" class="headerlink" title="treap"></a>treap</h2><p>treap，又叫树堆。我们可以用它去维护一个序列，或者一个集合。裸的带旋的treap可以支持插入，删除，查第$k$大，查排名，以及其他的二叉搜索树的操作；无旋treap可以支持所有splay支持的操作（区间修改，翻转，覆盖，信息合并等等），操作的复杂度是$O(\log n)$的，并且不是均摊的！</p>
 <hr>
 <h3 id="关于treap的形态"><a href="#关于treap的形态" class="headerlink" title="关于treap的形态"></a>关于treap的形态</h3><p>它是一棵二叉树，并且，从原序列的结构上来看，它是一棵二叉搜索树，中序遍历拖出来可以得到原来的序列；而每个节点还有一个随机的权值$key$，从$key$上来看，整棵树满足堆的性质。（下面我们都假设是小根堆）</p>
