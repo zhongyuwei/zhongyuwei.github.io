@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="主要都是用来解决有“通配符”、“模糊匹配”等的问题（如果没有这些东西直接kmp多好）。并且这些题目中，“通配符”能够代表的字符数量是一定的，否则就没有办法卷积了。  字符集较小：对每个字符单独考虑是否匹配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生成函数与字符串匹配">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="主要都是用来解决有“通配符”、“模糊匹配”等的问题（如果没有这些东西直接kmp多好）。并且这些题目中，“通配符”能够代表的字符数量是一定的，否则就没有办法卷积了。  字符集较小：对每个字符单独考虑是否匹配">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T05:55:21.000Z">
+<meta property="article:modified_time" content="2022-06-30T05:55:49.321Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="专题练习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>生成函数与字符串匹配 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          生成函数与字符串匹配
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 13:55:21 / Modified: 13:55:49" itemprop="dateCreated datePublished" datetime="2022-06-30T13:55:21+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>主要都是用来解决有“通配符”、“模糊匹配”等的问题（如果没有这些东西直接kmp多好）。并且这些题目中，“通配符”能够代表的字符数量是一定的，否则就没有办法卷积了。</p>
+<hr>
+<h2 id="字符集较小：对每个字符单独考虑是否匹配"><a href="#字符集较小：对每个字符单独考虑是否匹配" class="headerlink" title="字符集较小：对每个字符单独考虑是否匹配"></a>字符集较小：对每个字符单独考虑是否匹配</h2><h3 id="CF528D-Fuzzy-Search"><a href="#CF528D-Fuzzy-Search" class="headerlink" title="CF528D Fuzzy Search"></a>CF528D Fuzzy Search</h3><p>有两个只包含$A,C,G,T$的字符串$S$和$T$，长度分别为$n,m$。给定一个限制宽度$K$。定义字符串$T$在$S$的$i$位置上匹配，当且仅当：$\forall j\in [1,m],\exists p\in [max((i+j-1)-K,1),min((i+j-1)+K,n)]$，使得$S[p]=T[j]$。问$T$在哪些位置上匹配。$1\le m\le n\le 200000,K\le 200000$。</p>
+<p>Solution：可以考虑单独计算$match(i,c)$，表示$[i,i+m-1]$这个子串与$T$中的字符$c$的匹配数量。那么一个位置匹配的条件是$\sum match(i,c) =m$。</p>
+<p>我们先枚举字符。那么我们设$f(i)=[S[i-K,i+K]中存在字符c]$，$g(i) = [T[i]=c] $。那么我们需要求的就是$h(i)=\sum_{j=1}^m g(j)\times f(i+j-1)$。把$g$翻一下用FFT算即可。</p>
+<h3 id="bzoj-3160-万径人踪灭"><a href="#bzoj-3160-万径人踪灭" class="headerlink" title="bzoj 3160 万径人踪灭"></a>bzoj 3160 万径人踪灭</h3><p>在一个只包含$a,b$的字符串中选取一个子序列，使得：<br>1.位置和字符都关于某条对称轴对称对称。<br>2.不能是连续的一段。<br>问方案数对$1000000007$取模的值。</p>
+<p>Solution：等价于“位置和字符都对称的子序列数量”减去“连续的回文子串数量”，后者可以用manacher求出。</p>
+<p>对于前者，我们考虑计算每个对称轴的贡献。假设有$x$个字符关于这个对称轴对称，那么这个对称轴的贡献就是$2^x-1$。两个位置关于$mid$对称等价于两个位置下标的和等于$mid\times 2$。我们枚举$mid\times 2$，分开计算两种字符各有多少个位置关于它对称。加入当前枚举的是$c$，设$f(x)=\sum_{i=1}^n [S_i=c]x^i$，那么我们要求的就是这个函数的平方。</p>
+<p>注意，在卷积中，两个不同的位置$i,j$对$i+j$的贡献会被计算两次（第一个多项式选$i$，第二个多项式选$j$和第一个多项式选$j$，第二个多项式选$i$），而两个相同位置的贡献只会被算一次。</p>
+<hr>
+<h2 id="字符集较大：玄学构造比较函数"><a href="#字符集较大：玄学构造比较函数" class="headerlink" title="字符集较大：玄学构造比较函数"></a>字符集较大：<del>玄学</del>构造比较函数</h2><h3 id="bzoj4259-残缺的字符串"><a href="#bzoj4259-残缺的字符串" class="headerlink" title="bzoj4259 残缺的字符串"></a>bzoj4259 残缺的字符串</h3><p>有两个仅包含小写字母和<em>的字符串$A$和$B$，其中 </em> 作为通配符，可以匹配任意一个字符。问$A$在$B$的哪些位置出现过。$1\le |A|\le |B| \le 300000$</p>
+<p>Solution：</p>
+<p>假设$|A|=m,|B|=n$。</p>
+<p>如果我们定义一个函数$f(x,y)=A[x]-B[y]$，那么这个函数在$A[x]=B[y]$的时候就会返回$0$，否则就不会返回$0$。我们似乎可以通过判断$\sum_{i=1}^m A[i]-B[p+i-1]$是否为$0$来判断$p$这个位置是否可以与$A$匹配。但是这样是错误的，因为$f$的返回值有正有负，可能会出现正负数互相抵消的情况。</p>
+<p>那么<del>经过前人无数挣扎发现</del>可以定义$f(x,y)=(A[x]-B[y])^2$作为比较函数。这样有两个好处：<br>1.$(A[x]-B[y])^2=A[x]^2+B[y]^2-2A[x]B[y]$，这个东西用FFT优化，可以在$n\log n$的时间内求出所有的$\sum_{i=1}^m (A[i]-B[p+i-1])^2$。<br>2.函数值均为非负数。因此如果有一个位置的函数值不为$0$，那么求和的结果就不为$0$。</p>
+<p>现在考虑怎么做这道题：构造一个函数，当$A[x]=B[y]$或者$A[x],B[y]$中有一个为 * 的时候，$f(x,y)$为$0$；否则为一个正数。</p>
+<p>如果令 * 的值为$0$，其他字符$c$的值为$c-‘a’+1$，那么构造$f(x,y)=(A[x]-B[y])^2 A[x]B[y]$恰好可以满足这个条件。</p>
+<p>考虑怎么优化：</p>
+<script type="math/tex; mode=display">
+\sum (A[x]-B[y])^2 A[x]B[y]\\
+=\sum A[x]^3 B[y] +A[x]B[y]^3 -2A[x]^2 B[y]^2</script><p>这玩意也可以用FFT优化，做三次卷积就可以了，只是常数略大QAQ。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/" title="生成函数与字符串匹配">http://zhongyuwei.github.io/2022/06/30/生成函数与字符串匹配/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" rel="tag"># 专题练习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/" rel="prev" title="任意模数NTT(NTT+CRT,MTT的优化)">
+      <i class="fa fa-chevron-left"></i> 任意模数NTT(NTT+CRT,MTT的优化)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/30/%E5%AD%90%E9%9B%86%E5%8D%B7%E7%A7%AF%E4%B8%8Ebitcount/" rel="next" title="子集卷积与bitcount">
+      子集卷积与bitcount <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集较小：对每个字符单独考虑是否匹配"><span class="nav-text">字符集较小：对每个字符单独考虑是否匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CF528D-Fuzzy-Search"><span class="nav-text">CF528D Fuzzy Search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bzoj-3160-万径人踪灭"><span class="nav-text">bzoj 3160 万径人踪灭</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集较大：玄学构造比较函数"><span class="nav-text">字符集较大：玄学构造比较函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bzoj4259-残缺的字符串"><span class="nav-text">bzoj4259 残缺的字符串</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

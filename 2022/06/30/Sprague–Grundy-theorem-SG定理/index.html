@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="相关的定义公平组合游戏 (impartial combinatorial game)定义为满足下列条件的游戏：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sprague–Grundy theorem(SG定理)">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/06/30/Sprague%E2%80%93Grundy-theorem-SG%E5%AE%9A%E7%90%86/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="相关的定义公平组合游戏 (impartial combinatorial game)定义为满足下列条件的游戏：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T05:39:48.000Z">
+<meta property="article:modified_time" content="2022-06-30T05:40:42.478Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/06/30/Sprague%E2%80%93Grundy-theorem-SG%E5%AE%9A%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Sprague–Grundy theorem(SG定理) | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Sprague%E2%80%93Grundy-theorem-SG%E5%AE%9A%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Sprague–Grundy theorem(SG定理)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 13:39:48 / Modified: 13:40:42" itemprop="dateCreated datePublished" datetime="2022-06-30T13:39:48+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="相关的定义"><a href="#相关的定义" class="headerlink" title="相关的定义"></a>相关的定义</h2><h3 id="公平组合游戏-impartial-combinatorial-game"><a href="#公平组合游戏-impartial-combinatorial-game" class="headerlink" title="公平组合游戏 (impartial combinatorial game)"></a>公平组合游戏 (impartial combinatorial game)</h3><p>定义为满足下列条件的游戏：</p>
+<ol>
+<li>两个玩家轮流操作，无法操作者输。</li>
+<li>游戏会在有限的轮数内结束。</li>
+<li>对于每个状态，每一个玩家可以进行的操作是相同的。也就是说可以进行的操作只取决于当前所处的状态而不取决于操作的玩家。</li>
+<li>信息公开，且没有随机行为。即，两个玩家都能够知道关于游戏状态的所有信息以及对手的操作，且玩家的操作会转移到的后继状态是确定的（而不会受到随机因子的影响）。</li>
+</ol>
+<h3 id="状态-position"><a href="#状态-position" class="headerlink" title="状态 (position)"></a>状态 (position)</h3><p>我们约定用如下的记号来表示游戏状态：假设某个状态$G$能够转移到的状态集合是$\{G_1,G_2\cdots G_k\}$，我们就用$\{G_1,G_2\cdots G_k\}$来表示$G$。没有可行的转移的状态记为$\{\}$。此外，我们用$<em>n$表示有一个有$n$个石子的Nim游戏的状态，即：$</em>0=\{\},<em>n = </em>(n-1) \cup \{<em>(n-1)\} = \{</em>(n-1),<em>(n-2),\cdots </em>0\}$。</p>
+<p>公平组合游戏的状态可以根据其结果分为两类，一类是 N-positions ，表示先手必胜态；另一类是 P-positions ，表示先手必败态。一个简单的结论是，一个状态是 N-position 当且仅当它存在一个后继状态是 P-positioin ，一个状态是 P-position 当且仅当它所有的后继状态都是 N-position。</p>
+<h3 id="组合-to-combine"><a href="#组合-to-combine" class="headerlink" title="组合 (to combine)"></a>组合 (to combine)</h3><p>用$A+B$表示由$A$和$B$两个游戏组合起来得到的游戏。组合的含义是：$A+B = \{ a + B \mid a \in A\} \cup \{ b + A\mid b \in B\}$。</p>
+<h3 id="等价-equivalence"><a href="#等价-equivalence" class="headerlink" title="等价 (equivalence)"></a>等价 (equivalence)</h3><p>称两个状态$G,G’$是等价的当且仅当对于任意一个状态$H$，$G+H$和$G’+H$的结果相同。记为$G\approx G’$。</p>
+<h2 id="Sprague–Grundy-theorem"><a href="#Sprague–Grundy-theorem" class="headerlink" title="Sprague–Grundy theorem"></a>Sprague–Grundy theorem</h2><p>任意一个公平组合游戏的任意一个状态都可以与唯一确定的一个Nim游戏的状态等价。我们把它所等价于的Nim游戏中的石子数称为Grundy number（也称为Grundy value, nim-value, nimber ）。</p>
+<h2 id="proof"><a href="#proof" class="headerlink" title="proof"></a>proof</h2><h3 id="First-Lemma"><a href="#First-Lemma" class="headerlink" title="First Lemma"></a>First Lemma</h3><p>对于任意一个 P-position $A$和任意一个状态$G$，$G\approx G+A$。</p>
+<p>证明：等价于证明，对于任意一个状态$H$，$G+H$和$G+A+H$的结果是一样的。</p>
+<p>假设$G+H$是必胜状态 ，则只需要说明$G+H+A$是必胜状态。先手只需要先进行$G+H$中的必胜策略的第一步，然后$G+H$转化成了必败状态，而此时$A$也是必败状态。接下来，如果后手操作$A$，先手也跟着操作$A$，使$A$仍然是必败状态；如果后手操作$G+H$，先手就跟着操作$G+H$。这样就可以保证$A$和$G+H$始终都是必败状态，直到结束。所以$G+H+A$是必胜状态。</p>
+<p>假设$G+H$是必败状态，则$G+H+A$等价于上一种情况中第一步之后的局面，所以$G+H+A$也是必败状态。</p>
+<p>综上，对于任意一个 P-position $A$和任意一个状态$G$，$G\approx G+A$。</p>
+<h3 id="Second-Lemma"><a href="#Second-Lemma" class="headerlink" title="Second Lemma"></a>Second Lemma</h3><p>$G\approx G’$的充要条件是$G+G’$为P-position。</p>
+<p>证明：<br>必要性：如果$G\approx G’$，则$G+G\approx G+G’$，而由于$G+G$显然是一个P-positiong（先手在某一个$G$上操作了之后，后手可以在另一个$G$上做同样的操作，这样先手就必败了），所以$G+G’$是一个P-position。<br>充分性：如果$G+G’$为P-position，那么对于任意一个状态$H$，我们有$G+H \approx G+H+(G+G’) \approx G’+H+(G+G) \approx G’+H$，所以$G\approx G’$。</p>
+<h3 id="证明Sprague–Grundy-theorem"><a href="#证明Sprague–Grundy-theorem" class="headerlink" title="证明Sprague–Grundy theorem"></a>证明Sprague–Grundy theorem</h3><p>证明：考虑归纳。若状态为终态显然成立，此时等价于$<em>0$。假设现在有一个不是终态的状态$G=\{G_1,G_2,\cdots G_k\}$，由归纳假设已经知道$G_i \approx </em>n_i$。令$G’ = \{ <em>n_1,</em>n_2,\cdots *n_k\}$。令$m$为$\{n_1,n_2\cdots n_k\}$中没有出现过的最小自然数。</p>
+<p>首先证明$G\approx G’$，等价于要证明$G+G’$是P-position。如果$G=\{\}$显然成立；如果先手把$G’$转移到了$<em>n_i$，则后手可以把$G$转移到$G_i$，由于$</em>n_i \approx G_i$，所以$<em>n_i + G_i$为P-position；如果先手把$G$转移到了$G_i$，后手则可以把$G’$转移到$</em>n_i$，也得到了$*n_i +G_i$。综上，$G\approx G’$。</p>
+<p>下面证明$G\approx <em>m$，由于等价的传递性，这个命题等价于$G’+</em>m$为P-position。假设先手操作了$<em>m$转移到了$</em>n’$，则$G’$一定也包含$<em>n’$这个转移，后手只要将$G’$转移到$</em>n’$就可以把必败局面留给先手。而如果先手操作了$G’$转移到了$<em>n’$，若$n’&gt;m$则后手可以操作$</em>n’$转移到$<em>m$，而若$n’&lt;m$则后手可以操作$</em>m$转移到$*n’$。注意由于$m$的定义，不可能出现$n’=m$的情况。</p>
+<p>证毕。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem" target="_blank" rel="noopener">wiki</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/06/30/Sprague%E2%80%93Grundy-theorem-SG%E5%AE%9A%E7%90%86/" title="Sprague–Grundy theorem(SG定理)">http://zhongyuwei.github.io/2022/06/30/Sprague–Grundy-theorem-SG定理/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/30/Nim%E7%A7%AF/" rel="prev" title="Nim积">
+      <i class="fa fa-chevron-left"></i> Nim积
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/30/%E5%85%AC%E5%B9%B3%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%9A%84%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/" rel="next" title="公平组合游戏的经典模型">
+      公平组合游戏的经典模型 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关的定义"><span class="nav-text">相关的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#公平组合游戏-impartial-combinatorial-game"><span class="nav-text">公平组合游戏 (impartial combinatorial game)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态-position"><span class="nav-text">状态 (position)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合-to-combine"><span class="nav-text">组合 (to combine)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等价-equivalence"><span class="nav-text">等价 (equivalence)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sprague–Grundy-theorem"><span class="nav-text">Sprague–Grundy theorem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#proof"><span class="nav-text">proof</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#First-Lemma"><span class="nav-text">First Lemma</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Second-Lemma"><span class="nav-text">Second Lemma</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证明Sprague–Grundy-theorem"><span class="nav-text">证明Sprague–Grundy theorem</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

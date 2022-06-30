@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="问题：给出两个多项式，以及模数$P$，计算它们的卷积，不保证$P$是$t\cdot 2^k + 1$的形式的质数。 模数不支持NTT，那么我们肯定只能通过某种方式算出精确值，然后再取模。然而，两个这样的多项式相乘，每一项的系数最大是$n\cdot P^2$，大约$10^{23}$，FFT会爆精度，也不可能单模数NTT……">
+<meta property="og:type" content="article">
+<meta property="og:title" content="任意模数NTT(NTT+CRT,MTT的优化)">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="问题：给出两个多项式，以及模数$P$，计算它们的卷积，不保证$P$是$t\cdot 2^k + 1$的形式的质数。 模数不支持NTT，那么我们肯定只能通过某种方式算出精确值，然后再取模。然而，两个这样的多项式相乘，每一项的系数最大是$n\cdot P^2$，大约$10^{23}$，FFT会爆精度，也不可能单模数NTT……">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T05:54:05.000Z">
+<meta property="article:modified_time" content="2022-06-30T05:54:29.571Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>任意模数NTT(NTT+CRT,MTT的优化) | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          任意模数NTT(NTT+CRT,MTT的优化)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 13:54:05 / Modified: 13:54:29" itemprop="dateCreated datePublished" datetime="2022-06-30T13:54:05+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>问题：给出两个多项式，以及模数$P$，计算它们的卷积，不保证$P$是$t\cdot 2^k + 1$的形式的质数。</p>
+<p>模数不支持NTT，那么我们肯定只能通过某种方式算出精确值，然后再取模。然而，两个这样的多项式相乘，每一项的系数最大是$n\cdot P^2$，大约$10^{23}$，FFT会爆精度，也不可能单模数NTT……</p>
+<hr>
+<h2 id="方法一：三模数NTT-CRT"><a href="#方法一：三模数NTT-CRT" class="headerlink" title="方法一：三模数NTT + CRT"></a>方法一：三模数NTT + CRT</h2><p>我们选三个乘积大于了$n\cdot P^2$的、可以NTT的质数，算出系数模它们的余数，再将得到的余数利用中国剩余定理合并。然而粘板子是不行的，因为会爆long long。</p>
+<p>假设现在有三个方程：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x\equiv c_0\mod m_0\\
+x\equiv c_1\mod m_1\\
+x\equiv c_2\mod m_2\\
+\end{cases}</script><p>其中$m_1,m_2,m_3$都是$10^9$级别的。我们先中国剩余定理合并前面两个，得到：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x\equiv c\mod m\\
+x\equiv c_2\mod m_2\\
+\end{cases}</script><p>其中$m=m_1\cdot m_2$。设$x=c+k_1m=c_2+k_2m_2$，则$k_1m-k_2m_2=c_2-c$，可以直接用扩展欧几里得求出一组解，因为扩展欧几里得算法解不定方程$ax+by=gcd(a,b)$，求出的解一定满足$|x|\le |b|$且$|y|\le |a|$。</p>
+<p>整个同余方程组的最小正解，一定就是卷积结果的系数的真实值。因为任何一个比最小正解大的解，一定大于$m_1\cdot m_2\cdot m_3$，而这已经到了$10^{27}$的级别了，但这道题的答案不会超过$10^{23}$。</p>
+<p>那么我们现在算出了最小的$k_1$，带回$x=c+k_1m$就可以得到$x$的值了。这里的乘法计算，当然要先对$P$取模再算乘法（要不然还是会爆long long QAQ）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这三个模数的原根都是3</span></span><br><span class="line"><span class="keyword">int</span> M[<span class="number">3</span>]=&#123;<span class="number">1004535809</span>,<span class="number">104857601</span>,<span class="number">998244353</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> C[<span class="number">3</span>][N],A[N],B[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> b[],<span class="keyword">int</span> P)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">3</span>;++k)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) A[i]=a[i],B[i]=b[i];</span><br><span class="line">		FFT(A,<span class="number">1</span>,M[k]),FFT(B,<span class="number">1</span>,M[k]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[k][i]=A[i]*(ll)B[i]%M[k];</span><br><span class="line">		FFT(C[k],<span class="number">-1</span>,M[k]);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	ll P1=M[<span class="number">0</span>]*(ll)M[<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		ll k0,k1; exgcd(M[<span class="number">0</span>],M[<span class="number">1</span>],k0,k1); k0=(k0*(C[<span class="number">1</span>][i]-C[<span class="number">0</span>][i])%M[<span class="number">1</span>]+M[<span class="number">1</span>])%M[<span class="number">1</span>];</span><br><span class="line">		ll x1=(C[<span class="number">0</span>][i]+k0*M[<span class="number">0</span>]%P1)%P1;</span><br><span class="line">		exgcd(P1,M[<span class="number">2</span>],k0,k1); k0=(k0%M[<span class="number">2</span>]*((C[<span class="number">2</span>][i]-x1)%M[<span class="number">2</span>])+M[<span class="number">2</span>])%M[<span class="number">2</span>];</span><br><span class="line">		a[i]=(x1+k0%P*(P1%P))%P;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="方法二：MTT"><a href="#方法二：MTT" class="headerlink" title="方法二：MTT"></a>方法二：MTT</h2><p>用FFT计算的瓶颈在于精度爆炸，那么我们可以拆系数，把系数的值域变小，用时间换精度。</p>
+<p>我们把原来的多项式$A(x)$拆成$A_0(x)\cdot M+A_1(x)$，其中$M$是一个常数。即，令${A_0}_i=\lfloor{A_i\over M}\rfloor,{A_1}_i=A_i\mod M$。这样计算两个多项式乘积就是算：</p>
+<script type="math/tex; mode=display">
+A(x)B(x)=(A_0(x)\cdot M+A_1(x))(B_0(x)\cdot M+B_1(x))\\
+=A_0(x)B_0(x)M^2 + A_1(x)B_0(x)M+A_0(x)B_1(x)M+A_1(x)B_1(x)</script><p>如果$M$取到$\sqrt P$左右的话，我们需要计算卷积的那些多项式的系数都只有$\sqrt P$级别了，精度得到有效改善。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mul</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],<span class="keyword">int</span> C[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=Comp(A[i],<span class="number">0</span>),T2[i]=Comp(B[i],<span class="number">0</span>);</span><br><span class="line">    FFT(T1,<span class="number">1</span>),FFT(T2,<span class="number">1</span>); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=T1[i]*T2[i]; FFT(T1,<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=((ll)(T1[i].a+<span class="number">0.5</span>))%mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> a0[N],a1[N],b0[N],b1[N],c[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MTT</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],<span class="keyword">int</span> C[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        a0[i]=A[i]/M,a1[i]=A[i]%M;</span><br><span class="line">        b0[i]=B[i]/M,b1[i]=B[i]%M;</span><br><span class="line">        C[i]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Mul(a0,b0,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i]%mod*(ll)M%mod*M%mod)%mod;</span><br><span class="line">    Mul(a1,b0,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i]%mod*(ll)M%mod)%mod;</span><br><span class="line">    Mul(a0,b1,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i]%mod*(ll)M%mod)%mod;</span><br><span class="line">    Mul(a1,b1,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i])%mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="FFT优化：DFT与IDFT合并"><a href="#FFT优化：DFT与IDFT合并" class="headerlink" title="FFT优化：DFT与IDFT合并"></a>FFT优化：DFT与IDFT合并</h3><p>这是一种可以通过一次FFT，算出两个多项式的DFT/IDFT的骚操作。</p>
+<p>假设要算$A(x),B(x)$的DFT。那么我们构造：</p>
+<script type="math/tex; mode=display">
+P(x)=A(x)+iB(x)\\
+Q(x)=A(x)-iB(x)\\</script><p>如果我们得到了$P,Q$的DFT，我们就可以得到$A,B$的DFT。而$P$和$Q$有一个非常奇妙的性质（下面设$W=k\cdot {2\pi  \over l}$）：</p>
+<script type="math/tex; mode=display">
+P(\omega_n^k )=\sum_{j} (A_j+iB_j)\omega^{jk}\\
+=\sum_{j} (A_j+iB_j)(\cos jW + i\sin jW)\\
+=\sum_{j} (A_j\cos jW - B_j \sin jW) + i\sum_j (A_j\sin jW +B_j\cos jW)\\
+Q(\omega_n^k)=\sum_j (A_j-iB_j)\omega^{jk}\\
+=\sum_j (A_j-iB_j)(\cos jW + i\sin jW)\\
+=\sum_j (A_j\cos jW +B_j\sin jW) + i \sum_j  (A_j\sin jW - B_j \cos jW)</script><p>上下式子好像啊（废话，本来就构造得很相似），而且，$Q$最终式子的前半部分，$\sin$前面的都变了号，而$\cos$前面的没有变；后半部分$\cos$变了号，而$sin$不变。而正好$\sin$是奇函数，$\cos$是偶函数，即$\sin (-x) = - \sin x,\cos (-x) = \cos x$于是可以得到：</p>
+<script type="math/tex; mode=display">
+P(\omega_n^k) = conj(Q(\omega_n^{-k}))</script><p>因为$w_n^{-k} = w_n^{n-k}$，所以$conj(P(\omega_n^{n-k})) = Q(\omega_n^k)$。</p>
+<p>这样，如果我们算出了$P$的DFT，就可以得到$Q$的DFT。然后就可以得到：</p>
+<script type="math/tex; mode=display">
+A(\omega_n^k) = {P(\omega_n^k)+Q(\omega_n^k)\over 2}\\
+B(\omega_n^k) = {P(\omega_n^k) - Q(\omega_n^k)\over 2i}\\
+= -i{P(\omega_n^k) - Q(\omega_n^k)\over 2}</script><p>那么DFT怎么办呢？考虑构造$M(\omega_n^k) = A(\omega_n^k)+iB(\omega_n^k) = P(\omega_n^k)$，那么我们把$P$IDFT回去以后，分别取实部和虚部，就可以得到$A,B$的IDFT。</p>
+<p>由此，我们的DFT/IDFT的运算次数可以减少一半，只需要算4次。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Comp T[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFT</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],Comp a[],Comp b[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T[i]=Comp(A[i],B[i]); FFT(T,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> j=(len-i)%len;</span><br><span class="line">		a[i]=(T[i]+T[j].conj())*Comp(<span class="number">0.5</span>,<span class="number">0</span>);</span><br><span class="line">		b[i]=(T[i]-T[j].conj())*Comp(<span class="number">0</span>,<span class="number">-0.5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">IDFT</span><span class="params">(Comp A[],Comp B[],<span class="keyword">int</span> a[],<span class="keyword">int</span> b[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T[i]=A[i]+B[i]*Comp(<span class="number">0</span>,<span class="number">1</span>); FFT(T,<span class="number">-1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) a[i]=((ll)(T[i].a+<span class="number">0.5</span>))%mod,b[i]=((ll)(T[i].b+<span class="number">0.5</span>))%mod;</span><br><span class="line">&#125;	</span><br><span class="line"><span class="keyword">int</span> a0[N],a1[N],b0[N],b1[N];</span><br><span class="line">Comp A0[N],A1[N],B0[N],B1[N],T1[N],T2[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MTT</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],<span class="keyword">int</span> C[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		a0[i]=A[i]/M,a1[i]=A[i]%M;</span><br><span class="line">		b0[i]=B[i]/M,b1[i]=B[i]%M;</span><br><span class="line">		C[i]=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	DFT(a0,a1,A0,A1); DFT(b0,b1,B0,B1);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=A0[i]*B0[i],T2[i]=A1[i]*B1[i];</span><br><span class="line">	IDFT(T1,T2,a0,a1);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+M*(ll)M%mod*a0[i]%mod+a1[i])%mod;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=A0[i]*B1[i]+A1[i]*B0[i];</span><br><span class="line">	FFT(T1,<span class="number">-1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+M*((ll)(T1[i].a+<span class="number">0.5</span>)%mod))%mod;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/" title="任意模数NTT(NTT+CRT,MTT的优化)">http://zhongyuwei.github.io/2022/06/30/任意模数NTT-NTT-CRT-MTT的优化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/30/%E5%AF%B9%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E6%9C%89%E8%A6%81%E6%B1%82%E7%9A%84FFT/" rel="prev" title="对数组长度有要求的FFT">
+      <i class="fa fa-chevron-left"></i> 对数组长度有要求的FFT
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/" rel="next" title="生成函数与字符串匹配">
+      生成函数与字符串匹配 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法一：三模数NTT-CRT"><span class="nav-text">方法一：三模数NTT + CRT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法二：MTT"><span class="nav-text">方法二：MTT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FFT优化：DFT与IDFT合并"><span class="nav-text">FFT优化：DFT与IDFT合并</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

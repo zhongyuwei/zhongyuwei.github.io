@@ -1,6 +1,633 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>P问题，NP问题，NPC问题，NPH问题</title>
+    <url>/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="P问题"><a href="#P问题" class="headerlink" title="P问题"></a>P问题</h3><p>可以在多项式时间内求解的问题。</p>
+<p>“P”  代表 “polynomial time” 。</p>
+<h3 id="NP问题"><a href="#NP问题" class="headerlink" title="NP问题"></a>NP问题</h3><p>可以在多项式时间内检查解是否合法的问题。</p>
+<p>“NP” 代表 “nondeterministic polynomial time” 。</p>
+<p>显然有$P\subseteq NP$</p>
+<h3 id="归约"><a href="#归约" class="headerlink" title="归约"></a>归约</h3><p>对于两个问题A和B，如果能够在多项式时间内对A的输入进行转化，使得解决B的算法能够得到A问题的输出，那么就称A可以归约为B。一个例子是A为求解形式为$ax=b$的方程，而B为求解形式为$ax^2+bx+c=0$的方程。</p>
+<h3 id="NPC问题（NP完全问题，NP-Complete问题）"><a href="#NPC问题（NP完全问题，NP-Complete问题）" class="headerlink" title="NPC问题（NP完全问题，NP-Complete问题）"></a>NPC问题（NP完全问题，NP-Complete问题）</h3><p>对于一个NP问题，如果所有的NP问题都可以归约为它，那么称之为NPC问题。</p>
+<h3 id="NPH问题（NP-Hard问题）"><a href="#NPH问题（NP-Hard问题）" class="headerlink" title="NPH问题（NP-Hard问题）"></a>NPH问题（NP-Hard问题）</h3><p>对于一个问题，如果所有的NP问题都可以归约为它，那么称之为NPH问题。</p>
+<h3 id="关于3-sat问题"><a href="#关于3-sat问题" class="headerlink" title="关于3-sat问题"></a>关于3-sat问题</h3><h4 id="3-sat问题"><a href="#3-sat问题" class="headerlink" title="3-sat问题"></a>3-sat问题</h4><p>有若干个布尔型的变量(variable)。</p>
+<p>定义文字(literal)为，一个variable(称为positive literal)或者它的取反(称为negative literal)。</p>
+<p>定义子句(clause)为，若干个文字（可能是一个）的或。</p>
+<p>定义3-sat问题为：给出一个布尔表达式，这个表达式由若干个子句的与构成，每个子句恰好为三个文字的或，问是否存在一种给变量赋值的方式，使得表达式的值为真。</p>
+<h4 id="3-sat问题相关的归约"><a href="#3-sat问题相关的归约" class="headerlink" title="3-sat问题相关的归约"></a>3-sat问题相关的归约</h4><p>（下面的例子来自维基百科）</p>
+<p>表达式$l_1 \vee l_2\vee l_3\cdots\vee l_n$可以归约为3-sat的形式：</p>
+<script type="math/tex; mode=display">
+(l_1 \vee l_2\vee \ x_2) \wedge \\
+(\neg x_2 \vee l_3 \vee x_3) \wedge \\
+(\neg x_3 \vee l_4 \vee x_4) \wedge \cdots \wedge \\
+(\neg x_{n-3} \vee l_{n-2} \vee x_{n-2}) \wedge\\
+(\neg x_{n-2} \vee l_{n-1} \vee l_n)</script><p>已经被证明的重要结论：<strong>任意一个NP问题都可以归约为一个3-sat问题。</strong></p>
+<p>所以，<strong>如果要证明一个问题是NPC问题，则只需要证明它是NP问题且可以由某一个已知为NPC的问题归约到它就可以了。</strong></p>
+<h3 id="P-NP"><a href="#P-NP" class="headerlink" title="P=NP?"></a>P=NP?</h3><p>到目前为止还没有找到在多项式时间内求解NPC问题的算法，也无法将这个命题证明或者证伪。</p>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Order theory and Dilworth&#39;s theorem</title>
+    <url>/2022/06/30/Order-theory-and-Dilworth-s-theorem/</url>
+    <content><![CDATA[<h1 id="English-Version"><a href="#English-Version" class="headerlink" title="English Version"></a>English Version</h1><h2 id="Order-theory"><a href="#Order-theory" class="headerlink" title="Order theory"></a>Order theory</h2><h3 id="partial-order"><a href="#partial-order" class="headerlink" title="partial order"></a>partial order</h3><p><strong>Partial orders</strong> are special binary relations that satisfy :</p>
+<ol>
+<li>a ≤ a (reflexivity) 自反性</li>
+<li>if a ≤ b and b ≤ a then a = b (antisymmetry) 非对称性</li>
+<li>if a ≤ b and b ≤ c then a ≤ c (transitivity). 传递性</li>
+</ol>
+<h3 id="partial-ordered-set"><a href="#partial-ordered-set" class="headerlink" title="partial ordered set"></a>partial ordered set</h3><p>Defined as <em>a set with a partial order</em>.</p>
+<p>Also called <strong>poset</strong>, and <strong>ordered set</strong> if the intended meaning is clear.</p>
+<h3 id="comparable"><a href="#comparable" class="headerlink" title="comparable"></a>comparable</h3><p>For some pair of elements $a,b$, if $a \le b\vee b\le a$ holds, then we say $a$ and $b$ are <strong>comparable</strong>.  Otherwise they are <strong>incomparable</strong>.</p>
+<h3 id="connexity"><a href="#connexity" class="headerlink" title="connexity"></a>connexity</h3><p>(adj. connex)</p>
+<p>If a relation is <strong>connex</strong> or satisfies the property of <strong>connexity</strong>, then it relates all pairs of elements in some way (or to say that every pair of elements are comparable).</p>
+<p>i.e. $\forall x,y\in X$，either $x\le y$ or $y \le x$ is true, where $\le$ is the relation we defined with partial ordered set.</p>
+<h3 id="total-order"><a href="#total-order" class="headerlink" title="total order"></a>total order</h3><p>A connex partial order is called <strong>a total order, a linear order</strong> or <strong>a chain</strong>.</p>
+<p>Additionally, a subset of a poset in which no two elements are comparable is an <strong>anti-chain</strong>.</p>
+<h2 id="Dilworth’s-theorem"><a href="#Dilworth’s-theorem" class="headerlink" title="Dilworth’s theorem"></a>Dilworth’s theorem</h2><h3 id="statement"><a href="#statement" class="headerlink" title="statement"></a>statement</h3><p>Dilworth’s theorem states that, in any finite partially ordered set, the largest anti-chain has the same size (where the size is defined as the number of elements in it) as the smallest chain decomposition (where the size is defined as the number of sets we have decomposited the elements into so that every set forms a chain).</p>
+<p>Meanwhile, the <strong>width</strong> of a partially ordered set is defined as a size, that can be the size of some anti-chain and can also be that of some chain decomposition. And from the statements above, we know that the width of a given partially ordered set is unique.</p>
+<h3 id="proof"><a href="#proof" class="headerlink" title="proof"></a>proof</h3><p>Here is the proof via Kőnig’s theorem.</p>
+<p>For a partial ordered set $S$, construct a bipartite graph $G=(U,V,E)$, where $U=V=S$ and edge $(x,y)$ is in $E$ if $x \le y\wedge x\not=y$ holds (where $\le$ stands for the partial order).</p>
+<p>Suppose that one of the maximum matching for $G$ is $M$, and $C$ is one of the smallest vertex cover that every vetex in $C$ has a neighbouring edge in $M$.  And we know $|C|=|M|=m$ by Kőnig’s theorem.</p>
+<p>Imagine we start from one vertex $x_V$ in $V$ with a neighbouring edge in $M$, then go to its matching vertex $y_U$, then start again from $y_U$’s corresponding vertex on the other side of the graph $y_V$, then to the vertex that matches $y_V$, and so on.  Since no two elements in $S$ are the same, we will never return to $x_V$. That is to say, our path never forms a circle. And from the definition of matching we know that the indegree of every element we passed through (e.g. $x$) is at most $1$ and so is outdegree.</p>
+<p>So a matching can refer to a set of disjoint paths (also chains by the definition above) , and when the size of the matching is growing, we add more edges to these paths, and the number of paths is decreasing.</p>
+<p>This leads to a conclusion that the size of the smallest chain decomposition is equal to $|S|-m$。</p>
+<p>On the other hand, we consider a set $A$ of elements in $S$ that do not correspond to any vertices in $C$. Then the size of $A$ is at least $|S|-m$, since there might be two vertices in $C$ from different side of $G$ and corresponding to the same element in $S$.  And obviously, $|A|$ is an antichain. But $|A|$ can not be larger than $|S|-m$ since if $|A|$ is larger than the size of the smallest chain decomposition, at least two elements in $A$ will be in the same chain, which meets a contradiction.</p>
+<h1 id="中文版本"><a href="#中文版本" class="headerlink" title="中文版本"></a>中文版本</h1><h2 id="Order-theory-1"><a href="#Order-theory-1" class="headerlink" title="Order theory"></a>Order theory</h2><h3 id="partial-order-1"><a href="#partial-order-1" class="headerlink" title="partial order"></a>partial order</h3><p><strong>偏序关系 (partial order) </strong>定义为满足下列条件的二元关系：</p>
+<ol>
+<li>自反性 (reflexivity)，即$a\le a$</li>
+<li>非对称性 (antisymmetry)，即$a\le b \wedge b\le a \Rightarrow a=b$</li>
+<li>传递性 (transitivity)，即$a\le b \wedge b\le c \Rightarrow a\le c$</li>
+</ol>
+<h3 id="partial-ordered-set-1"><a href="#partial-ordered-set-1" class="headerlink" title="partial ordered set"></a>partial ordered set</h3><p><strong>偏序集合 (partial ordered set) </strong>定义为<em>配备了偏序关系的集合</em>；或一个二元组$(S,R)$，其中$R$是定义在$S$中的元素上的偏序关系。</p>
+<h3 id="comparable-1"><a href="#comparable-1" class="headerlink" title="comparable"></a>comparable</h3><p>对于某一对元素$a,b$，如果满足$a\le b \vee b\le a$（其中$\le$是一种偏序关系），那么称它们为<strong>可比较的 (comparable) </strong>；否则称它们为<strong>不可比较的 (incomparable) </strong>。</p>
+<h3 id="connexity-1"><a href="#connexity-1" class="headerlink" title="connexity"></a>connexity</h3><p>如果一个偏序关系满足任意一对元素都是可比较的，则称这个关系满足<strong>完全性条件 (connexity) </strong>或者说这个关系是<strong> 完全的 (connex) </strong>。</p>
+<h3 id="total-order-1"><a href="#total-order-1" class="headerlink" title="total order"></a>total order</h3><p><strong>全序关系 (total order) </strong>即满足完全性的偏序关系。</p>
+<p>满足全序关系的集合又叫做<strong>全序性集合、线性序集合、简单序集合或者链 (chain)</strong>。链也常用于描述偏序集合的满足完全性的子集。</p>
+<p>此外，偏序集合的任意两个元素都不可比较的子集称为<strong>反链 (anti-chain) </strong>。</p>
+<h2 id="Dilworth’s-theorem-1"><a href="#Dilworth’s-theorem-1" class="headerlink" title="Dilworth’s theorem"></a>Dilworth’s theorem</h2><h3 id="statement-1"><a href="#statement-1" class="headerlink" title="statement"></a>statement</h3><p>定义一个偏序集合的<strong>链划分 (chain decomposition) </strong>为一个由链组成的集合，满足任意两条链没有公共点，且集合中的链的并集为全集；定义其大小为集合中的链的条数。定义反链的大小为其中的元素数量。</p>
+<p>Dilworth’s theorem 则是说，<strong>一个偏序集合的最小链划分与最长反链的大小相同。</strong>这个大小也被称为这个偏序集合的<strong>宽度 (width) </strong>。</p>
+<h3 id="proof-1"><a href="#proof-1" class="headerlink" title="proof"></a>proof</h3><p>下面的证明借助于<strong>Kőnig’s theorem</strong>（即二分图的最大匹配大小等于最小顶点覆盖）。</p>
+<p>对于一个偏序集$S$，构造一个二分图$G=(U,V,E)$，使得$U=V=S$，而边$(x,y)$（从$U$的$x$连到$V$的$y$）存在，当且仅当$x\le y\wedge x\not=y$（$\le$代表偏序关系     ）。求出这个图的一个最大匹配$M$和一个最小顶点覆盖$C$，使得$C$中的任意一个点都有一条邻边在$M$中。令$m=|C|=|M|$。</p>
+<p>想象现在从某个在$M$中的点$x_V$（表示$V$这一侧的点$x$）开始，走到它匹配的那个点$y_U$，然后到$y_U$所对应的另一侧的点$y_V$，接下来走到$y_V$所匹配的点……由于$S$中的元素互不相同，而偏序关系具有传递性，所以我们不会走回$x_U$，也就是说我们走过的点不成环。将我们走过的点在$S$中对应的元素拿出来：$x\to y\to \cdots $，恰好会对应一条链，因为匹配的定义保证了每个点的入度至多是$1$，每个点的出度也至多是$1$。</p>
+<p>进一步地，一个匹配$M’$实际上对应了一个链划分，由于每往匹配中加一条边相当于合并了两条链，所以这个匹配对应的链划分的大小为$|S| - |M’|$。故而$S$的最小链划分的大小为$|S|-m$。</p>
+<p>此外，考虑由$S$没有对应到$C$中的任何一个点的元素构成的集合，设为$A$。$A$显然是反链。那么$|A|\ge |S|-|C|=|S|-m$，因为可能会存在一个元素在$U,V$中对应的点都属于$C$。而从另一个角度考虑，$|A|\le |S|-m$，因为如果$|A|$大于了最小链划分的大小，则至少会有两个$A$中的元素属于最小链划分中的同一条链，与定义矛盾。故而我们有$|A|=|S|-m$。</p>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>坐标轴的旋转变换</title>
+    <url>/2022/06/30/%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9A%84%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2/</url>
+    <content><![CDATA[<p>将$(x_1,y_1)$和$(x_2,y_2)$分别作为$ x$轴和$ y$轴（即将坐标轴旋转，使得$x$轴与$(x_1,y_1)$平行，$y$轴与$(x_2,y_2)$平行，也就是将$(x_1,y_1)$，$(x_2,y_2)$作为单位向量），需要求出其他的点在旋转后的坐标系里的坐标。</p>
+<p>如何实现？考虑原来的向量$(x,y)$表示的向量实际上是$xi+yj$，也就是单位向量$i$的$x$倍 + 单位向量$j$的$y$倍。因此，可以设这个点变化后的坐标为$(x’,y’)$，则：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x=x'\cdot x_1 + y' \cdot x_2\\
+y=x'\cdot y_1 + y' \cdot y_2\\
+\end {cases}</script><p>解得</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x'={xy_2-x_2y\over x_1y_2-x_2y_1}\\
+y'={x_1y-xy_1\over x_1y_2-x_2y_1}
+\end{cases}</script><p>看起来就是叉乘的乘积——可是为什么呢？</p>
+<p>让我们来看一幅图：</p>
+<p><img src="https://i.loli.net/2019/09/13/Hx8rZiCo9LTBVhw.png" alt="q.png"></p>
+<p>设$P(x,y)$为我们要计算的点，$OM,ON$分别为两个“单位向量”，过$P$作单位向量的平行线$PA//OM,PB//ON$，则$x’={OB\over OM},y’={OA\over ON}$。</p>
+<p>现在要证明的就是：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+{S_{\triangle OPN}\over S_{\triangle MON}}={OB\over OM}\\
+{S_{\triangle OPM}\over S_{\triangle MON}}={OA\over ON}\\
+\end{cases}</script><p>第一个式子等价于${S_{\triangle OPN}\over AP}={S_{\triangle MON}\over OM}$。</p>
+<p>过$N,O$分别作$AP$的垂线交AP于$H_1,H_2$，则$S_{\triangle OPN}={1\over 2} AP \cdot (OH_2+NH_1)$，$S_{\triangle MON} ={1\over 2}OM\cdot (OH_2+NH_1)$，上式得证。同理可以证明第二个式子。</p>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算几何基础</title>
+    <url>/2022/06/30/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="计算几何基础"><a href="#计算几何基础" class="headerlink" title="计算几何基础"></a>计算几何基础</h1><p>标签（空格分隔）： 计算几何</p>
+<hr>
+<h3 id="三角函数、平面向量"><a href="#三角函数、平面向量" class="headerlink" title="三角函数、平面向量"></a>三角函数、平面向量</h3><p><a href="https://www.guokr.com/question/510522/" target="_blank" rel="noopener">高维向量积</a></p>
+<hr>
+<h3 id="判断线段相交"><a href="#判断线段相交" class="headerlink" title="判断线段相交"></a>判断线段相交</h3><p>如果判断两条线段是否是规范相交（恰有一个不是端点的公共点），做跨立实验即可。比如对于$p_1,p_2$所组成的线段与$p_3,p_4$所组成的线段，判断$p_1,p_2$是否在直线$p_3,p_4$的异侧，再判断$p_3,p_4$是否在直线$p_1,p_2$的异侧。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Online</span><span class="params">(Point a[],Point b[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(dump(Cross(a[<span class="number">0</span>]-b[<span class="number">0</span>],b[<span class="number">1</span>]-b[<span class="number">0</span>]))*dump(Cross(a[<span class="number">1</span>]-b[<span class="number">0</span>],b[<span class="number">1</span>]-b[<span class="number">0</span>]))&gt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(dump(Cross(b[<span class="number">0</span>]-a[<span class="number">0</span>],a[<span class="number">1</span>]-a[<span class="number">0</span>]))*dump(Cross(b[<span class="number">1</span>]-a[<span class="number">0</span>],a[<span class="number">1</span>]-a[<span class="number">0</span>]))&gt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果要让作为公共部分也返回 1 ，那么就必须特判，直接将大于等于改成大于是错误的写法，因为有可能在做第一个跨立实验时，叉乘选择的起始点恰好是那个在直线$p_2,p_3$上但却不在线段$p_2,p_3$上的点。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Onseg</span><span class="params">(Point r,Point l,Point a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(a.x&lt;min(l.x,r.x)||a.x&gt;max(l.x,r.x)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(a.y&lt;min(l.y,r.y)||a.y&gt;max(l.y,r.y)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Inter</span><span class="params">(Point a0,Point a1,Point b0,Point b1)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">double</span> d1=dump(Cross(a0-b0,b1-b0)),d2=dump(Cross(a1-b0,b1-b0));</span><br><span class="line">	<span class="keyword">double</span> d3=dump(Cross(b0-a0,a1-a0)),d4=dump(Cross(b1-a0,a1-a0));</span><br><span class="line">	<span class="keyword">if</span>(d1*d2&lt;<span class="number">0</span>&amp;&amp;d3*d4&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(d1==<span class="number">0</span>&amp;&amp;Onseg(b1,b0,a0)) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(d2==<span class="number">0</span>&amp;&amp;Onseg(b1,b0,a1)) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(d3==<span class="number">0</span>&amp;&amp;Onseg(a1,a0,b0)) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(d4==<span class="number">0</span>&amp;&amp;Onseg(a1,a0,b1)) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="计算两条直线的交点"><a href="#计算两条直线的交点" class="headerlink" title="计算两条直线的交点"></a>计算两条直线的交点</h3><p>第一条直线经过$p_1,p_2$，第二条直线经过$p_3,p_4$，那么我们可以以三角形$p_1p_2p_3$和三角形$p_1p_2p_4$的<strong>有向</strong>面积的比值（强调有向是为了避免关于几个点的相对位置的讨论），对$p_3,p_4$的坐标进行放缩，具体如下：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">Point <span class="title">get</span><span class="params">(Point p1,Point p2,Point s1,Point s2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">double</span> t1=Cross(s1-p1,p2-p1),t2=Cross(p2-p1,s2-p1);</span><br><span class="line">	Point p;</span><br><span class="line">	p.x=(s1.x*t2+s2.x*t1)/(t1+t2);</span><br><span class="line">	p.y=(s1.y*t2+s2.y*t1)/(t1+t2);</span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，在利用类似的思想进行放缩的时候，要格外注意分母是否可能为 0 。</p>
+<hr>
+<h3 id="角度相关的数学函数"><a href="#角度相关的数学函数" class="headerlink" title="角度相关的数学函数"></a>角度相关的数学函数</h3><p>sin cos tan：传入弧度制的角度，返回对应的函数值<br>asin acos atan：传入函数值，返回弧度制的角度</p>
+<p>特别特别重要的：<br>atan2(y,x)：如果点$(x,y)$在一二象限，则返回有$x$的正半轴逆时针转到原点与$(y,x)$所连的射线扫过的角的大小（返回值为正）；否则，返回顺时针转到原点与$(y,x)$所连的射线扫过的角，返回值为负。返回值为弧度制，且绝对值小于$\pi$。<br>利用三角函数得到$\pi$：acos（-1.0）如果写 1 ，使用C++编译器提交的时候可能会CE。</p>
+<hr>
+<h3 id="多边形相关"><a href="#多边形相关" class="headerlink" title="多边形相关"></a>多边形相关</h3><h4 id="计算多边形面积"><a href="#计算多边形面积" class="headerlink" title="计算多边形面积"></a>计算多边形面积</h4><p>任取一个点，这个点与多边形的每一条边组成的三角形的有向面积之和的绝对值等于多边形面积。</p>
+<h4 id="判断多边形是否是凸多边形"><a href="#判断多边形是否是凸多边形" class="headerlink" title="判断多边形是否是凸多边形"></a>判断多边形是否是凸多边形</h4><p>1.判断每一条边的拐向是否与第一条边的拐向相同。<br>2.求一遍凸包，判断凸包上是否有$n$个点</p>
+<h4 id="判断点是否在多边形内"><a href="#判断点是否在多边形内" class="headerlink" title="判断点是否在多边形内"></a>判断点是否在多边形内</h4><p>1.从点出发向左画一条水平的射线，计算射线与多边形的交点次数。对于线段的端点，我们取每一条线段靠下的端点，不取每一条线段靠上的端点（如果是水平的线段，那么我们取左端点，不取右端点）。这相当于是把点向下平移了$eps$的距离。如果次数为奇数，则在多边形内，否则在多边形外。<br>2.这个点与多边形的每一条边叉乘的结果，先取绝对值再求和，比较得到的值是否等于面积。如果相等，则在多边形内，否则不在。</p>
+<hr>
+<h3 id="皮克定理"><a href="#皮克定理" class="headerlink" title="皮克定理"></a>皮克定理</h3><p>皮克定理：整点构成的多边形，内部的点数为$I$，边上的点数为$E$，面积为$S$，则$S=I+{E\over 2}-1$</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>动态加点的凸包</title>
+    <url>/2022/06/30/%E5%8A%A8%E6%80%81%E5%8A%A0%E7%82%B9%E7%9A%84%E5%87%B8%E5%8C%85/</url>
+    <content><![CDATA[<p>有一个二维平面上的点构成的点集。有两种操作：1）加入一个点。2）询问一个点是否在这个点集的凸包内。</p>
+<h2 id="方法1：分别维护上凸壳和下凸壳"><a href="#方法1：分别维护上凸壳和下凸壳" class="headerlink" title="方法1：分别维护上凸壳和下凸壳"></a>方法1：分别维护上凸壳和下凸壳</h2><p>对于每个凸壳，用一个$set$存下凸壳上的点，把这些点按照横坐标排好序。新加入点的时候，找出横坐标与新加入点最接近的、凸壳上的点，判断是否需要弹掉。查询的时候二分找出对应的位置。</p>
+<p>注意一个问题：最开始的时候，我的代码是这样的：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span>&lt;Point&gt;::iterator pre=s1.upper_bound(A),suf=s1.lower_bound(A);</span><br><span class="line"><span class="comment">// 弹掉横坐标小于等于A的不需要的点</span></span><br></pre></td></tr></table></figure>
+<p>这样可能$suf$指向的元素，在弹横坐标大于等于$A$的点的时候，已经被删掉了。</p>
+<p>zlx告诉我，实际上不需要单独写上下凸壳的加入、查询函数，因为上凸壳按照$x$轴对称之后就是个下凸壳，可以只写维护下凸壳的函数。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">rd</span>(<span class="title">T</span> &amp;<span class="title">x</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))&#123;<span class="keyword">if</span>(c==<span class="string">'-'</span>)f=<span class="number">-1</span>; c=getchar();&#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> &#123;</span></span><br><span class="line">	ll x,y;</span><br><span class="line">	Point (ll x=<span class="number">0</span>,ll y=<span class="number">0</span>): x(x),y(y) &#123;&#125;</span><br><span class="line">	<span class="keyword">friend</span> Point <span class="keyword">operator</span> +(Point A,Point B) &#123; <span class="keyword">return</span> Point(A.x+B.x,A.y+B.y); &#125;</span><br><span class="line">	<span class="keyword">friend</span> Point <span class="keyword">operator</span> -(Point A,Point B) &#123; <span class="keyword">return</span> Point(A.x-B.x,A.y-B.y); &#125;</span><br><span class="line">	<span class="keyword">friend</span> Point <span class="keyword">operator</span> *(Point A,ll B) &#123; <span class="keyword">return</span> Point(A.x*B,A.y*B); &#125;</span><br><span class="line">	<span class="keyword">friend</span> Point <span class="keyword">operator</span> /(Point A,ll B) &#123; <span class="keyword">return</span> Point(A.x/B,A.y/B); &#125;</span><br><span class="line">	<span class="keyword">friend</span> <span class="keyword">bool</span> <span class="keyword">operator</span> &lt; (Point A,Point B) &#123; <span class="keyword">return</span> A.x&lt;B.x; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">ll <span class="title">Cross</span><span class="params">(Point A,Point B)</span> </span>&#123; <span class="keyword">return</span> A.x*B.y-A.y*B.x; &#125;</span><br><span class="line"><span class="built_in">set</span>&lt;Point&gt; s1,s2;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">be_under</span><span class="params">(Point A)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">set</span>&lt;Point&gt;::iterator it1=s1.lower_bound(A),it2;</span><br><span class="line">	<span class="keyword">if</span>(it1==s1.end()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>((*it1).x==A.x) <span class="keyword">return</span> (*it1).y&gt;=A.y;</span><br><span class="line">	<span class="keyword">if</span>(it1==s1.begin()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	it2=it1,it2--;</span><br><span class="line">	<span class="keyword">return</span> Cross(A-(*it2),(*it1)-(*it2))&gt;=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">be_upper</span><span class="params">(Point A)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">set</span>&lt;Point&gt;::iterator it1=s2.lower_bound(A),it2;</span><br><span class="line">	<span class="keyword">if</span>(it1==s2.end()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>((*it1).x==A.x) <span class="keyword">return</span> (*it1).y&lt;=A.y;</span><br><span class="line">	<span class="keyword">if</span>(it1==s2.begin()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	it2=it1,it2--;</span><br><span class="line">	<span class="keyword">return</span> Cross((*it1)-(*it2),A-(*it2))&gt;=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert_down</span><span class="params">(Point A)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(s2.empty()) &#123; s2.insert(A); <span class="keyword">return</span>; &#125;</span><br><span class="line">	<span class="built_in">set</span>&lt;Point&gt;::iterator pre=s2.upper_bound(A),ppre;</span><br><span class="line">	<span class="keyword">if</span>(pre!=s2.begin()) &#123;</span><br><span class="line">		pre--;</span><br><span class="line">		<span class="keyword">while</span>(pre!=s2.begin()) &#123;</span><br><span class="line">			ppre=pre,--ppre;</span><br><span class="line">			<span class="keyword">if</span>(Cross((*pre)-(*ppre),A-(*ppre))&lt;=<span class="number">0</span>) s2.erase(*pre),pre=ppre;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(pre==s2.begin())</span><br><span class="line">			<span class="keyword">if</span>((*pre).x==A.x) s2.erase(*pre);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">set</span>&lt;Point&gt;::iterator suf=s2.lower_bound(A),ssuf;</span><br><span class="line">	<span class="keyword">if</span>(suf!=s2.end()) &#123;</span><br><span class="line">		ssuf=suf,++ssuf;</span><br><span class="line">		<span class="keyword">while</span>(ssuf!=s2.end()) &#123;</span><br><span class="line">			<span class="keyword">if</span>(Cross((*suf)-A,(*ssuf)-A)&lt;=<span class="number">0</span>) s2.erase(*suf),suf=ssuf;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">			++ssuf;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(ssuf==s2.end())</span><br><span class="line">			<span class="keyword">if</span>((*suf).x==A.x) s2.erase(*suf); </span><br><span class="line">	&#125;</span><br><span class="line">	s2.insert(A);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert_up</span><span class="params">(Point A)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(s1.empty()) &#123; s1.insert(A); <span class="keyword">return</span>; &#125;</span><br><span class="line">	<span class="built_in">set</span>&lt;Point&gt;::iterator pre=s1.upper_bound(A),ppre;</span><br><span class="line">	<span class="keyword">if</span>(pre!=s1.begin()) &#123;</span><br><span class="line">		pre--;</span><br><span class="line">		<span class="keyword">while</span>(pre!=s1.begin()) &#123;</span><br><span class="line">			ppre=pre,--ppre;</span><br><span class="line">			<span class="keyword">if</span>(Cross((*pre)-(*ppre),A-(*ppre))&gt;=<span class="number">0</span>) s1.erase(*pre),pre=ppre;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(pre==s1.begin())</span><br><span class="line">			<span class="keyword">if</span>((*pre).x==A.x) s1.erase(*pre);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">set</span>&lt;Point&gt;::iterator suf=s1.lower_bound(A),ssuf;</span><br><span class="line">	<span class="keyword">if</span>(suf!=s1.end()) &#123;</span><br><span class="line">		ssuf=suf,++ssuf;</span><br><span class="line">		<span class="keyword">while</span>(ssuf!=s1.end()) &#123;</span><br><span class="line">			<span class="keyword">if</span>(Cross((*suf)-A,(*ssuf)-A)&gt;=<span class="number">0</span>) s1.erase(*suf);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">			suf=ssuf,++ssuf;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(ssuf==s1.end())</span><br><span class="line">			<span class="keyword">if</span>((*suf).x==A.x) s1.erase(*suf); </span><br><span class="line">	&#125;</span><br><span class="line">	s1.insert(A);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Debug</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"upper:"</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="built_in">set</span>&lt;Point&gt;::iterator it=s1.begin();it!=s1.end();++it) <span class="built_in">printf</span>(<span class="string">"%lld %lld  "</span>,it-&gt;x,it-&gt;y);</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"lower:"</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="built_in">set</span>&lt;Point&gt;::iterator it=s2.begin();it!=s2.end();++it) <span class="built_in">printf</span>(<span class="string">"%lld %lld  "</span>,it-&gt;x,it-&gt;y);</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">""</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> q,ty; Point p;</span><br><span class="line">	rd(q);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2</span>;++i,q--) &#123;</span><br><span class="line">		rd(ty),rd(p.x),rd(p.y);</span><br><span class="line">		insert_down(p),insert_up(p);</span><br><span class="line">	&#125;</span><br><span class="line"><span class="comment">//	Debug();</span></span><br><span class="line">	<span class="keyword">while</span>(q--) &#123;</span><br><span class="line">		rd(ty),rd(p.x),rd(p.y);</span><br><span class="line">		<span class="keyword">if</span>(ty==<span class="number">1</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span>(!be_under(p)) insert_up(p);</span><br><span class="line">			<span class="keyword">if</span>(!be_upper(p)) insert_down(p);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(be_under(p)&amp;&amp;be_upper(p)) <span class="built_in">puts</span>(<span class="string">"YES"</span>);</span><br><span class="line">			<span class="keyword">else</span> <span class="built_in">puts</span>(<span class="string">"NO"</span>);</span><br><span class="line">		&#125;</span><br><span class="line"><span class="comment">//		Debug();</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="方法2：维护极角序"><a href="#方法2：维护极角序" class="headerlink" title="方法2：维护极角序"></a>方法2：维护极角序</h2><p>首先找出头三个加入的点组成的凸包的内部的一个点，这个点在之后的任意时刻一定都在凸包内，我们就把它作为原点，按照极角序维护凸包上的点。加入一个点的时候，判断与这个点极角序相邻的点是否需要被弹掉就可以了。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Minkowski Sum 闵可夫斯基和</title>
+    <url>/2022/06/30/Minkowski-Sum-%E9%97%B5%E5%8F%AF%E5%A4%AB%E6%96%AF%E5%9F%BA%E5%92%8C/</url>
+    <content><![CDATA[<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>这是一种对两个向量集合定义的运算。对于两个集合$A,B\in R^n$，它们的Minkowski Sum定义为：</p>
+<script type="math/tex; mode=display">
+A + B=\{ a+b : a\in A,b\in B\}</script><hr>
+<h3 id="一个重要的性质"><a href="#一个重要的性质" class="headerlink" title="一个重要的性质"></a>一个重要的性质</h3><p>如果我们把凸多边形的顶点看做向量，用$Conv(S)$表示点集$S$内的点的凸包，那么有一个性质：</p>
+<script type="math/tex; mode=display">
+Conv(A+B)=Conv(Conv(A)+Conv(B))</script><p>证明如下：<br>首先，设$Conv(A)=\{ v_1,v_2\cdots v_n\}$，则任何一个$Conv(A)$内的点可以用它们的凸组合（convex combination）表示，即：</p>
+<p>对于一个点集$S=\{ x_1,x_2,\cdots x_n\}$，一个形如$\alpha_1 x_1 + \alpha_2x_2 + \alpha_3 v_3\cdots \alpha_nv_n$且满足$\alpha_1+\alpha_2 +\alpha_3 + \cdots +\alpha_n =1$并且$\forall i\in [1,n],0\le \alpha_i\le 1$的点，称为$S$的一个凸组合。显然一个点集所有的凸组合等于这个点集的凸包内部的点（可以这样去理解：首先，对于只有两个点，它们的凸组合是它们之间的线段上的点；如果再加一个点，三角形内的点可以看做一条边上的一点与和这条边的相对的顶点的凸组合，以此类推）。</p>
+<p>设$v=\sum \alpha_i\cdot v_i,w=\sum \beta_i\cdot w_i$，即$v,w$分别是$A,B$的两个凸组合，则</p>
+<script type="math/tex; mode=display">
+v+w=\sum \alpha_iv_i+ \sum \beta_j w_j\\
+=\sum \alpha_i \beta_j (v_i+w_j)</script><p>即$v+w$为$A+B$的凸组合。</p>
+<hr>
+<h3 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h3><p>假如现在有两个凸多边形，要计算它们的Minkowski Sum。按照逆时针方向，令两个凸多边形的边为从它的一个端点指向下一个端点的向量（“下一个”是指凸多边形上按照逆时针方向的下一个），然后对所有的这些向量进行极角排序。选择两个凸多边形最靠左的两个顶点，显然这两个顶点相加一定在$Conv(A+B)$上，然后从这两个顶点相加得到的点开始，将排好序的向量依次拿出来接在上一个顶点的后面，最后将得到一个凸多边形，这个凸多边形就是$Conv(A+B)$。</p>
+<hr>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><h4 id="JSOI-2018-部落战争"><a href="#JSOI-2018-部落战争" class="headerlink" title="JSOI 2018 部落战争"></a>JSOI 2018 部落战争</h4><p>题意：给两个点集，设这两个点的凸包分别为$A$和$B$，每次询问给一个向量，判断$A$中是否存在一个点，这个点加上这个向量过后得到的点在$B$内。</p>
+<p>Solution：要求$a+d=b$，也就是求$d=a-b$。将$B$中所有向量取反，与$A$做Minkowski Sum，判断询问是否在Minkowski Sum中即可。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">read</span>(<span class="title">T</span> &amp;<span class="title">x</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))&#123;<span class="keyword">if</span>(c==<span class="string">'-'</span>)f=<span class="number">-1</span>; c=getchar();&#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> eps=<span class="number">1e-8</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span>&#123;</span></span><br><span class="line">	ll x,y; <span class="keyword">double</span> ag;</span><br><span class="line">	Point(ll x=<span class="number">0</span>,ll y=<span class="number">0</span>,<span class="keyword">double</span> ag=<span class="number">0</span>): x(x),y(y),ag(ag) &#123;&#125;;</span><br><span class="line">	<span class="keyword">friend</span> Point <span class="keyword">operator</span> +(Point a,Point b)&#123;<span class="keyword">return</span> Point (a.x+b.x,a.y+b.y);&#125;</span><br><span class="line">	<span class="keyword">friend</span> Point <span class="keyword">operator</span> -(Point a,Point b)&#123;<span class="keyword">return</span> Point (a.x-b.x,a.y-b.y);&#125;</span><br><span class="line">&#125;st[N];</span><br><span class="line"><span class="function">ll <span class="title">Cross</span><span class="params">(Point a,Point b)</span></span>&#123;<span class="keyword">return</span> a.x*b.y-a.y*b.x;&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dcmp</span><span class="params">(<span class="keyword">double</span> x)</span></span>&#123;<span class="keyword">return</span> <span class="built_in">fabs</span>(x)&lt;eps?<span class="number">0</span>:(x&gt;<span class="number">0</span>?<span class="number">1</span>:<span class="number">-1</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Dis</span><span class="params">(Point a)</span></span>&#123;<span class="keyword">return</span> <span class="number">1.0</span>*a.x*a.x+<span class="number">1.0</span>*a.y*a.y;&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Point a,Point b)</span></span>&#123;<span class="keyword">return</span> dcmp(a.ag-b.ag)==<span class="number">0</span>?Dis(a)&lt;Dis(b):a.ag&lt;b.ag;&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">get</span><span class="params">(Point *p,<span class="keyword">int</span> &amp;n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++) <span class="keyword">if</span>(p[i].x&lt;p[<span class="number">1</span>].x||(p[i].x-p[<span class="number">1</span>].x==<span class="number">0</span>&amp;&amp;p[i].y&lt;p[<span class="number">1</span>].y)) swap(p[<span class="number">1</span>],p[i]);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++) p[i]=p[i]-p[<span class="number">1</span>],p[i].ag=<span class="built_in">atan2</span>(p[i].y,p[i].x);</span><br><span class="line">	sort(p+<span class="number">2</span>,p+n+<span class="number">1</span>,cmp);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> top=<span class="number">0</span>; st[++top]=Point(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span>(top&gt;<span class="number">1</span>&amp;&amp;Cross(st[top]-st[top<span class="number">-1</span>],p[i]-st[top<span class="number">-1</span>])&lt;=<span class="number">0</span>) top--;</span><br><span class="line">		st[++top]=p[i];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=top;i++) p[i]=st[i]+p[<span class="number">1</span>];</span><br><span class="line">	</span><br><span class="line">	n=top;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">Point p1[N],p2[N],pt[N&lt;&lt;<span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> n,m,tot;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cal</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l1=<span class="number">1</span>,l2=<span class="number">1</span>; pt[++tot]=p1[<span class="number">1</span>]+p2[<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">while</span>(l1&lt;=n||l2&lt;=m)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(l1&lt;=n&amp;&amp;Cross(p1[l1%n+<span class="number">1</span>]-p1[l1],p2[l2%m+<span class="number">1</span>]-p2[l2])&gt;<span class="number">0</span>)</span><br><span class="line">			tot++,pt[tot]=pt[tot<span class="number">-1</span>]+(p1[l1%n+<span class="number">1</span>]-p1[l1]),l1++;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(l2&lt;=m) tot++,pt[tot]=pt[tot<span class="number">-1</span>]+(p2[l2%m+<span class="number">1</span>]-p2[l2]),l2++;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	get(pt,tot);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">che</span><span class="params">(Point Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(Cross(Q-pt[<span class="number">1</span>],pt[<span class="number">2</span>]-pt[<span class="number">1</span>])&gt;<span class="number">0</span>||Cross(Q-pt[<span class="number">1</span>],pt[tot]-pt[<span class="number">1</span>])&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">1</span>,r=tot,ans=l;</span><br><span class="line">	<span class="keyword">while</span>(l&lt;=r)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">if</span>(Cross(pt[mid]-pt[<span class="number">1</span>],Q-pt[<span class="number">1</span>])&gt;=<span class="number">0</span>) ans=mid,l=mid+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">else</span> r=mid<span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> Cross(pt[ans%tot+<span class="number">1</span>]-pt[ans],Q-pt[ans])&gt;=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> q; read(n),read(m),read(q);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) read(p1[i].x),read(p1[i].y); get(p1,n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++) read(p2[i].x),read(p2[i].y),p2[i]=Point(<span class="number">0</span>,<span class="number">0</span>)-p2[i]; get(p2,m);</span><br><span class="line">	cal();</span><br><span class="line">	<span class="keyword">while</span>(q--)</span><br><span class="line">	&#123;</span><br><span class="line">		Point Q; read(Q.x),read(Q.y);</span><br><span class="line">		<span class="keyword">if</span>(che(Q)) <span class="built_in">puts</span>(<span class="string">"1"</span>);</span><br><span class="line">		<span class="keyword">else</span> <span class="built_in">puts</span>(<span class="string">"0"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="正睿OI-省选模拟-Nagisa"><a href="#正睿OI-省选模拟-Nagisa" class="headerlink" title="正睿OI 省选模拟 Nagisa"></a>正睿OI 省选模拟 Nagisa</h4><p>题意：给你三个凸多边形，有$m$次询问，每次给出一个点的坐标，询问以这个点作为重心且三个顶点分别位于三个凸多边形内的三角形是否存在。</p>
+<p>题解：可行区域就是三个凸包的Minkowki Sum。</p>
+<hr>
+<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p>几篇证明：<a href="https://www.quora.com/How-can-I-show-that-the-Minkowski-sum-of-2-convex-polygons-is-equal-to-the-convex-hull-of-the-Minkowski-sum-of-the-set-of-vertices-of-each-polygon" target="_blank" rel="noopener">1</a> <a href="https://math.stackexchange.com/questions/587162/prove-convex-hull-of-minkowski-sum" target="_blank" rel="noopener">2</a><br>维基百科：<a href="https://en.wikipedia.org/wiki/Minkowski_addition" target="_blank" rel="noopener">Minkowski Sum</a></p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Euler Line 欧拉线</title>
+    <url>/2022/06/30/Euler-Line-%E6%AC%A7%E6%8B%89%E7%BA%BF/</url>
+    <content><![CDATA[<p>定理：三角形的垂心(orthocenter)、重心(centroid)、外心(circumcenter)共线，且重心到垂心的距离等于重心到外心的距离的两倍。过三角形的垂心、重心、外心的直线称为<strong>欧拉线(Euler line)</strong>。</p>
+<p>可以在<a href="https://www.geogebra.org/graphing/fm4wchdg" target="_blank" rel="noopener">这里</a>感受一下。</p>
+<p>证明：</p>
+<p>令$\triangle_{ABC}$的垂心，重心，外心分别为$O_1,O_2,O_3$</p>
+<p>分别作$AB,BC,CA$的中点$E,F,D$，则$EF,ED,FD$是$\triangle_{ABC}$的中位线，$\triangle_{ABC}\sim \triangle_{FDE}$且相似比为$2:1$。</p>
+<p>由重心的性质得$BD$过$O_2$且$\frac{BO_2}{DO_2} = 2$。</p>
+<p>由垂心的定义得$O_1B\perp AC$。</p>
+<p>由于外心是边的垂直平分线的交点，且$D$是$AC$的中点，所以$O_3D\perp AC$。所以有$O_1B \parallel O_2D$。</p>
+<p><img src="https://i.loli.net/2020/01/09/XGcbhrj5I2iSel1.png" alt="Euler_line.png"></p>
+<p>由于$EF\parallel AC, O_3D\perp AC$，所以$O_3D\perp EF$。同理可以证明，$O_3F\perp ED,O_3E\perp FD$。所以$\triangle_{ABC}$的外心和$\triangle_{DEF}$的垂心重合。</p>
+<p>由$\triangle_{ABC}\sim \triangle_{FDE}$知$B$到$\triangle_{ABC}$的垂心的距离等于$D$到$\triangle_{DEF}$的垂心的距离的两倍，也就是说$2DO_3=BO_1$。又因为$2DO_2 = BO_2,\angle O_1BO_2 = \angle O_2DO_3$，所以$\triangle_{BO_2O_1}\sim \triangle_{DO_2O_3}$。</p>
+<p>由$\triangle_{BO_2O_1}\sim \triangle_{DO_2O_3}$知$\frac{O_1O_2}{O_2O_3} = \frac{BO_2}{DO_2} = 2$，$\angle BO_2O_1 = \angle DO_2O_3$。又因为$B,O_2,D$共线，所以$O_1,O_2,O_3$共线。</p>
+<p>证毕。</p>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>子集卷积与bitcount</title>
+    <url>/2022/06/30/%E5%AD%90%E9%9B%86%E5%8D%B7%E7%A7%AF%E4%B8%8Ebitcount/</url>
+    <content><![CDATA[<p>如果一个卷积长这样：</p>
+<script type="math/tex; mode=display">
+f(S) = \sum_{X\cup Y=S,X\cap Y = \emptyset} g(X)\times h(Y)</script><p>好像不能够直接用FWT做了呢。但是我们观察，$X\cup Y=S,X\cap Y=\emptyset$等价于：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+X\cup Y=S\\
+|X|+|Y|=|S|
+\end{cases}</script><p>正确性显然。那么，我们可以枚举集合的大小，然后做或卷积。可以先对所有的进行FWT，然后枚举大小、求和，最后再变换回去。时间复杂度$2^n n^2$，$n$表示元素的数量。</p>
+<p>其实这也是对付某些位运算关系特别复杂的题的一种套路吧。尽量用$bitcount$取代替式子中的位运算条件，最后按$bitcount$分组算FWT卷积。</p>
+<p>例题：<br>WC2018 州区划分<br>hdu6057 Kanade’s convolution</p>
+]]></content>
+      <tags>
+        <tag>专题练习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生成函数与字符串匹配</title>
+    <url>/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/</url>
+    <content><![CDATA[<p>主要都是用来解决有“通配符”、“模糊匹配”等的问题（如果没有这些东西直接kmp多好）。并且这些题目中，“通配符”能够代表的字符数量是一定的，否则就没有办法卷积了。</p>
+<hr>
+<h2 id="字符集较小：对每个字符单独考虑是否匹配"><a href="#字符集较小：对每个字符单独考虑是否匹配" class="headerlink" title="字符集较小：对每个字符单独考虑是否匹配"></a>字符集较小：对每个字符单独考虑是否匹配</h2><h3 id="CF528D-Fuzzy-Search"><a href="#CF528D-Fuzzy-Search" class="headerlink" title="CF528D Fuzzy Search"></a>CF528D Fuzzy Search</h3><p>有两个只包含$A,C,G,T$的字符串$S$和$T$，长度分别为$n,m$。给定一个限制宽度$K$。定义字符串$T$在$S$的$i$位置上匹配，当且仅当：$\forall j\in [1,m],\exists p\in [max((i+j-1)-K,1),min((i+j-1)+K,n)]$，使得$S[p]=T[j]$。问$T$在哪些位置上匹配。$1\le m\le n\le 200000,K\le 200000$。</p>
+<p>Solution：可以考虑单独计算$match(i,c)$，表示$[i,i+m-1]$这个子串与$T$中的字符$c$的匹配数量。那么一个位置匹配的条件是$\sum match(i,c) =m$。</p>
+<p>我们先枚举字符。那么我们设$f(i)=[S[i-K,i+K]中存在字符c]$，$g(i) = [T[i]=c] $。那么我们需要求的就是$h(i)=\sum_{j=1}^m g(j)\times f(i+j-1)$。把$g$翻一下用FFT算即可。</p>
+<h3 id="bzoj-3160-万径人踪灭"><a href="#bzoj-3160-万径人踪灭" class="headerlink" title="bzoj 3160 万径人踪灭"></a>bzoj 3160 万径人踪灭</h3><p>在一个只包含$a,b$的字符串中选取一个子序列，使得：<br>1.位置和字符都关于某条对称轴对称对称。<br>2.不能是连续的一段。<br>问方案数对$1000000007$取模的值。</p>
+<p>Solution：等价于“位置和字符都对称的子序列数量”减去“连续的回文子串数量”，后者可以用manacher求出。</p>
+<p>对于前者，我们考虑计算每个对称轴的贡献。假设有$x$个字符关于这个对称轴对称，那么这个对称轴的贡献就是$2^x-1$。两个位置关于$mid$对称等价于两个位置下标的和等于$mid\times 2$。我们枚举$mid\times 2$，分开计算两种字符各有多少个位置关于它对称。加入当前枚举的是$c$，设$f(x)=\sum_{i=1}^n [S_i=c]x^i$，那么我们要求的就是这个函数的平方。</p>
+<p>注意，在卷积中，两个不同的位置$i,j$对$i+j$的贡献会被计算两次（第一个多项式选$i$，第二个多项式选$j$和第一个多项式选$j$，第二个多项式选$i$），而两个相同位置的贡献只会被算一次。</p>
+<hr>
+<h2 id="字符集较大：玄学构造比较函数"><a href="#字符集较大：玄学构造比较函数" class="headerlink" title="字符集较大：玄学构造比较函数"></a>字符集较大：<del>玄学</del>构造比较函数</h2><h3 id="bzoj4259-残缺的字符串"><a href="#bzoj4259-残缺的字符串" class="headerlink" title="bzoj4259 残缺的字符串"></a>bzoj4259 残缺的字符串</h3><p>有两个仅包含小写字母和<em>的字符串$A$和$B$，其中 </em> 作为通配符，可以匹配任意一个字符。问$A$在$B$的哪些位置出现过。$1\le |A|\le |B| \le 300000$</p>
+<p>Solution：</p>
+<p>假设$|A|=m,|B|=n$。</p>
+<p>如果我们定义一个函数$f(x,y)=A[x]-B[y]$，那么这个函数在$A[x]=B[y]$的时候就会返回$0$，否则就不会返回$0$。我们似乎可以通过判断$\sum_{i=1}^m A[i]-B[p+i-1]$是否为$0$来判断$p$这个位置是否可以与$A$匹配。但是这样是错误的，因为$f$的返回值有正有负，可能会出现正负数互相抵消的情况。</p>
+<p>那么<del>经过前人无数挣扎发现</del>可以定义$f(x,y)=(A[x]-B[y])^2$作为比较函数。这样有两个好处：<br>1.$(A[x]-B[y])^2=A[x]^2+B[y]^2-2A[x]B[y]$，这个东西用FFT优化，可以在$n\log n$的时间内求出所有的$\sum_{i=1}^m (A[i]-B[p+i-1])^2$。<br>2.函数值均为非负数。因此如果有一个位置的函数值不为$0$，那么求和的结果就不为$0$。</p>
+<p>现在考虑怎么做这道题：构造一个函数，当$A[x]=B[y]$或者$A[x],B[y]$中有一个为 * 的时候，$f(x,y)$为$0$；否则为一个正数。</p>
+<p>如果令 * 的值为$0$，其他字符$c$的值为$c-‘a’+1$，那么构造$f(x,y)=(A[x]-B[y])^2 A[x]B[y]$恰好可以满足这个条件。</p>
+<p>考虑怎么优化：</p>
+<script type="math/tex; mode=display">
+\sum (A[x]-B[y])^2 A[x]B[y]\\
+=\sum A[x]^3 B[y] +A[x]B[y]^3 -2A[x]^2 B[y]^2</script><p>这玩意也可以用FFT优化，做三次卷积就可以了，只是常数略大QAQ。</p>
+]]></content>
+      <tags>
+        <tag>专题练习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>任意模数NTT(NTT+CRT,MTT的优化)</title>
+    <url>/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<p>问题：给出两个多项式，以及模数$P$，计算它们的卷积，不保证$P$是$t\cdot 2^k + 1$的形式的质数。</p>
+<p>模数不支持NTT，那么我们肯定只能通过某种方式算出精确值，然后再取模。然而，两个这样的多项式相乘，每一项的系数最大是$n\cdot P^2$，大约$10^{23}$，FFT会爆精度，也不可能单模数NTT……</p>
+<hr>
+<h2 id="方法一：三模数NTT-CRT"><a href="#方法一：三模数NTT-CRT" class="headerlink" title="方法一：三模数NTT + CRT"></a>方法一：三模数NTT + CRT</h2><p>我们选三个乘积大于了$n\cdot P^2$的、可以NTT的质数，算出系数模它们的余数，再将得到的余数利用中国剩余定理合并。然而粘板子是不行的，因为会爆long long。</p>
+<p>假设现在有三个方程：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x\equiv c_0\mod m_0\\
+x\equiv c_1\mod m_1\\
+x\equiv c_2\mod m_2\\
+\end{cases}</script><p>其中$m_1,m_2,m_3$都是$10^9$级别的。我们先中国剩余定理合并前面两个，得到：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+x\equiv c\mod m\\
+x\equiv c_2\mod m_2\\
+\end{cases}</script><p>其中$m=m_1\cdot m_2$。设$x=c+k_1m=c_2+k_2m_2$，则$k_1m-k_2m_2=c_2-c$，可以直接用扩展欧几里得求出一组解，因为扩展欧几里得算法解不定方程$ax+by=gcd(a,b)$，求出的解一定满足$|x|\le |b|$且$|y|\le |a|$。</p>
+<p>整个同余方程组的最小正解，一定就是卷积结果的系数的真实值。因为任何一个比最小正解大的解，一定大于$m_1\cdot m_2\cdot m_3$，而这已经到了$10^{27}$的级别了，但这道题的答案不会超过$10^{23}$。</p>
+<p>那么我们现在算出了最小的$k_1$，带回$x=c+k_1m$就可以得到$x$的值了。这里的乘法计算，当然要先对$P$取模再算乘法（要不然还是会爆long long QAQ）</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//这三个模数的原根都是3</span></span><br><span class="line"><span class="keyword">int</span> M[<span class="number">3</span>]=&#123;<span class="number">1004535809</span>,<span class="number">104857601</span>,<span class="number">998244353</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> C[<span class="number">3</span>][N],A[N],B[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> a[],<span class="keyword">int</span> b[],<span class="keyword">int</span> P)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">3</span>;++k)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) A[i]=a[i],B[i]=b[i];</span><br><span class="line">		FFT(A,<span class="number">1</span>,M[k]),FFT(B,<span class="number">1</span>,M[k]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[k][i]=A[i]*(ll)B[i]%M[k];</span><br><span class="line">		FFT(C[k],<span class="number">-1</span>,M[k]);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	ll P1=M[<span class="number">0</span>]*(ll)M[<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		ll k0,k1; exgcd(M[<span class="number">0</span>],M[<span class="number">1</span>],k0,k1); k0=(k0*(C[<span class="number">1</span>][i]-C[<span class="number">0</span>][i])%M[<span class="number">1</span>]+M[<span class="number">1</span>])%M[<span class="number">1</span>];</span><br><span class="line">		ll x1=(C[<span class="number">0</span>][i]+k0*M[<span class="number">0</span>]%P1)%P1;</span><br><span class="line">		exgcd(P1,M[<span class="number">2</span>],k0,k1); k0=(k0%M[<span class="number">2</span>]*((C[<span class="number">2</span>][i]-x1)%M[<span class="number">2</span>])+M[<span class="number">2</span>])%M[<span class="number">2</span>];</span><br><span class="line">		a[i]=(x1+k0%P*(P1%P))%P;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="方法二：MTT"><a href="#方法二：MTT" class="headerlink" title="方法二：MTT"></a>方法二：MTT</h2><p>用FFT计算的瓶颈在于精度爆炸，那么我们可以拆系数，把系数的值域变小，用时间换精度。</p>
+<p>我们把原来的多项式$A(x)$拆成$A_0(x)\cdot M+A_1(x)$，其中$M$是一个常数。即，令${A_0}_i=\lfloor{A_i\over M}\rfloor,{A_1}_i=A_i\mod M$。这样计算两个多项式乘积就是算：</p>
+<script type="math/tex; mode=display">
+A(x)B(x)=(A_0(x)\cdot M+A_1(x))(B_0(x)\cdot M+B_1(x))\\
+=A_0(x)B_0(x)M^2 + A_1(x)B_0(x)M+A_0(x)B_1(x)M+A_1(x)B_1(x)</script><p>如果$M$取到$\sqrt P$左右的话，我们需要计算卷积的那些多项式的系数都只有$\sqrt P$级别了，精度得到有效改善。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Mul</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],<span class="keyword">int</span> C[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=Comp(A[i],<span class="number">0</span>),T2[i]=Comp(B[i],<span class="number">0</span>);</span><br><span class="line">    FFT(T1,<span class="number">1</span>),FFT(T2,<span class="number">1</span>); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=T1[i]*T2[i]; FFT(T1,<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=((ll)(T1[i].a+<span class="number">0.5</span>))%mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> a0[N],a1[N],b0[N],b1[N],c[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MTT</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],<span class="keyword">int</span> C[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">    &#123;</span><br><span class="line">        a0[i]=A[i]/M,a1[i]=A[i]%M;</span><br><span class="line">        b0[i]=B[i]/M,b1[i]=B[i]%M;</span><br><span class="line">        C[i]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Mul(a0,b0,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i]%mod*(ll)M%mod*M%mod)%mod;</span><br><span class="line">    Mul(a1,b0,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i]%mod*(ll)M%mod)%mod;</span><br><span class="line">    Mul(a0,b1,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i]%mod*(ll)M%mod)%mod;</span><br><span class="line">    Mul(a1,b1,c); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+c[i])%mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="FFT优化：DFT与IDFT合并"><a href="#FFT优化：DFT与IDFT合并" class="headerlink" title="FFT优化：DFT与IDFT合并"></a>FFT优化：DFT与IDFT合并</h3><p>这是一种可以通过一次FFT，算出两个多项式的DFT/IDFT的骚操作。</p>
+<p>假设要算$A(x),B(x)$的DFT。那么我们构造：</p>
+<script type="math/tex; mode=display">
+P(x)=A(x)+iB(x)\\
+Q(x)=A(x)-iB(x)\\</script><p>如果我们得到了$P,Q$的DFT，我们就可以得到$A,B$的DFT。而$P$和$Q$有一个非常奇妙的性质（下面设$W=k\cdot {2\pi  \over l}$）：</p>
+<script type="math/tex; mode=display">
+P(\omega_n^k )=\sum_{j} (A_j+iB_j)\omega^{jk}\\
+=\sum_{j} (A_j+iB_j)(\cos jW + i\sin jW)\\
+=\sum_{j} (A_j\cos jW - B_j \sin jW) + i\sum_j (A_j\sin jW +B_j\cos jW)\\
+Q(\omega_n^k)=\sum_j (A_j-iB_j)\omega^{jk}\\
+=\sum_j (A_j-iB_j)(\cos jW + i\sin jW)\\
+=\sum_j (A_j\cos jW +B_j\sin jW) + i \sum_j  (A_j\sin jW - B_j \cos jW)</script><p>上下式子好像啊（废话，本来就构造得很相似），而且，$Q$最终式子的前半部分，$\sin$前面的都变了号，而$\cos$前面的没有变；后半部分$\cos$变了号，而$sin$不变。而正好$\sin$是奇函数，$\cos$是偶函数，即$\sin (-x) = - \sin x,\cos (-x) = \cos x$于是可以得到：</p>
+<script type="math/tex; mode=display">
+P(\omega_n^k) = conj(Q(\omega_n^{-k}))</script><p>因为$w_n^{-k} = w_n^{n-k}$，所以$conj(P(\omega_n^{n-k})) = Q(\omega_n^k)$。</p>
+<p>这样，如果我们算出了$P$的DFT，就可以得到$Q$的DFT。然后就可以得到：</p>
+<script type="math/tex; mode=display">
+A(\omega_n^k) = {P(\omega_n^k)+Q(\omega_n^k)\over 2}\\
+B(\omega_n^k) = {P(\omega_n^k) - Q(\omega_n^k)\over 2i}\\
+= -i{P(\omega_n^k) - Q(\omega_n^k)\over 2}</script><p>那么DFT怎么办呢？考虑构造$M(\omega_n^k) = A(\omega_n^k)+iB(\omega_n^k) = P(\omega_n^k)$，那么我们把$P$IDFT回去以后，分别取实部和虚部，就可以得到$A,B$的IDFT。</p>
+<p>由此，我们的DFT/IDFT的运算次数可以减少一半，只需要算4次。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Comp T[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFT</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],Comp a[],Comp b[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T[i]=Comp(A[i],B[i]); FFT(T,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> j=(len-i)%len;</span><br><span class="line">		a[i]=(T[i]+T[j].conj())*Comp(<span class="number">0.5</span>,<span class="number">0</span>);</span><br><span class="line">		b[i]=(T[i]-T[j].conj())*Comp(<span class="number">0</span>,<span class="number">-0.5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">IDFT</span><span class="params">(Comp A[],Comp B[],<span class="keyword">int</span> a[],<span class="keyword">int</span> b[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T[i]=A[i]+B[i]*Comp(<span class="number">0</span>,<span class="number">1</span>); FFT(T,<span class="number">-1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) a[i]=((ll)(T[i].a+<span class="number">0.5</span>))%mod,b[i]=((ll)(T[i].b+<span class="number">0.5</span>))%mod;</span><br><span class="line">&#125;	</span><br><span class="line"><span class="keyword">int</span> a0[N],a1[N],b0[N],b1[N];</span><br><span class="line">Comp A0[N],A1[N],B0[N],B1[N],T1[N],T2[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MTT</span><span class="params">(<span class="keyword">int</span> A[],<span class="keyword">int</span> B[],<span class="keyword">int</span> C[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		a0[i]=A[i]/M,a1[i]=A[i]%M;</span><br><span class="line">		b0[i]=B[i]/M,b1[i]=B[i]%M;</span><br><span class="line">		C[i]=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	DFT(a0,a1,A0,A1); DFT(b0,b1,B0,B1);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=A0[i]*B0[i],T2[i]=A1[i]*B1[i];</span><br><span class="line">	IDFT(T1,T2,a0,a1);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+M*(ll)M%mod*a0[i]%mod+a1[i])%mod;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) T1[i]=A0[i]*B1[i]+A1[i]*B0[i];</span><br><span class="line">	FFT(T1,<span class="number">-1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;++i) C[i]=(C[i]+M*((ll)(T1[i].a+<span class="number">0.5</span>)%mod))%mod;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对数组长度有要求的FFT</title>
+    <url>/2022/06/30/%E5%AF%B9%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E6%9C%89%E8%A6%81%E6%B1%82%E7%9A%84FFT/</url>
+    <content><![CDATA[<p><img src="https://i.loli.net/2020/01/10/dLBt1mTpZarDbRX.png" alt="image.png"></p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CTSC2010 循环卷积</title>
+    <url>/2022/06/30/CTSC2010-%E5%BE%AA%E7%8E%AF%E5%8D%B7%E7%A7%AF/</url>
+    <content><![CDATA[<p><a href="https://www.luogu.org/problemnew/show/P4191" target="_blank" rel="noopener">洛谷上的题面</a></p>
+<p>有两个长度为$n$的多项式$A$和$B$，需要求出$A<em>B^C$。其中的$</em>$运算定义如下：</p>
+<script type="math/tex; mode=display">
+C[k]=\sum_{i+j\equiv k\text{ mod } n} A[i]*B[j]\text{ mod } (n+1)</script><p>数据范围：$n\le 5\times 10^5,C\le 10^9$。保证$n$一定可以被分解成若干个不超过$10$的正整数的乘积，并且$n+1$是质数。</p>
+<p>Solution：<br>我们用FFT计算卷积的过程，本质上是构造了一个$trans(p,i)$（贡献系数），令DFT后的数组为$A’[p]=\sum_{i=0}^n trans(p,i)\times A[i]$，我们必须让$trans(p,i)\times trans(p,j)=trans(p,i+j)$成立。FFT中，我们的$trans(p,i)=\omega_n^{pi}$。而$trans(p,i)\times trans(p,j)=\omega_n^{pi}\cdot \omega_n^{pj} =\omega_n^{p(i+j)}=trans(p,i+j)$。故而这个变换可以满足我们的要求。</p>
+<p>考虑用类似的思想来解决这个问题，我们要构造一个$trans(p,i)$，使得$trans(p,i)\times trans(p,j)=trans(p,(i+j)\text{ mod }n)$。有一个令人惊喜的发现：$trans(p,i)=\omega_n^{pi}$是满足条件的，因为$\omega_n^k=\omega_n^{k-n}$。</p>
+<p>这就意味着，我们可以FFT，然后直接对点值快速幂，再IDFT回去。</p>
+<p>可是，整个数组的长度并不是$2^k$。而且$C$很大，直接$power$肯定会炸精度，而如果用NTT，模数也满足$t\cdot 2^k +1$的形式。怎么办呢？</p>
+<p>题目里面有一个条件：保证$n$一定可以被分解成若干个不超过$10$的正整数的乘积。（实际上，这样的$n$被称作smooth number）。我们进行分治的时候，不一定将一个长度为$n$的区间分成两个长度为${n\over 2}$的区间；可以取出当前区间长度的一个质因子$p$，然后将当前区间分成$p$个区间，分治完了之后再合并。具体地，假设我们现在分治序列$a_0,a_2,\cdots a_{n-1}$，那么我们取$n$的一个质因子$p$，然后按照模$p$的余数分组。以$n=6,p=3$为例，我们希望计算对于每一个$k\in [0,n)$，$f(\omega_n^k)$的值，其中$f(x)=\sum_{i=0}^{n-1}a_ix^i$。稍加推导：</p>
+<script type="math/tex; mode=display">
+f(x)=a_0+a_1x+a_2x^2+a_3x^3+a_4x^4+a_5x^5\\
+=(a_0+x^3a_3)+x(a_1+a_4x^3)+x^2(a_2+a_5x^3)\\
+f(\omega_n^k) =(a_0+\omega_n^{3k}a_3)+\omega_n^k(a_1+a_4\omega_n^{3k})+\omega_n^{2k}(a_2+a_5\omega_n^{3k})\\
+=(a_0+\omega_{n\over 3}^{k}a_3)+\omega_n^k(a_1+a_4\omega_{n\over 3}^{k})+\omega_n^{2k}(a_2+a_5\omega_{n\over 3}^{k})</script><p>由于$\omega_n^k = \omega_{n\over p}^{k\over p}$，我们可以递归下去，对每一个长度为$2$的区间进行分治，算出$k\in [0,{n\over 3})$时，该区间$f(x)$的取值。我们不需要算得更多，是因为$\omega_n^k =\omega_n^{k+n}$。然后合并就可以了。由于$p$总是很小，也就是划分的区间的数量很小，合并的复杂度可以视作常数。所以总复杂度是$n\log n$的。</p>
+<p>还有精度的问题：可以直接用模数的原根替代单位根，因为我们只需要满足，模数-1是所有分治区间的长度的倍数就可以了。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">read</span>(<span class="title">T</span> &amp;<span class="title">x</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))&#123;<span class="keyword">if</span>(c==<span class="string">'-'</span>)f=<span class="number">-1</span>; c=getchar();&#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> mod,G;</span><br><span class="line"><span class="function">ll <span class="title">Pow</span><span class="params">(ll x,ll y)</span></span>&#123;ll res=<span class="number">1</span>; <span class="keyword">while</span>(y)&#123;<span class="keyword">if</span>(y&amp;<span class="number">1</span>)res=res*x%mod; x=x*x%mod,y&gt;&gt;=<span class="number">1</span>;&#125; <span class="keyword">return</span> res;&#125;</span><br><span class="line"><span class="keyword">namespace</span> P_root&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">720</span>+<span class="number">22</span>;</span><br><span class="line">	<span class="keyword">int</span> flg[N],pri[N],num,d[N],tot;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">predo</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;++i)&#123;<span class="keyword">if</span>(!flg[i])pri[num++]=i; <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;num&amp;&amp;pri[j]*i&lt;=n;++j)&#123;flg[i*pri[j]]=<span class="number">1</span>; <span class="keyword">if</span>(i%pri[j]==<span class="number">0</span>) <span class="keyword">break</span>;&#125;&#125;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;tot=<span class="number">0</span>;<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;num&amp;&amp;pri[j]*pri[j]&lt;=n;++j)<span class="keyword">if</span>(n%pri[j]==<span class="number">0</span>)&#123;d[++tot]=pri[j];<span class="keyword">while</span>(n%pri[j]==<span class="number">0</span>)n/=pri[j];&#125;<span class="keyword">if</span>(n&gt;<span class="number">1</span>)d[++tot]=n;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">che</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=tot;++j)<span class="keyword">if</span>(Pow(x,(mod<span class="number">-1</span>)/d[j])==<span class="number">1</span>)<span class="keyword">return</span> <span class="number">0</span>; <span class="keyword">return</span> <span class="number">1</span>;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">cal</span><span class="params">()</span></span>&#123;predo(N<span class="number">-22</span>),get(mod<span class="number">-1</span>);<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;mod;++i) <span class="keyword">if</span>(che(i)) <span class="keyword">return</span> i; <span class="keyword">return</span> <span class="number">-1</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> di[<span class="number">33</span>],num,n,pos[N];</span><br><span class="line">ll A[N],B[N],t[N];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findpos</span><span class="params">(<span class="keyword">int</span> pr,<span class="keyword">int</span> x,<span class="keyword">int</span> dep)</span></span>&#123;<span class="keyword">return</span> dep==num+<span class="number">1</span>?pr+x:findpos(pr*di[dep]+x%di[dep],x/di[dep],dep+<span class="number">1</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cpy</span><span class="params">(ll A[],ll B[])</span></span>&#123;<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) A[i]=B[i];&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FFT</span><span class="params">(ll A[],<span class="keyword">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) t[pos[i]]=A[i]; cpy(A,t);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> lt=<span class="number">1</span>,l=di[num],cur=num;cur&gt;=<span class="number">1</span>;cur--,lt=l,l*=di[cur])</span><br><span class="line">	&#123;</span><br><span class="line">		ll wn=Pow(G,f==<span class="number">1</span>?n/l:n-n/l);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i+=l)</span><br><span class="line">		&#123;</span><br><span class="line">			ll wk=<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;l;++k,wk=wk*wn%mod) <span class="comment">// now calculate i+k, w-&gt;wn^k</span></span><br><span class="line">			&#123;</span><br><span class="line">				ll tmp=<span class="number">0</span>; ll w=<span class="number">1</span>;</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=k%lt;j&lt;l;j+=lt,w=w*wk%mod)</span><br><span class="line">					tmp=(tmp+w*A[i+j])%mod;</span><br><span class="line">				t[i+k]=tmp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		cpy(A,t);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(f==<span class="number">-1</span>)&#123;ll Inv=Pow(n,mod<span class="number">-2</span>); <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) A[i]=A[i]*Inv%mod;&#125;</span><br><span class="line">&#125;</span><br><span class="line">	</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> t; read(n),read(t); mod=n+<span class="number">1</span>,G=P_root::cal();</span><br><span class="line">	<span class="keyword">int</span> tmp=n; <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i*i&lt;=tmp;++i)&#123;<span class="keyword">while</span>(tmp%i==<span class="number">0</span>)tmp/=i,di[++num]=i;&#125;<span class="keyword">if</span>(tmp&gt;<span class="number">1</span>)di[++num]=tmp;</span><br><span class="line"><span class="comment">//	sort(di+1,di+num+1);</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) pos[i]=findpos(<span class="number">0</span>,i,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) read(A[i]); FFT(A,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) read(B[i]); FFT(B,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) A[i]=A[i]*Pow(B[i],t)%mod;</span><br><span class="line">	FFT(A,<span class="number">-1</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i) <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,A[i]);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>杂题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>公平组合游戏的经典模型</title>
+    <url>/2022/06/30/%E5%85%AC%E5%B9%B3%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%9A%84%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="The-Subtraction-Game"><a href="#The-Subtraction-Game" class="headerlink" title="The Subtraction Game"></a>The Subtraction Game</h2><blockquote>
+<p>Nim 游戏。每一次可以从某一堆里面取走至多 $k$ 个石头，不能操作者输。</p>
+</blockquote>
+<p>每一堆的是独立的，所以局面的 sg 值是每一堆的 sg 值的异或和。此外，不难发现一个包含 $n$ 个石头的堆的 sg 值为 $n \pmod {k+1}$。</p>
+<h2 id="Greedy-Nim"><a href="#Greedy-Nim" class="headerlink" title="Greedy Nim"></a>Greedy Nim</h2><h3 id="不能操作者输"><a href="#不能操作者输" class="headerlink" title="不能操作者输"></a>不能操作者输</h3><p>参考 <a href="https://en.wikipedia.org/wiki/Nim" target="_blank" rel="noopener">wikipedia - Nim</a></p>
+<blockquote>
+<p>Nim 游戏。每次只能从石头个数最大的堆中拿石头。不能操作者输。</p>
+</blockquote>
+<p>设当前单个堆中石头个数的最大值为 $m$，次大值为 $n(n &lt; m)$，石头个数最大的堆数为 $p_m$，石头个数次大的堆数为 $p_n$。</p>
+<p>结论是，$p_m$ 为奇数时是必胜状态，否则是必败状态。</p>
+<p>必胜状态可以转移到必败状态：</p>
+<ul>
+<li>$p_m = 1$<ul>
+<li>通过决定操作后那堆石子剩下的数量是等于 $n$ 还是小于 $n$ 来调整 $p_n$ 的奇偶性。</li>
+</ul>
+</li>
+<li>$p_m &gt; 1$<ul>
+<li>任意操作即可</li>
+</ul>
+</li>
+</ul>
+<p>必败态只能转移到必胜态：</p>
+<ul>
+<li>必败态中 $p_m \ge 2$，所以操作后 $p_m \ge 1$ 且为奇数</li>
+</ul>
+<h3 id="不能操作者赢"><a href="#不能操作者赢" class="headerlink" title="不能操作者赢"></a>不能操作者赢</h3><p>没有找到相关的资料，所以下面是我自己口胡的。</p>
+<blockquote>
+<p>Nim 游戏。每次只能从石头个数最大的堆中拿石头。不能操作者赢。</p>
+</blockquote>
+<p>仍然设当前单个堆中石头个数的最大值为 $m$，次大值为 $n(n &lt; m)$，石头个数最大的堆数为 $p_m$，石头个数次大的堆数为 $p_n$。</p>
+<p>结论是，以下状态为必胜状态：</p>
+<ol>
+<li>$m=1$ 且 $2\mid p_m$</li>
+<li>$m\neq 1$ 且 $2\nmid p_m$</li>
+</ol>
+<p>必胜状态可以转移到必败状态：</p>
+<ul>
+<li>$m=1$：显然</li>
+<li>$m=2$：<ul>
+<li>$p_m &gt; 1$：随意操作即可</li>
+<li>$p_m = 1$：通过决定把操作的石头堆拿到只剩下 $1$ 还是只剩下 $0$，达到决定操作后 $p_1$ 的奇偶性的目的</li>
+</ul>
+</li>
+<li>$m=3$：<ul>
+<li>证明同“不能操作者输”</li>
+</ul>
+</li>
+</ul>
+<p>必败状态只能转移到必胜状态：</p>
+<ul>
+<li>$m=1$：显然</li>
+<li>$m&gt; 1$：因为 $p_m \ge 2$，所以不可能转移到 $m=1$ 的状态，所以只可能转移到 $m&gt; 1$ 的必胜态</li>
+</ul>
+<h2 id="阶梯Nim"><a href="#阶梯Nim" class="headerlink" title="阶梯Nim"></a>阶梯Nim</h2><blockquote>
+<p>每一次可以从第$i(i&gt;1)$堆中拿若干个放到第$i-1$堆里面，或者从第$1$堆里面扔掉若干个，不能操作者输。</p>
+</blockquote>
+<p>等价于对编号为奇数的堆做Nim游戏。</p>
+<p>如果第一个人操作了偶数堆，那么第二个人可以把第一个放进那个奇数堆的石子放进后面的偶数堆，这样奇数堆的状态不变。所以偶数堆可以直接当做“垃圾桶”用。</p>
+<p>每一个人都按照奇数堆的必胜策略操作即可。</p>
+<p>一个变形是挪硬币游戏：$1\times n$ 的方格中，若干个格子上有硬币。每次可以选择一个硬币、往左移若干格（要求保证跨过的位置都没有硬币），不能操作者输。</p>
+<p>可以把硬币之间的间隙看作石头堆，转化成阶梯 Nim 游戏。</p>
+<h2 id="Nim-K游戏（Moore’s-Nim-K）"><a href="#Nim-K游戏（Moore’s-Nim-K）" class="headerlink" title="Nim-K游戏（Moore’s Nim-K）"></a>Nim-K游戏（Moore’s Nim-K）</h2><p>参考 <a href="https://www.cnblogs.com/vongang/archive/2013/06/01/3112790.html" target="_blank" rel="noopener">这篇博客</a></p>
+<h3 id="不能操作者输-1"><a href="#不能操作者输-1" class="headerlink" title="不能操作者输"></a>不能操作者输</h3><blockquote>
+<p>有$n$堆石子，每次可从至多$k$堆中拿走任意数量的石子，不能不拿。不能操作者输。</p>
+</blockquote>
+<p>把每堆的石子数用二进制表示，如果每一位上$1$的个数$\pmod {k+1}$都是$0$则先手必败，否则先手必胜。</p>
+<p>证明：</p>
+<p>如果是必败态，那么由于每一位上都至多有$k$个数被改变，所以转移到的一定是必胜态。</p>
+<p>下面证明从必胜态可以转移到必败态。从高位到低位依次调整，显然在调整高位的时候用过的那些堆，在当前这一位是可以任意取值的。设用过的堆有$m$个，去掉这$m$堆之后还有$s$堆在这一位上是$1$：</p>
+<ul>
+<li>若$s + m \le k$，我们可以直接对那$s$堆进行操作，这样进行过操作的总堆数不会超过$k$。</li>
+<li>否则$s+m &gt; k$，也就是说$m &gt; k - s$，也就是说$m\ge k+1-s$，所以可以直接将$m$中的$k+1-s$堆设置为$1$，其它的设置为$0$，使得这一位上的$1$的总数为$k+1$的倍数。</li>
+</ul>
+<h3 id="不能操作者赢（Mis-ere-Nim-k"><a href="#不能操作者赢（Mis-ere-Nim-k" class="headerlink" title="不能操作者赢（Mis`ere Nim-k)"></a>不能操作者赢（Mis`ere Nim-k)</h3><blockquote>
+<p>有$n$堆石子，每次可从至多$K$堆中拿走任意数量的石子，不能不拿。不能操作者赢。</p>
+</blockquote>
+<p>只有两种可能的必胜局面：</p>
+<ol>
+<li>每堆里面都只有一个石头，并且堆数 $\pmod {K+1} \neq 1$。</li>
+<li>每堆的石头个数不全为 1，且存在某个二进制位上 1 的个数 $\pmod{K+1} \neq 0$</li>
+</ol>
+<p>对应的，必败局面为：</p>
+<ol>
+<li>每堆里面都只有一个石头，并且堆数 $\pmod {K+1} = 1$。</li>
+<li>每堆的石头个数不全为 1，且每个二进制位上 1 的个数 $\pmod{K+1} = 0$</li>
+</ol>
+<p>必败态只能转移到必胜态：</p>
+<ul>
+<li>该局面存在石头个数大于 1 的堆<ul>
+<li>不能转移到必败态 2. ：一次操作至多只能改变 $K$ 堆石头，但是这样的转移需要让某一位的 1 的个数减少 $K+1$</li>
+<li>不能转移到必败态 1. ：由于存在石头个数大于 1 的堆且每个二进制位上 1 的个数都是 $K+1$ 的倍数，所以石头个数大于 1 的堆的数量一定不小于 $K+1$，所以一定不可能转移到每堆石头的个数都是 1 的状态</li>
+</ul>
+</li>
+<li>该局面所有堆的石头个数都是 1 且石头总数大于 $K+1$<ul>
+<li>不能转移到必败态 2. ：每堆中石头的个数只会减小</li>
+<li>不能转移到必败态 1. ：这需要操作 $K+1$ 堆石头</li>
+</ul>
+</li>
+<li>该局面所有堆的石头个数都是 1 且石头总数等于 $1$<ul>
+<li>拿走这唯一的一个石头之后，给对方的是必胜状态（终态）</li>
+</ul>
+</li>
+</ul>
+<p>必胜态可以转移到必败态：</p>
+<ul>
+<li>存在石头个数大于 1 的堆<ul>
+<li>石头个数大于 1 的堆的数量不超过 $K$：可以转移到必败态 1.</li>
+<li>石头个数大于 1 的堆的数量超过了 $K$：按照“不能操作者输”的策略进行操作，可以转移到必败态 2.</li>
+</ul>
+</li>
+<li>所有的堆的石头个数都是 1：<ul>
+<li>可以通过拿走不超过 $K$ 堆来转移到必败态 1.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Fibonacci-Nim"><a href="#Fibonacci-Nim" class="headerlink" title="Fibonacci Nim"></a>Fibonacci Nim</h2><blockquote>
+<p>有一堆石子，双方轮流取石子：第一轮中，先手不能一次性把所有的石头取完；以后的每一轮中，玩家取的石头数不能超过上一轮中对手取的石头数的2倍，至少要取一颗石头。</p>
+</blockquote>
+<p>结论是，当石头数为斐波那契数的时候，先手必败，否则先手必胜。</p>
+<p><a href="https://blog.csdn.net/dgq8211/article/details/7602807" target="_blank" rel="noopener">nyist_xiaod的博客的证明很清楚</a></p>
+<h2 id="k-倍减法-Nim"><a href="#k-倍减法-Nim" class="headerlink" title="k 倍减法 Nim"></a>k 倍减法 Nim</h2><p>参考：</p>
+<ul>
+<li>NOI2009 冬令营论文 《从“k 倍动态减法游戏”出发探究一类组合游戏问题》</li>
+<li><a href="https://www.cnblogs.com/SovietPower/p/9699436.html#c-%E6%80%A5%E5%BC%80%E9%94%81%E5%8D%9A%E5%BC%88%E8%AE%BA" target="_blank" rel="noopener">SovietPower 的博客</a></li>
+<li><a href="http://www.cnblogs.com/jianglangcaijin/archive/2012/12/19/2825539.html" target="_blank" rel="noopener">朝拜明天19891101的博客</a></li>
+</ul>
+<p>题目：poj3922 A simple stone game</p>
+<blockquote>
+<p>有一堆石子，石子的数量为 $n$，双方轮流取石子：第一轮中，先手可以取任意多个，但是不能取完；以后的每一轮中，玩家可以取的数量不能超过上一个人取的石头数量的 $k$ 倍。不能操作者输。问谁会赢。</p>
+</blockquote>
+<h3 id="做法-1"><a href="#做法-1" class="headerlink" title="做法 1"></a>做法 1</h3><p>考虑 $f_i$ 表示石头的总数为 $i$ 时，上一轮中取掉的石头个数至少是多少，这个状态是必胜态。注意到 $f_i \le \lceil \frac{i}{k} \rceil$。则 $f_i = \min\{ \lceil \frac{i-j}{k} \rceil, (i-j)k &lt; f_j\}$。</p>
+<p>注意到 $(i-j)k &lt; f_j$ 也就是 $ik &lt; f_j + kj$，要求 $\lceil \frac{i-j}{k} \rceil$ 最小也就是要求 $j$ 最大，所以我们用个单调栈维护 $f_j + kj$ 即可。</p>
+<p>时间复杂度 $O(n)$。</p>
+<h3 id="做法-2"><a href="#做法-2" class="headerlink" title="做法 2"></a>做法 2</h3><p>如果我们知道 $n$ 颗石头是必败态，那么可以推得：</p>
+<ul>
+<li>$n+1, n+2, \cdots n+x(xk &lt; n)$ 是必胜态</li>
+<li>对于 $n + x (xk \ge n)$，这个状态的胜负取决于谁能拿到 $x$ 个石头中的最后一个石头</li>
+</ul>
+<p>所以我们可以维护必败状态集合，初始 $S = \{ 2, 3, \cdots k+1\}$。每次取出 $S$ 中最大的元素 $n$，找出最小的必败的 $x \ge \lceil \frac{n}{k} \rceil$，将 $n+x$ 加入集合。注意到这样找出来的 $n+x$ 一定是 $&gt;n$ 的最小的必败状态。</p>
+<p>复杂度 $O(\log_{\frac{k+1}{k}} n)$。</p>
+<h2 id="翻硬币游戏"><a href="#翻硬币游戏" class="headerlink" title="翻硬币游戏"></a>翻硬币游戏</h2><p>参考 <a href="https://github.com/AlanYume/ACM-ICPC/blob/master/paper/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/%E5%8D%9A%E5%BC%88/%E8%B4%BE%E5%BF%97%E8%B1%AA/%E7%AE%97%E6%B3%95%E5%90%88%E9%9B%86%E4%B9%8B%E3%80%8A%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%95%A5%E8%BF%B0%E2%80%94%E2%80%94%E6%B5%85%E8%B0%88SG%E6%B8%B8%E6%88%8F%E7%9A%84%E8%8B%A5%E5%B9%B2%E6%8B%93%E5%B1%95%E5%8F%8A%E5%8F%98%E5%BD%A2%E3%80%8B.pdf" target="_blank" rel="noopener">IOI2009 贾志豪的论文</a>。</p>
+<blockquote>
+<p>有一些关于翻的硬币的限制（例如，硬币排成一排，要求翻转的必须是长度为 $k$ 的一段），并且要求翻的最右边（二维的时候则是右下角）的硬币必须是从正面到背面，不能操作者输。</p>
+</blockquote>
+<p>结论是，局面的 sg 值等于每个正面朝上的硬币单独存在时的游戏的 sg 值的异或和。</p>
+<p>可以考虑一个这样的游戏：每次可以拿走一个石头，并且按照限制在别的地方放入一些石头（例如，一排方格，拿走某个石头，并且在左边的 $k-1$ 个格子都放入一个石头）。如果某个位置的石头个数是偶数，那么拿走那个位置的石头是没有意义的（因为后手可以模仿先手的操作）；所以这个游戏和翻硬币游戏是等价的（因为放入一个石头也就是反转了“这个格子是否会被操作”）。并且，这个游戏中每个石头显然是独立的，我们算出每个石头的子游戏的 sg 值异或起来，得到的就是整个游戏的 sg 值。</p>
+<h2 id="删边游戏-Green-Hackenbush"><a href="#删边游戏-Green-Hackenbush" class="headerlink" title="删边游戏 Green Hackenbush"></a>删边游戏 Green Hackenbush</h2><p>参考：IOI2009贾志豪论文，以及 Winning Ways for Your Mathematical Plays, Vol1, Chapter 7 Hackenbush。</p>
+<blockquote>
+<p>给一张无向图，其中有一个点为根。每次操作可以删去一条边，并拿走操作之后不与根连通的部分。不能操作者输。</p>
+</blockquote>
+<p>结论：</p>
+<ul>
+<li>树的删边游戏：叶子节点的 SG 值为 0；中间节点的 SG 值为它的所有子节点的 SG 值加 1 后的异或和。（这里的“某个点的 SG 值”指的是这个点的子树内的点构成的子游戏的 SG 值）</li>
+<li>无向图的删边游戏：（Fusion Principle）不断把图中的任意一个偶环缩成一个新点，任意一个奇环缩成一个新点和一个自环，所有连到原先环上的边全部改为与新点相连，这样的改动不会影响图的 SG 值。最终转化成树的删边游戏。</li>
+</ul>
+<h2 id="Anti-SG游戏"><a href="#Anti-SG游戏" class="headerlink" title="Anti-SG游戏"></a>Anti-SG游戏</h2><h3 id="Anti-Nim游戏-Mis-ere-Nim"><a href="#Anti-Nim游戏-Mis-ere-Nim" class="headerlink" title="Anti-Nim游戏 (Mis`ere Nim)"></a>Anti-Nim游戏 (Mis`ere Nim)</h3><blockquote>
+<p>有$n$堆石子，每次操作可以从某一堆中拿走至少一个石子。两个人轮流操作，不能操作者胜。</p>
+</blockquote>
+<p>一个状态为必胜态，当且仅当下列两个条件有一个成立：</p>
+<ul>
+<li>所有堆的石子个数为$1$，且石子个数的异或和为$0$。</li>
+<li>存在一个堆的石子个数大于$1$，且石子个数的异或和不为$0$。</li>
+</ul>
+<p>证明：</p>
+<ul>
+<li>如果每一堆的石头个数都是$1$，每个人每一次都必须取完一堆，所以堆数是偶数的时候先手胜，否则后手胜。</li>
+<li>存在至少一个石子数大于$1$的堆：<ul>
+<li>只有一个堆的石子数大于$1$：显然此时石子个数异或和不为$0$。先手可以选择把这一堆的石头取完或者取到只剩下一个，留给后手奇数个石子数为$1$的堆，所以这种状态先手必胜。</li>
+<li>至少有两个堆的石子数大于$1$：如果此时的石子数异或和为$0$，则只能转移到存在至少一个石子数大于$1$且石子数异或和非$0$的状态；而若异或和非$0$，则一定存在一种转移方法可以转移到至少有两个堆的石子数大于$1$且石子数异或和为$0$的状态。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Anti-SG游戏-1"><a href="#Anti-SG游戏-1" class="headerlink" title="Anti-SG游戏"></a>Anti-SG游戏</h3><blockquote>
+<p>无法继续转移的人获胜。其余规则与SG游戏相同。</p>
+</blockquote>
+<p>则有类似的结论：先手必胜当且仅当下列两个条件中有至少一个被满足：</p>
+<ul>
+<li>所有单一游戏的SG值为$1$，且它们的SG值的异或和为$0$；</li>
+<li>存在单一游戏的SG值不为$1$，且它们的SG值异或和不为$0$。</li>
+</ul>
+<p>可以用与SG定理证明相似的方法，证明游戏与Nim游戏等价，从而推出结论成立。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/zwfymqz/p/8469862.html" target="_blank" rel="noopener">自为风月马前卒的博客</a></p>
+<p>贾志豪论文</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Sprague–Grundy theorem(SG定理)</title>
+    <url>/2022/06/30/Sprague%E2%80%93Grundy-theorem-SG%E5%AE%9A%E7%90%86/</url>
+    <content><![CDATA[<h2 id="相关的定义"><a href="#相关的定义" class="headerlink" title="相关的定义"></a>相关的定义</h2><h3 id="公平组合游戏-impartial-combinatorial-game"><a href="#公平组合游戏-impartial-combinatorial-game" class="headerlink" title="公平组合游戏 (impartial combinatorial game)"></a>公平组合游戏 (impartial combinatorial game)</h3><p>定义为满足下列条件的游戏：</p>
+<ol>
+<li>两个玩家轮流操作，无法操作者输。</li>
+<li>游戏会在有限的轮数内结束。</li>
+<li>对于每个状态，每一个玩家可以进行的操作是相同的。也就是说可以进行的操作只取决于当前所处的状态而不取决于操作的玩家。</li>
+<li>信息公开，且没有随机行为。即，两个玩家都能够知道关于游戏状态的所有信息以及对手的操作，且玩家的操作会转移到的后继状态是确定的（而不会受到随机因子的影响）。</li>
+</ol>
+<h3 id="状态-position"><a href="#状态-position" class="headerlink" title="状态 (position)"></a>状态 (position)</h3><p>我们约定用如下的记号来表示游戏状态：假设某个状态$G$能够转移到的状态集合是$\{G_1,G_2\cdots G_k\}$，我们就用$\{G_1,G_2\cdots G_k\}$来表示$G$。没有可行的转移的状态记为$\{\}$。此外，我们用$<em>n$表示有一个有$n$个石子的Nim游戏的状态，即：$</em>0=\{\},<em>n = </em>(n-1) \cup \{<em>(n-1)\} = \{</em>(n-1),<em>(n-2),\cdots </em>0\}$。</p>
+<p>公平组合游戏的状态可以根据其结果分为两类，一类是 N-positions ，表示先手必胜态；另一类是 P-positions ，表示先手必败态。一个简单的结论是，一个状态是 N-position 当且仅当它存在一个后继状态是 P-positioin ，一个状态是 P-position 当且仅当它所有的后继状态都是 N-position。</p>
+<h3 id="组合-to-combine"><a href="#组合-to-combine" class="headerlink" title="组合 (to combine)"></a>组合 (to combine)</h3><p>用$A+B$表示由$A$和$B$两个游戏组合起来得到的游戏。组合的含义是：$A+B = \{ a + B \mid a \in A\} \cup \{ b + A\mid b \in B\}$。</p>
+<h3 id="等价-equivalence"><a href="#等价-equivalence" class="headerlink" title="等价 (equivalence)"></a>等价 (equivalence)</h3><p>称两个状态$G,G’$是等价的当且仅当对于任意一个状态$H$，$G+H$和$G’+H$的结果相同。记为$G\approx G’$。</p>
+<h2 id="Sprague–Grundy-theorem"><a href="#Sprague–Grundy-theorem" class="headerlink" title="Sprague–Grundy theorem"></a>Sprague–Grundy theorem</h2><p>任意一个公平组合游戏的任意一个状态都可以与唯一确定的一个Nim游戏的状态等价。我们把它所等价于的Nim游戏中的石子数称为Grundy number（也称为Grundy value, nim-value, nimber ）。</p>
+<h2 id="proof"><a href="#proof" class="headerlink" title="proof"></a>proof</h2><h3 id="First-Lemma"><a href="#First-Lemma" class="headerlink" title="First Lemma"></a>First Lemma</h3><p>对于任意一个 P-position $A$和任意一个状态$G$，$G\approx G+A$。</p>
+<p>证明：等价于证明，对于任意一个状态$H$，$G+H$和$G+A+H$的结果是一样的。</p>
+<p>假设$G+H$是必胜状态 ，则只需要说明$G+H+A$是必胜状态。先手只需要先进行$G+H$中的必胜策略的第一步，然后$G+H$转化成了必败状态，而此时$A$也是必败状态。接下来，如果后手操作$A$，先手也跟着操作$A$，使$A$仍然是必败状态；如果后手操作$G+H$，先手就跟着操作$G+H$。这样就可以保证$A$和$G+H$始终都是必败状态，直到结束。所以$G+H+A$是必胜状态。</p>
+<p>假设$G+H$是必败状态，则$G+H+A$等价于上一种情况中第一步之后的局面，所以$G+H+A$也是必败状态。</p>
+<p>综上，对于任意一个 P-position $A$和任意一个状态$G$，$G\approx G+A$。</p>
+<h3 id="Second-Lemma"><a href="#Second-Lemma" class="headerlink" title="Second Lemma"></a>Second Lemma</h3><p>$G\approx G’$的充要条件是$G+G’$为P-position。</p>
+<p>证明：<br>必要性：如果$G\approx G’$，则$G+G\approx G+G’$，而由于$G+G$显然是一个P-positiong（先手在某一个$G$上操作了之后，后手可以在另一个$G$上做同样的操作，这样先手就必败了），所以$G+G’$是一个P-position。<br>充分性：如果$G+G’$为P-position，那么对于任意一个状态$H$，我们有$G+H \approx G+H+(G+G’) \approx G’+H+(G+G) \approx G’+H$，所以$G\approx G’$。</p>
+<h3 id="证明Sprague–Grundy-theorem"><a href="#证明Sprague–Grundy-theorem" class="headerlink" title="证明Sprague–Grundy theorem"></a>证明Sprague–Grundy theorem</h3><p>证明：考虑归纳。若状态为终态显然成立，此时等价于$<em>0$。假设现在有一个不是终态的状态$G=\{G_1,G_2,\cdots G_k\}$，由归纳假设已经知道$G_i \approx </em>n_i$。令$G’ = \{ <em>n_1,</em>n_2,\cdots *n_k\}$。令$m$为$\{n_1,n_2\cdots n_k\}$中没有出现过的最小自然数。</p>
+<p>首先证明$G\approx G’$，等价于要证明$G+G’$是P-position。如果$G=\{\}$显然成立；如果先手把$G’$转移到了$<em>n_i$，则后手可以把$G$转移到$G_i$，由于$</em>n_i \approx G_i$，所以$<em>n_i + G_i$为P-position；如果先手把$G$转移到了$G_i$，后手则可以把$G’$转移到$</em>n_i$，也得到了$*n_i +G_i$。综上，$G\approx G’$。</p>
+<p>下面证明$G\approx <em>m$，由于等价的传递性，这个命题等价于$G’+</em>m$为P-position。假设先手操作了$<em>m$转移到了$</em>n’$，则$G’$一定也包含$<em>n’$这个转移，后手只要将$G’$转移到$</em>n’$就可以把必败局面留给先手。而如果先手操作了$G’$转移到了$<em>n’$，若$n’&gt;m$则后手可以操作$</em>n’$转移到$<em>m$，而若$n’&lt;m$则后手可以操作$</em>m$转移到$*n’$。注意由于$m$的定义，不可能出现$n’=m$的情况。</p>
+<p>证毕。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem" target="_blank" rel="noopener">wiki</a></p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nim积</title>
+    <url>/2022/06/30/Nim%E7%A7%AF/</url>
+    <content><![CDATA[<p>参考资料：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/zjp-shadow/p/10507030.html" target="_blank" rel="noopener">zjp-shadow 的博客</a></li>
+<li><a href="https://www.chitanda.moe/2019/11/08/%E4%BB%8E-nim-%E5%92%8C%E5%88%B0-nim-%E7%A7%AF/" target="_blank" rel="noopener">chitanda 的博客</a></li>
+<li><a href="https://www.cnblogs.com/suwakow/p/12200462.html" target="_blank" rel="noopener">suwakow 的博客</a></li>
+</ul>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>定义 $x$ 和 $y$ 的 Nim 积为 $x\otimes y = \max\{(a\otimes b) \oplus (a\otimes y) \oplus (x\otimes b), 0\le a &lt; x, 0\le b &lt; y\}$</p>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="运算性质"><a href="#运算性质" class="headerlink" title="运算性质"></a>运算性质</h3><ul>
+<li><p>$x\otimes 0 = 0\otimes x = 0$</p>
+</li>
+<li><p>$x\otimes 1 = 1 \otimes x = x$</p>
+</li>
+<li><p>$x\otimes y = y \otimes x$</p>
+</li>
+<li><p>$(x\otimes y) \otimes z = x \otimes (y\otimes z)$</p>
+</li>
+<li>$x\otimes (y\oplus z) = (x\otimes y) \oplus (x\otimes z)$</li>
+</ul>
+<h3 id="费马数"><a href="#费马数" class="headerlink" title="费马数"></a>费马数</h3><p>定义 Fermat 2-power 为 $2^{2^n}$，其中 $n\in \N$，设其为 $a$。有如下性质：</p>
+<ol>
+<li>$a\otimes x = a\times x (x &lt; a)$</li>
+<li>$a\otimes a = \frac{3}{2} a$</li>
+</ol>
+<h2 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h2><h3 id="计算过程"><a href="#计算过程" class="headerlink" title="计算过程"></a>计算过程</h3><p>设 $g(x,y) = 2^x \otimes 2^y$，$f(x,y) = x\otimes y$。</p>
+<p>对于任意的 $x,y$，考虑将它用分配律（$x\otimes (y\oplus z) = (x\otimes y) \oplus (x\otimes z)$）拆开，转化成 $f(x,y) = \oplus_{x’\in x, y’\in y} g(x’,y’)$。</p>
+<p>下面考虑怎么求 $g(x,y)$。</p>
+<p>将 $x,y$ 的二进制位拆出来，转化成费马数相乘：</p>
+<script type="math/tex; mode=display">
+2^x \otimes 2^y = (\prod_{x'\in x} 2^{2^{x'}}) \otimes (\prod_{y\in y} 2^{2^{y'}} )= (\otimes_{x'\in x} 2^{2^{x'}}) \otimes (\otimes_{y\in y} 2^{2^{y'}} )</script><p>考虑 $x,y$ 的最高位，设为 $u$：</p>
+<ol>
+<li>$u\in x, u\in y$：设 $M = 2^{2^u}, A = 2^{x-2^u}, B=2^{y-2^u}$，则 $g(x,y) = (\frac{3}{2} M) \otimes A\otimes B$。</li>
+<li>$u\in x,u\notin y$：设 $M=2^{2^u}, A=2^{x-2^u}, B=2^y$，则 $g(x,y) = M \otimes A \otimes B$</li>
+</ol>
+<p>$A\otimes B$ 的部分可以往下递归；我们把往下递归的部分展开，发现 $g(x,y)$ 正是：</p>
+<script type="math/tex; mode=display">
+(\otimes_{u\in (x \text{ xor } y)} 2^{2^u}) \otimes (\otimes_{u\in (x\text{ and } y)} \frac{3}{2} 2^{2^u})\\
+= (\prod_{u\in (x \text{ xor } y)} 2^{2^u}) \otimes (\otimes_{u\in (x\text{ and } y)} \frac{3}{2} 2^{2^u})</script><p>对于后者，直接调用 $f(x,y)$ 递归计算即可。</p>
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>参考 2009 论文《从“k倍动态减法游戏”出发探究一类组合游戏问题》 p25（？）</p>
+<p>据说是 $O(\log x \log y)$</p>
+<h3 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h3><p><a href="https://www.cnblogs.com/ljzalc1022/protected/p/12935948.html" target="_blank" rel="noopener">划愤</a> （高维 Nim 积行列式）</p>
+<p>hdu3404 Switch lights（二维 Nim 积模板）</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nim游戏 结论及证明</title>
+    <url>/2022/06/30/Nim%E6%B8%B8%E6%88%8F-%E7%BB%93%E8%AE%BA%E5%8F%8A%E8%AF%81%E6%98%8E/</url>
+    <content><![CDATA[<p>设初始状态中，每一堆的石子个数分别$\{a_1,a_2,a_3\cdots a_n\}$。则先手获胜的充要条件是$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n \neq 0$。</p>
+<p>证明：</p>
+<ol>
+<li>终止状态满足$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n=0$。</li>
+<li>每一个$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n=0$的状态，都只能够转移到$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n\neq 0$的状态。因为假设操作后$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n$仍然是$0$，则有$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_i\bigoplus \cdots a_n = a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_i ‘\bigoplus \cdots a_n$，则$a_i = a_i’$，推出矛盾。</li>
+<li>每一个$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n\neq 0$的状态，都可以转移到$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n=0$的状态。因为假设$a_1\bigoplus a_2\bigoplus a_3\bigoplus\cdots a_n=k$，，设$k$二进制下最高的为$1$的位是$p$，那么$a_1,a_2\cdots a_n$中一定存在一个数$a_i$满足$a_i$的第$p$位是$1$，从而我们可以推出$a_i \bigoplus k &lt; a_i$（高于第$p$位的不变，第$p$位从$1$变成了$0$），将$a_i$改成$a_i \bigoplus k$即可。</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>拉格朗日插值</title>
     <url>/2022/06/25/%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</url>
     <content><![CDATA[<p>有$n$个点$(x_1,y_1),(x_2,y_2)\cdots (x_n,y_n)$，满足$\forall i\not =j,x_i\not =x_j$。你需要求出一个次数小于等于$n-1$的多项式$f(x)$，使得$\forall i\in [1,n],f(x_i) = y_i$。</p>

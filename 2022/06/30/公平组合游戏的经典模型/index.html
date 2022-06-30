@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="The Subtraction Game Nim 游戏。每一次可以从某一堆里面取走至多 $k$ 个石头，不能操作者输。  每一堆的是独立的，所以局面的 sg 值是每一堆的 sg 值的异或和。此外，不难发现一个包含 $n$ 个石头的堆的 sg 值为 $n \pmod {k+1}$。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="公平组合游戏的经典模型">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/06/30/%E5%85%AC%E5%B9%B3%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%9A%84%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="The Subtraction Game Nim 游戏。每一次可以从某一堆里面取走至多 $k$ 个石头，不能操作者输。  每一堆的是独立的，所以局面的 sg 值是每一堆的 sg 值的异或和。此外，不难发现一个包含 $n$ 个石头的堆的 sg 值为 $n \pmod {k+1}$。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T05:43:29.000Z">
+<meta property="article:modified_time" content="2022-06-30T05:43:41.281Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/06/30/%E5%85%AC%E5%B9%B3%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%9A%84%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>公平组合游戏的经典模型 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E5%85%AC%E5%B9%B3%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%9A%84%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          公平组合游戏的经典模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 13:43:29 / Modified: 13:43:41" itemprop="dateCreated datePublished" datetime="2022-06-30T13:43:29+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="The-Subtraction-Game"><a href="#The-Subtraction-Game" class="headerlink" title="The Subtraction Game"></a>The Subtraction Game</h2><blockquote>
+<p>Nim 游戏。每一次可以从某一堆里面取走至多 $k$ 个石头，不能操作者输。</p>
+</blockquote>
+<p>每一堆的是独立的，所以局面的 sg 值是每一堆的 sg 值的异或和。此外，不难发现一个包含 $n$ 个石头的堆的 sg 值为 $n \pmod {k+1}$。</p>
+<h2 id="Greedy-Nim"><a href="#Greedy-Nim" class="headerlink" title="Greedy Nim"></a>Greedy Nim</h2><h3 id="不能操作者输"><a href="#不能操作者输" class="headerlink" title="不能操作者输"></a>不能操作者输</h3><p>参考 <a href="https://en.wikipedia.org/wiki/Nim" target="_blank" rel="noopener">wikipedia - Nim</a></p>
+<blockquote>
+<p>Nim 游戏。每次只能从石头个数最大的堆中拿石头。不能操作者输。</p>
+</blockquote>
+<p>设当前单个堆中石头个数的最大值为 $m$，次大值为 $n(n &lt; m)$，石头个数最大的堆数为 $p_m$，石头个数次大的堆数为 $p_n$。</p>
+<p>结论是，$p_m$ 为奇数时是必胜状态，否则是必败状态。</p>
+<p>必胜状态可以转移到必败状态：</p>
+<ul>
+<li>$p_m = 1$<ul>
+<li>通过决定操作后那堆石子剩下的数量是等于 $n$ 还是小于 $n$ 来调整 $p_n$ 的奇偶性。</li>
+</ul>
+</li>
+<li>$p_m &gt; 1$<ul>
+<li>任意操作即可</li>
+</ul>
+</li>
+</ul>
+<p>必败态只能转移到必胜态：</p>
+<ul>
+<li>必败态中 $p_m \ge 2$，所以操作后 $p_m \ge 1$ 且为奇数</li>
+</ul>
+<h3 id="不能操作者赢"><a href="#不能操作者赢" class="headerlink" title="不能操作者赢"></a>不能操作者赢</h3><p>没有找到相关的资料，所以下面是我自己口胡的。</p>
+<blockquote>
+<p>Nim 游戏。每次只能从石头个数最大的堆中拿石头。不能操作者赢。</p>
+</blockquote>
+<p>仍然设当前单个堆中石头个数的最大值为 $m$，次大值为 $n(n &lt; m)$，石头个数最大的堆数为 $p_m$，石头个数次大的堆数为 $p_n$。</p>
+<p>结论是，以下状态为必胜状态：</p>
+<ol>
+<li>$m=1$ 且 $2\mid p_m$</li>
+<li>$m\neq 1$ 且 $2\nmid p_m$</li>
+</ol>
+<p>必胜状态可以转移到必败状态：</p>
+<ul>
+<li>$m=1$：显然</li>
+<li>$m=2$：<ul>
+<li>$p_m &gt; 1$：随意操作即可</li>
+<li>$p_m = 1$：通过决定把操作的石头堆拿到只剩下 $1$ 还是只剩下 $0$，达到决定操作后 $p_1$ 的奇偶性的目的</li>
+</ul>
+</li>
+<li>$m=3$：<ul>
+<li>证明同“不能操作者输”</li>
+</ul>
+</li>
+</ul>
+<p>必败状态只能转移到必胜状态：</p>
+<ul>
+<li>$m=1$：显然</li>
+<li>$m&gt; 1$：因为 $p_m \ge 2$，所以不可能转移到 $m=1$ 的状态，所以只可能转移到 $m&gt; 1$ 的必胜态</li>
+</ul>
+<h2 id="阶梯Nim"><a href="#阶梯Nim" class="headerlink" title="阶梯Nim"></a>阶梯Nim</h2><blockquote>
+<p>每一次可以从第$i(i&gt;1)$堆中拿若干个放到第$i-1$堆里面，或者从第$1$堆里面扔掉若干个，不能操作者输。</p>
+</blockquote>
+<p>等价于对编号为奇数的堆做Nim游戏。</p>
+<p>如果第一个人操作了偶数堆，那么第二个人可以把第一个放进那个奇数堆的石子放进后面的偶数堆，这样奇数堆的状态不变。所以偶数堆可以直接当做“垃圾桶”用。</p>
+<p>每一个人都按照奇数堆的必胜策略操作即可。</p>
+<p>一个变形是挪硬币游戏：$1\times n$ 的方格中，若干个格子上有硬币。每次可以选择一个硬币、往左移若干格（要求保证跨过的位置都没有硬币），不能操作者输。</p>
+<p>可以把硬币之间的间隙看作石头堆，转化成阶梯 Nim 游戏。</p>
+<h2 id="Nim-K游戏（Moore’s-Nim-K）"><a href="#Nim-K游戏（Moore’s-Nim-K）" class="headerlink" title="Nim-K游戏（Moore’s Nim-K）"></a>Nim-K游戏（Moore’s Nim-K）</h2><p>参考 <a href="https://www.cnblogs.com/vongang/archive/2013/06/01/3112790.html" target="_blank" rel="noopener">这篇博客</a></p>
+<h3 id="不能操作者输-1"><a href="#不能操作者输-1" class="headerlink" title="不能操作者输"></a>不能操作者输</h3><blockquote>
+<p>有$n$堆石子，每次可从至多$k$堆中拿走任意数量的石子，不能不拿。不能操作者输。</p>
+</blockquote>
+<p>把每堆的石子数用二进制表示，如果每一位上$1$的个数$\pmod {k+1}$都是$0$则先手必败，否则先手必胜。</p>
+<p>证明：</p>
+<p>如果是必败态，那么由于每一位上都至多有$k$个数被改变，所以转移到的一定是必胜态。</p>
+<p>下面证明从必胜态可以转移到必败态。从高位到低位依次调整，显然在调整高位的时候用过的那些堆，在当前这一位是可以任意取值的。设用过的堆有$m$个，去掉这$m$堆之后还有$s$堆在这一位上是$1$：</p>
+<ul>
+<li>若$s + m \le k$，我们可以直接对那$s$堆进行操作，这样进行过操作的总堆数不会超过$k$。</li>
+<li>否则$s+m &gt; k$，也就是说$m &gt; k - s$，也就是说$m\ge k+1-s$，所以可以直接将$m$中的$k+1-s$堆设置为$1$，其它的设置为$0$，使得这一位上的$1$的总数为$k+1$的倍数。</li>
+</ul>
+<h3 id="不能操作者赢（Mis-ere-Nim-k"><a href="#不能操作者赢（Mis-ere-Nim-k" class="headerlink" title="不能操作者赢（Mis`ere Nim-k)"></a>不能操作者赢（Mis`ere Nim-k)</h3><blockquote>
+<p>有$n$堆石子，每次可从至多$K$堆中拿走任意数量的石子，不能不拿。不能操作者赢。</p>
+</blockquote>
+<p>只有两种可能的必胜局面：</p>
+<ol>
+<li>每堆里面都只有一个石头，并且堆数 $\pmod {K+1} \neq 1$。</li>
+<li>每堆的石头个数不全为 1，且存在某个二进制位上 1 的个数 $\pmod{K+1} \neq 0$</li>
+</ol>
+<p>对应的，必败局面为：</p>
+<ol>
+<li>每堆里面都只有一个石头，并且堆数 $\pmod {K+1} = 1$。</li>
+<li>每堆的石头个数不全为 1，且每个二进制位上 1 的个数 $\pmod{K+1} = 0$</li>
+</ol>
+<p>必败态只能转移到必胜态：</p>
+<ul>
+<li>该局面存在石头个数大于 1 的堆<ul>
+<li>不能转移到必败态 2. ：一次操作至多只能改变 $K$ 堆石头，但是这样的转移需要让某一位的 1 的个数减少 $K+1$</li>
+<li>不能转移到必败态 1. ：由于存在石头个数大于 1 的堆且每个二进制位上 1 的个数都是 $K+1$ 的倍数，所以石头个数大于 1 的堆的数量一定不小于 $K+1$，所以一定不可能转移到每堆石头的个数都是 1 的状态</li>
+</ul>
+</li>
+<li>该局面所有堆的石头个数都是 1 且石头总数大于 $K+1$<ul>
+<li>不能转移到必败态 2. ：每堆中石头的个数只会减小</li>
+<li>不能转移到必败态 1. ：这需要操作 $K+1$ 堆石头</li>
+</ul>
+</li>
+<li>该局面所有堆的石头个数都是 1 且石头总数等于 $1$<ul>
+<li>拿走这唯一的一个石头之后，给对方的是必胜状态（终态）</li>
+</ul>
+</li>
+</ul>
+<p>必胜态可以转移到必败态：</p>
+<ul>
+<li>存在石头个数大于 1 的堆<ul>
+<li>石头个数大于 1 的堆的数量不超过 $K$：可以转移到必败态 1.</li>
+<li>石头个数大于 1 的堆的数量超过了 $K$：按照“不能操作者输”的策略进行操作，可以转移到必败态 2.</li>
+</ul>
+</li>
+<li>所有的堆的石头个数都是 1：<ul>
+<li>可以通过拿走不超过 $K$ 堆来转移到必败态 1.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Fibonacci-Nim"><a href="#Fibonacci-Nim" class="headerlink" title="Fibonacci Nim"></a>Fibonacci Nim</h2><blockquote>
+<p>有一堆石子，双方轮流取石子：第一轮中，先手不能一次性把所有的石头取完；以后的每一轮中，玩家取的石头数不能超过上一轮中对手取的石头数的2倍，至少要取一颗石头。</p>
+</blockquote>
+<p>结论是，当石头数为斐波那契数的时候，先手必败，否则先手必胜。</p>
+<p><a href="https://blog.csdn.net/dgq8211/article/details/7602807" target="_blank" rel="noopener">nyist_xiaod的博客的证明很清楚</a></p>
+<h2 id="k-倍减法-Nim"><a href="#k-倍减法-Nim" class="headerlink" title="k 倍减法 Nim"></a>k 倍减法 Nim</h2><p>参考：</p>
+<ul>
+<li>NOI2009 冬令营论文 《从“k 倍动态减法游戏”出发探究一类组合游戏问题》</li>
+<li><a href="https://www.cnblogs.com/SovietPower/p/9699436.html#c-%E6%80%A5%E5%BC%80%E9%94%81%E5%8D%9A%E5%BC%88%E8%AE%BA" target="_blank" rel="noopener">SovietPower 的博客</a></li>
+<li><a href="http://www.cnblogs.com/jianglangcaijin/archive/2012/12/19/2825539.html" target="_blank" rel="noopener">朝拜明天19891101的博客</a></li>
+</ul>
+<p>题目：poj3922 A simple stone game</p>
+<blockquote>
+<p>有一堆石子，石子的数量为 $n$，双方轮流取石子：第一轮中，先手可以取任意多个，但是不能取完；以后的每一轮中，玩家可以取的数量不能超过上一个人取的石头数量的 $k$ 倍。不能操作者输。问谁会赢。</p>
+</blockquote>
+<h3 id="做法-1"><a href="#做法-1" class="headerlink" title="做法 1"></a>做法 1</h3><p>考虑 $f_i$ 表示石头的总数为 $i$ 时，上一轮中取掉的石头个数至少是多少，这个状态是必胜态。注意到 $f_i \le \lceil \frac{i}{k} \rceil$。则 $f_i = \min\{ \lceil \frac{i-j}{k} \rceil, (i-j)k &lt; f_j\}$。</p>
+<p>注意到 $(i-j)k &lt; f_j$ 也就是 $ik &lt; f_j + kj$，要求 $\lceil \frac{i-j}{k} \rceil$ 最小也就是要求 $j$ 最大，所以我们用个单调栈维护 $f_j + kj$ 即可。</p>
+<p>时间复杂度 $O(n)$。</p>
+<h3 id="做法-2"><a href="#做法-2" class="headerlink" title="做法 2"></a>做法 2</h3><p>如果我们知道 $n$ 颗石头是必败态，那么可以推得：</p>
+<ul>
+<li>$n+1, n+2, \cdots n+x(xk &lt; n)$ 是必胜态</li>
+<li>对于 $n + x (xk \ge n)$，这个状态的胜负取决于谁能拿到 $x$ 个石头中的最后一个石头</li>
+</ul>
+<p>所以我们可以维护必败状态集合，初始 $S = \{ 2, 3, \cdots k+1\}$。每次取出 $S$ 中最大的元素 $n$，找出最小的必败的 $x \ge \lceil \frac{n}{k} \rceil$，将 $n+x$ 加入集合。注意到这样找出来的 $n+x$ 一定是 $&gt;n$ 的最小的必败状态。</p>
+<p>复杂度 $O(\log_{\frac{k+1}{k}} n)$。</p>
+<h2 id="翻硬币游戏"><a href="#翻硬币游戏" class="headerlink" title="翻硬币游戏"></a>翻硬币游戏</h2><p>参考 <a href="https://github.com/AlanYume/ACM-ICPC/blob/master/paper/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/%E5%8D%9A%E5%BC%88/%E8%B4%BE%E5%BF%97%E8%B1%AA/%E7%AE%97%E6%B3%95%E5%90%88%E9%9B%86%E4%B9%8B%E3%80%8A%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%95%A5%E8%BF%B0%E2%80%94%E2%80%94%E6%B5%85%E8%B0%88SG%E6%B8%B8%E6%88%8F%E7%9A%84%E8%8B%A5%E5%B9%B2%E6%8B%93%E5%B1%95%E5%8F%8A%E5%8F%98%E5%BD%A2%E3%80%8B.pdf" target="_blank" rel="noopener">IOI2009 贾志豪的论文</a>。</p>
+<blockquote>
+<p>有一些关于翻的硬币的限制（例如，硬币排成一排，要求翻转的必须是长度为 $k$ 的一段），并且要求翻的最右边（二维的时候则是右下角）的硬币必须是从正面到背面，不能操作者输。</p>
+</blockquote>
+<p>结论是，局面的 sg 值等于每个正面朝上的硬币单独存在时的游戏的 sg 值的异或和。</p>
+<p>可以考虑一个这样的游戏：每次可以拿走一个石头，并且按照限制在别的地方放入一些石头（例如，一排方格，拿走某个石头，并且在左边的 $k-1$ 个格子都放入一个石头）。如果某个位置的石头个数是偶数，那么拿走那个位置的石头是没有意义的（因为后手可以模仿先手的操作）；所以这个游戏和翻硬币游戏是等价的（因为放入一个石头也就是反转了“这个格子是否会被操作”）。并且，这个游戏中每个石头显然是独立的，我们算出每个石头的子游戏的 sg 值异或起来，得到的就是整个游戏的 sg 值。</p>
+<h2 id="删边游戏-Green-Hackenbush"><a href="#删边游戏-Green-Hackenbush" class="headerlink" title="删边游戏 Green Hackenbush"></a>删边游戏 Green Hackenbush</h2><p>参考：IOI2009贾志豪论文，以及 Winning Ways for Your Mathematical Plays, Vol1, Chapter 7 Hackenbush。</p>
+<blockquote>
+<p>给一张无向图，其中有一个点为根。每次操作可以删去一条边，并拿走操作之后不与根连通的部分。不能操作者输。</p>
+</blockquote>
+<p>结论：</p>
+<ul>
+<li>树的删边游戏：叶子节点的 SG 值为 0；中间节点的 SG 值为它的所有子节点的 SG 值加 1 后的异或和。（这里的“某个点的 SG 值”指的是这个点的子树内的点构成的子游戏的 SG 值）</li>
+<li>无向图的删边游戏：（Fusion Principle）不断把图中的任意一个偶环缩成一个新点，任意一个奇环缩成一个新点和一个自环，所有连到原先环上的边全部改为与新点相连，这样的改动不会影响图的 SG 值。最终转化成树的删边游戏。</li>
+</ul>
+<h2 id="Anti-SG游戏"><a href="#Anti-SG游戏" class="headerlink" title="Anti-SG游戏"></a>Anti-SG游戏</h2><h3 id="Anti-Nim游戏-Mis-ere-Nim"><a href="#Anti-Nim游戏-Mis-ere-Nim" class="headerlink" title="Anti-Nim游戏 (Mis`ere Nim)"></a>Anti-Nim游戏 (Mis`ere Nim)</h3><blockquote>
+<p>有$n$堆石子，每次操作可以从某一堆中拿走至少一个石子。两个人轮流操作，不能操作者胜。</p>
+</blockquote>
+<p>一个状态为必胜态，当且仅当下列两个条件有一个成立：</p>
+<ul>
+<li>所有堆的石子个数为$1$，且石子个数的异或和为$0$。</li>
+<li>存在一个堆的石子个数大于$1$，且石子个数的异或和不为$0$。</li>
+</ul>
+<p>证明：</p>
+<ul>
+<li>如果每一堆的石头个数都是$1$，每个人每一次都必须取完一堆，所以堆数是偶数的时候先手胜，否则后手胜。</li>
+<li>存在至少一个石子数大于$1$的堆：<ul>
+<li>只有一个堆的石子数大于$1$：显然此时石子个数异或和不为$0$。先手可以选择把这一堆的石头取完或者取到只剩下一个，留给后手奇数个石子数为$1$的堆，所以这种状态先手必胜。</li>
+<li>至少有两个堆的石子数大于$1$：如果此时的石子数异或和为$0$，则只能转移到存在至少一个石子数大于$1$且石子数异或和非$0$的状态；而若异或和非$0$，则一定存在一种转移方法可以转移到至少有两个堆的石子数大于$1$且石子数异或和为$0$的状态。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Anti-SG游戏-1"><a href="#Anti-SG游戏-1" class="headerlink" title="Anti-SG游戏"></a>Anti-SG游戏</h3><blockquote>
+<p>无法继续转移的人获胜。其余规则与SG游戏相同。</p>
+</blockquote>
+<p>则有类似的结论：先手必胜当且仅当下列两个条件中有至少一个被满足：</p>
+<ul>
+<li>所有单一游戏的SG值为$1$，且它们的SG值的异或和为$0$；</li>
+<li>存在单一游戏的SG值不为$1$，且它们的SG值异或和不为$0$。</li>
+</ul>
+<p>可以用与SG定理证明相似的方法，证明游戏与Nim游戏等价，从而推出结论成立。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/zwfymqz/p/8469862.html" target="_blank" rel="noopener">自为风月马前卒的博客</a></p>
+<p>贾志豪论文</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/06/30/%E5%85%AC%E5%B9%B3%E7%BB%84%E5%90%88%E6%B8%B8%E6%88%8F%E7%9A%84%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/" title="公平组合游戏的经典模型">http://zhongyuwei.github.io/2022/06/30/公平组合游戏的经典模型/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/30/Sprague%E2%80%93Grundy-theorem-SG%E5%AE%9A%E7%90%86/" rel="prev" title="Sprague–Grundy theorem(SG定理)">
+      <i class="fa fa-chevron-left"></i> Sprague–Grundy theorem(SG定理)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/30/CTSC2010-%E5%BE%AA%E7%8E%AF%E5%8D%B7%E7%A7%AF/" rel="next" title="CTSC2010 循环卷积">
+      CTSC2010 循环卷积 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Subtraction-Game"><span class="nav-text">The Subtraction Game</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Greedy-Nim"><span class="nav-text">Greedy Nim</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不能操作者输"><span class="nav-text">不能操作者输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不能操作者赢"><span class="nav-text">不能操作者赢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阶梯Nim"><span class="nav-text">阶梯Nim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nim-K游戏（Moore’s-Nim-K）"><span class="nav-text">Nim-K游戏（Moore’s Nim-K）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不能操作者输-1"><span class="nav-text">不能操作者输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不能操作者赢（Mis-ere-Nim-k"><span class="nav-text">不能操作者赢（Mis&#96;ere Nim-k)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fibonacci-Nim"><span class="nav-text">Fibonacci Nim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k-倍减法-Nim"><span class="nav-text">k 倍减法 Nim</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#做法-1"><span class="nav-text">做法 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做法-2"><span class="nav-text">做法 2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#翻硬币游戏"><span class="nav-text">翻硬币游戏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删边游戏-Green-Hackenbush"><span class="nav-text">删边游戏 Green Hackenbush</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Anti-SG游戏"><span class="nav-text">Anti-SG游戏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Anti-Nim游戏-Mis-ere-Nim"><span class="nav-text">Anti-Nim游戏 (Mis&#96;ere Nim)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anti-SG游戏-1"><span class="nav-text">Anti-SG游戏</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

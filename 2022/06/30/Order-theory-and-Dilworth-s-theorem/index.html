@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="English VersionOrder theorypartial order">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Order theory and Dilworth&#39;s theorem">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/06/30/Order-theory-and-Dilworth-s-theorem/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="English VersionOrder theorypartial order">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-30T06:06:32.000Z">
+<meta property="article:modified_time" content="2022-06-30T06:08:05.491Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="数学">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/06/30/Order-theory-and-Dilworth-s-theorem/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Order theory and Dilworth's theorem | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Order-theory-and-Dilworth-s-theorem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Order theory and Dilworth's theorem
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 14:06:32 / Modified: 14:08:05" itemprop="dateCreated datePublished" datetime="2022-06-30T14:06:32+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="English-Version"><a href="#English-Version" class="headerlink" title="English Version"></a>English Version</h1><h2 id="Order-theory"><a href="#Order-theory" class="headerlink" title="Order theory"></a>Order theory</h2><h3 id="partial-order"><a href="#partial-order" class="headerlink" title="partial order"></a>partial order</h3><p><strong>Partial orders</strong> are special binary relations that satisfy :</p>
+<ol>
+<li>a ≤ a (reflexivity) 自反性</li>
+<li>if a ≤ b and b ≤ a then a = b (antisymmetry) 非对称性</li>
+<li>if a ≤ b and b ≤ c then a ≤ c (transitivity). 传递性</li>
+</ol>
+<h3 id="partial-ordered-set"><a href="#partial-ordered-set" class="headerlink" title="partial ordered set"></a>partial ordered set</h3><p>Defined as <em>a set with a partial order</em>.</p>
+<p>Also called <strong>poset</strong>, and <strong>ordered set</strong> if the intended meaning is clear.</p>
+<h3 id="comparable"><a href="#comparable" class="headerlink" title="comparable"></a>comparable</h3><p>For some pair of elements $a,b$, if $a \le b\vee b\le a$ holds, then we say $a$ and $b$ are <strong>comparable</strong>.  Otherwise they are <strong>incomparable</strong>.</p>
+<h3 id="connexity"><a href="#connexity" class="headerlink" title="connexity"></a>connexity</h3><p>(adj. connex)</p>
+<p>If a relation is <strong>connex</strong> or satisfies the property of <strong>connexity</strong>, then it relates all pairs of elements in some way (or to say that every pair of elements are comparable).</p>
+<p>i.e. $\forall x,y\in X$，either $x\le y$ or $y \le x$ is true, where $\le$ is the relation we defined with partial ordered set.</p>
+<h3 id="total-order"><a href="#total-order" class="headerlink" title="total order"></a>total order</h3><p>A connex partial order is called <strong>a total order, a linear order</strong> or <strong>a chain</strong>.</p>
+<p>Additionally, a subset of a poset in which no two elements are comparable is an <strong>anti-chain</strong>.</p>
+<h2 id="Dilworth’s-theorem"><a href="#Dilworth’s-theorem" class="headerlink" title="Dilworth’s theorem"></a>Dilworth’s theorem</h2><h3 id="statement"><a href="#statement" class="headerlink" title="statement"></a>statement</h3><p>Dilworth’s theorem states that, in any finite partially ordered set, the largest anti-chain has the same size (where the size is defined as the number of elements in it) as the smallest chain decomposition (where the size is defined as the number of sets we have decomposited the elements into so that every set forms a chain).</p>
+<p>Meanwhile, the <strong>width</strong> of a partially ordered set is defined as a size, that can be the size of some anti-chain and can also be that of some chain decomposition. And from the statements above, we know that the width of a given partially ordered set is unique.</p>
+<h3 id="proof"><a href="#proof" class="headerlink" title="proof"></a>proof</h3><p>Here is the proof via Kőnig’s theorem.</p>
+<p>For a partial ordered set $S$, construct a bipartite graph $G=(U,V,E)$, where $U=V=S$ and edge $(x,y)$ is in $E$ if $x \le y\wedge x\not=y$ holds (where $\le$ stands for the partial order).</p>
+<p>Suppose that one of the maximum matching for $G$ is $M$, and $C$ is one of the smallest vertex cover that every vetex in $C$ has a neighbouring edge in $M$.  And we know $|C|=|M|=m$ by Kőnig’s theorem.</p>
+<p>Imagine we start from one vertex $x_V$ in $V$ with a neighbouring edge in $M$, then go to its matching vertex $y_U$, then start again from $y_U$’s corresponding vertex on the other side of the graph $y_V$, then to the vertex that matches $y_V$, and so on.  Since no two elements in $S$ are the same, we will never return to $x_V$. That is to say, our path never forms a circle. And from the definition of matching we know that the indegree of every element we passed through (e.g. $x$) is at most $1$ and so is outdegree.</p>
+<p>So a matching can refer to a set of disjoint paths (also chains by the definition above) , and when the size of the matching is growing, we add more edges to these paths, and the number of paths is decreasing.</p>
+<p>This leads to a conclusion that the size of the smallest chain decomposition is equal to $|S|-m$。</p>
+<p>On the other hand, we consider a set $A$ of elements in $S$ that do not correspond to any vertices in $C$. Then the size of $A$ is at least $|S|-m$, since there might be two vertices in $C$ from different side of $G$ and corresponding to the same element in $S$.  And obviously, $|A|$ is an antichain. But $|A|$ can not be larger than $|S|-m$ since if $|A|$ is larger than the size of the smallest chain decomposition, at least two elements in $A$ will be in the same chain, which meets a contradiction.</p>
+<h1 id="中文版本"><a href="#中文版本" class="headerlink" title="中文版本"></a>中文版本</h1><h2 id="Order-theory-1"><a href="#Order-theory-1" class="headerlink" title="Order theory"></a>Order theory</h2><h3 id="partial-order-1"><a href="#partial-order-1" class="headerlink" title="partial order"></a>partial order</h3><p><strong>偏序关系 (partial order) </strong>定义为满足下列条件的二元关系：</p>
+<ol>
+<li>自反性 (reflexivity)，即$a\le a$</li>
+<li>非对称性 (antisymmetry)，即$a\le b \wedge b\le a \Rightarrow a=b$</li>
+<li>传递性 (transitivity)，即$a\le b \wedge b\le c \Rightarrow a\le c$</li>
+</ol>
+<h3 id="partial-ordered-set-1"><a href="#partial-ordered-set-1" class="headerlink" title="partial ordered set"></a>partial ordered set</h3><p><strong>偏序集合 (partial ordered set) </strong>定义为<em>配备了偏序关系的集合</em>；或一个二元组$(S,R)$，其中$R$是定义在$S$中的元素上的偏序关系。</p>
+<h3 id="comparable-1"><a href="#comparable-1" class="headerlink" title="comparable"></a>comparable</h3><p>对于某一对元素$a,b$，如果满足$a\le b \vee b\le a$（其中$\le$是一种偏序关系），那么称它们为<strong>可比较的 (comparable) </strong>；否则称它们为<strong>不可比较的 (incomparable) </strong>。</p>
+<h3 id="connexity-1"><a href="#connexity-1" class="headerlink" title="connexity"></a>connexity</h3><p>如果一个偏序关系满足任意一对元素都是可比较的，则称这个关系满足<strong>完全性条件 (connexity) </strong>或者说这个关系是<strong> 完全的 (connex) </strong>。</p>
+<h3 id="total-order-1"><a href="#total-order-1" class="headerlink" title="total order"></a>total order</h3><p><strong>全序关系 (total order) </strong>即满足完全性的偏序关系。</p>
+<p>满足全序关系的集合又叫做<strong>全序性集合、线性序集合、简单序集合或者链 (chain)</strong>。链也常用于描述偏序集合的满足完全性的子集。</p>
+<p>此外，偏序集合的任意两个元素都不可比较的子集称为<strong>反链 (anti-chain) </strong>。</p>
+<h2 id="Dilworth’s-theorem-1"><a href="#Dilworth’s-theorem-1" class="headerlink" title="Dilworth’s theorem"></a>Dilworth’s theorem</h2><h3 id="statement-1"><a href="#statement-1" class="headerlink" title="statement"></a>statement</h3><p>定义一个偏序集合的<strong>链划分 (chain decomposition) </strong>为一个由链组成的集合，满足任意两条链没有公共点，且集合中的链的并集为全集；定义其大小为集合中的链的条数。定义反链的大小为其中的元素数量。</p>
+<p>Dilworth’s theorem 则是说，<strong>一个偏序集合的最小链划分与最长反链的大小相同。</strong>这个大小也被称为这个偏序集合的<strong>宽度 (width) </strong>。</p>
+<h3 id="proof-1"><a href="#proof-1" class="headerlink" title="proof"></a>proof</h3><p>下面的证明借助于<strong>Kőnig’s theorem</strong>（即二分图的最大匹配大小等于最小顶点覆盖）。</p>
+<p>对于一个偏序集$S$，构造一个二分图$G=(U,V,E)$，使得$U=V=S$，而边$(x,y)$（从$U$的$x$连到$V$的$y$）存在，当且仅当$x\le y\wedge x\not=y$（$\le$代表偏序关系     ）。求出这个图的一个最大匹配$M$和一个最小顶点覆盖$C$，使得$C$中的任意一个点都有一条邻边在$M$中。令$m=|C|=|M|$。</p>
+<p>想象现在从某个在$M$中的点$x_V$（表示$V$这一侧的点$x$）开始，走到它匹配的那个点$y_U$，然后到$y_U$所对应的另一侧的点$y_V$，接下来走到$y_V$所匹配的点……由于$S$中的元素互不相同，而偏序关系具有传递性，所以我们不会走回$x_U$，也就是说我们走过的点不成环。将我们走过的点在$S$中对应的元素拿出来：$x\to y\to \cdots $，恰好会对应一条链，因为匹配的定义保证了每个点的入度至多是$1$，每个点的出度也至多是$1$。</p>
+<p>进一步地，一个匹配$M’$实际上对应了一个链划分，由于每往匹配中加一条边相当于合并了两条链，所以这个匹配对应的链划分的大小为$|S| - |M’|$。故而$S$的最小链划分的大小为$|S|-m$。</p>
+<p>此外，考虑由$S$没有对应到$C$中的任何一个点的元素构成的集合，设为$A$。$A$显然是反链。那么$|A|\ge |S|-|C|=|S|-m$，因为可能会存在一个元素在$U,V$中对应的点都属于$C$。而从另一个角度考虑，$|A|\le |S|-m$，因为如果$|A|$大于了最小链划分的大小，则至少会有两个$A$中的元素属于最小链划分中的同一条链，与定义矛盾。故而我们有$|A|=|S|-m$。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/06/30/Order-theory-and-Dilworth-s-theorem/" title="Order theory and Dilworth&#39;s theorem">http://zhongyuwei.github.io/2022/06/30/Order-theory-and-Dilworth-s-theorem/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag"># 数学</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/30/%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9A%84%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2/" rel="prev" title="坐标轴的旋转变换">
+      <i class="fa fa-chevron-left"></i> 坐标轴的旋转变换
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/" rel="next" title="P问题，NP问题，NPC问题，NPH问题">
+      P问题，NP问题，NPC问题，NPH问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#English-Version"><span class="nav-text">English Version</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Order-theory"><span class="nav-text">Order theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#partial-order"><span class="nav-text">partial order</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#partial-ordered-set"><span class="nav-text">partial ordered set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comparable"><span class="nav-text">comparable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#connexity"><span class="nav-text">connexity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#total-order"><span class="nav-text">total order</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dilworth’s-theorem"><span class="nav-text">Dilworth’s theorem</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#statement"><span class="nav-text">statement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proof"><span class="nav-text">proof</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中文版本"><span class="nav-text">中文版本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Order-theory-1"><span class="nav-text">Order theory</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#partial-order-1"><span class="nav-text">partial order</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#partial-ordered-set-1"><span class="nav-text">partial ordered set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comparable-1"><span class="nav-text">comparable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#connexity-1"><span class="nav-text">connexity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#total-order-1"><span class="nav-text">total order</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dilworth’s-theorem-1"><span class="nav-text">Dilworth’s theorem</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#statement-1"><span class="nav-text">statement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-1"><span class="nav-text">proof</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
