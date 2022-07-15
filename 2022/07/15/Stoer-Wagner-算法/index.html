@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="问题求一个任意的无向图的全局最小割。即，定义$\lambda(x,y)$表示$x,y$两点之间的最小割，给出一张任意的无向图，你需要求出$\min_{x\neq y}\lambda(x,y)$。 Stoer-Wagner 算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stoer-Wagner 算法">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="问题求一个任意的无向图的全局最小割。即，定义$\lambda(x,y)$表示$x,y$两点之间的最小割，给出一张任意的无向图，你需要求出$\min_{x\neq y}\lambda(x,y)$。 Stoer-Wagner 算法">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-15T04:06:47.000Z">
+<meta property="article:modified_time" content="2022-07-15T04:07:50.346Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Stoer-Wagner 算法 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Stoer-Wagner 算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 12:06:47 / Modified: 12:07:50" itemprop="dateCreated datePublished" datetime="2022-07-15T12:06:47+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>求一个任意的无向图的全局最小割。即，定义$\lambda(x,y)$表示$x,y$两点之间的最小割，给出一张任意的无向图，你需要求出$\min_{x\neq y}\lambda(x,y)$。</p>
+<h2 id="Stoer-Wagner-算法"><a href="#Stoer-Wagner-算法" class="headerlink" title="Stoer-Wagner 算法"></a>Stoer-Wagner 算法</h2><h3 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h3><p>用$w(x,y)$表示$x,y$之间的边权。用$c(X,Y)$表示$\sum_{x\in X,y\in Y} w(x,y)$，其中$X,Y$是图中点集的两个子集。</p>
+<p>定义<code>contract(x,y)</code>表示将$x,y$两个点缩起来，具体来说就是新建一个点$u$，对于任意$v\neq x,v\neq y$，令$w(u,v) = w(v,x) + w(v,y)$，然后将$x,y$从原图中删去。</p>
+<h3 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h3><p>如果两个点在全局最小割的异侧，那么它们之间的最小割就是全局最小割；否则，将它们缩起来对全局最小割没有影响。</p>
+<p>Stoer-Wagner算法的过程是：每一次求出两个点的最小割，然后把它们缩起来。整个算法过程中求出过的最小割的最小值就是全局最小割。</p>
+<p>但是这样还是要求$n-1$次最小割。</p>
+<h3 id="优化：MinimumCutPhase"><a href="#优化：MinimumCutPhase" class="headerlink" title="优化：MinimumCutPhase"></a>优化：MinimumCutPhase</h3><p>我们并不是需要求某两个点之间的最小割，只要我们求出的是<strong>某两个点</strong>之间的最小割就可以了。</p>
+<p>MinimumCutPhase可以在$O(n^2)$的时间内求出某两个点之间的最小割，以下是它的过程：</p>
+<ol>
+<li>首先随便选择一个点$a$，令$A=\{a\}$。</li>
+<li>然后选择一个点不在$A$中的点$x$，使得$c(A,\{x\})$最大，然后将$x$加入$A$。</li>
+<li>重复2.直到$A$以外只剩下一个点。则我们最后加入$A$的那个点和剩下的那个点（设为$z$）之间的最小割就是$c(A,\{z\})$。</li>
+</ol>
+<p>正确性：实际上可以证明，假设加入$A$的点依次为$v_1=a,v_2\cdots v_{n-1}$，令最后剩下的那个点为$v_n$，那么对于任意的$i\ge 2$，在只考虑$v_1,v_2\cdots v_i$以及它们之间的边的时候，$v_i$和$v_{i-1}$之间的最小割是$c(\{v_1,v_2,\cdots v_{i-1}\},\{v_i\})$。</p>
+<p>由于$v_i,v_{i-1}$的任意一个割都会删掉$(v_i,v_{i-1})$这条边，所以$\lambda(v_i,v_{i-1})$等于将$(v_i,v_{i-1})$删掉之后求得的最小割$\lambda’(v_i,v_{i-1})$加上$w(v_i,v_{i-1})$。所以接下来只考虑将$(v_i,v_{i-1})$删掉后的图。</p>
+<p>首先证明在只考虑$v_1,v_2,\cdots v_i$以及它们之间的边的时候，$c(\{v_1,v_2,\cdots v_{i-1}\},\{v_i\})\le \lambda(v_{i-1},v_{i-2})$。用归纳法。对于$i=2$显然成立。对于$i&gt;2$：</p>
+<ul>
+<li>将$v_i$以及与$v_i$相邻的所有边从图中删掉，此时$v_{i-1}$和$v_{i-2}$的最小割是$(\{v_1,v_2,\cdots v_{i-2}\},\{v_{i-1}\})$（归纳假设）。</li>
+<li>由MinimumCutPhase的过程可以知道<script type="math/tex; mode=display">
+c(\{v_1,v_2\cdots v_{i-2}\},\{v_i\}) \le c(\{v_1,v_2,\cdots v_{i-2} \},\{v_{i-1}\}) \tag{1}</script></li>
+<li>由于$v_i$和$v_{i-1}$之间没有边，所以<script type="math/tex; mode=display">
+c(\{v_1,v_2,\cdots v_{i-2}\},\{v_{i-1}\}) = c( \{v_1,v_2,\cdots v_{i-2},v_i\},\{v_{i-1}\})\\
+c(\{v_1,v_2\cdots v_{i-2}\},\{v_i\})= c(\{v_1,v_2\cdots v_{i-2},v_{i-1}\},\{v_i\})</script></li>
+<li>将上面的两个式子带入(1)，可以得到<script type="math/tex; mode=display">
+c(\{v_1,v_2\cdots v_{i-2},v_{i-1}\},\{v_i\}) \le c(\{v_1,v_2,\cdots v_{i-2},v_i \},\{v_{i-1}\})</script></li>
+<li>由于$c(\{v_1,v_2,\cdots v_{i-2},v_i \},\{v_{i-1}\})$等于加入$v_i$这个点之前图中的$v_{i-1},v_{i-2}$的最小割，并且在加入$v_i$之后两个点的最小割不可能变得比加入之前更小，所以$c(\{v_1,v_2,\cdots v_{i-2},v_i \},\{v_{i-1}\})=\lambda(v_{i-1},v_{i-2})$。所以我们得到了<script type="math/tex; mode=display">
+c(\{v_1,v_2\cdots v_{i-2},v_{i-1}\},\{v_i\}) \le \lambda(v_{i-1},v_{i-2})</script></li>
+</ul>
+<p>然后我们将证明，只考虑$v_1,v_2,\cdots v_i$以及它们之间的边的时候，$c(\{v_1,v_2,\cdots v_{i-1}\},\{v_i\})\le \lambda(v_{i},v_{i-2})$。用归纳法。对于$i=2$显然成立。对于$i&gt;2$：</p>
+<ul>
+<li>删去$v_{i-1}$以及原图中与它相邻的边。对得到的图重新进行MinimumCutPhase，最后加入$A$的点是$v_{i-2}$，剩下的点是$v_i$。</li>
+<li>此时$v_i,v_{i-2}$之间的最小割是$c(\{v_1,v_2,\cdots v_{i-2}\},\{v_i\})$。</li>
+<li>把$v_{i-1}$加回去之后的图中，得到$\lambda(v_i,v_{i-2}) = c(\{v_1,v_2,\cdots v_{i-2},v_{i-1},v_i\})$。</li>
+</ul>
+<p>综合以上两个结论：</p>
+<script type="math/tex; mode=display">
+c(\{v_1,v_2,\cdots v_{i-2},v_{i-1}\},\{v_i\})=\lambda(v_i,v_{i-2})\\
+c(\{v_1,v_2\cdots v_{i-2},v_{i-1}\},\{v_i\}) \le \lambda(v_{i-1},v_{i-2}) \\
+\Longrightarrow c(\{v_1,v_2,\cdots v_{i-1}\},\{v_i\})\le \min\{\lambda(v_i,v_{i-1}),\lambda(v_{i-1},v_{i-2}\}</script><p>以及</p>
+<script type="math/tex; mode=display">
+\lambda(x,y) \ge \min \{ \lambda(y,z),\lambda(x,z)\}</script><p>以及</p>
+<script type="math/tex; mode=display">
+c(\{v_1,v_2,\cdots v_{i-1}\},\{v_i\}) \ge \lambda(v_i,v_{i-1})</script><p>可以得到</p>
+<script type="math/tex; mode=display">
+c(\{v_1,v_2,\cdots v_{i-1}\},\{v_i\}) = \lambda(v_i,v_{i-1})</script>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/" title="Stoer-Wagner 算法">http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-算法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/" rel="prev" title="Gomory-Hu Tree （最小割树）">
+      <i class="fa fa-chevron-left"></i> Gomory-Hu Tree （最小割树）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/" rel="next" title="一种树形背包的复杂度证明">
+      一种树形背包的复杂度证明 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stoer-Wagner-算法"><span class="nav-text">Stoer-Wagner 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#约定"><span class="nav-text">约定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法过程"><span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化：MinimumCutPhase"><span class="nav-text">优化：MinimumCutPhase</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

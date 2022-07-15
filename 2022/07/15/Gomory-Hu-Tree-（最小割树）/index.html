@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基本定义割 cut对于一张带权无向图$G&#x3D;(V,E)$，定义一个割 (cut)为两个集合$S,T\in V$，满足$S\cap T &#x3D; \emptyset, S\cup T &#x3D; V$。定义一条边为割边 (cut edge)当且仅当它的两个端点分别在$S$集合和$T$集合内。定义一个割的容量 (capacity of a cut)为所有的割边的边权的和。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gomory-Hu Tree （最小割树）">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="基本定义割 cut对于一张带权无向图$G&#x3D;(V,E)$，定义一个割 (cut)为两个集合$S,T\in V$，满足$S\cap T &#x3D; \emptyset, S\cup T &#x3D; V$。定义一条边为割边 (cut edge)当且仅当它的两个端点分别在$S$集合和$T$集合内。定义一个割的容量 (capacity of a cut)为所有的割边的边权的和。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-15T04:05:27.000Z">
+<meta property="article:modified_time" content="2022-07-15T04:05:49.698Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Gomory-Hu Tree （最小割树） | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gomory-Hu Tree （最小割树）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 12:05:27 / Modified: 12:05:49" itemprop="dateCreated datePublished" datetime="2022-07-15T12:05:27+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h2><h3 id="割-cut"><a href="#割-cut" class="headerlink" title="割 cut"></a>割 cut</h3><p>对于一张带权无向图$G=(V,E)$，定义一个<strong>割 (cut)</strong>为两个集合$S,T\in V$，满足$S\cap T = \emptyset, S\cup T = V$。定义一条边为<strong>割边 (cut edge)</strong>当且仅当它的两个端点分别在$S$集合和$T$集合内。定义一个<strong>割的容量 (capacity of a cut)</strong>为所有的割边的边权的和。</p>
+<p>定义<strong>$s-t$割 (s-t cut)</strong>为满足$s\in S,t\in T$的割。</p>
+<h3 id="流-flow"><a href="#流-flow" class="headerlink" title="流 flow"></a>流 flow</h3><p>对于一张满足所有的边的容量$c(u,v)$（即$u$到$v$这条边的边权）非负的带权有向图$G=(V,E)$，指定一个<strong>源点 (source)</strong>和<strong>汇点 (sink)</strong>，则定义它的一个<strong>流网络 (flow network)</strong>为一个映射$f:V\times V \to R$，满足以下三个性质：</p>
+<ol>
+<li>$f(u,v)\le c(u,v)$</li>
+<li>$f(u,v)=-f(v,u)$</li>
+<li>对于任意$u\not= s, u\not = t$，满足$\sum_{x\in V}f(x,u) = \sum_{x\in V} f(u,x)$</li>
+</ol>
+<p>最大流问题：找出一个从源点到汇点的可行流，使得该可行流的流量最大。</p>
+<h3 id="最大流最小割定理-max-flow-min-cut-theorem"><a href="#最大流最小割定理-max-flow-min-cut-theorem" class="headerlink" title="最大流最小割定理 max-flow min-cut theorem"></a>最大流最小割定理 max-flow min-cut theorem</h3><p>最大流的流量等于最小割的容量。</p>
+<h2 id="符号-amp-约定"><a href="#符号-amp-约定" class="headerlink" title="符号 &amp; 约定"></a>符号 &amp; 约定</h2><p>对于$G=(V,E)$，令$W$为$V$的一个子集，$\delta(W)$表示所有恰好有一个端点在$W$以内的的边构成的集合。</p>
+<p>则我们也可以用一个满足$s\in W, t\not\in W$的$\delta (W)$来表示一个$s-t$割。我们用$c(W)$表示这个割的容量。</p>
+<p>下文中均用$f(u,v)$表示$u,v$的最大流流量（也是最小割容量）。</p>
+<h2 id="一些引理"><a href="#一些引理" class="headerlink" title="一些引理"></a>一些引理</h2><h3 id="a"><a href="#a" class="headerlink" title="a)"></a>a)</h3><p>设对于某一张带权图$G$，用$f(u,v)$表示从$u$到$v$的最大流（也等于最小割），则有：$f(u,v) \ge \min \{ f(u,w),f(v,w) \}$。</p>
+<h3 id="b-symmetry"><a href="#b-symmetry" class="headerlink" title="b) symmetry"></a>b) symmetry</h3><p>对于任意$W\subseteq V$，有$c(W) = c(\complement_VW)$。</p>
+<h3 id="c-submodularity"><a href="#c-submodularity" class="headerlink" title="c) submodularity"></a>c) submodularity</h3><p>对于任意的$A\subseteq V, B \subseteq A, v\in V$，有$c(A \cup \{ v\}) - c(A) \ge c(B\cup\{v\}) - c(B)$。</p>
+<p>推广：</p>
+<ol>
+<li>令$X \subseteq \complement_V A$，则有$ c(A\cup X) -c(A) \ge c(B\cup X)-c(B)$。</li>
+<li>对于任意$A,B\subseteq V$，有$c(A) + c(B) \ge c(A\cup B) + c(A\cap B)$。证明：移项得到$c(A) - c(A\cap B) \ge c(A\cup B)- c(B)$，令$U=A\cap B, V=B,X=A\cap \complement_VB$，套用推广1可以得证。</li>
+</ol>
+<h3 id="d-posimodularity"><a href="#d-posimodularity" class="headerlink" title="d) posimodularity"></a>d) posimodularity</h3><p>对于任意$A\subseteq V,B\subseteq V$，有$c(A) + c(B) \ge c(A - B) +c(B- A)$，这里的$A-B$定义为$A \cap ( \complement_V B)$。</p>
+<p>证明：</p>
+<script type="math/tex; mode=display">
+c(A) +c(B) \\
+= c(A) +c(\complement_V B) \\
+\ge c(A\cup \complement_VB) + c(A\cap \complement_VB) \\
+= c(B \cap \complement_V A ) + c(A-B) \\
+= c(B-A) +c(A-B)</script><h3 id="e"><a href="#e" class="headerlink" title="e)"></a>e)</h3><p>令$\delta (W)$为一个$s,t$的最小割，则对于任意$u,v\in W$，存在一个$u,v$最小割$\delta (X)$满足$X\subseteq W$。</p>
+<p>证明：</p>
+<p>假设$\delta(X)$为一个满足$X,W$有交且不包含的$u,v$最小割。下面不失一般性地只考虑$s\in W,s\in X,u\in X$的情况，因为其它情况都可以通过交换$u,v$或者将$X$变成$\complement_V X$的方式变成$s\in W,s\in X,u\in X$的情况。</p>
+<p>情况1：$t\not \in X$。则有$c(W) + c(X) \ge c(W\cup X) + c(W\cap X)$。由于$u\in X,u\in W$而$v\not \in X$，所以$W\cap X$是一个$u,v$割，所以$c(W\cap X) \ge c(X)$。而由于$t\not\in X,t\not \in W$，所以$W\cup X$是一个$s,t$割，所以$c(W\cup X) \ge c(W)$。由此可得$c(W) + c(X) \le c(W\cup X) + c(W\cap X)$，故而$c(W) = c(W\cup X),c(X)=c(W\cap X)$，所以$X\cap W$也是$u,v$的最小割。</p>
+<p>情况2：$t\in X$。则有$c(W) + c(X) \ge c(W-X) + c(X-W)$。因为$X-W$是一个$s,t$割，所以$c(X-W) \ge c(W)$；又因为$W-X$是一个$u,v$割，所以$c(W-X) \ge c(X)$。故而得到$c(W-X) = c(X),c(X-W) = c(W)$，所以$W-X$也是$u,v$的最小割。</p>
+<p>证毕。    </p>
+<h2 id="Gomory-Hu-Tree"><a href="#Gomory-Hu-Tree" class="headerlink" title="Gomory-Hu Tree"></a>Gomory-Hu Tree</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于任意一张图$G$，它的Gomory-Hu tree是一棵生成树$T$，满足$T$中每条边$(u,v)$，设割掉这条边之后得到的其中一个连通块是$P$，则$(u,v)$的边权为$c(P)$，并且$G$中$(u,v)$的最小割为$\delta(P)$。</p>
+<h3 id="构造算法"><a href="#构造算法" class="headerlink" title="构造算法"></a>构造算法</h3><h4 id="a-1"><a href="#a-1" class="headerlink" title="a)"></a>a)</h4><p>我们维护$V$的一个划分$\{ S_1,S_2\cdots S_m\}$和一棵以$\{ S_1,S_2\cdots S_m\}$作为点集的生成树$T$，并用$w’(S_i,S_j)$描述$T$中连接$S_i,S_j$的边的边权。我们要使$T$始终满足：对于任意一条边$(S_i,S_j)$，存在$a\in S_i,b\in S_j$满足$f(a,b) = w’(S_i,S_j)$，并且所对应的最小割割开了$T$上由$(S_i,S_j)$分开的两个子树中的点构成的两个点集。</p>
+<p>最初，我们令划分为$\{V\}$。</p>
+<p>找出一个$|S_i|\ge 2$的集合，从这个集合中任取两个点$x,y$，求出$x,y$的最小割。考虑这个最小割中包含$x$的点集$X$与包含$y$的点集$Y$，将$S_i$划分成$S_i^x = S_i \cap X$和$S_i^y = S_i\cap Y$，然后考虑原来的$T$中与$S_i$相邻的点集$S_j$，如果$S_j \subseteq X$则让$S_j$与$S_i^x$连边，否则若$S_j \subseteq Y$，就让$S_j$与$S_i^y$连边；根据前面的引理e)，一定存在一个最小割使得$S_j$只与$X,Y$中的一个有交；边的边权为原来的$T$中的$w’(S_i,S_j)$。</p>
+<p>实现上，求最小割的时候，考虑$T$中删掉了$S_i$之后得到的那些子树，把每个子树缩成一个点，对于某个点$x$与某个子树，$x$与这棵子树缩成的点之间的边权为$x$与这棵子树的所有点之间的边权的和，这样就可以得到一个满足$S_j$只与$X,Y$中的一个有交的最小割。</p>
+<p>这样迭代$n-1$次就可以求出Gomory-Hu Tree。</p>
+<h4 id="b"><a href="#b" class="headerlink" title="b)"></a>b)</h4><p>假设现在要求$S$这个点集的Gomory-Hu tree。任意选择两个点$x,y\in S$，求出$x,y$的最小割$\delta(X)$。在$x,y$之间建边权为$c(X)$的边，然后将$S$分为$X$和$\complement_S X$，递归下去求解即可。</p>
+<h3 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h3><p>考虑$x,y$两个点以及它们在$T$上的路径经过的点$\{p_1,p_2\cdots p_k\}$。</p>
+<p>由于引理a)，我们有$f(x,y) \ge \min \{ f(x,p_1),f(p_1,p_2) \cdots f(p_{k-1},p_k),f(p_k,y)\}$，也即是说$f(x,y)$大于等于它们在$T$的路径上的边权最小值。</p>
+<p>另一方面，根据定义，$T$上将$T$的点集分成$P$和$\complement_V P$两部分的那条边，其边权等于$c(P)$。所以，$x$到$y$的路径上的每一条边所对应的割都是$x-y$割，所以$x,y$的最小割可以达到$\min\{ f(x,p_1),f(p_1,p_2) \cdots f(p_{k-1},p_k),f(p_k,y)\}$。</p>
+<p>故而，$G$中任意两点的最小割等于它们在$T$之间的路径上的边权最小值。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.corelab.ntua.gr/seminar/material/2008-2009/2008.10.20.Gomory-Hu%20trees%20and%20applications.slides.pdf" target="_blank" rel="noopener">1</a> <a href="https://courses.engr.illinois.edu/cs598csc/sp2010/Lectures/Lecture6.pdf" target="_blank" rel="noopener">2</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/" title="Gomory-Hu Tree （最小割树）">http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-（最小割树）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" rel="prev" title="Dinic算法的复杂度分析">
+      <i class="fa fa-chevron-left"></i> Dinic算法的复杂度分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/" rel="next" title="Stoer-Wagner 算法">
+      Stoer-Wagner 算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本定义"><span class="nav-text">基本定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#割-cut"><span class="nav-text">割 cut</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流-flow"><span class="nav-text">流 flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大流最小割定理-max-flow-min-cut-theorem"><span class="nav-text">最大流最小割定理 max-flow min-cut theorem</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号-amp-约定"><span class="nav-text">符号 &amp; 约定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些引理"><span class="nav-text">一些引理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a"><span class="nav-text">a)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-symmetry"><span class="nav-text">b) symmetry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-submodularity"><span class="nav-text">c) submodularity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-posimodularity"><span class="nav-text">d) posimodularity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#e"><span class="nav-text">e)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gomory-Hu-Tree"><span class="nav-text">Gomory-Hu Tree</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造算法"><span class="nav-text">构造算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a-1"><span class="nav-text">a)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b"><span class="nav-text">b)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性质"><span class="nav-text">性质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

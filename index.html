@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4%E5%8D%95%E8%B0%83%E6%A0%88/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -201,7 +201,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4%E5%8D%95%E8%B0%83%E6%A0%88/" class="post-title-link" itemprop="url">线段树维护单调栈</a>
+            <a href="/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">Berlekamp-Massey算法</a>
         </h1>
 
         <div class="post-meta">
@@ -212,7 +212,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:23:38 / Modified: 14:23:58" itemprop="dateCreated datePublished" datetime="2022-06-30T14:23:38+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:16:29 / Modified: 13:20:31" itemprop="dateCreated datePublished" datetime="2022-07-15T12:16:29+08:00">2022-07-15</time>
             </span>
 
           
@@ -228,12 +228,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>有一个序列，序列中的每一个元素有两个值$h_i$与$val_i$。你需要回答若干次询问，每一次询问针对于一个区间$[l,r]$，设$l\le p_1&lt;p_2\cdots p_k\le r$，其中$p_k$是$[l,r]$中$h_i$最大的位置，$p_{k-1}$是$[l,p_k-1]$中$h_i$最大的位置……你需要回答出这些位置的$val_i$的某些可以区间合并的信息（和/最大最小值……）。</p>
-<p>可以对序列中元素的$h_i,val_i$进行修改。</p>
-<hr>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>如果现在你有一个序列，你知道他们满足$m$阶的</p>
+<p>递推关系，而你需要通过这个序列中的数解出这个序列的递推式。这就是BM算法解决的问题。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4%E5%8D%95%E8%B0%83%E6%A0%88/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -257,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E6%9E%90%E5%90%88%E6%A0%91/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -271,7 +270,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E6%9E%90%E5%90%88%E6%A0%91/" class="post-title-link" itemprop="url">析合树</a>
+            <a href="/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/" class="post-title-link" itemprop="url">常系数齐次线性递推 - O(k log k log n) 求第n项</a>
         </h1>
 
         <div class="post-meta">
@@ -282,7 +281,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:22:27 / Modified: 14:22:56" itemprop="dateCreated datePublished" datetime="2022-06-30T14:22:27+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:15:34 / Modified: 12:15:52" itemprop="dateCreated datePublished" datetime="2022-07-15T12:15:34+08:00">2022-07-15</time>
             </span>
 
           
@@ -298,13 +297,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="定义-amp-结构"><a href="#定义-amp-结构" class="headerlink" title="定义 &amp; 结构"></a>定义 &amp; 结构</h3><h4 id="连续段"><a href="#连续段" class="headerlink" title="连续段"></a>连续段</h4><ul>
-<li>对于一个排列$A$，我们定义$[l,r]$是连续段，当且仅当这个区间的值域也是连续的一段。即，不存在$x,y,z$，$x,y\in [l,r]\wedge z\not\in [l,r]\wedge  A_x &lt; A_z &lt; A_y$。也等价于$\max \{ A_k \mid k\in [l,r] \} - \min \{ A_k \mid k\in [l,r] \} = r-l$。</li>
-<li>连续段有一个很好的性质：考虑两个相交且不互相包含的连续段$x,y$，总有$x\cup y$、$x\cap y$、$x\setminus (x \cap y)$、$y\setminus (x\cap y)$是连续段。</li>
-</ul>
+          <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于一个数列$h_0,h_1\cdots h_n,\cdots $，称这个数列满足<strong>k阶线性递推关系</strong>是指存在量$a_1,a_2,\cdots a_k (a_k \not= 0 )$和量$b_n$（$a_1,a_2,\cdots a_k,b_n$都可能以来于$n$），使得$h_n = a_1h_{n-1} + a_2h_{n-2} \cdots a_k h_{n-k} + b_n(n\ge k)$成立。</p>
+<p>如果$b_n$是常数$0$，我们称这个线性递推关系式齐次的。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E6%9E%90%E5%90%88%E6%A0%91/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -328,7 +325,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E6%95%B0%E9%A2%9C%E8%89%B2%EF%BC%88%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -342,7 +339,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E6%95%B0%E9%A2%9C%E8%89%B2%EF%BC%88%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%EF%BC%89/" class="post-title-link" itemprop="url">树上路径数颜色（树上莫队）</a>
+            <a href="/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">单纯性算法的正确性证明</a>
         </h1>
 
         <div class="post-meta">
@@ -353,7 +350,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:21:49 / Modified: 14:22:10" itemprop="dateCreated datePublished" datetime="2022-06-30T14:21:49+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:14:55 / Modified: 13:21:19" itemprop="dateCreated datePublished" datetime="2022-07-15T12:14:55+08:00">2022-07-15</time>
             </span>
 
           
@@ -369,12 +366,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>参考：<a href="https://codeforces.com/blog/entry/43230" target="_blank" rel="noopener">一篇cf上的很好的blog</a></p>
-<p>食用方法：树上路径数颜色。</p>
-<p>我们构造一棵树的括号序：即，dfs一棵树的时候，在发现一个节点时，记此时的$idx$为这个节点的$In$，然后让$idx++$；结束对一个节点的访问时，记此时的$idx$为这个节点的$Out$，然后让$idx++$。这样，$u$和$v$之间路径，就转化括号序中的区间$[Out_u,In_v]$，其中我们要求区间中出现了$0$次或者$2$次的节点都不计贡献（说白了就是挪指针的时候进行类似异或的操作），即：</p>
+          <h2 id="一个引理"><a href="#一个引理" class="headerlink" title="一个引理"></a>一个引理</h2><p>设$I$是一个下标集合。对于每一个$j\in I$，设$\alpha_j$和$\beta_j$是实数，并且令$x_j$是一个实数变量。设$\gamma$是一个实数。</p>
+<p>如果对于变量$x_j$的任意设置，我们都有$\sum_{j\in I} \alpha_j x_j  = \gamma + \sum_{j\in I} \beta_jx_j$。那么可以推出对于任意的$j\in I$有$\alpha_j = \beta_j$并且$\gamma =0$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E6%95%B0%E9%A2%9C%E8%89%B2%EF%BC%88%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%EF%BC%89/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -398,7 +394,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fhq-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -412,7 +408,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fhq-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/" class="post-title-link" itemprop="url">treap, 无旋treap(fhq treap)及可持久化</a>
+            <a href="/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">矩阵乘法结合律、分配律的证明</a>
         </h1>
 
         <div class="post-meta">
@@ -423,7 +419,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:18:48 / Modified: 14:26:35" itemprop="dateCreated datePublished" datetime="2022-06-30T14:18:48+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:14:04 / Modified: 12:14:27" itemprop="dateCreated datePublished" datetime="2022-07-15T12:14:04+08:00">2022-07-15</time>
             </span>
 
           
@@ -439,11 +435,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="treap"><a href="#treap" class="headerlink" title="treap"></a>treap</h2><p>treap，又叫树堆。我们可以用它去维护一个序列，或者一个集合。裸的带旋的treap可以支持插入，删除，查第$k$大，查排名，以及其他的二叉搜索树的操作；无旋treap可以支持所有splay支持的操作（区间修改，翻转，覆盖，信息合并等等），操作的复杂度是$O(\log n)$的，并且不是均摊的！</p>
-<hr>
+          <h3 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h3><p>矩阵乘法满足结合律，即$(AB)C=A(BC)$。</p>
+<p>证明：设最后得到的结果为$D,AB=E,BC=F$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fhq-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -467,7 +463,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Segment-Tree-Beats%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -481,7 +477,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/Segment-Tree-Beats%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" class="post-title-link" itemprop="url">Segment Tree Beats专题练习</a>
+            <a href="/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">上三角矩阵高斯消元的优化</a>
         </h1>
 
         <div class="post-meta">
@@ -492,7 +488,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:17:00 / Modified: 14:17:18" itemprop="dateCreated datePublished" datetime="2022-06-30T14:17:00+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:12:56 / Modified: 12:13:11" itemprop="dateCreated datePublished" datetime="2022-07-15T12:12:56+08:00">2022-07-15</time>
             </span>
 
           
@@ -508,11 +504,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>2016集训队论文集 <a href="http://www.doc88.com/p-6744902151779.html" target="_blank" rel="noopener">吉如一《区间最值操作与历史最值问题》</a></p>
-<h2 id="1-hdu5306-Gorgeous-Sequence"><a href="#1-hdu5306-Gorgeous-Sequence" class="headerlink" title="1 hdu5306 Gorgeous Sequence"></a>1 hdu5306 Gorgeous Sequence</h2><p>维护一个长度为$n$的序列，支持以下操作：<br>$0 l r t$：对于所有$i \in [l,r]$，将$a_i$修改为$\min \{ a_i,t\} $。<br>$1 l r$：查询区间$l,r$的最大元素的值。<br>$2 l r$：查询区间$l,r$元素的和。</p>
+          <h3 id="P4457-BJOI2018-治疗之雨"><a href="#P4457-BJOI2018-治疗之雨" class="headerlink" title="P4457 [BJOI2018]治疗之雨"></a>P4457 [BJOI2018]治疗之雨</h3><p>$n\le 1500$，不能直接$n^3$高斯消元。然而这道题需要高斯消元的那个矩阵很特殊，近似上三角矩阵，大概长这样（$1$表示值不为$0$）：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 1 & 0 & 0 & 0 & \cdots & 0 \\
+1 & 1 & 1 & 0 & 0 & \cdots & 0 \\
+1 & 1 & 1 & 1 & 0 & \cdots & 0 \\
+1 & 1 & 1 & 1 & 1 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \vdots  & \ddots & \vdots \\
+\end{bmatrix}</script><p>如果我们从第一行开始消，那么消完第一行后，矩阵就变成这样的了：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/Segment-Tree-Beats%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -536,7 +539,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Link-Cut-Tree-LCT/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -550,7 +553,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/Link-Cut-Tree-LCT/" class="post-title-link" itemprop="url">Link Cut Tree(LCT)</a>
+            <a href="/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">线性规划</a>
         </h1>
 
         <div class="post-meta">
@@ -561,7 +564,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:16:14 / Modified: 14:16:25" itemprop="dateCreated datePublished" datetime="2022-06-30T14:16:14+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:11:44 / Modified: 12:12:11" itemprop="dateCreated datePublished" datetime="2022-07-15T12:11:44+08:00">2022-07-15</time>
             </span>
 
           
@@ -577,10 +580,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="LCT"><a href="#LCT" class="headerlink" title="LCT"></a>LCT</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>LCT用来维护的是森林。它可以支持加边（link)、删边（cut）、链信息修改和查询、子树信息查询。</p>
+          <h3 id="一些定义"><a href="#一些定义" class="headerlink" title="一些定义"></a>一些定义</h3><h4 id="线性函数、线性约束、线性规划问题"><a href="#线性函数、线性约束、线性规划问题" class="headerlink" title="线性函数、线性约束、线性规划问题"></a>线性函数、线性约束、线性规划问题</h4><p>已知一组实数$a_1,a_2\cdots a_n$和一组变量$x_1,x_2,\cdots x_n$，在这些变量上的一个线性函数定义为$f(x) = \sum a_ix_i$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/Link-Cut-Tree-LCT/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -604,7 +607,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/KD-Tree/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -618,7 +621,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/KD-Tree/" class="post-title-link" itemprop="url">KD-Tree</a>
+            <a href="/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">差分约束系统</a>
         </h1>
 
         <div class="post-meta">
@@ -629,7 +632,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:15:19 / Modified: 14:15:30" itemprop="dateCreated datePublished" datetime="2022-06-30T14:15:19+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:10:47 / Modified: 12:11:04" itemprop="dateCreated datePublished" datetime="2022-07-15T12:10:47+08:00">2022-07-15</time>
             </span>
 
           
@@ -645,15 +648,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://oi-wiki.org/ds/kdt/" target="_blank" rel="noopener">OI-wiki</a></li>
-<li><a href="https://en.wikipedia.org/wiki/K-d_tree" target="_blank" rel="noopener">wikipedia</a></li>
-<li><a href="https://courses.cs.washington.edu/courses/cse373/02au/lectures/lecture22l.pdf" target="_blank" rel="noopener">一份有详细图解的课件</a></li>
-</ol>
-<h2 id="KD-Tree-是什么"><a href="#KD-Tree-是什么" class="headerlink" title="KD-Tree 是什么"></a>KD-Tree 是什么</h2>
+          <p>问题：有 $n$ 个变量 $x_1,x_2,\cdots x_n$，以及一系列限制 $x_{v_i} - x_{u_i}\le w_i$（$w_i$ 可以为任意实数）。求出一组合法解或判定无解。</p>
+<p>回顾最短路的概念：</p>
+<blockquote>
+<p>对于一张包含 $n$ 个点的有向图，设 $dis_i$ 表示从 $1$ 到 $i$ 的最短路长度，令 $dis_1 = 0$。则对于每条边 $(u_i,v_i,w_i)$，显然会有 $dis_{v_i} \le dis_{u_i} + w_i$，也就是 $dis_{v_i} - dis_{u_i} \le w_i$。</p>
+</blockquote>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/KD-Tree/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -677,7 +679,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Euler-Tour-Tree-ETT/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -691,7 +693,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/Euler-Tour-Tree-ETT/" class="post-title-link" itemprop="url">Euler Tour Tree(ETT)</a>
+            <a href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">一种树形背包的复杂度证明</a>
         </h1>
 
         <div class="post-meta">
@@ -702,7 +704,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:14:18 / Modified: 14:14:42" itemprop="dateCreated datePublished" datetime="2022-06-30T14:14:18+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:09:15 / Modified: 12:09:38" itemprop="dateCreated datePublished" datetime="2022-07-15T12:09:15+08:00">2022-07-15</time>
             </span>
 
           
@@ -718,11 +720,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h2><p>ETT是一种动态树，它可以支持link，cut，子树修改，子树信息查询，链信息查询。似乎还可以支持换根（？），但是我不会。</p>
-<hr>
+          <p>有一类树上背包（例如 CF1097G Vladislav and a Great Legend），第二维表示子树内选的点数且限制第二维不超过$m$，其总复杂度可证明为$O(nm)$。</p>
+<p>它们的代码一般长这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> last)</span> </span>&#123;</span><br><span class="line">	sz[u]=<span class="number">1</span>;</span><br><span class="line">	<span class="comment">// initialize dp[u]</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=head[u];k;k=e[k].next)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> v=e[k].to; <span class="keyword">if</span>(v==last) <span class="keyword">continue</span>;</span><br><span class="line">		dfs(v,u);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=min(m,sz[u]);++j)</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;=min(m-j,sz[v]);++k)</span><br><span class="line">				<span class="comment">// dp[u][j] * dp[v][k] -&gt; dp[u][j+k]</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/Euler-Tour-Tree-ETT/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -746,7 +749,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -760,7 +763,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">P问题，NP问题，NPC问题，NPH问题</a>
+            <a href="/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">Stoer-Wagner 算法</a>
         </h1>
 
         <div class="post-meta">
@@ -771,7 +774,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:09:13 / Modified: 14:09:28" itemprop="dateCreated datePublished" datetime="2022-06-30T14:09:13+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:06:47 / Modified: 12:07:50" itemprop="dateCreated datePublished" datetime="2022-07-15T12:06:47+08:00">2022-07-15</time>
             </span>
 
           
@@ -787,11 +790,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="P问题"><a href="#P问题" class="headerlink" title="P问题"></a>P问题</h3><p>可以在多项式时间内求解的问题。</p>
-<p>“P”  代表 “polynomial time” 。</p>
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>求一个任意的无向图的全局最小割。即，定义$\lambda(x,y)$表示$x,y$两点之间的最小割，给出一张任意的无向图，你需要求出$\min_{x\neq y}\lambda(x,y)$。</p>
+<h2 id="Stoer-Wagner-算法"><a href="#Stoer-Wagner-算法" class="headerlink" title="Stoer-Wagner 算法"></a>Stoer-Wagner 算法</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -815,7 +818,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Order-theory-and-Dilworth-s-theorem/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -829,7 +832,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/Order-theory-and-Dilworth-s-theorem/" class="post-title-link" itemprop="url">Order theory and Dilworth's theorem</a>
+            <a href="/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/" class="post-title-link" itemprop="url">Gomory-Hu Tree （最小割树）</a>
         </h1>
 
         <div class="post-meta">
@@ -840,7 +843,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:06:32 / Modified: 14:08:05" itemprop="dateCreated datePublished" datetime="2022-06-30T14:06:32+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:05:27 / Modified: 12:05:49" itemprop="dateCreated datePublished" datetime="2022-07-15T12:05:27+08:00">2022-07-15</time>
             </span>
 
           
@@ -856,10 +859,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="English-Version"><a href="#English-Version" class="headerlink" title="English Version"></a>English Version</h1><h2 id="Order-theory"><a href="#Order-theory" class="headerlink" title="Order theory"></a>Order theory</h2><h3 id="partial-order"><a href="#partial-order" class="headerlink" title="partial order"></a>partial order</h3>
+          <h2 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h2><h3 id="割-cut"><a href="#割-cut" class="headerlink" title="割 cut"></a>割 cut</h3><p>对于一张带权无向图$G=(V,E)$，定义一个<strong>割 (cut)</strong>为两个集合$S,T\in V$，满足$S\cap T = \emptyset, S\cup T = V$。定义一条边为<strong>割边 (cut edge)</strong>当且仅当它的两个端点分别在$S$集合和$T$集合内。定义一个<strong>割的容量 (capacity of a cut)</strong>为所有的割边的边权的和。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/Order-theory-and-Dilworth-s-theorem/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -883,7 +886,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -951,7 +954,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">116</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

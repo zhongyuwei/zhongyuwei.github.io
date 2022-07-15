@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9A%84%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -201,7 +201,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9A%84%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2/" class="post-title-link" itemprop="url">坐标轴的旋转变换</a>
+            <a href="/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">Dinic算法的复杂度分析</a>
         </h1>
 
         <div class="post-meta">
@@ -212,7 +212,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:04:46 / Modified: 14:05:05" itemprop="dateCreated datePublished" datetime="2022-06-30T14:04:46+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:04:14 / Modified: 12:04:49" itemprop="dateCreated datePublished" datetime="2022-07-15T12:04:14+08:00">2022-07-15</time>
             </span>
 
           
@@ -228,16 +228,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>将$(x_1,y_1)$和$(x_2,y_2)$分别作为$ x$轴和$ y$轴（即将坐标轴旋转，使得$x$轴与$(x_1,y_1)$平行，$y$轴与$(x_2,y_2)$平行，也就是将$(x_1,y_1)$，$(x_2,y_2)$作为单位向量），需要求出其他的点在旋转后的坐标系里的坐标。</p>
-<p>如何实现？考虑原来的向量$(x,y)$表示的向量实际上是$xi+yj$，也就是单位向量$i$的$x$倍 + 单位向量$j$的$y$倍。因此，可以设这个点变化后的坐标为$(x’,y’)$，则：</p>
-<script type="math/tex; mode=display">
-\begin{cases}
-x=x'\cdot x_1 + y' \cdot x_2\\
-y=x'\cdot y_1 + y' \cdot y_2\\
-\end {cases}</script><p>解得</p>
+          <h2 id="一般图"><a href="#一般图" class="headerlink" title="一般图"></a>一般图</h2><p>复杂度主要取决于dfs增广的过程。</p>
+<p>将dfs部分的复杂度分成两部分来分析：1）修改增广路上边的流量。至多会增广$m$次，一条增广路的长度至多是$n$，所以这一部分的复杂度是$O(nm)$。2）dfs遍历时找增广路失败时经过的边。由于一旦从某条边出发找最短路失败了，我们就不会再走那条边（当前弧优化），所以这一部分的复杂度是$O(m)$的。故而dfs增广的复杂度是$O(nm)$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E5%9D%90%E6%A0%87%E8%BD%B4%E7%9A%84%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -261,7 +256,7 @@ y=x'\cdot y_1 + y' \cdot y_2\\
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -275,7 +270,7 @@ y=x'\cdot y_1 + y' \cdot y_2\\
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">计算几何基础</a>
+            <a href="/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">稳定婚姻问题</a>
         </h1>
 
         <div class="post-meta">
@@ -286,7 +281,7 @@ y=x'\cdot y_1 + y' \cdot y_2\\
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:03:20 / Modified: 14:03:30" itemprop="dateCreated datePublished" datetime="2022-06-30T14:03:20+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 12:03:16 / Modified: 12:03:39" itemprop="dateCreated datePublished" datetime="2022-07-15T12:03:16+08:00">2022-07-15</time>
             </span>
 
           
@@ -302,11 +297,504 @@ y=x'\cdot y_1 + y' \cdot y_2\\
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="计算几何基础"><a href="#计算几何基础" class="headerlink" title="计算几何基础"></a>计算几何基础</h1><p>标签（空格分隔）： 计算几何</p>
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>有$n$个男生和$n$个女生，有$2n$个排列$p_1,p_2\cdots p_n,q_1,q_2\cdots q_n$，$p_i$代表第$i$个男生的喜好（$p_{i,1}$表示他最喜欢的女生，$p_{i,2}$是他第二喜欢的，以此类推），$q_i$代表第$i$个女生的喜好。</p>
+<p>稳定婚姻问题即，求一个男生和女生的完美匹配$M$，使得不存在$(x,y)\not\in M$，$x$对$y$的好感高于$x$现在的配偶且$y$对$x$的好感高于$y$现在的配偶。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/" class="post-title-link" itemprop="url">斯坦纳树</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 12:00:54 / Modified: 12:02:18" itemprop="dateCreated datePublished" datetime="2022-07-15T12:00:54+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>有一张无向图$(V,E)$，指定了一个$V$的子集$S$，需要求出一个边集$E’$，使得：</p>
+<ul>
+<li>对于任意两个点$x,y\in S$，存在一条从$x$到$y$的、由$E’$中的边组成的路径（路径可以经过不在$S$中的点）。</li>
+<li>在此基础上，最小化$E’$中所有的边的边权和。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Hall-s-marriage-theorem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/Hall-s-marriage-theorem/" class="post-title-link" itemprop="url">Hall's marriage theorem</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:58:25 / Modified: 11:58:49" itemprop="dateCreated datePublished" datetime="2022-07-15T11:58:25+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Hall’s-marriage-theorem"><a href="#Hall’s-marriage-theorem" class="headerlink" title="Hall’s marriage theorem"></a>Hall’s marriage theorem</h2><h3 id="定理内容"><a href="#定理内容" class="headerlink" title="定理内容"></a>定理内容</h3><p>这个定理是说，对于任意一个二分图$G=\{ X+Y,E\}$，都有：<br>$\forall W \subset X, |W|\le |N_G(W)| \Longleftrightarrow |M|=|X|$<br>其中，$N_G(W)$表示$Y$中与$W$中的点相邻的点的集合，$M$表示最大匹配。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/Hall-s-marriage-theorem/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" class="post-title-link" itemprop="url">三元环计数和四元环计数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:56:47 / Modified: 13:22:26" itemprop="dateCreated datePublished" datetime="2022-07-15T11:56:47+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="三元环计数"><a href="#三元环计数" class="headerlink" title="三元环计数"></a>三元环计数</h2><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><pre><code>1.将无向边改成有向边，令度数大的点指向度数小的点；如果度数相同，就让编号大的点指向编号小的点。（这一步也可以是，度数小的点指向度数大的点；度数相同比较编号）
+2.枚举一个点u。
+3.标记所有u的出边可以到达的点。
+4.枚举一个u的出边可以到达的点v，然后再枚举一个v的出边可以到达的点w，如果w被标记过，说明u,v,w构成三元环，ans++
+</code></pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/" class="post-title-link" itemprop="url">树上路径的交</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:52:57 / Modified: 11:55:55" itemprop="dateCreated datePublished" datetime="2022-07-15T11:52:57+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>两条路径$u_1\to v_1,u_2\to v_2$的交这样计算：</p>
+<ul>
+<li>首先计算出$x_1=lca(u_1,u_2),x_2=lca(v_1,v_2),x_3=lca(u_1,v_2),x_4=lca(v_1,u_2)$，然后取这四个点中深度最大的两个点$y_1,y_2$。</li>
+<li>若$y_1=y_2$，且$y_1$的深度大于了$lca(u_1,v_1)$或者$lca(u_2,v_2)$的深度，那么交不存在；否则，交就是$y_1$到$y_2$之间的路径。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Road中的t：t=0表示空集，t=-1表示全集，t=1表示u到v的路径</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Road</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> u,v,t;</span><br><span class="line">	Road(<span class="keyword">int</span> u=<span class="number">0</span>,<span class="keyword">int</span> v=<span class="number">0</span>,<span class="keyword">int</span> t=<span class="number">-1</span>): u(u),v(v),t(t)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp_dep</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123; <span class="keyword">return</span> dep[x]&gt;dep[y]; &#125;</span><br><span class="line"><span class="function">Road <span class="title">Inter</span><span class="params">(Road A,Road B)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">0</span>||B.t==<span class="number">0</span>) <span class="keyword">return</span> Road(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> B;</span><br><span class="line">	<span class="keyword">if</span>(B.t==<span class="number">-1</span>) <span class="keyword">return</span> A;</span><br><span class="line">	<span class="keyword">int</span> tmp[<span class="number">4</span>]=&#123;LCA(A.v,B.v),LCA(A.u,B.u),LCA(A.v,B.u),LCA(A.u,B.v)&#125;;</span><br><span class="line">	sort(tmp,tmp+<span class="number">4</span>,cmp_dep);</span><br><span class="line">	<span class="keyword">if</span>(tmp[<span class="number">0</span>]==tmp[<span class="number">1</span>]&amp;&amp;(dep[tmp[<span class="number">0</span>]]&lt;dep[LCA(A.u,A.v)]||dep[tmp[<span class="number">0</span>]]&lt;dep[LCA(B.u,B.v)]))</span><br><span class="line">		<span class="keyword">return</span> Road(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span> Road(tmp[<span class="number">0</span>],tmp[<span class="number">1</span>],<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Onchain</span><span class="params">(Road A,<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp[<span class="number">2</span>]=&#123;LCA(A.u,x),LCA(A.v,x)&#125;;</span><br><span class="line">	<span class="keyword">if</span>(dep[tmp[<span class="number">0</span>]]&lt;dep[tmp[<span class="number">1</span>]]) swap(tmp[<span class="number">0</span>],tmp[<span class="number">1</span>]);</span><br><span class="line">	<span class="keyword">if</span>(tmp[<span class="number">0</span>]==x&amp;&amp;tmp[<span class="number">1</span>]==LCA(A.u,A.v)) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">朱刘算法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:51:56 / Modified: 11:52:19" itemprop="dateCreated datePublished" datetime="2022-07-15T11:51:56+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这个算法用于求解有向图的最小树形图问题。</p>
+<p>树形图：图中有一个点作为根，除了根以外，每个点的入度恰好为$1$，并且从根出发可以到达整个图中的任意一个点。</p>
+<p>最小树形图就是所有边的边权和最小的树形图。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/" class="post-title-link" itemprop="url">中国剩余定理 CRT</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:49:06 / Modified: 11:49:31" itemprop="dateCreated datePublished" datetime="2022-07-15T11:49:06+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>问题：有$n$个这样形式的方程组：$x\equiv c_i\mod m_i$。求通解和最小解。</p>
+<h2 id="一般的做法"><a href="#一般的做法" class="headerlink" title="一般的做法"></a>一般的做法</h2><p>考虑如何合并</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/" class="post-title-link" itemprop="url">原根 primitive root</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:47:45 / Modified: 11:48:03" itemprop="dateCreated datePublished" datetime="2022-07-15T11:47:45+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于某一个$g\in [0,p)$，如果对于$\{0,1,\cdots p-1\}$中每一个与$p$互质的数$x$，都存在一个$k$使得$g^k \equiv x \mod p$，那么就称$g$是$p$的一个原根。也就是说，$g^0,g^1,\cdots g^{\varphi (n) - 1}$在模$n$的意义下两两不同。</p>
 <hr>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95%E5%9F%BA%E7%A1%80/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -330,7 +818,7 @@ y=x'\cdot y_1 + y' \cdot y_2\\
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E5%8A%A8%E6%80%81%E5%8A%A0%E7%82%B9%E7%9A%84%E5%87%B8%E5%8C%85/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -344,7 +832,7 @@ y=x'\cdot y_1 + y' \cdot y_2\\
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E5%8A%A8%E6%80%81%E5%8A%A0%E7%82%B9%E7%9A%84%E5%87%B8%E5%8C%85/" class="post-title-link" itemprop="url">动态加点的凸包</a>
+            <a href="/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/" class="post-title-link" itemprop="url">线性求逆元</a>
         </h1>
 
         <div class="post-meta">
@@ -355,7 +843,7 @@ y=x'\cdot y_1 + y' \cdot y_2\\
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:02:21 / Modified: 14:02:37" itemprop="dateCreated datePublished" datetime="2022-06-30T14:02:21+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 11:46:46 / Modified: 11:47:09" itemprop="dateCreated datePublished" datetime="2022-07-15T11:46:46+08:00">2022-07-15</time>
             </span>
 
           
@@ -371,498 +859,11 @@ y=x'\cdot y_1 + y' \cdot y_2\\
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>有一个二维平面上的点构成的点集。有两种操作：1）加入一个点。2）询问一个点是否在这个点集的凸包内。</p>
-<h2 id="方法1：分别维护上凸壳和下凸壳"><a href="#方法1：分别维护上凸壳和下凸壳" class="headerlink" title="方法1：分别维护上凸壳和下凸壳"></a>方法1：分别维护上凸壳和下凸壳</h2><p>对于每个凸壳，用一个$set$存下凸壳上的点，把这些点按照横坐标排好序。新加入点的时候，找出横坐标与新加入点最接近的、凸壳上的点，判断是否需要弹掉。查询的时候二分找出对应的位置。</p>
+          <h3 id="公式-amp-amp-食用方法"><a href="#公式-amp-amp-食用方法" class="headerlink" title="公式 &amp;&amp; 食用方法"></a>公式 &amp;&amp; 食用方法</h3><p>设$Inv(i)$表示$i$在模$M$意义下的逆元，则有：<br>$Inv(i) \equiv (-\lfloor{M\over i}\rfloor ) \times Inv(M \mod i)\mod M$<br>由于$(M\mod i )&lt; i$，所以可以利用这个公式线性预处理出逆元。</p>
+<p>当模数比较小的时候，可以预处理出$[0,M)$的所有数的逆元，然后算法的复杂度就可以少一个$\log M$~</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E5%8A%A8%E6%80%81%E5%8A%A0%E7%82%B9%E7%9A%84%E5%87%B8%E5%8C%85/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Minkowski-Sum-%E9%97%B5%E5%8F%AF%E5%A4%AB%E6%96%AF%E5%9F%BA%E5%92%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/Minkowski-Sum-%E9%97%B5%E5%8F%AF%E5%A4%AB%E6%96%AF%E5%9F%BA%E5%92%8C/" class="post-title-link" itemprop="url">Minkowski Sum 闵可夫斯基和</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 14:01:06 / Modified: 14:01:24" itemprop="dateCreated datePublished" datetime="2022-06-30T14:01:06+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>这是一种对两个向量集合定义的运算。对于两个集合$A,B\in R^n$，它们的Minkowski Sum定义为：</p>
-<script type="math/tex; mode=display">
-A + B=\{ a+b : a\in A,b\in B\}</script><hr>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/Minkowski-Sum-%E9%97%B5%E5%8F%AF%E5%A4%AB%E6%96%AF%E5%9F%BA%E5%92%8C/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Euler-Line-%E6%AC%A7%E6%8B%89%E7%BA%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/Euler-Line-%E6%AC%A7%E6%8B%89%E7%BA%BF/" class="post-title-link" itemprop="url">Euler Line 欧拉线</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 13:58:14 / Modified: 13:58:28" itemprop="dateCreated datePublished" datetime="2022-06-30T13:58:14+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>定理：三角形的垂心(orthocenter)、重心(centroid)、外心(circumcenter)共线，且重心到垂心的距离等于重心到外心的距离的两倍。过三角形的垂心、重心、外心的直线称为<strong>欧拉线(Euler line)</strong>。</p>
-<p>可以在<a href="https://www.geogebra.org/graphing/fm4wchdg" target="_blank" rel="noopener">这里</a>感受一下。</p>
-<p>证明：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/Euler-Line-%E6%AC%A7%E6%8B%89%E7%BA%BF/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E5%AD%90%E9%9B%86%E5%8D%B7%E7%A7%AF%E4%B8%8Ebitcount/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/%E5%AD%90%E9%9B%86%E5%8D%B7%E7%A7%AF%E4%B8%8Ebitcount/" class="post-title-link" itemprop="url">子集卷积与bitcount</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 13:57:06 / Modified: 13:57:24" itemprop="dateCreated datePublished" datetime="2022-06-30T13:57:06+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>如果一个卷积长这样：</p>
-<script type="math/tex; mode=display">
-f(S) = \sum_{X\cup Y=S,X\cap Y = \emptyset} g(X)\times h(Y)</script><p>好像不能够直接用FWT做了呢。但是我们观察，$X\cup Y=S,X\cap Y=\emptyset$等价于：</p>
-<script type="math/tex; mode=display">
-\begin{cases}
-X\cup Y=S\\
-|X|+|Y|=|S|
-\end{cases}</script><p>正确性显然。那么，我们可以枚举集合的大小，然后做或卷积。可以先对所有的进行FWT，然后枚举大小、求和，最后再变换回去。时间复杂度$2^n n^2$，$n$表示元素的数量。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E5%AD%90%E9%9B%86%E5%8D%B7%E7%A7%AF%E4%B8%8Ebitcount/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/" class="post-title-link" itemprop="url">生成函数与字符串匹配</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 13:55:21 / Modified: 13:55:49" itemprop="dateCreated datePublished" datetime="2022-06-30T13:55:21+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>主要都是用来解决有“通配符”、“模糊匹配”等的问题（如果没有这些东西直接kmp多好）。并且这些题目中，“通配符”能够代表的字符数量是一定的，否则就没有办法卷积了。</p>
-<hr>
-<h2 id="字符集较小：对每个字符单独考虑是否匹配"><a href="#字符集较小：对每个字符单独考虑是否匹配" class="headerlink" title="字符集较小：对每个字符单独考虑是否匹配"></a>字符集较小：对每个字符单独考虑是否匹配</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">任意模数NTT(NTT+CRT,MTT的优化)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 13:54:05 / Modified: 13:54:29" itemprop="dateCreated datePublished" datetime="2022-06-30T13:54:05+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>问题：给出两个多项式，以及模数$P$，计算它们的卷积，不保证$P$是$t\cdot 2^k + 1$的形式的质数。</p>
-<p>模数不支持NTT，那么我们肯定只能通过某种方式算出精确值，然后再取模。然而，两个这样的多项式相乘，每一项的系数最大是$n\cdot P^2$，大约$10^{23}$，FFT会爆精度，也不可能单模数NTT……</p>
-<hr>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E5%AF%B9%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E6%9C%89%E8%A6%81%E6%B1%82%E7%9A%84FFT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/%E5%AF%B9%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6%E6%9C%89%E8%A6%81%E6%B1%82%E7%9A%84FFT/" class="post-title-link" itemprop="url">对数组长度有要求的FFT</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 13:48:32 / Modified: 13:48:50" itemprop="dateCreated datePublished" datetime="2022-06-30T13:48:32+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://i.loli.net/2020/01/10/dLBt1mTpZarDbRX.png" alt="image.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/CTSC2010-%E5%BE%AA%E7%8E%AF%E5%8D%B7%E7%A7%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/CTSC2010-%E5%BE%AA%E7%8E%AF%E5%8D%B7%E7%A7%AF/" class="post-title-link" itemprop="url">CTSC2010 循环卷积</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 13:45:57 / Modified: 13:46:34" itemprop="dateCreated datePublished" datetime="2022-06-30T13:45:57+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://www.luogu.org/problemnew/show/P4191" target="_blank" rel="noopener">洛谷上的题面</a></p>
-<p>有两个长度为$n$的多项式$A$和$B$，需要求出$A<em>B^C$。其中的$</em>$运算定义如下：</p>
-<script type="math/tex; mode=display">
-C[k]=\sum_{i+j\equiv k\text{ mod } n} A[i]*B[j]\text{ mod } (n+1)</script><p>数据范围：$n\le 5\times 10^5,C\le 10^9$。保证$n$一定可以被分解成若干个不超过$10$的正整数的乘积，并且$n+1$是质数。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/CTSC2010-%E5%BE%AA%E7%8E%AF%E5%8D%B7%E7%A7%AF/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -886,7 +887,7 @@ C[k]=\sum_{i+j\equiv k\text{ mod } n} A[i]*B[j]\text{ mod } (n+1)</script><p>数
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -954,7 +955,7 @@ C[k]=\sum_{i+j\equiv k\text{ mod } n} A[i]*B[j]\text{ mod } (n+1)</script><p>数
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">116</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

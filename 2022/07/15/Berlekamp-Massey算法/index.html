@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言如果现在你有一个序列，你知道他们满足$m$阶的 递推关系，而你需要通过这个序列中的数解出这个序列的递推式。这就是BM算法解决的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Berlekamp-Massey算法">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="前言如果现在你有一个序列，你知道他们满足$m$阶的 递推关系，而你需要通过这个序列中的数解出这个序列的递推式。这就是BM算法解决的问题。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-15T04:16:29.000Z">
+<meta property="article:modified_time" content="2022-07-15T05:20:31.930Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Berlekamp-Massey算法 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Berlekamp-Massey算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 12:16:29 / Modified: 13:20:31" itemprop="dateCreated datePublished" datetime="2022-07-15T12:16:29+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>如果现在你有一个序列，你知道他们满足$m$阶的</p>
+<p>递推关系，而你需要通过这个序列中的数解出这个序列的递推式。这就是BM算法解决的问题。</p>
+<p>形式化地来说，有一个序列$a$，你需要找出一组$\{ r_1,r_2,r_3\cdots r_m \} $，满足$\forall i&gt;m ,a_i = \sum_{1\le j\le m} a_{i-j}r_j$。</p>
+<hr>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>BM算法利用了增量法。我们先求出一个对于前$i$项成立的$R_c=\{r_1,r_2,\cdots r_m \}$，然后把第$i+1$项带入。如果此时递推关系仍然成立，我们就继续去看$i+2$项；否则，我们就通过一系列调整，得到一个$R_{c+1}$，对于前$i+1$项都成立，然后我们再去看后面的项。</p>
+<p>记我们得到的第$c$个递推关系式为$R_c$，记第$c$个递推关系式第一次不成立的位置为$fail_c$。初始的时候递推关系为空。</p>
+<p>现在我们解决如何调整$R$使得递推关系对第$i$项成立。我们记$delta_i = a_i - \sum_{j=1}^m r_j a_{i-j}$。考虑另构造一个递推关系$R’$满足得到的序列在前$i-1$项取值为$0$，在第$i$项取值为$1$，这样一个对前$i$项成立的就可以是$R_c + delta_{i}\cdot R’$。</p>
+<p>考虑利用我们之前的修正。对于$R_{d}$这个递推关系式，它满足在前$fail_d-1$项的取值与$a$相同，在第$fail_d$这一项的取值是$delta_{fail_d}$。那么我们可以构造一个递推关系$R’=\{ 0,0,0,\cdots 0,1,-R_d\} $，这个递推关系的前$i-fail_d-1$项是$0$，然后的一项是$1$，接下来是整个$R_d$取反。这个递推关系的长度是$i-fail_d + |R_d|$的。我们构造出来的这个$R’$，对于前$i-1$个位置中的任意一个位置$x$，取值是$a_{x-(i-fail_d)}- \sum_j r_j a_{x-(i-fail_d)-j} = delta_{x-(i-fail_d)}$。由于$x&lt;i$，所以$x-(i-fail_d)&lt;fail_d$，所以这个递推式在$x$处的取值是$0$。考虑这个递推式在第$i$项的取值：$a_{i-(i-fail_d)} -\sum_j r_j a_{i-(i-fail_d)} = delta_{fail_d}$。我们只需要把这个递推式的每一项的系数再除以$delta_{fail_d}$就可以得到一个在第$i$项取值为$1$，在其他项取值为$0$的递推关系式。</p>
+<p>概括一下我们调整的方法：</p>
+<ul>
+<li>在$R_1,R_2,\cdots R_{c-1}$中选出一个$R_d$。然后构造出$R’ = \{ 0,0,0\cdots 1,-R_{d}\}$。</li>
+<li>将$R_{c+1}$调整为$R_c + {delta_i\over delta_{fail_d}} R’$。</li>
+<li>调整后，递推关系的长度是$\max \{ |R_c|, i-fail_d+|R_d|\}$。</li>
+</ul>
+<p>这里关于$d$的选择，有些资料里面是直接选择$c-1$，也有的地方说应该选择$i-fail_d +|R_d|$，我也没有搞清楚哪种写法是正确的；很多地方都说BM算法解出的是最短线性递推式，然而我也没有弄懂它为什么是最短的。等以后弄懂了再回来补充吧。</p>
+<hr>
+<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p>如果要解出一个$m$阶的递推式，我们至少需要$2m$项。我们每一次调整的时候，我们需要修改$m$个位置。所以总复杂度大约是$O(m^2)$的。</p>
+<hr>
+<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><p>bzoj1494生成树计数<br>一种做法就是暴力行列式求解打表 + 解线性递推式</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> BM &#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; b[N];</span><br><span class="line">	<span class="keyword">int</span> delta[N],fail[N];</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> *a,<span class="keyword">int</span> n,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;c)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) &#123;</span><br><span class="line">			delta[i]=a[i];</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;b[cnt].size();++j)</span><br><span class="line">				Dec(delta[i],b[cnt][j]*(ll)a[i-j<span class="number">-1</span>]%mod);</span><br><span class="line">			<span class="keyword">if</span>(delta[i]==<span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">			fail[cnt++]=i;</span><br><span class="line">			<span class="keyword">if</span>(cnt==<span class="number">1</span>) &#123; b[cnt].resize(i); <span class="keyword">continue</span>; &#125;</span><br><span class="line">			<span class="keyword">int</span> id=<span class="number">0</span>,len=<span class="number">1e9</span>;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;cnt<span class="number">-1</span>;++k)</span><br><span class="line">				<span class="keyword">if</span>(i-fail[k]+(<span class="keyword">int</span>)b[k].size()&lt;len)</span><br><span class="line">					id=k,len=i-fail[k]+(<span class="keyword">int</span>)b[k].size();</span><br><span class="line">			<span class="keyword">int</span> tmp=delta[i]*(ll)Pow(delta[fail[id]],mod<span class="number">-2</span>)%mod;</span><br><span class="line">			b[cnt].resize(i-fail[id]<span class="number">-1</span>); b[cnt].PB(tmp);</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;b[id].size();++j)</span><br><span class="line">				b[cnt].PB(b[id][j]*(ll)(mod-tmp)%mod);</span><br><span class="line">			<span class="keyword">if</span>(b[cnt].size()&lt;b[cnt<span class="number">-1</span>].size()) b[cnt].resize(b[cnt<span class="number">-1</span>].size());</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;b[cnt<span class="number">-1</span>].size();++j)</span><br><span class="line">				Add(b[cnt][j],b[cnt<span class="number">-1</span>][j]);</span><br><span class="line">		&#125;</span><br><span class="line">		c=b[cnt];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>Upd 2020.5.7</p>
+<p>参考资料：zzq2019集训队论文</p>
+<p>对于有限数列 $\{a_0,a_1,\cdots a_{n-1} \}$，设前缀 $\{a_0,a_1,\cdots a_i\}$ 的最短递推式为 $r^{(i)} = \{r^{(i)}_1,r^{(i)}_2,\cdots \mid a_j = \sum_{k=1}^{|r^{(i)}|} r^{(i)}_k a_{j-k}, j\le i\}$，设 $l_i = |r^{(i)}|$。显然有 $l_{i-1} \le l_i$。</p>
+<h3 id="lemma-1-1"><a href="#lemma-1-1" class="headerlink" title="lemma 1.1"></a>lemma 1.1</h3><p>如果 $r^{(i-1)}$ 不是 $\{a_0,a_1,\cdots a_{i-1}\}$ 的最短递推式，那么 $l_i \ge \max\{l_{i-1},i+1-l_{i-1}\}$。</p>
+<p>证明：假设 $l_i \le i-l_{i-1}$，$p = r^{(i-1)}, q=r^{(i)}$则</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\sum_{j=1}^{l_{i-1}} p_ja_{i-j}\\
+= \sum_{j=1}^{l_{i-1}} p_j \sum_{k=1}^{l_i} q_ka_{i-j-k}
+\end{gathered}</script><p>这一步是因为 $i-j \ge i-l_{i-1} \ge l_i$。</p>
+<script type="math/tex; mode=display">
+= \sum_{k=1}^{l_i} q_k \sum_{j=1}^{l_{i-1}} p_j a_{i-j-k}\\
+ = \sum_{k=1}^{l_i} q_k a_{i-k}</script><p>这一步是因为 $i-k \ge i-l_i \ge l_{i-1}$。</p>
+<script type="math/tex; mode=display">
+= a_i</script><p>则 $r^{(i-1)}$ 对 $\{a_0,a_1,\cdots a_i\}$ 也成立，与已知矛盾。</p>
+<p>这个引理告诉了我们最短递推式长度的下界，而这个下界是可以用 Berlekamp-Massey 算法达到的。</p>
+<p>Berlekamp-Massey 算法的过程：</p>
+<p>将 $i$ 从 $1$ 枚举到 $n$：</p>
+<ul>
+<li>如果 $r^{(i-1)}$ 对 $\{a_0,a_1,\cdots a_i\}$ 仍然成立，令 $r^{(i)} = r^{(i-1)}$ 即可</li>
+<li>否则，用上一次 $r^{(p-1)}$ 对 $\{a_0,a_1,\cdots a_{p}\}$ 不再成立的 $r^{(p-1)}$ 来调整 $r^{(i-1)}$ 以得到 $r^{(i)}$</li>
+</ul>
+<p>归纳证明其达到了下界：</p>
+<ul>
+<li>假设 $l_1,l_2,\cdots l_{i-1}$ 均已达到了下界，而 $r^{(i)} \neq r^{(i-1)}$</li>
+<li>由算法流程可知和归纳假设可知，$l_{i-1} = l_p, l_i = i-p+l_{p-1}, l_p = p+1 - l_{p-1}$</li>
+<li>则 $l_i = i - p + l_{p-1} = i + 1 - l_{p} = i+1-l_{i-1}$</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/" title="Berlekamp-Massey算法">http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey算法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/" rel="prev" title="常系数齐次线性递推 - O(k log k log n) 求第n项">
+      <i class="fa fa-chevron-left"></i> 常系数齐次线性递推 - O(k log k log n) 求第n项
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时间复杂度"><span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板"><span class="nav-text">模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lemma-1-1"><span class="nav-text">lemma 1.1</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/22/BZOJ2498-Xavier-is-Learning-to-Count/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/17/20200416-SCOI%E6%A8%A1%E6%8B%9F1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -201,7 +201,82 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/22/BZOJ2498-Xavier-is-Learning-to-Count/" class="post-title-link" itemprop="url">BZOJ2498 Xavier is Learning to Count</a>
+            <a href="/2020/04/17/20200416-SCOI%E6%A8%A1%E6%8B%9F1/" class="post-title-link" itemprop="url">20200416 SCOI模拟1</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-17 16:16:38" itemprop="dateCreated datePublished" datetime="2020-04-17T16:16:38+08:00">2020-04-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-06-25 20:40:10" itemprop="dateModified" datetime="2022-06-25T20:40:10+08:00">2022-06-25</time>
+              </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="A-同桌与室友"><a href="#A-同桌与室友" class="headerlink" title="A - 同桌与室友"></a>A - 同桌与室友</h2><p>相当于是有一张图，边有两种，与每个点相邻的每种边至多有一条。求有多少种重标号的方案，使得重标号前后的图相同。</p>
+<p>由于每个点的度数不超过 2，我们可以对连通块的形态讨论（每个连通块要么是链，要么是环）。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/17/20200416-SCOI%E6%A8%A1%E6%8B%9F1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%8F%8A%E8%AF%81%E6%98%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%8F%8A%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">矩阵树定理及证明</a>
         </h1>
 
         <div class="post-meta">
@@ -212,7 +287,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-22 17:31:45 / Modified: 17:46:34" itemprop="dateCreated datePublished" datetime="2020-02-22T17:31:45+08:00">2020-02-22</time>
+              <time title="Created: 2020-04-17 13:24:57 / Modified: 13:34:12" itemprop="dateCreated datePublished" datetime="2020-04-17T13:24:57+08:00">2020-04-17</time>
             </span>
 
           
@@ -228,11 +303,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>容易想到$O(Bell(P))$地枚举$P$的集合划分，然后进行容斥（强制同一个集合里的数取值相同），但是容斥系数应该如何取呢？</p>
-<p>对于一个大小为$x$的集合，设它的容斥系数为$f_x$。一种集合划分的容斥系数为每个集合的容斥系数的乘积。</p>
+          <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://oi-wiki.org/graph/matrix-tree/" target="_blank" rel="noopener">OI-wiki(没有证明)</a></li>
+<li><a href="http://math.mit.edu/~levine/18.312/alg-comb-lecture-19.pdf" target="_blank" rel="noopener">通过 google search 找到的一篇资料</a></li>
+</ul>
+<h2 id="引理"><a href="#引理" class="headerlink" title="引理"></a>引理</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/22/BZOJ2498-Xavier-is-Learning-to-Count/#more" rel="contents">
+              <a class="btn" href="/2020/04/17/%E7%9F%A9%E9%98%B5%E6%A0%91%E5%AE%9A%E7%90%86%E5%8F%8A%E8%AF%81%E6%98%8E/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -256,7 +334,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/21/HDU3840-%E3%80%90WF2011%E3%80%91Chips-Challenge/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/16/LOJ3054-%E3%80%8CHNOI2019%E3%80%8D%E9%B1%BC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -270,308 +348,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/21/HDU3840-%E3%80%90WF2011%E3%80%91Chips-Challenge/" class="post-title-link" itemprop="url">HDU3840 【WF2011】Chips Challenge</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-21 15:55:59" itemprop="dateCreated datePublished" datetime="2020-02-21T15:55:59+08:00">2020-02-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-22 17:32:55" itemprop="dateModified" datetime="2020-02-22T17:32:55+08:00">2020-02-22</time>
-              </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>2016年集训队论文的第二篇讲到了这道题，但是论文中的建图方式似乎会出现负环（也有可能是我写炸了？）。下面的建图方法是从KIDGIN7439的<a href="https://blog.csdn.net/KIDGIN7439/article/details/84637086" target="_blank" rel="noopener">这篇博客</a>中看到的，因为觉得原文的阐述十分不清楚，重新阐述如下。</p>
-<p>首先枚举$lim$为每一行、每一列的部件数量的最大值。求出在$lim$限制下能个放的最大零件数$tot’$，只要判断$lim \le \lfloor tot’ \cdot \frac{A}{B} \rfloor$是否成立，就能限制为$lim$时是否存在合法的方案，并更新答案。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/21/HDU3840-%E3%80%90WF2011%E3%80%91Chips-Challenge/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/20/PKUWC2020/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/20/PKUWC2020/" class="post-title-link" itemprop="url">PKUWC2020</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-20 09:55:24" itemprop="dateCreated datePublished" datetime="2020-02-20T09:55:24+08:00">2020-02-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-06-25 20:44:40" itemprop="dateModified" datetime="2022-06-25T20:44:40+08:00">2022-06-25</time>
-              </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="day-1"><a href="#day-1" class="headerlink" title="day 1"></a>day 1</h1><h2 id="A-排列"><a href="#A-排列" class="headerlink" title="A - 排列"></a>A - 排列</h2><h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/20/PKUWC2020/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/20/IOI2020%E5%8C%97%E5%A4%A7%E9%9B%86%E8%AE%AD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/20/IOI2020%E5%8C%97%E5%A4%A7%E9%9B%86%E8%AE%AD/" class="post-title-link" itemprop="url">IOI2020北大集训</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-20 09:12:29" itemprop="dateCreated datePublished" datetime="2020-02-20T09:12:29+08:00">2020-02-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-06-25 20:45:21" itemprop="dateModified" datetime="2022-06-25T20:45:21+08:00">2022-06-25</time>
-              </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="day1"><a href="#day1" class="headerlink" title="day1"></a>day1</h1><h2 id="A-递增树列"><a href="#A-递增树列" class="headerlink" title="A - 递增树列"></a>A - 递增树列</h2><h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/20/IOI2020%E5%8C%97%E5%A4%A7%E9%9B%86%E8%AE%AD/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/19/UOJ171-%E3%80%90WC2016%E3%80%91%E6%8C%91%E6%88%98NPC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/19/UOJ171-%E3%80%90WC2016%E3%80%91%E6%8C%91%E6%88%98NPC/" class="post-title-link" itemprop="url">UOJ171 【WC2016】挑战NPC</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-02-19 23:52:42" itemprop="dateCreated datePublished" datetime="2020-02-19T23:52:42+08:00">2020-02-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-09 16:46:38" itemprop="dateModified" datetime="2020-03-09T16:46:38+08:00">2020-03-09</time>
-              </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>这道题的建图方法：</p>
-<ol>
-<li>每个筐拆成三个点分别代表三个位置，三个点两两之间互相连边</li>
-<li>每个球向它可以放入的筐的三个点都连边</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/19/UOJ171-%E3%80%90WC2016%E3%80%91%E6%8C%91%E6%88%98NPC/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/19/%E5%AF%B9%E5%B8%A6%E8%8A%B1%E6%A0%91%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/19/%E5%AF%B9%E5%B8%A6%E8%8A%B1%E6%A0%91%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="post-title-link" itemprop="url">对带花树算法的一些思考</a>
+            <a href="/2020/04/16/LOJ3054-%E3%80%8CHNOI2019%E3%80%8D%E9%B1%BC/" class="post-title-link" itemprop="url">LOJ3054 「HNOI2019」鱼</a>
         </h1>
 
         <div class="post-meta">
@@ -582,7 +359,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-02-19 22:52:17 / Modified: 22:54:37" itemprop="dateCreated datePublished" datetime="2020-02-19T22:52:17+08:00">2020-02-19</time>
+              <time title="Created: 2020-04-16 21:56:01 / Modified: 21:58:29" itemprop="dateCreated datePublished" datetime="2020-04-16T21:56:01+08:00">2020-04-16</time>
             </span>
 
           
@@ -598,11 +375,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>推荐两个带花树算法的学习资料：<a href="https://en.wikipedia.org/wiki/Blossom_algorithm" target="_blank" rel="noopener">维基百科</a> <a href="https://blog.bill.moe/blossom-algorithm-notes/" target="_blank" rel="noopener">Bill Yang’s blog</a></p>
-<h2 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h2><p>缩掉奇环之后，会不会存在一条交错路，和奇环相交的部分没有经过花根，成为了一条在缩掉了花之后的图中找不到的增广路？</p>
+          <p><a href="https://loj.ac/submission/788299" target="_blank" rel="noopener">my AC submission</a></p>
+<h2 id="关于题意的补充说明"><a href="#关于题意的补充说明" class="headerlink" title="关于题意的补充说明"></a>关于题意的补充说明</h2><ul>
+<li>令 $\alpha(0\le \alpha &lt; 2\pi)$ 为 $\overrightarrow{DA}$ 逆时针旋转到 $\overrightarrow{DE}$ 经过的角度，$\beta ( 0\le \beta &lt; 2\pi )$ 为 $\overrightarrow{DA}$ 逆时针旋转到 $\overrightarrow{DF}$ 经过的角度，那么题意中对 $\angle ADE, \angle ADF$ 的限制等价于：$\frac{1}{2} \pi &lt; \alpha, \beta &lt; \frac{3}{2} \pi$。</li>
+<li>可以参考我的这份<a href="https://loj.ac/submission/788307" target="_blank" rel="noopener">O(n^6)暴力</a>来确认自己没有读错题意。</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/19/%E5%AF%B9%E5%B8%A6%E8%8A%B1%E6%A0%91%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/#more" rel="contents">
+              <a class="btn" href="/2020/04/16/LOJ3054-%E3%80%8CHNOI2019%E3%80%8D%E9%B1%BC/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -626,7 +406,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/17/LOJ577-%E3%80%8CLibreOJ-NOI-Round-2%E3%80%8D%E7%AE%80%E5%8D%95%E7%AE%97%E6%9C%AF/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/11/LOJ3045-%E3%80%8CZJOI2019%E3%80%8D%E5%BC%80%E5%85%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -640,7 +420,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/17/LOJ577-%E3%80%8CLibreOJ-NOI-Round-2%E3%80%8D%E7%AE%80%E5%8D%95%E7%AE%97%E6%9C%AF/" class="post-title-link" itemprop="url">LOJ577 「LibreOJ NOI Round #2」简单算术</a>
+            <a href="/2020/04/11/LOJ3045-%E3%80%8CZJOI2019%E3%80%8D%E5%BC%80%E5%85%B3/" class="post-title-link" itemprop="url">LOJ3045 「ZJOI2019」开关</a>
         </h1>
 
         <div class="post-meta">
@@ -649,16 +429,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-02-17 23:58:35" itemprop="dateCreated datePublished" datetime="2020-02-17T23:58:35+08:00">2020-02-17</time>
+              <time title="Created: 2020-04-11 13:03:07 / Modified: 13:04:30" itemprop="dateCreated datePublished" datetime="2020-04-11T13:03:07+08:00">2020-04-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-22 17:33:18" itemprop="dateModified" datetime="2020-02-22T17:33:18+08:00">2020-02-22</time>
-              </span>
 
           
   
@@ -673,12 +447,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>考虑多项式乘法的组合意义，枚举第$i$项被选的次数$b_i$，要求$\sum b_i = m, \sum b_i i = k$，则对应的贡献为</p>
+          <ul>
+<li><a href="https://loj.ac/submission/784772" target="_blank" rel="noopener">my submission on loj.ac</a></li>
+<li>参考了 <a href="https://www.cnblogs.com/zhoushuyu/p/10687696.html" target="_blank" rel="noopener">zsy的博客</a></li>
+</ul>
+<p>设</p>
 <script type="math/tex; mode=display">
-\binom{m}{b_0}\binom{m-b_0}{b_1}\binom{m-b_0-b_1}{b_2} \cdots \cdot \prod_i a_i ^ {b_i}</script><p>如果$p \mid m$，我们对上面的式子应用Lucas定理，发现：</p>
+\begin{gathered}
+A(x) = \sum_{i=0}^\infty [\text{操作 i 次之后状态为 s 的概率}]\frac{x^i}{i!}\\
+B(x) = \sum_{i=0}^\infty [\text{操作 i 次之后状态为 000.....00 的概率}]\frac{x^i}{i!}
+\end{gathered}</script><p>那么（可以类比奇自然数和偶自然数的 EGF）</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/17/LOJ577-%E3%80%8CLibreOJ-NOI-Round-2%E3%80%8D%E7%AE%80%E5%8D%95%E7%AE%97%E6%9C%AF/#more" rel="contents">
+              <a class="btn" href="/2020/04/11/LOJ3045-%E3%80%8CZJOI2019%E3%80%8D%E5%BC%80%E5%85%B3/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -702,7 +483,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/17/From-Suffix-Tree-to-SAM/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -716,7 +497,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/17/From-Suffix-Tree-to-SAM/" class="post-title-link" itemprop="url">From Suffix Tree to SAM</a>
+            <a href="/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/" class="post-title-link" itemprop="url">LOJ3044 「ZJOI2019」Minimax 搜索</a>
         </h1>
 
         <div class="post-meta">
@@ -725,16 +506,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-02-17 10:24:57" itemprop="dateCreated datePublished" datetime="2020-02-17T10:24:57+08:00">2020-02-17</time>
+              <time title="Created: 2020-04-10 23:27:33 / Modified: 23:27:52" itemprop="dateCreated datePublished" datetime="2020-04-10T23:27:33+08:00">2020-04-10</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-06-25 20:48:09" itemprop="dateModified" datetime="2022-06-25T20:48:09+08:00">2022-06-25</time>
-              </span>
 
           
   
@@ -749,11 +524,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>You may check <a href="https://cp-algorithms.com/string/suffix-automaton.html" target="_blank" rel="noopener">this article on cp-algorithms.com</a> (or OI-wiki if you prefer reading in Chinese) for more precise information and proof of complexity about SAM. Here I just want to write about another perspective to understand SAM, which I’ve learned from Huadun Hong, PKU, through Zhengruioi’s online courses on 4th, Feb, 2020.</p>
-<h2 id="0"><a href="#0" class="headerlink" title="0"></a>0</h2><p>We can get the suffix tree of string $S$ simply by inserting all of its suffixes into a trie (though this will involve $O(|S|^2)$ vertices). Note that: </p>
+          <ul>
+<li><a href="https://loj.ac/submission/784365" target="_blank" rel="noopener">my AC submission on loj.ac</a></li>
+<li><a href="https://loj.ac/submission/784068" target="_blank" rel="noopener">my O((R-L)n) solution on loj.ac</a></li>
+<li>参考了<a href="https://memset0.cn/luogu5281" target="_blank" rel="noopener">memset0的博客</a>和<a href="https://www.cnblogs.com/suika/p/10725476.html" target="_blank" rel="noopener">fcwww的博客</a></li>
+</ul>
+<p>设 $W$ 为初始根节点的权值。由于每个叶子的权值互不相同，所以 $W$ 来自的叶子结点唯一。</p>
+<p>改变 $W$ 的策略有以下三种：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/17/From-Suffix-Tree-to-SAM/#more" rel="contents">
+              <a class="btn" href="/2020/04/10/LOJ3044-%E3%80%8CZJOI2019%E3%80%8DMinimax-%E6%90%9C%E7%B4%A2/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -777,7 +557,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/02/14/APIO2019/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/09/LOJ3093-%E3%80%8CBJOI2019%E3%80%8D%E5%85%89%E7%BA%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -791,7 +571,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/14/APIO2019/" class="post-title-link" itemprop="url">APIO2019</a>
+            <a href="/2020/04/09/LOJ3093-%E3%80%8CBJOI2019%E3%80%8D%E5%85%89%E7%BA%BF/" class="post-title-link" itemprop="url">LOJ3093 「BJOI2019」光线</a>
         </h1>
 
         <div class="post-meta">
@@ -800,16 +580,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-02-14 20:10:18" itemprop="dateCreated datePublished" datetime="2020-02-14T20:10:18+08:00">2020-02-14</time>
+              <time title="Created: 2020-04-09 15:44:38 / Modified: 15:45:18" itemprop="dateCreated datePublished" datetime="2020-04-09T15:44:38+08:00">2020-04-09</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-04 16:45:34" itemprop="dateModified" datetime="2020-03-04T16:45:34+08:00">2020-03-04</time>
-              </span>
 
           
   
@@ -824,11 +598,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="桥梁"><a href="#桥梁" class="headerlink" title="桥梁"></a>桥梁</h2><p>将所有的操作按照时间顺序分成$T$个大小为$\frac{q}{T}$的块。对于每个块，将块内的询问按照$w_j$排序，将未被块内的操作修改过的边按照执行这个块内的操作之前的边权排序。</p>
-<p>按照$w_j$降序枚举块内的询问，然后将所有重$w_j$的车能够通过的、“未被块内的操作修改过的”边加入；再加入块内修改过的、这次询问的时候的边权$\ge w_j$的边，查询$s_j$所在连通块的大小，然后再撤销掉加入的块内修改过的边。</p>
+          <p><a href="https://loj.ac/submission/783696" target="_blank" rel="noopener">my submission on loj.ac</a></p>
+<p>设 $f_i$ 表示从第 $i-1$ 块玻璃和第 $i$ 块玻璃之间向第 $n$ 块玻璃的方向射出了一束大小为 $1$ 的光线，最终能穿过第 $n$ 层玻璃的光的数量。特别地，$f_{n+1} = 1$，你可以想象成在第 $n$ 块玻璃的后面还有一块反射率为 $0\%$、透光率为 $100\%$ 的玻璃。</p>
+<p>下文中的 $a_i,b_i$ 为原题中的 $a_i\%, b_i\%$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/02/14/APIO2019/#more" rel="contents">
+              <a class="btn" href="/2020/04/09/LOJ3093-%E3%80%8CBJOI2019%E3%80%8D%E5%85%89%E7%BA%BF/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -852,7 +627,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/01/27/CF1270-Goodbye-2019-C-D-E-F-G-H/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/09/LOJ3090-%E3%80%8CBJOI2019%E3%80%8D%E5%8B%98%E7%A0%B4%E7%A5%9E%E6%9C%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -866,7 +641,148 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/27/CF1270-Goodbye-2019-C-D-E-F-G-H/" class="post-title-link" itemprop="url">CF1270 Goodbye 2019 (C,D,E,F,G,H)</a>
+            <a href="/2020/04/09/LOJ3090-%E3%80%8CBJOI2019%E3%80%8D%E5%8B%98%E7%A0%B4%E7%A5%9E%E6%9C%BA/" class="post-title-link" itemprop="url">LOJ3090 「BJOI2019」勘破神机</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-09 14:16:33 / Modified: 14:16:57" itemprop="dateCreated datePublished" datetime="2020-04-09T14:16:33+08:00">2020-04-09</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://loj.ac/submission/783396" target="_blank" rel="noopener">my submission on loj.ac</a></p>
+<h3 id="m-2"><a href="#m-2" class="headerlink" title="$m=2$"></a>$m=2$</h3><p>设填满 $2\times n$ 的方案数为 $f_n$，则 $F(n,k) = \binom {f_n}{k}$，而 $\binom{f_n}{k}$ 可以展开为一个关于 $f_n$ 的 $k$ 次多项式。故而问题转化为了：对于每个 $j\in [0,k]$，求 $\sum_{n=l}^r f_n^j$ 。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/09/LOJ3090-%E3%80%8CBJOI2019%E3%80%8D%E5%8B%98%E7%A0%B4%E7%A5%9E%E6%9C%BA/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">弦图、完美消除序列与MCS算法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-05 14:14:14 / Modified: 14:14:32" itemprop="dateCreated datePublished" datetime="2020-04-05T14:14:14+08:00">2020-04-05</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.cs.cmu.edu/~janh/courses/411/18/lec/03-chordal-mcs.pdf" target="_blank" rel="noopener">一份通过google search找到的资料</a></li>
+<li><a href="https://oi-wiki.org/graph/chord/#_8" target="_blank" rel="noopener">OI-wiki</a></li>
+</ul>
+<h2 id="定义们"><a href="#定义们" class="headerlink" title="定义们"></a>定义们</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/05/%E5%BC%A6%E5%9B%BE%E3%80%81%E5%AE%8C%E7%BE%8E%E6%B6%88%E9%99%A4%E5%BA%8F%E5%88%97%E4%B8%8EMCS%E7%AE%97%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/03/LOJ2719-%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/03/LOJ2719-%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">LOJ2719 「NOI2018」冒泡排序</a>
         </h1>
 
         <div class="post-meta">
@@ -876,14 +792,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-01-27 15:16:28" itemprop="dateCreated datePublished" datetime="2020-01-27T15:16:28+08:00">2020-01-27</time>
+              <time title="Created: 2020-04-03 10:14:35" itemprop="dateCreated datePublished" datetime="2020-04-03T10:14:35+08:00">2020-04-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-20 22:02:20" itemprop="dateModified" datetime="2020-03-20T22:02:20+08:00">2020-03-20</time>
+                <time title="Modified: 2020-04-11 13:03:32" itemprop="dateModified" datetime="2020-04-11T13:03:32+08:00">2020-04-11</time>
               </span>
 
           
@@ -899,11 +815,82 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="C-Make-Good"><a href="#C-Make-Good" class="headerlink" title="C - Make Good"></a>C - Make Good</h2><p>记$sum$为所有数的异或和，$tot$为所有数的和。$tot$显然必须是偶数。所以如果$tot$是奇数的话，就先往数组里面加入一个$1$。</p>
-<p>如果$2\times sum &gt; tot$，就往数组里面加入两个${2\times sum - tot \over 2}$，这对数组中的数的异或和没有影响。</p>
+          <p><a href="https://loj.ac/submission/779435" target="_blank" rel="noopener">my submission on loj.ac</a></p>
+<p>一个排列 $P$ 的冒泡排序交换次数达到下界当且仅当：对于某个位置 $i$ ，在它左边的、比 $P_i$ 大的数的个数不能超过 $\max\{0, i-P_i\}$ 个。</p>
+<p>这个条件也等价于：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/01/27/CF1270-Goodbye-2019-C-D-E-F-G-H/#more" rel="contents">
+              <a class="btn" href="/2020/04/03/LOJ2719-%E3%80%8CNOI2018%E3%80%8D%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2020/04/02/%E5%BE%AE%E7%A7%AF%E5%88%86%E5%9F%BA%E7%A1%80%EF%BC%9A%E6%9E%81%E9%99%90%E3%80%81%E6%B1%82%E5%AF%BC%E3%80%81%E5%AF%BC%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8%E3%80%81%E7%A7%AF%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/02/%E5%BE%AE%E7%A7%AF%E5%88%86%E5%9F%BA%E7%A1%80%EF%BC%9A%E6%9E%81%E9%99%90%E3%80%81%E6%B1%82%E5%AF%BC%E3%80%81%E5%AF%BC%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8%E3%80%81%E7%A7%AF%E5%88%86/" class="post-title-link" itemprop="url">微积分基础：极限、求导、导数的应用、积分</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-02 11:16:55 / Modified: 12:51:35" itemprop="dateCreated datePublished" datetime="2020-04-02T11:16:55+08:00">2020-04-02</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>以下为我在校内讲课的课件。主要的参考资料为 James Stewart Calculus, 7th edition ，课件中的大部分的图片为这本书（6th or 7th edition）的截图，少部分图片来自维基百科（来自维基百科的图片均已在文中注明）。</p>
+<p>错误可能比较多，欢迎指出。</p>
+<p><a href="https://drive.google.com/open?id=1SyrqVCko7zbdFzfV_qOjDw4n70wlIzi6" target="_blank" rel="noopener">链接：在google drive中查看</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/02/%E5%BE%AE%E7%A7%AF%E5%88%86%E5%9F%BA%E7%A1%80%EF%BC%9A%E6%9E%81%E9%99%90%E3%80%81%E6%B1%82%E5%AF%BC%E3%80%81%E5%AF%BC%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8%E3%80%81%E7%A7%AF%E5%88%86/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -927,7 +914,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -995,7 +982,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">116</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
