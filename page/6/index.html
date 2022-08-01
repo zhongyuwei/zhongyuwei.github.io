@@ -187,6 +187,75 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Euler-Tour-Tree-ETT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/30/Euler-Tour-Tree-ETT/" class="post-title-link" itemprop="url">Euler Tour Tree(ETT)</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-06-30 14:14:18 / Modified: 14:14:42" itemprop="dateCreated datePublished" datetime="2022-06-30T14:14:18+08:00">2022-06-30</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h2><p>ETT是一种动态树，它可以支持link，cut，子树修改，子树信息查询，链信息查询。似乎还可以支持换根（？），但是我不会。</p>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/30/Euler-Tour-Tree-ETT/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -817,76 +886,6 @@ X\cup Y=S\\
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">任意模数NTT(NTT+CRT,MTT的优化)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 13:54:05 / Modified: 13:54:29" itemprop="dateCreated datePublished" datetime="2022-06-30T13:54:05+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>问题：给出两个多项式，以及模数$P$，计算它们的卷积，不保证$P$是$t\cdot 2^k + 1$的形式的质数。</p>
-<p>模数不支持NTT，那么我们肯定只能通过某种方式算出精确值，然后再取模。然而，两个这样的多项式相乘，每一项的系数最大是$n\cdot P^2$，大约$10^{23}$，FFT会爆精度，也不可能单模数NTT……</p>
-<hr>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E4%BB%BB%E6%84%8F%E6%A8%A1%E6%95%B0NTT-NTT-CRT-MTT%E7%9A%84%E4%BC%98%E5%8C%96/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -959,7 +958,7 @@ X\cup Y=S\\
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">129</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

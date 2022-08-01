@@ -1,0 +1,296 @@
+﻿# 20181216考试总结（十连三）
+
+标签（空格分隔）： 总结
+
+---
+
+###T1 有向图
+
+有一个$n$个点$m$条边的有向无环图，删除不超过$k$个点和与这些点相邻的边，使得剩下的图中，最长链尽量短。对于所有的边起点的编号小于终点的编号，保证数据随机生成。$n\le 300,m\le 400,k\le min(n,4),T\le 100$。
+
+首先有一点非常显然，就是删除的点必须至少有一个在原图的最长链上。
+
+然后我就卡住了。最开始我在原图最长链上枚举$k$个点，后来一拍就发现这完全不对，改成原图前$k$长的链上枚举，然后还是有问题……最后直接写了$Tn^k\cdot n^2$的做法（那个$n^2$是因为我一时间没有想到这是个DAG，可以dp，直接从每个点出发dfs求最长链）。
+
+Solution:求最长链，在最长链上枚举，在新图上求最长链，在新最长链上枚举……
+
+我会犯这个错误的主要原因是我对复杂度的理解不够深刻，“搜索出的状态数”和“搜索中的转移复杂度”完全是两个概念，而我却把它们混为一谈，没有想到在搜索的过程中求最长链（这本质上是一种剪枝）。
+
+然后还需要一点的奇技淫巧来过100%的数据。
+
+方法一：在最后一层剪枝，判断截掉某个点之后，最长链剩余的长度是否仍然大于之前已经搜到的最优解。如果是，直接返回。可以卡过去。
+
+方法二（题解的方法）：在最后一层用某种玄学方法，不枚举删除的点，直接$O(n+m)$dp一遍求出删掉每个点的答案。还要加一个优化，用$f$数组存下删除某三个点的方案是否已经被计算过，如果是，直接返回。
+
+这个玄学dp，具体来说就是：首先算出以每个点为起点的最长路，以每个点为终点的最长路，然后考虑每个点：由于这是一个DAG，不经过$i$的路径要么所有的点的编号都小于$i$，要么所有点的编号都大于$i$，要么通过一条边从小于$i$的跨到大于$i$的点。反过来，我们考虑每条边$u\to v$，它会$[u+1,v-1]$的点造成贡献，贡献就是以$u$结尾的最长路+以$v$为起点的最长路的长度。
+
+（这时候开始一切变得无比玄学）用差分的方法对区间打标记。这里的链的长度期望在30~40，所以完全可以用一个长整型配合一个桶存储每个长度的最长链是否在这个区间出现，长整型最高的不为0的位就是删除这个点之后的最长链。对所有的这个长整型状态取个min，它的最高位就是答案。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+#pragma GCC optimize(3)
+#define PB push_back
+using namespace std;
+inline char nc()
+{
+	static char buf[100000],*p1=buf,*p2=buf;
+	return p1==p2&&(p2=(p1=buf)+fread(buf,1,100000,stdin),p1==p2)?EOF:*p1++;
+}
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=nc(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=nc();}
+	while(isdigit(c)) x=x*10-'0'+c,c=nc(); x*=f;
+}
+const int N=310;
+int num[N],bk[N],n,m,fi;
+int vis[N],dp1[N],dp2[N],dis[N],Ans[N],T;
+vector<int> son[N],si[5],pi,que;
+struct ADE{int x,y;};
+vector<ADE> tag[N];
+int buc[66];
+int f[N][N][N];
+void solve(int dep)
+{
+	if(dep==0)
+	{
+		for(int i=1;i<=n;i++) dis[i]=1;
+		int ans=0;
+		for(int i=1;i<=n;i++)
+		if(!vis[i])
+		{
+			ans=max(ans,dis[i]);
+			for(int j=0;j<num[i];j++)
+			if(!vis[son[i][j]]) 
+				dis[son[i][j]]=max(dis[son[i][j]],dis[i]+1);
+		}
+		fi=min(fi,ans);
+		return;
+	}
+
+		
+	if(dep==1)
+	{
+		que=pi;
+		while(que.size()<3) que.PB(0);
+		sort(que.begin(),que.end());
+		if(f[que[0]][que[1]][que[2]]==T+1) return;
+		f[que[0]][que[1]][que[2]]=T+1;
+		for(int i=1;i<=n;i++) if(!vis[i]) dp1[i]=dp2[i]=1;
+		for(int i=0;i<=n+1;i++) tag[i].clear();
+		for(int i=0;i<=60;i++) buc[i]=0;
+		for(int i=1;i<=n;i++)
+		if(!vis[i])
+		{
+			tag[i+1].PB((ADE){dp1[i],1});
+			for(int j=0;j<num[i];j++)
+				if(!vis[son[i][j]]) dp1[son[i][j]]=max(dp1[son[i][j]],dp1[i]+1);
+		}
+		for(int i=n;i>=1;i--) 
+		if(!vis[i])
+		{
+			for(int j=0;j<num[i];j++)
+				if(!vis[son[i][j]]) dp2[i]=max(dp2[i],dp2[son[i][j]]+1);
+			tag[1].PB((ADE){dp2[i],1}),tag[i].PB((ADE){dp2[i],-1});
+		}
+//		for(int i=1;i<=n;i++) if(!vis[i]) printf("%d ",i); puts("");
+//		for(int i=1;i<=n;i++) if(!vis[i]) printf("%d ",dp1[i]); puts("");
+//		for(int i=1;i<=n;i++) if(!vis[i]) printf("%d ",dp2[i]); puts(""); puts("");
+		for(int i=1;i<=n;++i)
+		if(!vis[i])
+			for(int j=0;j<num[i];j++)
+			if(!vis[son[i][j]])
+				tag[i+1].PB((ADE){dp1[i]+dp2[son[i][j]],1}),tag[son[i][j]].PB((ADE){dp1[i]+dp2[son[i][j]],-1});
+		ll mx=1ll<<62,cur=0;
+		for(int i=1;i<=n;i++)
+		{
+			for(int j=0;j<tag[i].size();j++)
+			{
+				buc[tag[i][j].x]+=tag[i][j].y;
+				if(!(buc[tag[i][j].x]&&(buc[tag[i][j].x]-tag[i][j].y)))
+					cur^=(1ll<<tag[i][j].x);
+			}
+			if(!vis[i]) mx=min(mx,cur);
+		}
+		int ans;
+		for(int i=0;i<=60;i++) if((mx>>i)&1) ans=i;
+		fi=min(fi,ans);
+		return;
+	}
+	for(int i=1;i<=n;i++) if(!vis[i])  dis[i]=1,bk[i]=0;
+	int ans=-1,ps;
+	for(int i=1;i<=n;i++)
+	if(!vis[i])
+	{
+		if(dis[i]>ans) ans=dis[i],ps=i;
+		for(int j=0;j<num[i];j++)
+		if(!vis[son[i][j]]&&dis[son[i][j]]<dis[i]+1)
+			dis[son[i][j]]=dis[i]+1,bk[son[i][j]]=i;
+	}
+	int tot=0; si[dep].clear();
+	for(int i=ps;i;i=bk[i]) si[dep].PB(i),tot++;
+	for(int i=0;i<tot;i++)
+	vis[si[dep][i]]=1,pi.PB(si[dep][i]),solve(dep-1),vis[si[dep][i]]=0,pi.pop_back();
+}
+int main()
+{
+	int t,x,y; read(T);
+	while(T--)
+	{
+		fi=1e9;
+		read(n),read(m),read(t);
+		for(int i=1;i<=n;++i) son[i].clear();
+		for(int i=1;i<=m;++i) read(x),read(y),son[x].PB(y);
+		for(int i=1;i<=n;i++) sort(son[i].begin(),son[i].end()),num[i]=unique(son[i].begin(),son[i].end())-son[i].begin();
+		if(n==t){puts("0"); continue;}
+		solve(t);
+		printf("%d\n",fi);
+	}
+	return 0;
+}
+```
+
+---
+
+### T2 安全区
+
+我收获了一个事实：对于一个点集，对它们求凸包，凸包内的任意一点无论往任何一个方向走，都是在离点集中的某一些点更近。
+
+---
+
+### T3 全排列
+
+有一个长度为$n$的排列，每次操作**只保留**序列中极大的数（即左右的数都小于它自己的数）。问有多少个长度为$n$的序列，经过恰好$k$次操作之后，序列里面只有一个元素。$n,k\le 1000$
+
+答案对一个素数取模，素数在输入中给出。
+
+Solution:
+首先可以看出来，一次操作过后，序列中的元素个数至少会减半，所以$k$的数据范围是骗人的，$k$只要超过了$\lceil \log n \rceil$，答案就会是 0 。
+
+接下来就是一番我研究了很久才看懂的推理：
+
+考虑这个序列的笛卡尔树：按照元素的大小关系是堆，按照元素的位置关系是二叉搜索树。一个元素如果要被消掉，条件是它与至少一个大于它的数直接相邻。有两种情况：
+
+1.这个数原来在序列的中间并且左右都有比它大的数，那么只要它的左子树**或者**右子树完全消掉，这个点就可以被消完。
+2.这个数原来在序列中，左边或者右边没有比它大的数。以左边没有比它大的数为例，那么它就只能够等右子树消完了，它才可以被消掉。
+
+以这个数为根的子树消完的时间是左子树消完的时间、右子树消完的时间和根被消完的时间的**最大值**。一个数并不一定要在两个子树都消完了之后再被消掉。
+
+接下来，定义$f[i][j]$表示一个包含了$i$个节点的、左右都有比它大的数的子树$j$轮被消完的方案数，$g[i][j]$表示一个包含了$i$个节点的、左边或者右边没有比它大的数的子树$j$轮被消完的方案数，则：
+$$
+f[i][max(l,r,min(l,r)+1)]=\sum {i-1 \choose k} f[k][l]\times f[i-k-1][r] \\
+g[i][max(l,r+1)]=\sum{i-1 \choose k} f[k][l]\times g[i-k-1][r]
+$$
+
+然后就DP一下，据说可以前缀和优化……
+
+卡了一个晚上的常数，学了一些~~很骚的~~好操作：
+
+1.鉴于加上的量分别是$f[k][l]*f[i-k-1][r]*c[i-1][k]$和$g[k][l]*f[i-k-1][r]*c[i-1][k]$，所以如果$f[i-k-1][r]$为0，就不要执行后面的语句。
+
+2.将数组较小的一维开在前面不一定会让程序变快，要根据程序的写法。比如说，这道题把$\log n$的那一维开在前面成为了我TLE的原因之一。
+
+3.为了减少模运算的次数，将变量开成 long long ，并且令$sqr=mod^2$。有若干个$mod^2$级别的数求和时，将两个数相加，判断如果大于$sqr$就减等于$sqr$，求完和过后再模等于$mod$。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <ctime>
+#include <cstring>
+#pragma optimize (3)
+#define ll long long
+#define RG register
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1010,M=15;
+int n,m,mod;
+inline int max(int &a,int &b){if(a>b) return a; return b;}
+inline int min(int &a,int &b){if(a<b) return a; return b;}
+ll c[N][N],sqr;
+ll f[N][M],g[N][M];
+void Add(ll &x,ll y){if((x+=y)>=sqr) x-=sqr;}
+int main()
+{
+	read(n),read(m),read(mod);
+	int bg=clock();
+	sqr=mod*(ll)mod;
+	sqr=((ll)9e18/sqr -2) *sqr;
+	if(m>11){puts("0"); return 0;}
+	int lim=n-1;
+	for(RG int i=0;i<=lim;++i)
+	{
+		c[i][0]=1;
+		for(RG int j=1;j<=i;++j){c[i][j]=c[i-1][j]+c[i-1][j-1];if(c[i][j]>mod) c[i][j]-=mod;}
+	}
+	f[0][0]=g[0][0]=1;
+	for(RG int i=1;i<=lim;++i)
+	{
+//		for(int l=0;l<=m;l++)
+//		{
+//			dp[i][l+1][0]=dp[i-1][l][0]*2ll%mod;
+//			dp[i][l+1][1]=(dp[i][l+1][1]+dp[i-1][l][0])%mod;
+//			dp[i][l][1]=(dp[i][l][1]+dp[i-1][l][1])%mod;
+//		}
+//		
+		for(RG int k=0;k<i;++k)
+		{
+			ll C=c[i-1][k];	RG int R=i-k-1;
+			for(RG int r=0;r<=m;++r)
+			if(f[R][r])
+			for(RG int l=0;l<=m;++l)
+			{
+				RG int j0=max(max(l,r),min(l,r)+1),j1=max(l,r+1);
+				f[i][j0]=(f[i][j0]+f[k][l]*f[R][r]%mod*C); if(f[i][j0]>=sqr) f[i][j0]-=sqr;
+				g[i][j1]=(g[i][j1]+g[k][l]*f[R][r]%mod*C); if(g[i][j1]>=sqr) g[i][j1]-=sqr;
+			}
+//			for(RG int l=0;l<=m;++l)
+//			{
+//				
+////				Add(f[i][l==r?l+1:max(l,r)],f[k][l]*f[R][r]%mod*C);
+////				Add(g[i][max(l,r+1)],g[k][l]*f[R][r]%mod*C);
+//			}
+			
+			for(int j=0;j<=m;++j) f[i][j]%=mod,g[i][j]%=mod;
+		}
+	//	if(i%100==0) cerr<<clock()-bg<<endl;
+	}
+	ll ans=g[lim][m]*2ll;
+	for(RG int i=1;i<lim;++i)
+	{
+		ll C=c[lim][i]; int R=lim-i;
+		ans+=g[i][m]*g[R][m]%mod*C%mod;
+		for(RG int j=0;j<m;++j) ans+=(g[i][j]*g[R][m]%mod+g[i][m]*g[R][j]%mod)%mod*C%mod;
+	}
+	ans%=mod;
+//---
+//	ll ans=0;
+//	for(RG int i=0;i<n;++i)
+//	for(RG int l=0;l<=m;++l)
+//	for(RG int r=0;r<=m;++r)
+//	if(max(l,r)==m) ans+=g[i][l]*g[n-i-1][r]%mod*c[n-1][i]%mod;
+//	ans%=mod;
+//---
+//	for(int i=1;i<=n;i++,puts("")) for(int j=0;j<=m;j++) printf("%d ",dp[i][j][0]); puts("");
+//	for(int i=1;i<=n;i++,puts("")) for(int j=0;j<=m;j++) printf("%d ",dp[i][j][1]); puts("");
+	printf("%lld\n",(ans+mod)%mod);
+	//cerr<<clock()-bg;
+	return 0;
+}
+```
+
+
+
+

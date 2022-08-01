@@ -1,0 +1,230 @@
+﻿# 20190530 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 duliu
+
+给一个序列$d_1,d_2\cdots d_n$。定义一个区间$[l,r]$的权值是$2(r-l+1)\sum_{i\in [l,r]}d_i $。有$m$次询问，每一次询问给出一个区间$[l,r]$和一个数$x$，你需要选择一个$[l,r]$的子区间$[a,b]$满足$[a,b]$的权值大于等于$x$，在此基础上你要最小化$[a,b]$中$d_i$的最大值的权值。输出这个最小值。$0<d_i\le 10^7,x\le 10^{18},n\le 3\times 10^5$
+
+Solution：
+
+我只会双log做法，能够过一些性质特殊的点。具体就是，$2(r-l+1)\sum _{i\in [l,r]} d_i$可以用最大子段和的方法维护，从小到大枚举$d_i$的过程中用可持久化线段树去维护最大子段和，询问的时候二分$d_i$的最大值，在对应的版本上查询最大子段和是否大于等于$x$。
+
+这道题有一个特殊的性质，就是区间越长，区间权值越大，而区间的$d_i$的最大值会越大。再者，可能作为答案的子区间有两种，一种是区间左右的数都比区间内的最大的数要大的，这样的区间只有$O(n)$个；一种是区间的左端点或者右端点是询问区间的左端点或者右端点。后者可以二分找出权值大于等于询问的$x$的最短区间从而解决；对于前者，我们把有用的区间和询问拿出来按照$x$/区间权值排序，从大到小枚举，并在线段树上维护以每个点作为左端点的所有区间中区间内$d_i$的最大值最小的区间（也等价于右端点最靠左的区间）。询问的时候，我们先找出以询问的$r$作为右端点的最短的区间的左端点$L$，然后查询线段树上$[l,L-1]$的最小值。即使$[l,L-1]$中有区间的右端点延伸到了$r$以外，它一定不如$[L,r]$优秀；而左端点在$[L+1,r]$中的区间一定不合法。
+
+这道题最关键的在于如何用线段树维护那一堆有用的区间并保证不合法的区间不会做出贡献。
+
+---
+
+### T2 gre
+
+定义一个串太简单了，当且仅当所有出现过的字符，出现的次数两两不同。
+定义一个串太jm了，当且仅当它所有的前缀和后缀都太简单了。
+给出$n,k$，输出字典序最小的、长度为$n$的、包含前$k$个小写字母的太jm的串。如果不存在输出$CiYe$。$n\le 10^5,k\le 26$，数据组数$\le 100$
+
+Solution：
+
+真的不知道这道题的构造dalao们是怎么想出来的。
+
+打表发现答案一定是很长的一串a最后加上一个和$k$有关的字符串。最后的这个字符串在构造的时候，我们首先要求长度最小，其次要求字典序最小。
+
+显然$a$的出现次数大于$b$的出现次数大于$c$的出现次数。
+
+考虑$k=2$的时候我们构造的是$aabaa$。
+
+当$k=3$的时候，就把$a$换成$b$，$b$换成$c$，然后把$a$插入，构造出来是这样的：$aababacbabaa$，其实就是在开头加两个$a$，每一个$b$后面加一个$a$，最后再加一个$a$。这种构造方法对于任意$k$也成立，然后就做完了。
+
+---
+
+### T3 tetris
+
+提交答案题。
+
+有一个叫做鄂罗斯方块的游戏，简单来说它是俄罗斯方块的弱化版。在一个$9\times 9$的网格中进行游戏。块掉落的过程中不能旋转也不能移动，你只能在块开始掉落之前为这个块选好这个块的最左边部分在哪一列。块会下落直到它碰到下面的方块。
+
+ - 如果有任意一个方块有一部分超出了网格，那么游戏结束。
+ - 如果游戏还没有结束，并且网格中存在一行，这一行中没有格子是空的，那么这一行的格子会清空，这一行上面的格子里的块会顺次掉下来。
+ 
+现在有$n(n\le 10^5)$将要依次下落，并且你知道这些将下落的块的形状。你需要确定每一块下落的位置，使得游戏持续回合数尽可能长。数据保证存在一种方案使得游戏可以持续$n$轮。下落的块是下面$9$种中的一种：
+
+![方块][1]
+
+Solution：
+
+直接搜索肯定是不行的。
+
+特殊的数据（2,6测试点）可以手玩。
+
+我们给局面定义一个估价函数，这个函数评估了这个局面的优秀程度。在每一个方块掉落的时候，我们枚举掉落之前的所有我们保留下来了的局面以及掉落的列，得到若干新的局面。为了保证算法运行复杂度，我们只保留这些新局面中估价函数最优的若干个。同时，我们记录下每一个局面是由上一步的哪一个局面通过把块放在哪一列转移过来的，这样在算法运行完毕之后我们可以倒推出方案（这也要求我们把每一步的所有局面都要存下来）。另外一种做法是每一步只保留一个估价函数最优的局面，经过zjk的实践证明可以通过大多数测试点。
+
+具体要保留多少个以及估价函数的定义要根据数据进行调整。我的程序是保留了最优的$20$个局面。记$ht_i$为局面中第$i$列最高的格子的位置，记$a=\sum ht_i,c=\max \{ ht_i \}$，$b$为局面中被方块占据了的格子的数量。我的估价函数是$a+7c-b$，这是因为被埋在下面的空位越多越不优秀，整个局面越崎岖（就是列之间的$ht_i$的差异越大）与不优秀。这样可以通过大多数测试点。第六个点的数据大约是3 5 3 5 3 5 ……，那么肯定是尽量消完最优秀，所以我把估价函数改成了$10000(a-b)+9c+b$，但是还是没能通过这个测试点。
+
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
+#include <set>
+#include <vector>
+#include <cmath>
+#define PII pair<int,int>
+#define MP make_pair
+#define fir first
+#define sec second
+#define PB push_back
+#define db long double
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const db eps=1e-20;
+int dcmp(db x) { return fabs(x)<eps?0:(x>0?1:-1); }
+db rrand(int x) { return 1.0*(rand()%(x/2+1)); }
+struct node {
+	int x,y;
+	node(int x=0,int y=0): x(x),y(y) {}
+}s[10][5];
+int tot[10],wd[10];
+void _init() { 
+	tot[1]=1; wd[1]=1; s[1][1]=node(0,0);
+	tot[2]=2; wd[2]=1; s[2][1]=node(0,0),s[2][2]=node(0,1);
+	tot[3]=2; wd[3]=2; s[3][1]=node(0,0),s[3][2]=node(1,0);
+	tot[4]=3; wd[4]=1; s[4][1]=node(0,0),s[4][2]=node(0,1),s[4][3]=node(0,2);
+	tot[5]=3; wd[5]=3; s[5][1]=node(0,0),s[5][2]=node(1,0),s[5][3]=node(2,0);
+	tot[6]=3; wd[6]=2; s[6][1]=node(0,0),s[6][2]=node(0,1),s[6][3]=node(1,0);
+	tot[7]=3; wd[7]=2; s[7][1]=node(0,0),s[7][2]=node(1,0),s[7][3]=node(1,1);
+	tot[8]=3; wd[8]=2; s[8][1]=node(0,0),s[8][2]=node(0,1),s[8][3]=node(1,1);
+	tot[9]=3; wd[9]=2; s[9][1]=node(1,0),s[9][2]=node(0,1),s[9][3]=node(1,1);
+}
+int mp[10][10];
+int ht[10];
+void printmp() {
+	for(int i=0;i<9;++i,puts(""))
+		for(int j=0;j<9;++j)
+			printf("%d ",mp[i][j]);
+}
+struct state {
+	int pr,_x; 
+	int s1,s2,s3;
+	db val;
+//	vector<int> p; 
+	state(int pr=0,int _x=0,int s1=0,int s2=0,int s3=0,db val=0): pr(pr),_x(_x),s1(s1),s2(s2),s3(s3),val(val) { /*p.clear();*/ }
+	friend bool operator < (state A,state B) { return dcmp(A.val-B.val)<0; }
+	void decode() {
+		for(int i=0,t=0;i<3;++i)
+			for(int j=0;j<9;++j,++t) mp[i][j]=(s1>>t)&1;
+		for(int i=3,t=0;i<6;++i)
+			for(int j=0;j<9;++j,++t) mp[i][j]=(s2>>t)&1;
+		for(int i=6,t=0;i<9;++i)
+			for(int j=0;j<9;++j,++t) mp[i][j]=(s3>>t)&1;
+	}
+	void hsh(int mp[][10]) {
+		s1=s2=s3=0;
+		for(int i=0,t=0;i<3;++i)
+			for(int j=0;j<9;++j,++t) s1|=mp[i][j]<<t;
+		for(int i=3,t=0;i<6;++i)
+			for(int j=0;j<9;++j,++t) s2|=mp[i][j]<<t;
+		for(int i=6,t=0;i<9;++i)
+			for(int j=0;j<9;++j,++t) s3|=mp[i][j]<<t;
+	}
+	void geth() {
+		for(int i=0;i<9;++i) {
+			ht[i]=0;
+			for(int j=0;j<9;++j) if(mp[i][j]) ht[i]=j;
+		}
+	}
+	state put(int id,int ty,int x) {
+		decode(); geth();
+		int y=0;
+		for(int j=1;j<=tot[ty];++j) {
+			if(x+s[ty][j].x>=9) return state(-1,-1,-1,-1,-1,0);
+			y=max(y,ht[x+s[ty][j].x]+1-s[ty][j].y);
+		}
+		for(int j=1;j<=tot[ty];++j)
+			if(y+s[ty][j].y>=9) return state(-1,-1,-1,-1,-1,0);
+		for(int j=1;j<=tot[ty];++j)
+			mp[x+s[ty][j].x][y+s[ty][j].y]=1;
+//		printf("ok\n");
+		for(int c=0;c<9;++c) {
+			while(true) {
+				int flg=1;
+				for(int j=0;j<9;++j) if(!mp[j][c]) { flg=0; break; }
+				if(!flg) break;
+				for(int j=0;j<9;++j) {
+					for(int i=c;i<8;++i)
+						mp[j][i]=mp[j][i+1];
+					mp[j][8]=0;
+				}
+			}
+		}
+	//	printf("ok2\n");
+		//printmp();
+		state A; A.hsh(mp);
+		geth();
+		int c=0,a=0,b=0;
+		for(int i=0;i<9;++i) a+=ht[i],c=max(c,ht[i]);
+		for(int i=0;i<9;++i) for(int j=0;j<9;++j) b+=mp[i][j];
+		A.val=(1.0*a+c*7.0)-b/*/(b*1.0+1/*+rrand(a))*/; // this is for all tasks except 2,6,8
+//		A.val=10000*(a-b)+c*9+b; // this is for task6
+		
+		A.pr=id; A._x=x;
+		return A;
+	}
+};
+vector<state> S[100010];
+void print(int c,int t) {
+	if(c==0) return;
+	print(c-1,S[c][t].pr);
+	printf("%d\n",S[c][t]._x+1);
+}
+int main() {
+	srand(time(0));
+	_init();
+	state yy=state(0,0,0,0);
+	S[0].PB(yy); 
+	int xx,cur=0; rd(xx);
+	while((++cur)<=xx) {
+		int ty; rd(ty);
+/*		S[cur^1].clear();
+		for(set<state>::iterator it=S[cur].begin();it!=S[cur].end();++it) {
+			state a=*it;
+			for(int i=0;i<9;++i) {
+				state b=a.put(ty,i);
+				if(b.s1!=-1)
+					S[cur^1].insert(b);
+			}
+		}
+	//	printf("%d\n",S[cur^1].size());
+		if(S[cur^1].size()==0)  { break; cerr<<"failed!\n"<<endl; }
+		while(S[cur^1].size()>10) S[cur^1].erase(S[cur^1].begin());
+		cur^=1;
+	*/
+		for(int j=0;j<S[cur-1].size();++j)
+			for(int i=0;i<9;++i) {
+				state b=S[cur-1][j].put(j,ty,i);
+				if(b.s1!=-1) S[cur].PB(b);
+			}
+		if(S[cur].size()==0) break;
+		sort(S[cur].begin(),S[cur].end());
+		while(S[cur].size()>20) S[cur].pop_back(); 
+		if(cur%1000==0) cerr<<cur<<endl;
+		//cerr<<cur<<' '<<S[cur].size()<<endl;
+	}
+	print(cur-1,0);
+	//for(int j=0;j<b.p.size();++j) printf("%d\n",b.p[j]+1);
+	return 0;
+}
+```
+
+
+
+  [1]: https://i.loli.net/2019/06/01/5cf1e3e09b80192336.png

@@ -1,0 +1,203 @@
+﻿# 20190330 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 唐时月夜
+
+有一个$n\times m$的矩阵$A$。有一个线性递推序列$f_0=c,f_i=a\times f_{i-1}(i>0)$。初始时，矩阵$A$满足$A_{i,j}=f_{(i-1)\times m +j}$。
+
+有三种操作：
+1）选择一个子矩阵$[x_1\cdots x_2,y_1\cdots y_2]$，翻转这个子矩阵的每一行。
+2）选择一个子矩阵$[x_1\cdots x_2,y_1\cdots y_2]$，翻转这个子矩阵的每一列。
+3）选择一个正方形的子矩阵$[x_1\cdots x_1,y_1\cdots y_2]$，沿这个子矩阵的主对角线将整个子矩阵对称翻转。
+
+保证每一次操作选择的区域，在之后的所有操作中都被包含。
+
+对于所有操作结束后的矩阵$A$，你需要输出$\sum_{i=1}^n \sum_{j=1}^m A_{i,j} \times f_{(i-1)\times m+j}\mod {2^{32}}$。
+
+Solution：
+
+考虑求出对于每个位置$(x,y)$，在经过所有的操作之后它会变到的位置$(x',y')$。
+
+操作可以看做线性变换：
+
+ - 操作1：$(x,y)\to (x,y_2+y_1-y)$
+ - 操作2：$(x,y)\to (x_1+x_2-x,y)$
+ - 操作3：$(x,y)\to (y-y_1+x_1,x-x_1+y_1)$
+
+并且影响到每一个点的操作，是整个操作序列的一段后缀。先处理出操作序列的每一个后缀会达到的效果。二分求出每一个位置被哪些操作影响到，然后直接求答案就好了。时间复杂度$O(Q+(n+m)\log Q + nm)$。
+
+---
+
+### T2 附耳而至
+
+平面上有$n$个点，这些点之间有$m$条线段。保证线段不会在除了端点之外的地方相交。保证整个平面会被划分成若干个简单多边形以及一个面积无穷大的区域，并且保证那个面积无穷大的区域的补也是一个简单多边形。
+
+每一个点有一个光明值$a_i$和一个黑暗值$b_i$。每一条线段有一个权值$c_i$。
+
+平面内的每一个区域，要么被分配给光明之神，并获得区域所有顶点的光明值之和的收益；要么被分配给黑暗之神，并获得区域所有顶点的黑暗值之和的收益。**一个区域不能既不分给光明之神，也不分给黑暗之神。**对于一条线段，如果线段两侧的区域被分给的不同的神，那么收益将会减去这条线段的权值。
+
+问最大收益。设区域数为$C$，数据保证$N,C\le 4\times 10^4,M\le 2\times 10^5,a_i,b_i\le 10^3,c_i\le 10^6$
+
+Solution：
+
+首先我们把平面图转成对偶图。题目中要最大化，我们就转化成最小割，割掉表示不选。
+
+一种错误建图：每个点拆成两个点，源点向第一个点连流量为区域顶点光明值和的边，第二个点向汇点连区域顶点黑暗值和的边，两个点之间连流量为$\infty $的边。两个相邻的区域，一个区域的第一个点向另一个区域的第二个点连流量为两个区域分配给的神不同时产生的代价。这样的问题在于，我们可能会把一个点与源点、汇点之间的那两条边都割掉。这就意味着我们不把这个点分配给任何一个神，就不符合题意了。
+
+题解的做法是，不拆点，直接把每个点与源点、汇点相连，相邻的区域之间连流量为它们分给不同神的代价的双向边。这种建图方法中，我们一定不会把一个点两边都割掉。
+
+胡一个伪证：如果我们把一个点上下两条边都割掉，那么一定是因为我们既不想让这个点流出，因为有与它相邻的点分给了黑暗之神；也不想让这个点流入，因为有与它相邻的点分给了光明之神；但是此时，与它相邻的那两个分别分给了光明之神和黑暗之神的点，一定会经过中间的无向边连通。而与一个点相邻的点如果全部都分给了光明之神或者全部都分给了黑暗之神，那么显然这个点一定不会两边都被割。
+
+这个建图的本质，是让题目中“相邻的区域所属神不同需要付出代价”具有传递性。我们一定会在靠近流入这些传递边的那个点的附近把这个传递割断（如下图，我们一定会割2-3之间的边，而不是1-2,2-3一起割），因此不会有不符合题意的割。但是这可以避免我们通过不把一个区域分给任何一个神从而避开相邻区域属于的神不同的代价。
+
+![图示][1]
+
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <cmath>
+#include <vector>
+#include <queue>
+#define PB push_back
+#define db long double
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=4e4+10,M=2e5+10;
+int S,T;
+struct Graph {
+	int head[N],cur[N],dep[N];
+	struct ed{int to,next,f;};
+	vector<ed> e;
+	void init() { memset(head,-1,sizeof(head)); }
+	void adde(int x,int y,int w) {
+//		cout<<"adde "<<x<<' '<<y<<' '<<w<<endl;
+		e.PB((ed){y,head[x],w}); head[x]=e.size()-1;
+		e.PB((ed){x,head[y],0}); head[y]=e.size()-1;
+	}
+	queue<int> q;
+	bool bfs() {
+		while(!q.empty()) q.pop();
+		memcpy(cur,head,sizeof(cur));
+		memset(dep,-1,sizeof(dep));
+		q.push(S),dep[S]=0;
+		while(!q.empty()) {
+			int u=q.front(); q.pop();
+			for(int k=head[u];~k;k=e[k].next) if(e[k].f) {
+				int v=e[k].to;
+				if(dep[v]==-1) dep[v]=dep[u]+1,q.push(v);
+			}
+		}
+		return dep[T]!=-1;
+	}
+	int dfs(int u,int f) {
+		if(u==T||!f) return f; int tmp,ret=0;
+		for(int &k=cur[u];~k;k=e[k].next) if(e[k].f) {
+			int v=e[k].to;
+			if(dep[v]==dep[u]+1&&(tmp=dfs(v,min(f,e[k].f)))) {
+				ret+=tmp,f-=tmp;
+				e[k].f-=tmp,e[k^1].f+=tmp;
+				if(!f) break;
+			}
+		}
+		return ret;
+	}
+	int work() { int ans=0; while(bfs()) ans+=dfs(S,1e9); return ans; }
+}G;
+int tot_r,n,m;
+struct Point {
+	ll x,y;
+	Point (ll x=0,ll y=0): x(x),y(y) {}
+	friend Point operator +(Point A,Point B) { return Point(A.x+B.x,A.y+B.y); }
+	friend Point operator -(Point A,Point B) { return Point(A.x-B.x,A.y-B.y); }
+}p[N];
+//ll Cross(Point A,Point B) { return A.x*B.y-A.y*B.x; }
+db getangle(Point A,Point B) {
+	Point tmp=B-A;
+	return atan2(tmp.y,tmp.x);
+}
+int val_a[N],val_b[N];
+int head[N],ai[N],bi[N],ecnt;
+int rnk[M<<1],bel[M<<1];
+struct ed{int x,y,w;db ag;}e[M<<1];
+vector<int> E[N],wi[N];
+bool cmpe(int A,int B) { return e[A].ag<e[B].ag; }
+void adde(int x,int y,int w) {
+	E[x].PB(ecnt);
+	e[ecnt++]=(ed){x,y,w,getangle(p[x],p[y])};
+	E[y].PB(ecnt);
+	e[ecnt++]=(ed){y,x,w,getangle(p[y],p[x])};
+}
+void get_region(int x,int eid) {
+	int cur=++tot_r;
+	while(!bel[eid]) {
+		bel[eid]=cur,wi[cur].PB(eid);
+		val_a[cur]+=ai[x],val_b[cur]+=bi[x];
+		x=e[eid].y;
+		eid=E[x][rnk[eid^1]?rnk[eid^1]-1:E[x].size()-1];
+	}
+}	
+int main() {
+	freopen("everfeel.in","r",stdin);
+	freopen("everfeel.out","w",stdout);
+	int ty; rd(ty),rd(n),rd(m);
+	for(int i=1;i<=n;++i) rd(p[i].x),rd(p[i].y),rd(ai[i]),rd(bi[i]);
+	for(int i=1;i<=m;++i) {
+		int x,y,w; rd(x),rd(y),rd(w);
+		adde(x,y,w);
+	}
+	for(int i=1;i<=n;++i) if(E[i].size()) {
+		sort(E[i].begin(),E[i].end(),cmpe);
+		for(int j=0;j<E[i].size();++j)
+			rnk[E[i][j]]=j;
+	}
+	for(int i=0;i<ecnt;++i)
+		if(!bel[i]) get_region(e[i].x,i);
+//	cout<<tot_r<<endl;
+	S=tot_r+1,T=tot_r+2; G.init();
+	int Ans=0;
+	for(int i=1;i<=tot_r;++i) {
+		G.adde(S,i,val_a[i]);
+		G.adde(i,T,val_b[i]);
+		Ans+=val_a[i]+val_b[i];
+		for(int j=0;j<wi[i].size();++j) {
+			int t=bel[wi[i][j]^1];
+			G.adde(i,t,e[wi[i][j]].w);
+		}
+	}
+//	cout<<Ans<<endl;
+	printf("%d\n",Ans-G.work());
+	return 0;
+}
+```
+
+---
+
+### T3 星辰大海
+
+平面上有$n$个点。我们定义三个点$(p_i,p_j,p_k)$的“星象性质”为$\angle p_ip_jp_k$有向的角度（取值范围为$(-\pi,\pi]$）的符号——共有正、负、零三种。现在$1$号点的位置改变了。已知$1$号点的横纵坐标的绝对值一定不超过$10^6$，并且改变前后，所有三元组$(i,j,k)$的星象性质不变。给出改变前$n$个点的位置，问$1$号点位置改变后可能位于区域大小。$n\le 5\times 10^5$
+
+Solution：
+
+如果$1$号点和另外两个点三点共线，那么答案一定是$0$。
+
+最简单的暴力，就是枚举所有的点对（不能包括$1$号点），对于经过这些点对的直线，$1$号点所在的那个半平面的交就是我们要求的东西。
+
+考虑如果$2$到$n$号点组成了一个凸多边形且$1$在凸多边形内，我们可以怎么做。这时我们会发现，有很多的半平面是多余的。对于某一个点，我们只需要让它和与它的夹角（以$1$号点为角的顶点）最大、且夹角小于$\pi$的那个点连线，求这些半平面的交就可以了。
+
+考虑一般情况：把$1$号点当做原点，把$2$到$n$号点极角排序。把极角序中相邻的点对，和夹角小于$\pi$且最大的点对拿来考虑就可以了。其中，极角序相邻的点对拿来考虑，是为了达到与求多边形的核相似的效果。
+
+
+  [1]: https://s2.ax1x.com/2019/04/01/AyVy6I.png

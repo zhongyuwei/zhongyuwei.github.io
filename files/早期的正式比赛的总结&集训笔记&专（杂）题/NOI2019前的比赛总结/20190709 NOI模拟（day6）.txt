@@ -1,0 +1,198 @@
+﻿# 20190709 NOI模拟（day6）
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 三角函数
+
+求$\sum_{i=1}^{k}a_i {\sin (x)\over x^i }$的$n$阶导数。
+
+显然答案一定可以表示成$\sum_{i=1}^{n+k} b_i {\sin (x) \over x^i } + \sum_{i=1}^{n+k} c_i {\cos (x) \over x^i}$，你只需要求出$b_i$和$c_i$就可以了。
+
+$n,k\le 10^5$，系数对$998244353$取模。
+
+Solution：
+
+做法1：
+
+$$
+({\sin (x)\over x^i})' = {\cos (x) x^i - \sin (x) \cdot i x^{i-1} \over x^{2i} } = {\cos (x)\over x^i} - i{\sin (x) \over x^{i+1}} \\
+({\cos(x) \over x^i})' = {-sin(x)x^i - \cos(x) \cdot ix^{i-1}\over x^{2i}} = - {\sin(x) \over x^i} - i\cdot {\cos(x)\over x^{i+1}}
+$$
+
+想象一张图，$b$和$c$分别是两列点。那么，对于$b_i$这个点，向下走回乘以$-i$，向右走则会乘以$1$；对于$c_i$，向下走会乘以$-i$，像左走会乘以$-1$。
+
+最后可以推出：
+$$
+b_j = \sum_i a_i \cdot {(j-1)!\over (i-1)!} \cdot (-1)^{j-i} \cdot (-1)^{n-(j-i)\over 2} \cdot {n\choose j-i} \\
+c_j = \sum_i a_i \cdot {(j-1)!\over (i-1)!} \cdot (-1)^{j-i} \cdot (-1)^{n-(j-i)-1\over 2} \cdot {n\choose j-i} \\
+$$
+
+可以用NTT优化。时间复杂度$O(n\log n)$。
+
+``` cpp
+int n,m;
+int a[N],b[N],c[N];
+int len,cnt;
+void work(int *b) {
+	FFT(b,len,0);
+	for(int i=0;i<len;++i) b[i]=b[i]*(ll)a[i]%mod;
+	FFT(b,len,1);
+	for(int i=1;i<=n+m;++i) printf("%d ",b[i]*(ll)fac[i-1]%mod);
+	puts("");
+}
+int main() {
+	rd(m),rd(n); getfac(n+m);
+	for(int i=1;i<=n;++i) rd(a[i]),a[i]=a[i]*(ll)inv[i-1]%mod;
+	getwn(18);
+	len=1; while(len<=n+m) len<<=1,cnt++; getr(cnt);
+	FFT(a,len,0);
+	for(int j=m&1;j<=m;j+=2) b[j]=(((m+j>>1)&1)?mod-1:1)*(ll)C(m,j)%mod;
+	for(int j=!(m&1);j<m;j+=2) c[j]=((((m+j-1)>>1)&1)?mod-1:1)*(ll)C(m,j)%mod;
+	work(b);
+	work(c);
+	return 0;
+}
+```
+
+做法2：
+
+欧拉公式：$e^{ix} = \cos (x) + i\sin (x) $。
+
+设$P(x) = \sum_{j=1}^k {a_j\over x^j}$。
+
+$e^{ix}\cdot P(x) = \sum_{i=1}^k {a_j \over x^j } (\cos(x) + i\sin (x)) $。发现在对这个式子求导的时候，实部和虚部是独立的。所以$((e^{ix} P(x))^{(n)}$的虚部就是答案。
+
+由于$(f(x)g(x))^{(n)} = \sum_{i=0}^n {n\choose i }f(x)^{(i)} g(x)^{(n-i)}$，所以：
+
+$$
+(e^{ix} P(x))^{(n) } \\
+=\sum_{j=0}^n {n\choose j }(e^{ix})^{(n-j)} P(x)^{(j)} \\
+=\sum_{j=0}^n {n\choose j }i^{n-j}e^{ix} \sum_{l=1}^k a_l x^{-l-j}{(l+j-1)!\over (l-1)!} (-1)^j 
+$$
+
+$n-j$的奇偶性决定了后面的式子是对$\sin(x)$还是对$\cos(x)$产生贡献。这个式子可以用卷积优化计算过程。
+
+---
+
+### T3 简单字符串
+
+对于一个字符串$s$和一个正整数$k$，定义$f(s,k)$为将$s$划分成至多$k$段，这些段中字典序最大的那一段最小可以是什么。
+
+给出一个长度为$n$的字符串$s$，有$q$次询问，每次询问给出$l,k$，你需要求出$f(s[l\cdots n],k)$，输出这个最小化结果出现在$s$中的位置（左端点和右端点），如果有多个输出左端点最靠左的（但是你必须保证你输出的串可以被一个达到最优结果的划分方案包含）。
+
+Solution：
+
+这道题需要用到Lydon分解。
+
+发现我们划分的位置一定是在$s[l\cdots n]$Lydon分解划分的位置，因为把一个Lydon串从中间切开肯定不优秀。
+
+并且我们实际上也只需要关心Lydon划分中的第一个Lydon串以及它出现的次数，因为后面的串字典序都小于它，一定不会对答案产生贡献。
+
+假设第一个串是$s_1$，出现了$x$次：
+
+1）$k|x$，那么最优的方案就是每$x\over k$个划一下，字典序最大的串就是最后的$x\over k$个$s_1$加上$s_1$后面的一段。
+
+2）否则直接取$\lfloor {x\over k}\rfloor $个$s_1$就可以了。
+
+对于第一种情况，在输出方案的时候需要特判整个串全部都是$s_1$的情况。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <vector>
+#define fir first
+#define sec second
+#define MP make_pair
+#define pii pair<int,int>
+#define PB push_back
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1e5+10;
+char S[N]; 
+int sa[N],rnk[N],ht[N],n;
+namespace SA {
+	int a[N],b[N],c[N];
+	int st[18][N],Lg[N];
+	void getsa() {
+		int m=27;
+		for(int i=1;i<=m;++i) c[i]=0;
+		for(int i=1;i<=n;++i) c[a[i]=S[i]-'a'+1]++;
+		for(int i=1;i<=m;++i) c[i]+=c[i-1];
+		for(int i=n;i>=1;--i) sa[c[a[i]]--]=i;
+		for(int k=1;k<=n;k<<=1) {
+			int p=0;
+			for(int i=n-k+1;i<=n;++i) b[++p]=i;
+			for(int i=1;i<=n;++i) if(sa[i]>k) b[++p]=sa[i]-k;
+			for(int i=1;i<=m;++i) c[i]=0;
+			for(int i=1;i<=n;++i) c[a[i]]++;
+			for(int i=1;i<=m;++i) c[i]+=c[i-1];
+			for(int i=n;i>=1;--i) sa[c[a[b[i]]]--]=b[i];
+			for(int i=1;i<=n;++i) swap(a[i],b[i]);
+			a[sa[1]]=p=1;
+			for(int i=2;i<=n;++i)
+				a[sa[i]]=b[sa[i]]==b[sa[i-1]]&&(max(sa[i],sa[i-1])+k<=n&&b[sa[i]+k]==b[sa[i-1]+k])?p:++p;
+			if((m=p)==n) break;
+		}
+		for(int i=1;i<=n;++i) rnk[sa[i]]=i;
+		for(int k=0,i=1;i<=n;++i) {
+			if(k) --k; if(rnk[i]==1) continue;
+			int j=sa[rnk[i]-1];
+			while(S[j+k]==S[i+k]&&max(i,j)+k<=n) ++k;
+			ht[rnk[i]]=k;
+		}
+//		for(int i=1;i<=n;++i) cout<<sa[i]<<' '; cout<<endl;
+//		for(int i=1;i<=n;++i) cout<<ht[i]<<' '; cout<<endl;
+		for(int i=2;i<=n;++i) st[0][i]=ht[i],Lg[i]=Lg[i>>1]+1;
+		for(int j=1;j<=17;++j)
+			for(int i=2;i+(1<<j)-1<=n;++i)
+				st[j][i]=min(st[j-1][i],st[j-1][i+(1<<j-1)]);
+	}
+	int lcp(int x,int y) {
+		if(x==y) return n-x+1;
+		int l=rnk[x],r=rnk[y]; if(l>r) swap(l,r);
+		++l; int L=Lg[r-l+1];
+		return min(st[L][l],st[L][r-(1<<L)+1]);
+	}
+}
+int stk[N],top; 
+struct Que {
+	int id,k;
+};
+vector<Que> Q[N];
+pii ans[N];
+int main() {
+	scanf("%s",S+1),n=strlen(S+1);
+	SA::getsa();
+	int q,l,k; rd(q);
+	for(int i=1;i<=q;++i) rd(l),rd(k),Q[l].PB((Que){i,k});
+	stk[top=0]=n+1;
+	for(int i=n;i>=1;--i) {
+		while(top&&rnk[i]<rnk[stk[top]]) top--;
+		stk[++top]=i;
+		int j=stk[top-1];
+		for(int x=0;x<Q[i].size();++x) {
+			int k=Q[i][x].k;
+			if(j==n+1) ans[Q[i][x].id]=MP(i,n);
+			else {
+				int _l=SA::lcp(j,i),len=j-i;
+				int num=_l/len+1,a=(num+k-1)/k;
+				if(num*len==n-i+1) ans[Q[i][x].id]=MP(i,i+a*len-1);
+				else if(num%k) ans[Q[i][x].id]=MP(i,i+a*len-1);
+				else ans[Q[i][x].id]=MP(i+(num-a)*len,n);
+			}
+		}
+	}
+	for(int i=1;i<=q;++i) printf("%d %d\n",ans[i].fir,ans[i].sec);
+	return 0;
+}
+```

@@ -1,0 +1,366 @@
+﻿# 20190128考试总结（十连附加七）
+
+标签（空格分隔）： 总结
+
+---
+
+先说一下上一次的题（我不想单独写它们了）
+
+### T1 树
+
+有一棵含有$n$个节点的树，节点$i$的权值为$w_i$，一条路径的权值为路径上的点的权值乘积除以路径上的点数。一条路径至少包含了$1$个点。求树上权值最小的路径的权值。$n\le 5\times 10^4$，$w$为正整数。
+
+Solution：有一个结论，这个最小权值的分子不超过$2$。我们假设它的分子可以取到$3$，那么我们必须证明，不存在$n,m,x_1,x_2$，使得${x_1\over n}>{x_2\over m}>{3x_1x_2\over n+m+1}$。极限情况是$x_1=x_2=1$，而$n,m$都非常大。观察
+$$
+{1\over n}>{1\over m}>{3\over n+m+1}\\\
+{n+m+1\over m} = 1+{n+1\over m}> 3\\
+{n+1\over m} > 2
+$$
+这个东西肯定是不成立的，因为${1\over n}>{1\over m}\Rightarrow m>n$。但，${n+1\over m}>1$却是有可能成立的，因此，特判掉所有的$w_i$都大于$1$的情况后，分子一定在$[1,2]$。树上背包即可。
+
+---
+
+### T3 数独
+
+给一个$9\times 9$的九宫格数独，上面有一些位置是规定了不能填$1$的，其他的位置可以随意。问有多少种合法的填法。
+
+Solution：结论是，答案 = 一个没有任何限制的九宫格数独的填法数 * 当前限制下填$1$的方案数 / 没有限制时填$1$的方案数。
+
+---
+
+### T1 中位数求和
+
+一个包含$n$个元素的序列$a_1,a_2\cdots a_n$合法的条件是：第$i$个元素在$[l_i,r_i]$之间取值。我们这样定义一个序列的价值：假设这个序列的中位数为$m$，则它的价值是$\prod_{j\not =i} |m-a_j|$。问所有合法的序列的价值的和。$n\le 80,r\le 10^9$
+
+Solution：
+
+只会枚举中位数 + 搜索 QAQ
+
+``` cpp
+void dfs(int cur,int cnt0,int cnt1,int flg,int tot)
+{
+	if(!tot) return;
+	if(cur==n+1){ans=(ans+tot)%mod; return;}
+	if(!flg&&lb[cur]<=med&&rb[cur]>=med) dfs(cur+1,cnt0,cnt1,1,tot);
+	if(cnt0<Lcnt&&lb[cur]<med) dfs(cur+1,cnt0+1,cnt1,flg,tot*(ll)cal(max(1,med-rb[cur]),med-lb[cur])%mod);
+	if(cnt1<Rcnt&&rb[cur]>med) dfs(cur+1,cnt0,cnt1+1,flg,tot*(ll)cal(max(1,lb[cur]-med),rb[cur]-med)%mod);
+}
+```
+
+感觉自己智商下线了啊，明显这个搜索里面的参数，可以作为$dp$的状态……设$dp[i][j][k]$表示，前$i$个元素，有$j$个大于$m$，$k$个等于$m$的所有方案的价值和。显然$k$只能为0/1。转移方程显然。那么可以得到80分。
+
+``` cpp
+void solve()
+{
+	memset(dp,0,sizeof(dp));
+	dp[0][0][0]=1;
+	for(int i=0;i<n;++i)
+	{
+		int cur=i+1,I=i&1,J=I^1;
+		memset(dp[J],0,sizeof(dp[J]));
+		for(int j=0;j<=Lcnt;++j)
+		for(int l=0;l<2;++l)
+		if(dp[I][j][l])
+		{
+			int k=I-j-l;
+			if(!l&&lb[cur]<=med&&rb[cur]>=med) Add(dp[J][j][1],dp[I][j][l]);
+			if(j<Lcnt&&lb[cur]<med) Add(dp[J][j+1][l],dp[I][j][l]*(ll)cal(max(1,med-rb[cur]),med-lb[cur])%mod);
+			if(k<Rcnt&&rb[cur]>med) Add(dp[J][j][l],dp[I][j][l]*(ll)cal(max(1,lb[cur]-med),rb[cur]-med)%mod);
+		}
+	}
+	Add(ans,dp[n&1][Lcnt][1]);
+}
+```
+
+正解么，问题在于$m$的值域太大，但是我们可以把答案可以看做一个关于$m$的多项式，通过$dp$去算每一项的系数。显然在连续的某一段中$dp$的值是相同的，并且这样的连续的段的数量是$O(n)$的。那么现在的问题在于快速计算$f(n)+f(n+1)+f(n+2)+\cdots f(n+k)$。我们设$g(n) = \sum_{i=1}^n f(i)$，那么$g$的次数恰好比$f$的次数高$1$。我们可以任选若干个数（应该是“$g$的次数+1”个），带入$f$，求前缀和，然后再用拉格朗日插值就可以得到$g$。
+
+但是我不会插值，咕~
+
+---
+
+### T2 树的统计
+
+给出一棵树，每个点有一个颜色，每一次询问一条路径上，出现次数第$k$大的颜色。出现次数相同的认为颜色编号大的出现次数大。$n,q\le 50000$
+
+Solution：考场上打了树上莫队（而且是假的）+权值线段树，复杂度$n\sqrt n \log (n^2)\approx 3e8 $，得到了和$O(n^2\log n)$一样的分数……
+
+问题在于怎么把$\log n$优化掉。我们注意到，总共有$n\sqrt n$次修改，但是只有$q$次查询，所以我们需要一种修改$O(1)$而查询可能很慢的数据结构。而分块是修改$O(1)$，查询$O(\sqrt n)$的，恰好可以满足我们的需要。
+
+具体地，我们发现，所有可能需要维护的元素的数量 = 每种颜色的出现次数的和 = n，因此，预处理出所有可能出现的元素，然后分块维护即可。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <cstring>
+#include <vector>
+#define PB push_back
+#define MP make_pair
+#define ll long long
+#define X first
+#define Y second
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+// 2^16 = 65536
+const int N=5e4+10;
+vector<int> st[N];
+struct FLG{int s,c,id;}STT[N];
+int n;
+bool cmp1(FLG A,FLG B){return A.s==B.s?A.c>B.c:A.s>B.s;}
+struct Tree{
+	int pos[N],bel[N],U,tot[330],T,sz[N];
+	void predo()
+	{
+		sort(STT+1,STT+n+1,cmp1);
+		
+		U=ceil(sqrt(n));
+		for(int i=1;i<=n;++i) pos[STT[i].id]=i,bel[i]=i/U+1;
+		T=bel[N];
+	}
+	void update(int p,int d)
+	{
+		sz[pos[p]]+=d,tot[bel[pos[p]]]+=d;
+	}
+	int query(int k)
+	{
+		int fr;
+		for(fr=1;fr<=T;++fr) { if(k<=tot[fr]) break; k-=tot[fr]; }
+		for(int i=(fr-1)*U;i<=n;++i){if(k==sz[i]) return STT[i].c; k-=sz[i];}
+	}	
+}Tr;
+int pos[N<<1],vis[N],p[N][17],head[N],dep[N],ecnt,c[N],b[N],id;
+int In[N],Out[N];
+struct ed{int to,next;}e[N<<1];
+void ad(int x,int y)
+{
+	e[++ecnt]=(ed){y,head[x]}; head[x]=ecnt;
+	e[++ecnt]=(ed){x,head[y]}; head[y]=ecnt;
+}
+void dfs(int u,int last)
+{
+	dep[u]=dep[last]+1,p[u][0]=last,In[u]=++id,pos[id]=u;
+	for(int j=1;j<17;++j) p[u][j]=p[p[u][j-1]][j-1];
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to; if(v==last) continue;
+		dfs(v,u);
+	}
+	Out[u]=++id,pos[id]=u;
+}
+int buc[N],Ans[N];
+void Rev(int u)
+{
+	if(buc[c[u]]) Tr.update(st[c[u]][buc[c[u]]-1],-1);
+	buc[c[u]]+=vis[u]?-1:1;
+	if(buc[c[u]]) Tr.update(st[c[u]][buc[c[u]]-1],1);
+	vis[u]^=1;
+}
+struct Que{int l,r,id,L,k;}Q[N];
+int LCA(int x,int y)
+{
+	if(dep[x]<dep[y]) swap(x,y);
+	for(int j=16;j>=0;--j) if(dep[x]-(1<<j)>=dep[y]) x=p[x][j]; if(x==y) return x;
+	for(int j=16;j>=0;--j) if(p[x][j]!=p[y][j]) x=p[x][j],y=p[y][j]; return p[x][0];
+}
+int T;
+bool cmp(Que A,Que B){if((A.l+1)/T==(B.l+1)/T) return A.r<B.r;return A.l<B.l;}
+void Update(int l,int r)
+{
+	for(int i=l;i<=r;++i) Rev(pos[i]);
+}
+int main()
+{
+	int m,x,y,tmp; read(n),read(m);
+	for(int i=1;i<=n;++i) read(c[i]),b[i]=c[i];
+	sort(b+1,b+n+1); int sz=unique(b+1,b+n+1)-b-1;
+	int cnt=0;
+	for(int i=1;i<=n;++i)
+	{
+		c[i]=lower_bound(b+1,b+sz+1,c[i])-b;
+		st[c[i]].PB(++cnt); STT[cnt]=(FLG){st[c[i]].size(),c[i],cnt};
+	}
+	Tr.predo();
+	
+	for(int i=1;i<n;++i) read(x),read(y),ad(x,y);
+	dfs(1,0);
+	for(int i=1;i<=m;++i)
+	{
+		read(x),read(y),read(Q[i].k),Q[i].id=i;
+		int L=LCA(x,y); if(In[x]>In[y]) swap(x,y);
+		if(L==x||L==y) Q[i].l=In[x],Q[i].r=In[y];
+		else Q[i].l=Out[x],Q[i].r=In[y],Q[i].L=L;
+	}
+	T=ceil(sqrt(2*n));
+	sort(Q+1,Q+m+1,cmp);
+	int L=Q[1].l,R=Q[1].r; for(int i=L;i<=R;++i) Rev(pos[i]);
+	if(Q[1].L) Rev(Q[1].L); Ans[Q[1].id]=Tr.query(Q[1].k);
+	if(Q[1].L) Rev(Q[1].L);
+	
+	for(int i=2;i<=m;++i)
+	{
+		Update(L,Q[i].l-1),Update(Q[i].l,L-1);
+		Update(Q[i].r+1,R),Update(R+1,Q[i].r);
+		if(Q[i].L) Rev(Q[i].L); Ans[Q[i].id]=Tr.query(Q[i].k);
+		if(Q[i].L) Rev(Q[i].L);
+		L=Q[i].l,R=Q[i].r;
+	}
+	
+	for(int i=1;i<=m;++i) printf("%d\n",b[Ans[i]]);
+	return 0;
+}
+```
+
+---
+
+### T3 机器取球
+
+有$2\times n$个球和$2\times n$个机器人，这$2\times n$个球的位置，是坐标小于等于$n$并且在第一象限内的整点；而$n$个机器人的位置恰好在$(0,1),(0,2)\cdots (0,n)$和$(1,0),(2,0)\cdots (n,0)$处。每一次，我们激活一个机器人，如果这个机器人位于$(0,i)$，那么它就会拿走当前纵坐标与它相同，而横坐标最小的球；否则，它就会拿走横坐标与它相同，而纵坐标最小的球。一个机器人只能被激活一次。问有多少种合法的激活机器人的顺序，使得所有的球最终都被拿走。$n\le 10^5$
+
+Solution：“所有的球最终都被拿走”等价于“所有机器人都拿到球”。一个球只有可能被两个机器人拿，因此，我们考虑这样建立模型：每个球是一条连接两个可以拿走它的机器人的边。这张图有$2n$个点，$2n$条边，因此要么是基环树，要么就一定没有合法解。我们对每一个连通块考虑，非环边的分配是固定的，而环边的分配也只有两种可能。因此可以枚举每个球分配给哪一个机器人。假如一个坐标为$(0,i)$的机器人要拿$(x,y)$的球，那么所有$y$这一行的、横坐标小于$x$的球都要先于$(x,y)$拿走。那么就从这些球对应的机器人向$(0,i)$连一条有向边。这样的边数是$O(n)$的，因为不难发现刚才连的这些边是原来的图的子图。并且它们应该是一个森林。那么我们可以通过树形DP算出合法的方案数。
+
+tarjan是一个找环的好算法……这份代码从第一次提交到最后都只有90分，于是我就放弃了qwq。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+#define ll long long
+#define pii pair<int,int>
+#define PB push_back
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=200010,mod=1e9+7;
+int Pow(int x,int y){int res=1; while(y){if(y&1) res=res*(ll)x%mod; x=x*(ll)x%mod,y>>=1;} return res;}
+int frac[N],inv[N];
+void predo(int n)
+{
+	frac[0]=1; for(int i=1;i<=n;++i) frac[i]=frac[i-1]*(ll)i%mod;
+	inv[n]=Pow(frac[n],mod-2); for(int i=n-1;i>=0;--i) inv[i]=inv[i+1]*(ll)(i+1)%mod;
+}
+int C(int n,int m){return frac[n]*(ll)inv[m]%mod*inv[n-m]%mod;}
+int head[N],ecnt,n;
+struct ed{int to,next,id;}e[N<<1];
+struct Nod{int u,id;};
+void ad(int x,int y,int A)
+{
+	e[++ecnt]=(ed){y,head[x],A}; head[x]=ecnt;
+	e[++ecnt]=(ed){x,head[y],A}; head[y]=ecnt;
+}
+vector<Nod> cyc; int flg_cyc;
+Nod stk[N];
+int top,vis[N],inc[N],co[N],bel[N],tot;
+int ax[N],ay[N],to[N];
+vector<int> Ax[N>>1],Ay[N>>1];
+void init(){top=tot=flg_cyc=0;cyc.clear();}
+void Tarjan(int u,int last)
+{
+	vis[u]=1,co[++tot]=u;
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to; if(v==last) continue;
+		if(!vis[v]) stk[++top]=(Nod){v,e[k].id},Tarjan(v,u);
+		else if(vis[v]==1)
+		{
+			flg_cyc++;
+			if(flg_cyc==2) return;
+			while(top>0&&stk[top].u!=v) inc[stk[top].u]=1,cyc.PB(stk[top--]);
+			inc[v]=1,cyc.PB((Nod){v,e[k].id});
+		}
+		if(flg_cyc==2) return;
+	}
+	vis[u]=2; top--;
+}
+void dfs(int u,int last)
+{
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to; if(v==last||inc[v]) continue;
+		to[v]=e[k].id,bel[e[k].id]=v,dfs(v,u);
+	}
+}
+vector<int> G[N];
+int dp[N],sz[N],isrt[N];
+void DFS(int u,int last)
+{
+	dp[u]=1,sz[u]=0;
+	for(int i=0;i<G[u].size();++i)
+	{
+		int v=G[u][i]; if(v==last) continue;
+		DFS(v,u); sz[u]+=sz[v];
+		dp[u]=dp[u]*(ll)C(sz[u],sz[v])%mod*dp[v];
+	}
+	sz[u]++;
+}
+void Adde(int x,int y)
+{
+	G[x].PB(y),G[y].PB(x);
+	isrt[x]=1;
+}
+int solve()
+{
+	for(int i=1,p=co[i];i<=tot;++i,p=co[i]) G[p].clear(),isrt[p]=0;
+	for(int i=1,p=co[i];i<=tot;++i,p=co[i])
+	{
+		int x=ax[to[p]],y=ay[to[p]];
+		if(p<=n) for(int j=0;Ax[x][j]!=to[p];++j) Adde(bel[Ax[x][j]],p);
+		else for(int j=0;Ay[y][j]!=to[p];++j) Adde(bel[Ay[y][j]],p);
+	}
+	int ans=1,siz=0;
+	for(int i=1,p=co[i];i<=tot;++i,p=co[i])
+	if(!isrt[p])
+	{
+		DFS(p,0);
+		siz+=sz[p],ans=(ll)ans*C(siz,sz[p])%mod*dp[p]%mod;
+	}
+//	cout<<ans<<endl;
+	return ans;
+}
+bool cmpx(int x,int y){return ax[x]<ax[y];}
+bool cmpy(int x,int y){return ay[x]<ay[y];}
+int main()
+{
+	read(n); predo(n*2);
+	for(int i=1;i<=n*2;++i) read(ax[i]),read(ay[i]),ad(ax[i],ay[i]+n,i),Ax[ax[i]].PB(i),Ay[ay[i]].PB(i);
+	for(int i=1;i<=n;++i)
+	{
+		if(Ax[i].size()) sort(Ax[i].begin(),Ax[i].end(),cmpy);
+		if(Ay[i].size()) sort(Ay[i].begin(),Ay[i].end(),cmpx);	
+	}
+	
+	int tot_n=0,ans=1;
+	for(int i=1;i<=n*2;++i)
+	if(!vis[i]) //新的连通块
+	{
+		init(); Tarjan(i,0);
+		if(flg_cyc==2||flg_cyc==0){puts("0"); return 0;}
+
+		int ansi=0,len=cyc.size();
+		for(int i=0;i<len;++i) dfs(cyc[i].u,0);
+		for(int i=0;i<len;++i) to[cyc[i].u]=cyc[i].id,bel[cyc[i].id]=cyc[i].u;
+		
+		ansi=solve();
+		for(int i=1;i<len;++i) to[cyc[i].u]=cyc[i-1].id,bel[cyc[i-1].id]=cyc[i].u;
+		to[cyc[0].u]=cyc[len-1].id,bel[cyc[len-1].id]=cyc[0].u;
+		
+		ansi=(ansi+solve())%mod;
+		tot_n+=tot,ans=ans*(ll)C(tot_n,tot)%mod*ansi%mod;
+	}
+	printf("%d\n",ans);
+	return 0;
+}
+```

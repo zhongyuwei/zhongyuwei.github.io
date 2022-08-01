@@ -1,0 +1,125 @@
+## 导数
+
+#### 定义
+
+定义：$f(x)$在某一点$x_0$的导数$f'(x_0)$定义为这个函数图像在这个点的切线的斜率。$f'(x)$也是一个函数。
+
+定义式：$\lim_{x\to x_0} {f(x) - f(x_0)\over x-x_0}$
+
+记号$f'(x),y',{dy\over dx}$
+
+#### 应用1：求极值
+
+导数为$0$的且左右两边的点的导数的符号相同的点，是局部的极值，可能为全局的最值。
+
+#### 应用2：判断单调性
+
+单增 $\Leftrightarrow $ $f'>0$
+
+单减 $\Leftrightarrow $ $f'<0$
+
+ 
+
+#### 求导运算法则
+
+$f'(x) \pm '(x) = (f\pm g)'(x)$
+
+$(cf(x))' = cf'(x)$
+
+$(f*g)(x) = f'(x)g(x)+f(x)g'(x)$
+
+$({f\over g})' = {f'g-g'f\over g^2}$
+
+复合函数求导：链式法则
+
+$(f(g(x)))' = f'(g(x)) \cdot g'(x)$
+
+$(f\circ g\circ h)'(x)  = f'((g\circ h)(x)) \cdot g'(h(x)) \cdot h'(x)$
+
+推论：
+
+$(f^{-1}(y)) ' = {1\over f'(x)}$，其中$y=f(x)$
+
+#### 常见函数的导数
+
+$$
+(C)' = 0\\
+(x^n)' = nx^{n-1},  n\in \R \\
+(\ln x)' = {1\over x}\\
+(\log_a x)' = {1\over x\ln a}\\
+(e^x)' = e^x \\
+(a^x)' = \ln a \cdot a^x \\
+(\sin x)' = \cos x \\
+(\cos x)' = -\sin x
+$$
+
+#### 练习：
+
+1.求导
+
+（1）
+$$
+\\((x-a_1)(x-a_2) \cdots (x-a_n))'\\= (x-a_1) (x-a_2) \cdots (x-a_n)({1\over x-a_1}+{1\over x-a_2} + {1\over x-a_3} \cdots {1\over x-a_n})
+$$
+（2）
+$$
+f(x)= (x+{1\over x})^x \\
+\ln f(x) = x\ln (x+{1\over x}) \\
+{1\over f(x)} f'(x) = \ln (x+{1\over x}) + x(\ln (x+{1\over x}))'\\
+{1\over f(x)} f'(x) = \ln (x+{1\over x}) + x\cdot {1\over x+{1\over x}} \cdot (1-{1\over x^2})
+$$
+$\color{red} ?$
+
+（3）
+$$
+f(x) = \arcsin x \\
+\sin (f(x)) = x \\
+\cos (f(x)) \cdot f'(x) = 1\\
+f'(x) = {1\over \cos (f(x)) } \\
+f'(x) = {1\over \sqrt {1- x^2}}
+$$
+
+
+2.求单调性
+
+（1）
+$$
+f(x) = x^x (x>0) \\
+f(x) = e^{x\ln x}  \\
+f'(x) = e^{x\ln x} \cdot (x\ln x)' \\
+f'(x) = x^x \cdot (\ln x+1) >0 
+$$
+（2）
+$$
+f(x) = (1+{1\over x})^x \\
+定义域为 (-\infty ,-1) \cup (0,+\infty )\\
+\ln f(x) = x \ln (1+{1\over x}) = x \ln (1+x) - x \ln x \\
+{1\over f(x)}f'(x) = \ln(1+x) + {x\over x+1} - \ln x - 1\\
+f'(x) = (1+{1\over x})^x (\ln (1+{1\over x}) - {1\over x+1})\\
+首先有(x+{1\over x}) ^ x > 0\\
+设g(x) = \ln (1+{1\over x})- {1\over x+1} \\
+g'(x) = {x\over x+1} \cdot (-{1\over x^2}) + {1\over (x+1)^2} \\
+= - {1\over (x+1)^2 x}\\
+\color{red} {?}
+$$
+
+
+
+
+
+
+
+
+$\lim _{x\to \infty }(1+{1\over x})^x = e$
+
+
+
+#### 高阶导数
+
+用二阶导数判断极值点
+
+用二阶导数判断函数的凹凸性
+
+#### 推荐书目
+
+同济大学的高等数学

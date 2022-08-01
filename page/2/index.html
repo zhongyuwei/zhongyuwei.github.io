@@ -187,6 +187,75 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E5%9B%9E%E6%96%87%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/01/%E5%9B%9E%E6%96%87%E6%A0%91/" class="post-title-link" itemprop="url">回文树</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-08-01 15:38:37 / Modified: 15:39:02" itemprop="dateCreated datePublished" datetime="2022-08-01T15:38:37+08:00">2022-08-01</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="关于算法名称"><a href="#关于算法名称" class="headerlink" title="关于算法名称"></a>关于算法名称</h3><p>强调一下，虽然说它又叫回文自动机，但是它不是自动机！！！</p>
+<p>1.它有多个初始状态。<br>2.它不能够“接受一个字符串”。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/01/%E5%9B%9E%E6%96%87%E6%A0%91/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E4%BB%8Ekmp%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E5%88%B0rank-kmp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -813,76 +882,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">一种树形背包的复杂度证明</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-07-15 12:09:15 / Modified: 12:09:38" itemprop="dateCreated datePublished" datetime="2022-07-15T12:09:15+08:00">2022-07-15</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>有一类树上背包（例如 CF1097G Vladislav and a Great Legend），第二维表示子树内选的点数且限制第二维不超过$m$，其总复杂度可证明为$O(nm)$。</p>
-<p>它们的代码一般长这样：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> last)</span> </span>&#123;</span><br><span class="line">	sz[u]=<span class="number">1</span>;</span><br><span class="line">	<span class="comment">// initialize dp[u]</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=head[u];k;k=e[k].next)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> v=e[k].to; <span class="keyword">if</span>(v==last) <span class="keyword">continue</span>;</span><br><span class="line">		dfs(v,u);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=min(m,sz[u]);++j)</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;=min(m-j,sz[v]);++k)</span><br><span class="line">				<span class="comment">// dp[u][j] * dp[v][k] -&gt; dp[u][j+k]</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -955,7 +954,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">129</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

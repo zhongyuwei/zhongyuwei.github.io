@@ -1,0 +1,237 @@
+﻿# 20181223考试总结（十连四）
+
+标签（空格分隔）： 总结
+
+---
+
+### T1
+
+给一棵树，在树中连最少的边，使得树上没有割顶。
+
+Solution:
+如果是没有桥的话，这个题就很水了。按照叶子节点的数量求帯权重心，再将重心不同子树内的叶子配对就可以了。
+
+而对于割顶：前面的配对方式只能够满足所有重心之外的点都不是割顶。而要让重心不是割顶，就需要删除它之后整张图连通，也就是所有子树都是连通的。两两配对可能会导致只连通了其中两个子树，但是重心删掉之后整张图不连通。
+
+我们应该尽量创造“不同子树间叶子连边”，这是答案的下界；迫不得已的时候，需要“所有的子树连成一条链”（实际上是“一棵树”，有$n-1$条边。如果把子树当成点，这是连通整张图的最少边数）。那么我们就需要尽量“不同子树间叶子连边”，以尽量减少连通块的数量；最后将剩下的连通块连成一条链。
+
+一种贪心的做法：每次取**当前**剩下的叶子最多的子树和剩下叶子最少的子树，取在它们之间连一条边，并删掉连边的叶子。这样取的目的是，使最后剩下的连通块最少。停止的条件是，当前剩下的所有连通块，叶子最多的连通块，叶子数量为 1 。这样处理的目的是，保证此时所有叶子的数量为 0 的连通块至少与一个此时叶子数为 1 的连通块连通。然后将这些子树连成一条链。
+
+注意特判最后只剩下了一个叶子数为 1 的子树的情况。
+
+``` cpp
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <set>
+#define pii pair<int,int>
+#define PB push_back
+#define MP make_pair
+#define ll long long
+using  namespace std;
+template <class T>
+inline void read(T &x)
+{
+   x=0; char c=getchar(); int f=1;
+   while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+   while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=5e5+10,inf=1e6;
+int head[N],ecnt,du[N],sz[N],n;
+struct ed{int to,next;}e[N<<1];
+void init()
+{
+	ecnt=0;
+	for(int i=1;i<=n;i++) head[i]=du[i]=0;
+}
+void ad(int x,int y)
+{
+	e[++ecnt]=(ed){y,head[x]}; head[x]=ecnt;
+	e[++ecnt]=(ed){x,head[y]}; head[y]=ecnt;
+	du[x]++,du[y]++;
+}
+int rt,mi,ans;
+void getrt(int u,int last)
+{
+	sz[u]=du[u]==1; int mx=0;
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to; if(v==last) continue;
+		getrt(v,u); mx=max(mx,sz[v]),sz[u]+=sz[v];
+	}
+	mx=max(mx,ans-sz[u]); if(mx<mi) mi=mx,rt=u;
+}
+vector<int> son[N];
+vector<pii> fi;
+set<pii> s;
+int tot;
+void dfs(int u,int last,int li)
+{
+	if(du[u]==1) son[li].PB(u),tot++;
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to; if(v==last) continue;
+		dfs(v,u,li);
+	}
+}
+int main()
+{
+	int T,x,y; read(T);
+	while(T--)
+	{
+		read(n); init();	
+		for(int i=1;i<n;i++) read(x),read(y),ad(x,y);
+		ans=0; for(int i=1;i<=n;i++) if(du[i]==1) ans++;
+		mi=1e9,getrt(1,0);
+		s.clear(); int cnt=0;
+		for(int k=head[rt];k;k=e[k].next)
+		{
+			int u=e[k].to;
+			cnt++; son[cnt].clear(),tot=0;
+			dfs(u,rt,cnt),s.insert(MP(tot,cnt));
+		}
+		fi.clear();
+		int last=rt;
+		while(1)
+		{
+			if(s.rbegin()->first==1)
+			{
+				int li=son[s.rbegin()->second][0]; s.erase(*s.rbegin());
+				if(s.empty()) fi.PB(MP(li,last));
+				else while(!s.empty())
+				{
+					int cur=son[s.begin()->second][0]; s.erase(*s.begin());
+					fi.push_back(MP(li,cur));
+				}
+				break;
+			}
+			int p1=s.rbegin()->second; s.erase(*s.rbegin());
+			int p2=s.begin()->second; s.erase(*s.begin());
+			fi.push_back(MP(son[p1].back(),son[p2].back())); last=son[p2].back();
+			son[p1].pop_back(); son[p2].pop_back();
+			if(son[p1].size()) s.insert(MP(son[p1].size(),p1));
+			if(son[p2].size()) s.insert(MP(son[p2].size(),p2));
+		}
+		printf("%d\n",fi.size());
+		for(int i=0;i<fi.size();i++) printf("%d %d\n",fi[i].first,fi[i].second);
+	}
+	return 0;
+}
+```
+
+---
+
+### T2 染色
+
+有一张完全图（无向图），图中的每一条边都有颜色，颜色的编号$\in [1,300]$。这张图有一个神奇的性质：对于图中任意一个简单环，环上至少有两条相邻的边是同色的。对于图中节点的一个子集$S$，定义$f(S)$为包含元素最多的$S$的子集$S'$的大小，其中$S'$必须保证，集合中任意两个点之间的边颜色都相同。求$\sum _{S\in \{1,2,3,\cdots n\}} f(S)$。答案对$10^9+7$取模。保证$n\le 300$。
+
+Solution：首先有一个性质，在这个图中至少有一个点，这个点到所有点的边颜色都相同。因为，如果不是这样的话，我们可以从一个点出发，每到达的一个点的时候，我们一定可以选择另一条与我们来这个点的边颜色不一样的边走出去，最终一定会走到某个之前我们已经到过的点，这个时候就出现了一个没有任何两条相邻的颜色相同的边的简单环，与题目条件矛盾。
+
+我们可以考虑从图中删掉这个到所有点的边颜色都相同的点，记这个点的$col$为这个点到其他点的边的颜色。由于从图中删去一个点后，得到的图仍然满足“对于图中任意一个简单环，环上至少有两条相邻的边是同色的”的性质，所以我们可以继续进行这样的删点操作，直到只剩下了一个点。在这个过程中，我们得到了每一个点（除了最后一个点之外）的$col[i]$和这个点在这个删点过程中，是第几轮被删掉的（我们记这个轮数为$rank[i]$）。
+
+
+我们考虑枚举$S$中$rank$最大的点，设这个点的$rank$为$v$。有一个性质，是$S'$一定是由$rank$在$[1,v-1]$之间的、$col$相同的一些点，加上$rank$为$v$的点组成的。那么如果我们枚举了此时的$S\in \{ x | rank[x]\in [1,v)\}$，这个$S$加上这个$rank$为$v$的点得到的集合的答案就是，$S$中出现次数最多的$col$的出现次数 + 1。
+
+现在我们换一种思路，枚举这个最大的出现次数$m$。记$cnt[k]$为$rank$在$1$到$v-1$中的点，$col$等于$k$的点的个数。那么这个最大次数$m$对答案的贡献就是$(m+1)(\prod_{j=1}^{300} (\sum_{i=0}^{m} {cnt[j] \choose i}) -\prod _{j=1}^{300}(\sum_{i=0}^{m-1}{cnt[j]\choose i}))$，预处理组合数的前缀和然后直接暴力算就可以了。时间复杂度$O(n^3)$。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <map>
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=310,mod=1e9+7;
+int c[N][N],f[N][N],col[N],n,mp[N][N],vis[N],bel[N];
+map<int,int> sz[N];
+int cal(int mx)
+{
+	int ans,res=1;
+	for(int j=1;j<=300;++j) res=res*(ll)f[j][mx]%mod;
+	ans=res;
+	if(mx)
+	{
+		res=1;
+		for(int j=1;j<=300;++j) res=res*(ll)f[j][mx-1]%mod;
+		ans=(ans-res)%mod;
+	}
+//	cout<<mx<<' '<<ans<<endl;
+	return ans;
+}
+int a[N];
+int main()
+{
+	read(n);
+	for(int i=0;i<=n;++i) for(int j=0;j<=i;++j) c[i][j]=j?(c[i-1][j-1]+c[i-1][j])%mod:1;
+	for(int i=1;i<=n;++i)
+		for(int j=1;j<=n;++j)
+		{
+			read(mp[i][j]);
+			if(i!=j) sz[i][mp[i][j]]++;
+		}
+	int tot=0;
+	while(1)
+	{
+		int flg=0;
+		for(int i=1;i<=n;++i)
+		if(!vis[i]&&sz[i].size()==1)
+		{
+			vis[i]=1,flg=1,bel[i]=sz[i].begin()->first,a[++tot]=i;
+			for(int k=1;k<=n;++k) if(k!=i&&!vis[k])
+			{
+				sz[k][mp[i][k]]--;
+				if(!sz[k][mp[i][k]]) sz[k].erase(mp[i][k]);
+			}
+			break;
+		}
+		if(!flg) break;
+	}
+	int ans=0;
+	for(int k=1;k<n;++k)
+	{
+		for(int i=1;i<=300;++i) for(int j=0;j<=n;++j) f[i][j]=((j?f[i][j-1]:0)+c[col[i]][j])%mod;
+		for(int i=0;i<n;++i) ans=(ans+cal(i)*(ll)(i+1)%mod)%mod;
+		col[bel[a[k]]]++;
+	}
+	for(int i=1;i<=300;++i) for(int j=0;j<=n;++j) f[i][j]=((j?f[i][j-1]:0)+c[col[i]][j])%mod;
+	for(int i=0;i<n;++i) ans=(ans+cal(i)*(ll)(i+1)%mod)%mod;
+	printf("%d",(ans+mod)%mod);
+	return 0;
+}
+```
+
+---
+
+### T3 外壳特
+
+[题意][1]
+
+Solution：观察要最大化的那个式子，首先我们只考虑横坐标：
+$$
+\sum_i \sum_{j\not=i} (x_i +vx_i - x_j - vx_j)^2\\
+=\sum_i\sum_{j\not =i} (x_i-x_j) ^2 +(vx_i - vx_j)^2 - 2 (x_i - x_j)(vx_i - vx_j)
+$$
+前面的两部分是常量，观察第三部分：
+$$
+\sum (x_i-x_j)(vx_i-vx_j)\\
+=\sum x_ivx_i + x_jvx_j - x_ivx_j - x_jvx_i
+$$
+
+而$\sum x_ivx_j + x_jvx_i $仍然是一个常量。也就是说，最终我们要最大化的就是：
+$$
+\sum x_i vx_i + y_i vy_i 
+$$
+
+做一个二分图的最大权匹配就可以了。非常卡时，我写的费用流和KM都只有25分 :(
+
+  [1]: http://zhengruioi.com/contest/182/problem/531

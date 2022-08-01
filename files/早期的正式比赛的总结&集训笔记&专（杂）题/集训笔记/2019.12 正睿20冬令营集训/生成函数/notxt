@@ -1,0 +1,170 @@
+# 高数相关
+
+## 定义
+
+### 邻域
+
+以$a$为中心点的任何开区间称为$a$的邻域。用$U(a,r)$表示$(a-r,a+r)$，$a$称为中心，$r$称为半径。$a$的邻域去掉点$a$之后，称为$a$的去心邻域。用$\mathring{U}(a,r)$表示$(a-r,a)\cup (a,a+r)$。此外，称$(a-r,a)$为$a$的左$r$邻域，$(a,a+r)$为$a$的右$r$邻域。
+
+### 极限
+
+#### 1
+
+设$f$为定义在$[a,+\infty)$上的函数，$A$为一个定值。如果对于任意给定的$\varepsilon > 0$，都存在一个$M\ge a$，使得当$x > M$都有$|f(x)-A| < \varepsilon$，则称**函数$f$在$x$趋近于$+\infty$的时候以$A$作为极限**，记为：$\lim_{x\to +\infty} f(x) = A$，或者$f(x) \to A(x\to +\infty)$。
+
+类似定义$\lim_{x\to -\infty} f(x),\lim_{x\to \infty}f(x)$。
+
+#### 2
+
+设$f$为定义在$\mathring{U}(x_0,\delta')$上的函数，$A$为一个定值。如果对于任意给定的$\varepsilon > 0$，存在正数$\delta < \delta'$，使得当$|x-x_0| < \delta'$的时候都有$|f(x)-A| < \varepsilon$，则称**函数$f$在$x$趋近于$x_0$的时候以$A$作为极限**，记为：$\lim_{x\to x_0} f(x) = A$，或者$f(x) \to A(x\to x_0)$。这一定义称为函数极限的$\varepsilon - \delta$定义。
+
+### 导数
+
+关于导数的记号，参见[wiki-Notation_for_differentiation](https://en.wikipedia.org/wiki/Notation_for_differentiation)。
+
+设函数$y=f(x)$在$x_0$的某邻域中有定义，若极限$\lim_{x\to x_0}{f(x) - f(x_0) \over x-x_0}$存在，则称 **$f$在$x_0$处可导**，并称该极限为 **$f$在点$x_0$处的导数**，记作$f'(x_0)$。若不存在，则称 **$f$在$x_0$处不可导**。
+
+### 连续
+
+#### 1
+
+设函数$f$在某$U(x_0)$内有定义，且$\lim_{x\to x_0} f(x) = f(x_0)$，则称$f$在点$x_0$处连续。
+
+#### 2
+
+设函数$f$在某$U(x_0,r)$有定义，若对于任意的$\varepsilon > 0$，存在$0< \delta < r$，满足当$|x-x_0|< \delta$的时候都有$|f(x)-f(x_0)| < \varepsilon$，我们就称$f$在$x_0$处连续。
+
+## 定理
+
+### 费马定理
+
+设$f$在$x_0$某邻域有定义，且在$x_0$可导，若点$x_0$是$f$的极值点，则$f'(x_0)=0$。
+
+#### 引理：局部保号性
+
+若$\lim_{x\to x_0} f(x) = A, A>0$，则对于任意正数$r< A$，存在$\mathring{U}(x_0)$，使得$\forall x \in \mathring{U}(x_0)$，有$f(x)>r$。
+
+对$A<0$也有类似的引理。
+
+### 罗尔中值定理
+
+若函数$f(x)$满足以下条件：
+
+- $f$在$[a,b]$上连续。
+- $f$在$(a,b)$上可导。
+- $f(a)=f(b)$。
+
+则至少存在一点$\xi \in (a,b)$，满足$f'(\xi)=0$。 
+
+### 柯西中值定理
+
+设函数$f,g$满足以下条件：
+
+- $f,g$在$[a,b]$上连续。
+- $f,g$在$(a,b)$上可导。
+
+则一定存在一个$\xi \in (a,b)$，满足$(f(b)-f(a))g'(c)=(g(b)-g(a))f'(c)$。
+
+若$g(a)\neq g(b),g'(c)\neq 0$，上式还可以写作${f'(c)\over g'(c)} = {f(b)-f(a)\over g(b)-g(a)}$。
+
+#### 证明
+
+- 当$g(a)\neq g(b)$：
+  - 定义$h(x) = f(x) - r\cdot g(x)$，其中$r={f(b)-f(a)\over g(b)-g(a)}$，是一个使$h(a) = h(b)$成立的实数。
+  - 由于$f,g$在$[a,b]$连续，在$(a,b)$可导，所以$h$在$[a,b]$连续，在$(a,b)$可导。所以$h$满足使用罗尔中值定理的条件，由罗尔中值定理可得，存在$c \in (a,b)$，满足：
+    $$
+    0 = h'(c) = f'(c) - ({f(b)-f(a)\over g(b)-g(a)})g'(c)
+    $$
+  - 整理即可得到
+    $$
+    (f(b)-f(a))g'(c)=(g(b)-g(a))f'(c)
+    $$
+- 当$g(a)=g(b)$：
+  - 对$g$使用罗尔中值定理，可以得到存在一点$c\in (a,b)$，满足$g'(c)=0$，又因为$g(a)-g(b)=0$，所以$(f(b)-f(a))g'(c)=(g(b)-g(a))f'(c)=0$。
+
+### 洛必达法则
+
+若函数$f$和$g$满足以下条件：
+
+- $\lim_{x\to x_0}f(x) = \lim_{x\to x_0}g(x) = 0$；
+- 在$x_0$的某空心邻域$\mathring{U}(x_0)$内，$f,g$都可导，且$\forall x\in \mathring{U}(x_0)$，有$g'(x)\neq 0$；
+- $\lim_{x\to x_0} {f'(x) \over g'(x)}$存在，设$\lim_{x\to x_0} {f'(x) \over g'(x)} = A$，$A$可以为非正常极限（$-\infty,+\infty$）
+
+则
+
+$$
+\lim_{x\to x_0} {f(x)\over g(x)} = \lim_{x\to x_0} {f'(x)\over g'(x)} = A
+$$
+
+#### 证明
+
+不妨令$f(x_0) = g(x_0) = 0$，且$g'(x_0)\neq 0$，这对于$\lim_{x\to x_0} {f(x)\over g(x)}$没有影响。
+
+则
+
+$$
+\lim_{x\to x_0} {f(x)\over g(x)}\\
+= \lim_{x\to x_0} {f(x) - 0\over g(x) - 0}\\
+= \lim_{x\to x_0} {f(x) - f(x_0)\over g(x) - g(x_0)}\\
+= \lim_{x\to x_0} {{f(x) - f(x_0)\over (x-x_0)}\over {g(x)-g(x_0)\over (x-x_0)}}\\
+= \lim_{x\to x_0} {f'(x)\over g'(x)}\\
+$$
+
+# 多项式相关
+
+## 运算
+
+多点求值
+
+多点插值
+
+复合逆
+
+## 例题
+
+### 一道例题
+
+![一道例题.jpg](https://i.loli.net/2020/01/16/xgNVto1JKHQPG9Y.jpg)
+
+设$Q_n(x) = \sum_{k=0}^n F(n,k)$，那么有
+
+$$
+Q_n(x) = Q_{n-1}(x) (nx+1)
+$$
+
+由于我们求每一个值作为了多少项的系数，所以等价于求下面的多项式：
+
+$$
+Q_n(x) = \prod_{i=1}^n (x+i)
+$$
+
+设$n = ap + b$，其中$b<p$。则
+
+$$
+Q_n(x) = \prod_{i=1}^b (x+i) (\prod_{i=0}^{p-1} (x+i))^a
+$$
+
+由多项式的唯一分解定理可得，由于$\forall i\neq 0$，$i$都是$x^{p-1}=1$在模$p$意义下的根，所以
+
+$$
+\prod_{i=1}^{p-1} (x+i) = (x^{p-1}-1)\\
+Q_n(x) = (x\prod_{i=1}^{p-1} (x+i))^a \prod_{i=1}^b (x+i)
+$$
+
+后面的和前面的括号里面的，都可以用分治FFT或者倍增在$O(n\log^2 n)$或者$O(n\log n)$的时间内解决。
+
+对于某个多项式$M$，设$C_M(i)$表示$i$这个数在$M$中作为系数出现了多少次。那么
+
+$$
+C_{N*M} (k) = \sum_{x\cdot y\equiv k \pmod p} C_N(x)\cdot C_N(y)
+$$
+
+利用原根就可以把$x\cdot y\pmod p$转化成$x+y\pmod {p-1}$。
+
+直接多项式快速幂就可以得到答案。
+
+### 另一道例题
+
+![另一道例题.jpg](https://i.loli.net/2020/01/16/Rd1CeFVO8ScMyvs.jpg)
+
+用FFT计算每个$s[i\cdots i+n-1]$置换之后的hash值即可。

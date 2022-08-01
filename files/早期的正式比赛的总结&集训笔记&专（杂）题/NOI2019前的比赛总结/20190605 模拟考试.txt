@@ -1,0 +1,204 @@
+﻿# 20190605 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+一场比较难受的考试。
+
+t1考试开始的10分钟后我就开始写了，写了整整两个小时，对自己的代码能力产生了怀疑。t2也写了近两个小时，最后数组开小，只有30分（但是把数组开大了就有80分），最后很仓促地也没有来得及打t3的三元环计数暴力。
+
+归结起来还是前段时间代码写得太少，以及太久没有写那些基础的数据结构和算法。noi之前一定要抽出时间认真复习，并且从现在开始要注意联系码力了。
+
+---
+
+### T1 最长公共子序列
+
+给四个长度为$n$的序列$\{a_i\},\{b_i\},\{c_i\},\{d_i\}$，你需要求出他们的最长公共公共子序列。$n\le 10^4$，保证$1\le a_i,b_i,c_i,d_i\le n$，并且对于$\{a_i\},\{b_i\},\{c_i\}$，同一个数在同一个序列中至多出现两次。
+
+Solution：
+
+毕克讲过的题。
+
+记录某个数在四个序列中出现的位置$(i,j,k,l)$，最长公共子序列的长度就是选择尽量多的点，这些点在每一维上都是单调递增的。对于$d_i$中的每一个位置，$a,b,c$中各至多有两个位置可以与之组合，所以点数至多是$8n$的。限制是四维偏序的形式，用cdq优化就可以了。
+
+这里第二层cdq有一个不用sort的技巧：我们solve每一层的时候，要求$[l,mid],[mid+1,r]$，都按照第四维排好序。那么就在第二层cdq之前，处理出每个 元素按照第三维排序的排名，然后把每个元素按照第四维排序。开始处理一个区间的时候，把这个区间的元素按照第三维的排名分裂成左右（左右区间内元素的相对顺序是第四维），处理完之后再把两个区间归并。这样常数大约会小一半。
+
+此外，只需要单点修改、查询前缀最大/最小值的操作是可以用树状数组维护的。撤销的时候就把涉及到的位置设置成0/inf就可以了。
+
+---
+
+### T2  树
+
+给出一个$n$个节点的树$A$和一个$m$个节点的树$B$，问$A$有多少个连通子图与$B$同构。定义两个图同构当且仅当存在一种节点对应的方式，使得两个点要么在两张图中它们都有边，要么在两张图中它们都没有边。两个连通子图不同当且仅当它们的点集不同。答案对$10^9+7$取模。$n\le 2000,m\le 12$
+
+Solution：
+
+考虑树形dp。
+
+以$u$为根的子树中如果包含了某个可以与$B$同构的连通子图的一部分，那么这个部分一定是$B$中通过一条边把整棵树切开得到的某一半，因为$u$只有一条边连向这个子树外。这样的状态有$n\cdot 2(m-1)$个。每一层转移的时候，由于关心是否有这个状态需要的子树，所以转移的复杂度是$2m^2 2^m$，实际大多数情况下跑不满。
+
+最后还需要除以$B$的节点编号置换后和它自己重构的方案数，我直接写了个$m!$+剪枝的搜索。这样~~如果没有把数组开小~~可以有$80$分。
+
+发现那个搜索当$B$是一个菊花图的时候会被卡满。于是改成了树hash，计算方法是这样的：先枚举$B$中的两个点（共有$m^2$对），判断以这两个点为根的树是否同构，如果是，则会产生$tot$的贡献。我们记$tot$为：对于树上的每一个节点$u$，将它的儿子按照子树是否同构分成若干组（组内的同构），记每一组的大小是$sz_x$，那么$tot=\prod _{u} \prod_x (sz_x!) $。这样计算则可以得到$90$分，卡过$B$是菊花的那个点，但是当$A$是菊花的时候仍然无法通过。
+
+一种优化：先在$B$中枚举树根，这样状态在$dp$过程中的状态有$nm$个，得到的结果除以这个点为根的树的$tot$就是**这种形态的树对答案的贡献**。当两个根得到的树同构的时候，只需要统计一次贡献。
+
+---
+
+### T3 子图
+
+给一张包含$n$个点$m$条边的无向图，问有多少个包含$k$条边的子图是连通的。$n\le 10^5,m\le 2\times 10^5,k\le 4$
+
+Solution：
+
+当$k=3$的时候，有三种情况：
+
+    1.构成三元环
+    2.一个菊花
+    3.一条链：枚举中间那条边，贡献是边两端的点u,v的(deg[u]-1)*(deg[v]-1)
+
+当$k=4$的时候，有五种情况：
+
+    1.三元环+一条边，也就是1->2,2->3,3->1,1->4。三元环计数的时候统计每个点在多少个三元环里面就可以了。
+    2.一个四元环。这个直接四元环计数。
+    3.一条链。枚举链中间的那个点，然后依次遍历与这个点相邻的点，统计从这些点当中任意选两个点x,y计算得到的∑(du[x]-1)(du[y]-1)。此时每一个三元环会被统计到3遍，每一个情况一（三元环+一条边）会被统计到两遍，每一个四元环会被统计到4遍，减掉这些的贡献就可以了。
+    4.一个点与三个点相邻，其中有一个点还与另外一个点相邻，举个例子：1->2,1->3,1->4,4->5。这个就直接枚举1->4，然后计算从与这条边的一个端点相邻的点中选出2个点，从与这条边的另一个端点相邻的点中选出的1个点的方案数。这样情况1会被统计2次，减掉就可以了。
+    
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+#define PII pair<int,int>
+#define MP make_pair
+#define fir first
+#define sec second
+#define PB push_back
+#define db long double
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1e5+10,M=2e5+10,mod=1e9+7;
+int Pow(int x,int y) {
+	int res=1;
+	while(y) {
+		if(y&1) res=res*(ll)x%mod;
+		x=x*(ll)x%mod,y>>=1;
+	}
+	return res;
+}
+int head[N],ecnt,n,m;
+struct ed { int to,next; }e[M<<1];
+vector<int> G[N],E[N];
+int du[N],vis[N],onc[N],id[N];
+void init() { memset(head,-1,sizeof(head)); ecnt=0; }
+void ad(int x,int y) {
+	e[ecnt]=(ed){y,head[x]}; head[x]=ecnt++;
+	e[ecnt]=(ed){x,head[y]}; head[y]=ecnt++;
+	du[x]++,du[y]++;
+}
+bool cmp(int x,int y) { return du[x]>du[y]||(du[x]==du[y]&&x>y); }
+int main() {
+	freopen("data3.in","r",stdin);
+//	freopen("subgraph.in","r",stdin);
+//	freopen("subgraph.out","w",stdout);
+	int n,m,K; rd(n),rd(m),rd(K);
+	init(); for(int i=1,x,y;i<=m;++i) rd(x),rd(y),ad(x,y);
+	if(K==1) return printf("%d",m),0;
+	else if(K==2) {
+		int ans=0;
+		for(int i=1;i<=n;++i) ans=(ans+du[i]*(ll)(du[i]-1)/2)%mod;
+		return printf("%d\n",ans),0;
+	}
+	for(int i=0;i<m;++i) {
+		int x=e[i<<1].to,y=e[i<<1|1].to;
+		if(!cmp(x,y)) swap(x,y);
+		G[x].PB(y);
+	}
+	int ans1=0;
+	for(int u=1;u<=n;++u) {
+		for(int i=0;i<G[u].size();++i) vis[G[u][i]]=1;
+		for(int i=0;i<G[u].size();++i) {
+			int v=G[u][i];
+			for(int j=0;j<G[v].size();++j) {
+				int w=G[v][j];
+				if(vis[w]) {
+					ans1++;
+					onc[u]++,onc[v]++,onc[w]++;
+				}
+			}
+		}
+		for(int i=0;i<G[u].size();++i) vis[G[u][i]]=0;
+	}
+	if(K==3) {
+		int ans=ans1;
+		for(int i=1;i<=n;++i)
+			ans=(ans+du[i]*(ll)(du[i]-1)*(du[i]-2)/6)%mod;
+		for(int i=0;i<m;++i) {
+			int x=e[i<<1].to,y=e[i<<1|1].to;
+			ans=(ans+(du[x]-1)*(ll)(du[y]-1))%mod;
+		}
+		ans=(ans-3ll*ans1)%mod;
+		return printf("%d\n",(ans+mod)%mod),0;
+	}
+	ll ans2=0;
+	for(int i=1;i<=n;++i) if(onc[i]) ans2=(ans2+onc[i]*(ll)(du[i]-2))%mod;
+	ll ans3=0;
+	for(int i=1;i<=n;++i) id[i]=i; sort(id+1,id+n+1,cmp);
+	for(int i=n;i>=1;--i) {
+		int u=id[i];
+		for(int j=0;j<E[u].size();++j) {
+			int v=E[u][j];
+			for(int k=0;k<E[v].size();++k) {
+				int w=E[v][k]; if(w==u) continue;
+//				printf("%d %d %d %d\n",u,v,w,vis[w]);
+				ans3+=vis[w],vis[w]++;
+			}
+		}
+		for(int j=0;j<E[u].size();++j) {
+			int v=E[u][j];
+			for(int k=0;k<E[v].size();++k) {
+				int w=E[v][k]; if(w==u) continue;
+				vis[w]=0;
+			}
+		}
+		for(int k=head[u];~k;k=e[k].next) {
+			int v=e[k].to;
+			E[v].PB(u);
+		}
+	}
+//	cerr<<ans2<<' '<<ans3<<endl;
+//	printf("%lld %lld %lld\n",ans1,ans2,ans3);
+	int ans=(ans3+ans2)%mod;
+	for(int i=0;i<m;++i) {
+		int x=e[i<<1].to,y=e[i<<1|1].to; ll tmp=0;
+		tmp+=(du[x]-1)*(ll)(du[x]-2)/2*(du[y]-1);
+		tmp+=(du[y]-1)*(ll)(du[y]-2)/2*(du[x]-1);
+		ans=(ans+tmp)%mod;
+	}
+//	cerr<<ans<<endl;
+	ans=(ans-2ll*ans2)%mod;
+	for(int u=1;u<=n;++u) {
+		ll tmp=0;
+		for(int k=head[u];~k;k=e[k].next) {
+			int v=e[k].to;
+			ans=(ans+tmp*(ll)(du[v]-1))%mod;
+			tmp+=du[v]-1;
+		}
+	}
+//	cerr<<ans<<endl;
+	ans=(ans-2ll*ans2-4ll*ans3-3ll*ans1)%mod;
+	ll inv24=Pow(24,mod-2);
+	for(int i=1;i<=n;++i)
+		ans=(ans+du[i]*(ll)(du[i]-1)%mod*(du[i]-2)%mod*(du[i]-3)%mod*inv24)%mod;
+	printf("%d\n",(ans+mod)%mod);
+	return 0;
+}
+```

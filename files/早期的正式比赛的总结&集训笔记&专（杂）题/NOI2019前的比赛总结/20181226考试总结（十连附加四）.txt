@@ -1,0 +1,266 @@
+﻿# 20181226考试总结（十连附加四）
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 Nagisa
+
+题意：给你三个凸多边形，有$m$次询问，每次给出一个点的坐标，询问以这个点作为重心且三个顶点分别位于三个凸多边形内的三角形是否存在。
+
+Solution:
+当时考场上，ZJK想到了一个比较神奇的算法：首先，考虑一个不可实现的暴力，列一大堆不等式，判断是否有解满足询问。~~感性猜想~~可知可行的点是一个区域，并且这个区域的边界一定是由凸多边形的顶点确定的（因为顶点是不等式的边界）。然后可以$n^3$枚举，求出可能是边界的点，然后求凸包。发现$n^3$的枚举中，有许多的步骤是多余的。设三个指针，分别指向三个凸多边形当前计算到的顶点，然后选取每个指针指向的顶点到下一个顶点的线段，斜率最小的指针，让那个指针++，现在三个顶点的重心就是区域的下一个顶点。依次求出这个区域的所有顶点（而且会发现这是个凸包）即可。将上凸壳和下凸壳分开来求会更加简单。
+
+题解说可行区域是三个凸包的Minkowki Sum。发现求Minkowski Sum的算法和ZJK的做法及其相似。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1e6+10;
+const double eps=1e-8;
+long double fabs(long double x){return x>0?x:-x;}
+struct Point
+{
+	long double x,y;
+	Point (long double x=0,long double y=0): x(x),y(y) {}
+	friend Point operator +(Point a,Point b){return Point(a.x+b.x,a.y+b.y);}
+	friend Point operator /(Point a,long double b){return Point(a.x/b,a.y/b);}
+	friend Point operator -(Point a,Point b){return Point(a.x-b.x,a.y-b.y);}
+}p[3][N],pt[N];
+struct Que{long double x,y; int id;}Q[N];
+int tot[3],POS,cnt,ans[N];
+Point cal(Point a,Point b,Point c){return (a+b+c)/3;}
+long double Cross(Point a,Point b){return a.x*b.y-a.y*b.x;}
+int dcmp(long double x){return fabs(x)<eps?0:(x>0?1:-1);}
+void get()
+{
+	int pl[3],pr[3];
+	for(int i=0;i<3;i++)
+	{
+		pl[i]=pr[i]=1;
+		for(int j=2;j<=tot[i];j++)
+		{
+			if((p[i][j].x<p[i][pl[i]].x)||(p[i][j].x==p[i][pl[i]].x&&p[i][j].y>p[i][pl[i]].y)) pl[i]=j;
+			if((p[i][j].x>p[i][pr[i]].x)||(p[i][j].x==p[i][pr[i]].x&&p[i][j].y<p[i][pr[i]].y)) pr[i]=j;
+		}
+	}
+	int pos[3]={pr[0],pr[1],pr[2]};
+//	pt[++cnt]=cal(pos[0],pos[1],pos[2]);
+	while(1)
+	{
+		int tmp=-1;
+		for(int i=0;i<3;i++)
+		{
+			if(pos[i]==pl[i]) continue;
+			if(tmp==-1||(~tmp&&Cross(p[tmp][pos[tmp]%tot[tmp]+1]-p[tmp][pos[tmp]],p[i][pos[i]%tot[i]+1]-p[i][pos[i]])<0)) tmp=i;
+		}
+		if(tmp==-1) break;
+		pos[tmp]=pos[tmp]%tot[tmp]+1;
+		pt[++cnt]=cal(p[0][pos[0]],p[1][pos[1]],p[2][pos[2]]);
+	}
+	POS=cnt;
+	pos[0]=pl[0],pos[1]=pl[1],pos[2]=pl[2];
+	while(1)
+	{
+		int tmp=-1;
+		for(int i=0;i<3;i++)
+		{
+			if(pos[i]==pr[i]) continue;
+			if(tmp==-1||(~tmp&&Cross(p[tmp][pos[tmp]%tot[tmp]+1]-p[tmp][pos[tmp]],p[i][pos[i]%tot[i]+1]-p[i][pos[i]])<0)) tmp=i;
+		}
+		if(tmp==-1) break;
+		pos[tmp]=pos[tmp]%tot[tmp]+1;
+		pt[++cnt]=cal(p[0][pos[0]],p[1][pos[1]],p[2][pos[2]]);
+	}
+}
+bool cmp(Que a,Que b){return a.x<b.x;}
+int main()
+{
+	for(int i=0;i<3;i++)
+	{
+		scanf("%d",&tot[i]);
+		for(int j=1;j<=tot[i];j++) scanf("%Lf%Lf",&p[i][j].x,&p[i][j].y);
+	}
+	get(); pt[0]=pt[cnt];
+	
+//	for(int i=1;i<=cnt;i++) printf("%Lf %Lf\n",pt[i].x,pt[i].y);
+//	
+//	printf("%d\n",POS);
+	
+	int m; scanf("%d",&m);
+	for(int i=1;i<=m;i++) scanf("%Lf%Lf",&Q[i].x,&Q[i].y),Q[i].id=i,ans[i]=1;
+	sort(Q+1,Q+m+1,cmp);
+	int li=0;
+	for(int i=m;i>=1;i--)
+	{
+		while(li!=POS&&pt[li].x>=Q[i].x) li++;
+		if((pt[li].x<Q[i].x&&li==0)||(pt[li].x>Q[i].x&&li==POS)) ans[Q[i].id]=0;
+		else if(li==POS&&dcmp(pt[li].x-Q[i].x)==0){if(pt[li].y<Q[i].y) ans[Q[i].id]=0;}
+		else if(li>0&&dcmp(Cross(pt[li]-pt[li-1],Point(Q[i].x,Q[i].y)-pt[li-1]))<0) ans[Q[i].id]=0;
+	}
+	li=POS;
+	for(int i=1;i<=m;i++)
+	{
+		while(li!=cnt&&pt[li].x<=Q[i].x) li++;
+		if((pt[li].x>Q[i].x&&li==POS)||(pt[li].x<Q[i].x&&li==cnt)) ans[Q[i].id]=0;
+		else if(li==cnt&&dcmp(pt[li].x-Q[i].x)==0){if(pt[li].y>Q[i].y) ans[Q[i].id]=0;}
+		else if(li>POS&&dcmp(Cross(pt[li]-pt[li-1],Point(Q[i].x,Q[i].y)-pt[li-1]))<0) ans[Q[i].id]=0;
+	}
+	for(int i=1;i<=m;i++)
+		if(ans[i]) puts("YES");
+		else puts("NO");
+	return 0;
+}
+```
+
+---
+
+### T2 Tomoya
+
+给一个图，它是在一个DAG的基础上加上若干的自环。从S出发要走到T点，你每一次走到一个点后，这个点所有出边的边权会被打乱（$n!$种可能性均匀随机），但是你会在到达这个点后知道每条边被打乱后的边权。问在最优策略下，从$S$走到$T$的最少要走的距离的期望。$n,m\le 1000$
+
+Solution：考虑没有自环的情况，先递归求出边指向的点到终点的期望，那么下面的问题就是：将$a_1,a_2,a_3,\cdots a_n$与$b_1,b_2,b_3\cdots b_n$随机配对，最小值的期望。
+
+然而到现在都只看懂了$n^3$的做法：首先将$a,b$两个数组排好序（$a$降序，$b$升序），然后枚举作为最小值的那一对，问题转化成每一对的权值都大于最小值的方案数。那么$a$越往后的元素，能够匹配的$b$中的元素（即权值和大于枚举的最小值），一定包含了$a$更靠前的元素能够匹配的$b$中的元素，按照$a$小到大的顺序计算决策方案数就没有后效性了。
+
+对于有自环的情况，二分答案，然后将自环的边当做指向另外一个到终点期望等于二分的答案的点的边，然后按照前面的方法计算。算出来的期望如果小于二分的答案说明答案大了，否则说明答案小了。
+
+2019.3.3 Upd：我们按照从小到大的顺序，对每个$a$决定与它配对的$b$。枚举完最小值过后，假设第$i$小的$a$必须匹配前$y_i$大的$b$，那么这个最小值出现的概率就是$\prod {n-y_i+1-(i-1)\over n-(i-1)}$，其中$n-(i-1)$表示我们在为第$i$个元素决策的时候，前$i-1$个元素已经选过了，留下的元素数量恰为$n-(i-1)$。注意到每个元素对这个概率的贡献是独立的。我们可以动态维护这个概率。用一个小根堆维护所有的配对，并且维护**已经出了队**的那些对一定不出现的概率$P$。当某一个对$(x,y)$（$a$选第$x$小，$b$选第$y$小）出队的时候，它成为最小值的概率是$P\cdot {1\over (n-y+1)-(x-1)}$。$x$原来对$P$的贡献为$n-y+1-(x-1)\over n-(x-1)$，出队过后$x$的贡献变成了$n-y-(x-1)\over (x-1)$，应该对$P$进行相应的修改。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <queue>
+#define ll long long
+#define db double
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1010;
+const db eps=1e-7;
+int head[N],ecnt;
+struct ed{int to,next; db w;}e[N];
+void ad(int x,int y,db w){e[++ecnt]=(ed){y,head[x],w}; head[x]=ecnt;}
+db dis[N];
+int vis[N],S,T,n,m;
+db ew[N],ev[N],b[N];
+int cntv,cntw,sf;
+struct nod{
+	int x,y; db z;
+	nod(int x=0,int y=0,db z=0): x(x),y(y),z(z) {}
+	friend bool operator <(nod A,nod B){return A.z>B.z;}
+};
+priority_queue<nod> que;
+db cal(db mid)
+{
+//	cout<<cnt
+	int tot=0,flg=1;
+	for(int i=1;i<=cntv;++i)
+	{
+		if(flg&&((i==1||ev[i-1]<=mid)&&ev[i]>=mid))
+		{
+			flg=0;
+			for(int j=1;j<=sf;++j) b[++tot]=mid;
+		}
+		b[++tot]=ev[i];
+	}
+	if(flg) for(int i=1;i<=sf;++i) b[++tot]=mid;
+	while(!que.empty()) que.pop();
+	
+//	cout<<tot<<' '<<cntw<<endl;
+	
+	for(int i=1;i<=cntw;++i) que.push(nod(i,1,ew[i]+b[1]));
+	db P=1,ans=0;
+	while(!que.empty()&&P>eps)
+	{
+		nod u=que.top(); que.pop();
+//		cout<<u.x<<' '<<u.y<<' '<<u.z<<endl;
+		ans+=u.z*P/(cntw-u.y+1-(u.x-1));
+		P=P/(cntw-u.y+1-(u.x-1))*(cntw-u.y-(u.x-1));
+		if(u.y!=tot) que.push(nod(u.x,u.y+1,ew[u.x]+b[u.y+1]));
+	}
+//	cout<<ans<<endl;
+	return ans;
+}
+void dfs(int u)
+{
+	if(vis[u]) return;
+	if(u==T){dis[u]=0; return;}
+	
+//	cout<<u<<':';
+//	for(int k=head[u];k;k=e[k].next){cout<<e[k].to<<' ';} cout<<endl;
+	
+	for(int k=head[u];k;k=e[k].next){int v=e[k].to; if(v!=u) dfs(v);}
+
+	cntv=0,sf=0,cntw=0;
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to;
+		ew[++cntw]=e[k].w;
+		if(v!=u){ if(dis[v]!=-1) ev[++cntv]=dis[v];}
+		else sf++;
+	}
+	vis[u]=1;
+//	cout<<u<<' '<<cntv<<' '<<cntw<<' '<<sf<<endl;
+	
+	if(!cntv){dis[u]=-1; return;}
+	sort(ew+1,ew+cntw+1),sort(ev+1,ev+cntv+1);
+	if(!sf){dis[u]=cal(0); return;}
+	
+	
+	db lb=0,rb=1e6;
+	while(rb-lb>eps)
+	{
+		db mid=(lb+rb)/2;
+		if(cal(mid)>mid) lb=mid; else rb=mid;
+	}
+	dis[u]=lb; return;
+}
+int main()
+{
+	int x,y; db w; read(n),read(m),read(S),read(T);
+	for(int i=1;i<=m;++i) read(x),read(y),scanf("%lf",&w),ad(x,y,w);
+	
+//	for(int i=1;i<=n;++i)
+//	{
+//		cout<<i<<' ';
+//		for(int k=head[i];k;k=e[k].next) cout<<e[k].to<<' ';
+//		cout<<endl;
+//	}
+	
+	dfs(S);
+//	for(int i=1;i<=n;++i) cout<<dis[i]<<' '; cout<<endl;
+	printf("%.7lf\n",dis[S]);
+	return 0;
+}
+```
+
+
+---
+
+### T3 Kotomi
+
+给出$n$个点（$n\le 10^5$），所有点的$x$坐标和$y$坐标都是整数，需要找出一个$t\times t$的网格，使得所有的的点都在格点上。网格不一定与坐标轴平行。输出$t$的最小值。
+
+Solution：如果没有旋转，那么就是所有点横坐标的$gcd$、纵坐标的$gcd$的$gcd$作为网格边长；有旋转，就把点放到复平面上，所有的点都是高斯整数，所有点的$gcd$作为基底（基底的$x$、$y$是网格的长宽）。
+
+然而我并不知道这样为什么是最优的……
+

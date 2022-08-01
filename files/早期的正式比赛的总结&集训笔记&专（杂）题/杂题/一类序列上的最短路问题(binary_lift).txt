@@ -1,0 +1,155 @@
+## CF1246F Cursor Distance
+
+考虑对于每一个$i$，求出至多走$k$步就能够到达它的位置所构成的区间$[L_{i,k},R_{i,k}]$。我们只要对每个$i$分别求出$\sum_k L_{i,k},\sum_k R_{i,k}$就能得到答案。
+
+最短路不一定是单向的（比如对于baaaaac，从b走到最后一个a），所以$L,R$可能不独立，不能直接倍增计算$L,R$的和。
+
+进一步观察，$R_{i,k+2}$的取值与$[L_{i,k+1},L_{i,k})$中的位置有关的必要条件是$[L_{i,k+1},R_{i,k+1}]$的字符集大于$[L_{i,k},R_{i,k}]$的字符集；如果$[L_{i,k+1},R_{i,k+1}],[L_{i,k},R_{i,k}]$字符集相同，则$R_{i,k+2}$就只与$R_{i,k+1}$和$[L_{i,k},R_{i,k}]$的字符集大小有关。
+
+对于每个$i$，当$k$从$0$取到$+\infty$的时候，$[L_{i,k},R_{i,k}]$的字符集大小只会变化$|\Sigma|$次（$|\Sigma|$表示字符集大小）。故而，我们可以枚举当前这些区间的字符集大小，这时候$L,R$是独立的，可以直接倍增求出它们的和。
+
+实现细节上，在最外层枚举区间的字符集大小$t$，然后对每个位置$i$处理出$fl_i$——表示当$L$为某个满足$[L,i]$字符集大小为$t$的位置，$R=i$的时候，跳一步能够把$R$扩展到哪里；以及类似定义的$fr_i$。预处理出$fl_i,fr_i$倍增的结果。然后对每个$i$从大到小枚举$j$，然后看它现在的区间端点扩展$2^j$次以后，区间内是否仍然只有$t$种字符。
+
+[Code](https://codeforces.com/contest/1246/submission/69554739)
+
+---
+
+## LOJ6435 「PKUSC2018」星际穿越
+
+[参考这篇blog](https://www.cnblogs.com/HocRiser/p/9166459.html)
+
+设$f_{i,k}$为从$i$出发，走$k$步能够到达的最靠左的点。则有$f_{i,k+1} < f_{i,k}$。
+
+显然$f_{i,1} = l_i$。
+
+然后是$f_{i,2} = \min_{j \ge l_i} \{l_j\}$：
+
+- 对于$j\in [l_i,i)$，$i$可以在第一步走到$j$；
+- 对于$j>i$，如果$l_j\le i$我们可以选择在第一步走到$j$，否则$l_j > i$，$l_j$一定不会被$\min_{x\ge l_i}\{l_x\}$取到。
+
+对于$f_{i,k} (k > 2)$，有$f_{i,k} = \min_{j\in [f_{i,k-1},f_{i,k-2})} \{ l_j \} = \min_{j\in [f_{i,k-1},i)} \{ l_j \}$。由于显然$f_{i,k} < f_{i,2} \le \min_{j\ge i} \{l_j\}(k > 2)$，所以也可以写作$f_{i,k} = \min_{j\in [f_{i,k-1},n]} \{ l_j \}$。这个式子中$f_{i,k}$的取值与$i$无关而只与$f_{i,k-1}$有关，所以可以倍增求出$k=2^j$时的$f_{i,k}$和$\sum_{x\in [1,k]}f_{i,x}$。
+
+实现上，可以强制先走$k=1$的第一步$f_{i,1} = l_i$，这样的话之后的每一步的转移都满足$f_{i,k} = \min_{j\ge f_{i,k-1}} \{ l_j\}$
+
+
+[Code](https://loj.ac/submission/730991)
+
+---
+
+## 正睿20十连测day3T2 跳跃
+
+#### 【题目描述】
+
+活动场上有$n$柱子排成一行，你想在柱子上而跳来跳去。
+每个柱子$i$有一个跳跃范围$a_i \ge 1$。你可以一步从柱子$i$跳到柱子$j$，当且仅当$|i-j| \le a_i$。
+你想找两个点$x$和$y$进行来回跳跃。我们定义$d_{x\to y}$为从$x$点跳到$y$点所需要的最少步数。
+因为你想尽量多跳几步，你想找到两个点$x$和$y$，使得$\min\{d_{x\to y},d_{y\to x}\}$最大。
+
+#### 【输入格式】
+
+第一行一个整数$n$表示柱子的数量。
+第二行$n$个整数分别表示$a_1,a_2,\cdots a_n$。
+
+#### 【输出格式】
+
+一行输出$\min\{d_{x\to y},d_{y\to x}\}$的最大值。
+
+#### 【数据范围和约定】
+
+对于$30\%$的数据，我们有$n\le 3000$。
+对于另$20\%$的数据，我们有$1\le a_i\le 2$。
+对于$100\%$的数据，我们有$n\le 200000, 1\le a_i < n$
+
+### Sol
+
+显然从一个点出发走至多$x$次步能够到达的点会形成连续的区间。题目所求等价于求一个最大的$x$使得存在$i,j$，$i$走$x$步能够到达的区间不包含$j$且$j$走$x$步到达的区间不包含$i$。
+
+设$L_{i,k},R_{i,k}$分别表示$i$走$2^k$步能够走到的最左边的点和最右边的点。则：
+
+$$
+L_{i,k} = \min_{j \in [ L_{i,k-1}, R_{i,k-1} ]} \{ L_{j,k-1}\} \\
+R_{i,k} = \max_{j \in [ L_{i,k-1}, R_{i,k-1} ]} \{ R_{j,k-1}\} \\
+$$
+
+可以在$O(n\log ^ 2n)$的时间内求出所有的$L,R$。
+
+接下来我们倍增求解答案。从大到小枚举$k$，检查把答案加上$2^k$是否仍然合法。模拟把答案加上$2^k$的过程需要$O(n\log n)$的时间，检查需要$O(n)$的时间。这一步的时间复杂度是$O(n\log ^ 2n)$的。
+
+总时间复杂度$O(n\log^2 n)$。
+
+### Code
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <vector>
+#define PB push_back
+#define MP make_pair
+#define FIR first
+#define SEC second
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=2e5+10;
+int Lg[N],mi[19][N],mx[19][N],n;
+void getst(int *L,int *R) {
+    for(int i=1;i<=n;++i) mi[0][i]=L[i],mx[0][i]=R[i];
+    for(int j=1;j<=18;++j)
+        for(int i=1;i+(1<<j)-1<=n;++i)
+            mi[j][i]=min(mi[j-1][i],mi[j-1][i+(1<<j-1)]),
+            mx[j][i]=max(mx[j-1][i],mx[j-1][i+(1<<j-1)]);
+}
+void Q(int l,int r,int &L,int &R) {
+    int t=Lg[r-l+1];
+    L=min(mi[t][l],mi[t][r-(1<<t)+1]);
+    R=max(mx[t][l],mx[t][r-(1<<t)+1]);
+}
+int L[19][N],R[19][N],a[N];
+int pl[N],pr[N],ql[N],qr[N];
+bool check() {
+    static int V[N];
+    for(int i=1;i<=n;++i) V[i]=n+1;
+    for(int i=1;i<=n;++i) V[qr[i]+1]=min(V[qr[i]+1],i);
+    int mx=0;
+    for(int i=n;i>=1;--i) {
+        mx=max(mx,ql[i]);
+        if(mx>V[i]) return 1;
+    }
+    return 0;
+}
+int main() {
+    rd(n);
+    for(int i=1;i<=n;++i) rd(a[i]);
+    for(int i=2;i<=n;++i) Lg[i]=Lg[i>>1]+1;
+    for(int i=1;i<=n;++i)
+        L[0][i]=max(1,i-a[i]),
+        R[0][i]=min(n,i+a[i]);
+    for(int j=1;j<=18;++j) {
+        getst(L[j-1],R[j-1]);
+        for(int i=1;i<=n;++i)
+            Q(L[j-1][i],R[j-1][i],L[j][i],R[j][i]);
+    }
+    for(int i=1;i<=n;++i) pl[i]=pr[i]=i;
+    int ans=0;
+    for(int j=18;j>=0;--j) {
+        getst(L[j],R[j]);
+        for(int i=1;i<=n;++i)
+            Q(pl[i],pr[i],ql[i],qr[i]);
+        if(check()) {
+            ans+=1<<j;
+            for(int i=1;i<=n;++i)
+                pl[i]=ql[i],pr[i]=qr[i];
+        }
+    }
+    printf("%d",ans+1);
+    return 0;
+}
+```
+

@@ -1,0 +1,136 @@
+## 上次的补充
+
+假设要找出从 $(0,0)$ 走到 $(n,n)$ 的两条不相交路径。
+
+显然等价于找出两条 $(0,1)\to (n-1,n)$ 和 $(1,0) \to (n,n-1)$ 的路径。
+
+对于相交的路径，沿交点翻折后会得到 $(0,1) \to (n,n-1)$ 和 $(1,0) \to (n-1,n)$ 。而任何 $(0,1) \to (n,n-1)$、$(1,0) \to (n-1,n)$ 的两条路径必然会相交。
+
+所以总方案数是 $\binom{2n-2}{n-1}^2 - \binom{2n-2}{n}^2$ 。
+
+### 例题 1 
+
+求出经过障碍数量不超过 $d$ 的、从起点到终点的不交的两条路径
+
+把保证两个路径不交的容斥放在最外层，问题转化成求两条固定起点和终点的路径，使得经过障碍的总数不超过 $d$ 。用容斥算出从一个点到终点，恰好经过了 $k$ 个障碍的方案数即可。
+
+### 例题 2
+
+有 $k$ 个起点，$k$ 个终点。要选出 $k$ 条不相交的路径。
+
+例如：
+
+![](0.png)
+
+设 $A_{i,j}$ 为从第 $i$ 个起点到第 $j$ 个终点的方案数。答案是 $A$ 的行列式。
+
+
+## Jiry Matchings
+
+来源：300iq contest 2 J [link](https://codeforces.com/gym/102331/problem/J)
+
+链分治，链上用分治+卷积合并。
+
+函数的凸性证明：费用流（树是二分图）暴力出来是凸的，所以结果一定是凸的。
+
+怎么做 max + 卷积：差分之后归并排序
+
+一个和这题没啥关系的结论：上凸函数取 min、下凸函数取 min 之后仍然是凸函数
+
+计数版本：LOJ6289
+
+## UOJ185 小星星
+
+排列 -> 每个数出现至少一次
+
+容斥这个限制，然后树形 dp 。
+
+## luogu P6151 青春猪头少年不会梦到兔女郎学姐
+
+[link](https://www.luogu.com.cn/problem/P6151)
+
+合理分解算容斥系数这个问题：
+
+1. 算出：分成 $n$ 段，段长度的乘积
+2. 根据 1. 对每个 $m$ 算出：把 $n$ 段捻成 $m$ 段之后，系数 * 容斥系数的和
+
+分治 FFT 0/1 解决环的限制
+
+sum[n+1] = \sum x_1^2 * x_2 * x_3 \cdots x_n
+
++1 是为了在 x_1 和 x_n 之间加一个虚点，这样可以和之前一样地去算容斥系数
+
+## BZOJ3284 不等式
+
+[link](https://vjudge.net/problem/HYSBZ-3284)
+[link-TC的原版（弱化）](https://vjudge.net/problem/TopCoder-12547)
+
+组合数斜线求和化一下，设 $\sum_{1\le i \le n} x_i = X$ ，那么方案数就是 $\binom{S-X}{m-n}$ ，这玩意可以展开成一个关于 $X$ 的 $m-n$ 次多项式。
+
+我们相当于要对每个 $k\in [0,m-n]$ 求 $\sum (x_1+x_2+x_3\cdots +x_n)^k$
+
+设 $F_{i,k} = \sum (x_1,x_2\cdots x_i) ^k$ ，那么 $F_{i+j,k} = \sum_{x=0}^k \binom{k}{x} F_{i,x}\cdot F_{j,k-x}$ 。倍增算出 $F_{n,0\cdots k}$ 就可以了。注意到边界 $F_{1,k} = \sum_{j\le t} j^k$ 是个自然数幂和的形式。
+
+## GYM100958 I
+
+如果 T 的border已知就很容易 $O(|S|\cdot |T|)$ 地计算方案了。
+
+搜索出所有可能的 border 集合即可。
+
+搜索 border 的模板：
+
+``` cpp
+/*
+S 的每一位分别表示长度为 i 的前缀是否为 border
+ways 表示长度为 l_k 且以 {l_0,l_1, ... l_k} 为 border 的串的数量
+R[i] 表示以 S 为 border 集合的前缀的、大于 L 的第一个 border 长度小于 x 的、长度为 x 的串的数量
+*/
+vector<int> getborder(ll S,int ways) {
+	int L=m; while(L&&!(S>>L-1&1)) L--;
+	vector<int> R(m+1);
+	R[L]=ways;
+	if(L==m) return (ans=(ans+1ll*ways*DP(S))%mod,R);
+	for(int x=L+1;x<=m;++x) {
+		int tmp=ways;
+		if(L*2>x) {
+			for(int j=L;j*2>x&&tmp;--j)
+				if((S>>j-1&1)&&(!(S>>j*2-x-1&1)))
+					tmp=0;
+		}
+		else tmp=1ll*tmp*pw[x-2*L]%mod;
+		if(!tmp||!(tmp=(tmp-R[x]+mod)%mod)) continue;
+		vector<int> y=getborder(S|1ll<<x-1,tmp);
+		for(int i=x;i<=m;++i)
+			R[i]=(R[i]+y[i])%mod;
+	}
+	return R;
+}
+```
+
+## Unicyclic Graph Counting
+
+[link](https://atcoder.jp/contests/cf17-tournament-round3-open/tasks/asaporo2_f)
+
+直接对树上的东西进行 prufer 的编码。假设环的大小是 $K$ ，对应的 prufer 序列中，树上的点出现 $d_x-1$ 次 ，环上的点出现 $d_x - 2$ 次，序列的结尾一定是环上的点。只要确定环的形态和 prufer 序列就能还原出树。
+
+我觉得这个东西很具有启发性的一点：prufer序列还可以编码一个森林/基环树 :heart_eyes:
+
+## 异或图
+
+枚举钦定一个集合划分，算集合之间都没有边的方案数（线性基），然后斯特林反演就可以得到恰好有 $k$ 个连通块的方案数 $g(k)$ 。答案是 $g(1)$ 。
+
+## 小C的岛屿
+
+分层高斯消元
+
+斯特林反演算 B，然后算出 G(m) 。
+
+## CF1148H
+
+对每个权值 $k$ 维护一个可持久化线段树，表示对每个 $r$ 有多少个以 $r$ 为右端点的区间 mex = $k$ 。查询相当于是某一组可持久化线段树的历史版本和。
+
+找出以 $r$ 为右端点的区间中，mex = $A_{r+1}$ 的那些区间，只有它们的 mex 值会改变。注意到它们的 mex 不一定会全都变成 $A_{r+1}$ 。
+
+维护 $last_i$ 为 $i$ 这个值在 $r+1$ 之前最后一次是什么时候出现。一个权值会成为一段的 mex ，当且仅当在 $last$ 数组中这个权值是前缀最小值。查出那一段区间的 mex 会变成的值的上下界，然后在 last 中暴力找就可以了。
+
+每一次会删除一段、加入若干，所以对段的操作次数之和为 $O(n)$ ，总复杂度 $O(n\log n)$ 。

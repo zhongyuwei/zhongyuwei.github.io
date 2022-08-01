@@ -1,0 +1,367 @@
+﻿# 20190508 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 Suffix Array
+
+有一个长度为$2^k$的字符串。字符串位置从$1$开始编号，字符串中只包含$A,B$两个字符。如果$i-1$的二进制表示中有奇数个$1$，那么第$i$个位置的字母是$B$，否则第$i$个位置的字符是$A$。
+
+有$m$次询问，每次询问这个字符串的后缀数组中的某一位的值。$m\le 100000,k\le 60$
+
+Solution：
+
+有一个非常神奇的性质：对于长度为$2^{k-1}$的字符串，我们把这个字符串中的每一个$A$替换成$AB$，把这个字符串中的每一个$B$替换成$BA$，就可以得到长度为$2^k$的字符串。
+
+我们考虑把对于长度为$2^k$的字符串的询问转化成长度为$2^{k-1}$的字符串的询问。
+
+因为$AB$的字典序小于$BA$的字典序，因此，我们要比较长度为$2^k$的字符串中的两个后缀，我们只需要关心它们的头几个字母，以及它们在长度为$2^{k-1}$的字符串中的排名。具体需要比较前多少个呢？我们需要保证，这些前缀通过$A\to AB,B\to BA$的变换到下一层之后，我们仍然能够比较这些前缀之间的字典序大小。所以我们就记$AB,BA,AAB,BBA,A,B$（最后两个是一个字母加上一个空串；有一些组合（比如$AAAB$）没有出现的原因是字符串中一定不可能出现这种子串）。
+
+我们对于每一种前缀，处理出它可能在下一层得到的两个前缀（以它的首字母替换出来的那两个字符开头），并处理出每一层每一种前缀的数量。按照在这一层得到的前缀的字典序，我们依次枚举询问位置在上一层属于哪一种前缀。确定了询问位置在上一层所属的前缀以及在上一层所属前缀中的排名，我们就递归到上一层询问，最后根据得到这一层的前缀的方式，这一层的答案是上一层的答案乘$2$或者上一层的答案乘$2$加一。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+#define PII pair<int,int>
+#define MP make_pair
+#define fir first
+#define sec second
+using namespace std;
+template <class T>
+inline void rd(T &x) { 
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+/*
+0 A    AB         AB  B
+1 AAB  ABABBA     AB  BA
+2 AB   ABBA       AB  BBA
+3 B    BA         BA  A
+4 BA   BAAB       BA  AAB
+5 BBA  BABAAB     BA  AB
+*/
+int mp[6][2]={
+	{2,3},
+	{2,4},
+	{2,5},
+	{4,0},
+	{4,1},
+	{4,2}
+};
+int trans[12][2]={
+	{3,1}, // A
+	{4,1}, // AAB
+	{0,0}, // AB
+	{5,1}, // ABAAB
+	{1,0}, // ABABBA
+	{2,0}, // ABBA
+	{0,1}, // B
+	{3,0}, // BA
+	{4,0}, // BAAB
+	{5,0}, // BABAAB
+	{1,1}, // BABBA
+	{2,1}  // BBA
+};
+ll sum[65][6];
+void precalc(int K) {
+	sum[0][0]=1;
+	for(int i=0;i<K;++i)
+		for(int j=0;j<6;++j) if(sum[i][j]) {
+			for(int x=0;x<2;++x)
+				sum[i+1][mp[j][x]]+=sum[i][j];
+		}
+}
+ll solve(ll x,int k) {
+	if(k==0) return 0;
+	for(int i=0;i<12;++i) {
+		if(x>sum[k-1][trans[i][0]]) x-=sum[k-1][trans[i][0]];
+		else {
+			for(int j=0;j<trans[i][0];++j)
+				x+=sum[k-1][j];
+			return solve(x,k-1)*2+trans[i][1];
+		}
+	}
+}
+int main() {
+	freopen("a.in","r",stdin);
+	freopen("a.out","w",stdout);
+	int K; rd(K); precalc(K);
+	int q; ll x; rd(q);
+	while(q--) {
+		rd(x);
+		printf("%lld\n",solve(x,K)+1);
+	}
+	return 0;
+}
+```
+
+---
+
+### T2 Infinite Sequence
+
+给定整数$A$，给定一个序列$a$：
+$$
+a_n = \begin{cases}
+n && 0\le n\le 1 \\
+A\cdot a_{n-1} + a_{n-2} && otherwise
+\end{cases}
+$$
+
+给定一个$x$和一个质数$p$和两个正整数$L,R$，询问有多少个整数$n$使得$L\le n\le R$且$a_n\equiv x\mod p$。
+
+
+测试点编号 | 特殊约定
+-|
+1 | $R\le 10^5$
+2 | $p\le 1000$
+3 | $p\le 10^5$
+4,5,6 | 存在一个整数$z$使得$z^2\equiv A^2 + r \mod p$
+7,8,9,10 | 无
+
+对于所有测试点数据组数$T\le 40$。
+
+Solution：
+
+补充一点关于特征方程的东西：
+
+对于递推式$a_n = c_1a_{n-1}+c_2a_{n-2}$，它的特征方程为$x^2 = c_1 x +c_2$。设这个方程的两个根是$x_1,x_2$。如果$x_1\not = x_2$，那么这个递推式的通项公式可以表示成$p\cdot x_1^n + q \cdot x_2^n $的形式。否则，$x_1=x_2$，这个递推式的通项公式可以表示成$(q+pn)\cdot x_1^n$的形式。我们可以通过数列的前两项带入得到$p,q$，从而得到通项公式。
+
+以下仅限于口胡：
+
+对于这个递推式，它的特征方程是$x^2 = Ax + 1$，解为$x = {A\pm \sqrt{A^2 + 4}\over 2}$，通过列方程可以解出$p={1\over \sqrt{A^2 +4}},q=-{1\over \sqrt{A^2+4} }$，因此$a_n = {1\over \sqrt{A^2+4}}({A+\sqrt{A^2+4}\over 2})^n - {1\over \sqrt{A^2+4}}({A-\sqrt{A^2+4}\over 2})^n$。
+
+然后开始分情况讨论：
+
+#### case 1: $A^2 + 4 = 0 \mod p$
+
+此时出现重根。可以解出$a_n = n({A\over 2})^n$。考虑到这个时候$A^2 \equiv -4\bmod p$，也就是$A^4 \equiv 16 \bmod p$，可以得到$({A\over 2})^4 \equiv 1 \bmod p$。因而我们只要枚举了$n\mod 4$的余数，$({A\over 2})^n$的取值就确定，我们就可以确定$n\mod p$的取值了。用CRT合并即可得到答案。
+
+
+#### case 2：存在一个整数$z$使得$z^2 + 4 \equiv 0 \mod p$成立
+
+首先我们用cipolla求出一个$z$。得到$a_n = {1\over z} ({A+z\over 2})^n-{1\over z}({A-z\over 2})^n = {1\over z }x_1^n -{1\over z}x_2^n$。
+
+由韦达定理得到$x_1x_2 = -1$，我们设$u=x_1$，就是$a_n\cdot z = u^n +(-{1\over u})^n$。
+
+按照$n$的奇偶性进行讨论后，我们先解出$u^n $的值（这是一个二次方程，可以用求根公式 + 用cipolla开根解决），然后用大步小步法解决有多少个合法的$n$。
+
+
+#### case 3： 不存在一个整数$z$使得$z^2 + 4 \equiv 0 \mod p$成立
+
+题解说，我们在这个数域中加入一个数$\sqrt {A^2 +4}$，然后可以把所有的数都表示成$a+ b \sqrt{A^2+4}$的形式。然而我并不知道~~也不想知道~~这个东西具体是怎么实现的。。。
+
+---
+
+### T3 Planar Graph
+
+给一张平面图。你每一次操作有$1\over 2$的概率随机游走一步（从你当前所在点的所有相邻的点中随机选一个走过去），有$1\over 2$的概率随机游走两步。问期望在多少次操作后，你会在那次操作结束的时候恰好停留在$n$号点。初始的时候你在$1$号节点。$n\le 5000,m\le {n(n-1)\over 2}$
+
+Solution：
+
+一个~~惊天地泣鬼神~~的结论：平面图的边数是$O(n)$的。
+
+我当时考场以为答案是$A^1 + 2A^2 + 3A^3\cdots $，其中$A$是图的邻接矩阵，然后当我把矩阵求逆敲完之后发现第一个样例的矩阵就不可逆。
+
+正确的暴力方法是，考虑求每条边的期望被经过次数，然后再转化成求每个点的期望被经过的次数。
+
+而题解的做法是，设$p_i$是在第$i$次操作结束过后游戏结束的概率，那么$p$满足一个$n$阶的线性递推式（我不会证明不要问我 + 为什么我的BM解出来的项数比$n$大。。。）。设这个递推式是$p_i = \sum_{j=1}^m b_jp_{i-j}$，那么$p$的生成函数将可以表示成两个多项式的比。
+
+我们设$G(x) = \sum_{i=1}^m b_ix^i,F(x)= \sum_{i=0}^{\infty} p_ix^i $，考虑$F(x)G(x)$，从第$m+1$项开始每一项的系数和$F$相同；而对于第$i$项$i<m$它的系数是$\sum_{j=1}^{i-1} [x^{i-j}]F(x)[x^j]G(x)$。我们令$C(x)= (\sum_{i=0}^m p_ix^i)(1-G(x))$，则$F(x)= F(x)G(x) +C(x)$，因此$F(x) = {C(x)\over (1-G(x))}$。
+
+我们要求的答案是$F'(1)$，$({u\over v})' = {u'v-uv'\over v^2}$，直接算就可以了。
+
+这道题让我深深感受到了BM算法的玄学（“最短递推式”长度玄学，需要的项数玄学），我的代码必须算出前$3n$项才能够得到正确答案。最后我的代码的得分在$50$分到$70$分之间徘徊……
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+#define PB push_back
+#define PII pair<int,int>
+#define MP make_pair
+#define fir first
+#define sec second
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=5010*3,mod=998244353;
+const int inv2=(mod+1)/2;
+void Add(int &x,int y) { x+=y; if(x>=mod) x-=mod; }
+void Dec(int &x,int y) { x-=y; if(x<0) x+=mod; }
+int Pow(int x,int y) {
+	int res=1;
+	while(y) {
+		if(y&1) res=res*(ll)x%mod;
+		x=x*(ll)x%mod,y>>=1;
+	}
+	return res;
+}
+int n,m;
+int inv[N];
+namespace BF {
+//	int head[N],ecnt;
+	int du[N];
+	int dp[2][N],f[N];
+	vector<int> e[N];
+//	struct ed{int to,next;}e[N/3*N/3/2];
+	void init() {
+//		ecnt=0;
+		memset(du,0,sizeof(du));
+//		memset(head,0,sizeof(head));
+		memset(dp,0,sizeof(dp));
+		for(int i=1;i<=n;++i) e[i].clear();
+	}
+	void ad(int x,int y) {
+		e[x].PB(y),e[y].PB(x);
+//		e[++ecnt]=(ed){y,head[x]}; head[x]=ecnt;
+//		e[++ecnt]=(ed){x,head[y]}; head[y]=ecnt;
+		du[x]++,du[y]++;
+	}
+	void solve(int *p,int lim) {
+		int cur=0;
+		dp[0][1]=1; p[0]=0;
+		for(int i=0;i<lim;++i,cur^=1) {
+			int nxt=cur^1;
+			for(int j=1;j<=n;++j) f[j]=dp[nxt][j]=0;
+//			memset(f,0,sizeof(f));
+//			memset(dp[nxt],0,sizeof(dp[nxt]));
+			for(int j=1;j<n;++j) if(dp[cur][j]) {
+				for(int k=0;k<e[j].size();++k) {
+					int v=e[j][k];
+					Add(f[v],dp[cur][j]*(ll)inv[du[j]]%mod);
+				}
+			}
+			for(int j=1;j<=n;++j) if(f[j]) {
+				Add(dp[nxt][j],f[j]*(ll)inv2%mod);
+				for(int k=0;k<e[j].size();++k) {
+					int v=e[j][k];
+					Add(dp[nxt][v],f[j]*(ll)inv[du[j]]%mod*inv2%mod);
+				}
+			}
+			p[i+1]=dp[nxt][n];
+		}
+	}
+}
+namespace BM {
+/*	vector<int> b[N];
+	int fail[N],delta[N];
+	void solve(int *a,int n,vector<int> &c) {
+		int cnt=0; fail[0]=delta[0]=0;
+		int id=0,mi=1e9;
+		for(int i=1;i<=n;++i) {
+//			cerr<<i<<':';
+			delta[i]=a[i];
+			for(int j=0;j<b[cnt].size();++j)
+				Dec(delta[i],a[i-j-1]*(ll)b[cnt][j]%mod);
+			if(!delta[i]) continue;
+			fail[cnt++]=i;
+			if(cnt==1) { b[cnt].resize(i); continue; }
+	//		int id=0,len=1e9;
+	//		for(int j=1;j<cnt-1;++j) {
+	//			int tmp=i-fail[j]+(int)b[j].size();
+	//			if(tmp<len) len=tmp,id=j;
+	//		}
+//			cerr<<fail[id]<<' ';
+			int tmp=delta[i]*(ll)Pow(delta[fail[id]],mod-2)%mod;
+			b[cnt].resize(i-fail[id]-1); b[cnt].PB(tmp);
+			for(int j=0;j<b[id].size();++j)
+				b[cnt].PB(b[id][j]*(ll)(mod-tmp)%mod);
+			if(b[cnt].size()<b[cnt-1].size()) b[cnt].resize(b[cnt-1].size());
+			for(int j=0;j<b[cnt-1].size();++j) Add(b[cnt][j],b[cnt-1][j]); */
+//			if(-fail[cnt-1]+/*(int)*/b[cnt-1].size()<b[id].size()-fail[id]) mi=-fail[cnt-1]+/*(int)*/b[cnt-1].size(),id=cnt-1;
+/*			cerr<<b[cnt-1].size()<<' '<<fail[cnt-1]<<endl;
+		}
+		c=b[cnt];
+		for(int i=0;i<=cnt;++i) b[i].clear();
+	}*/
+	vector<int> ls,ttmp;
+	void solve(int *a,int n,vector<int> &now) {
+		now.clear(),ls.clear();
+		int lim=0,td=1,len=0;
+		for(int i=1;i<=n;++i) {
+			int del=a[i];
+			for(int j=0;j<now.size();++j) Dec(del,a[i-j-1]*(ll)now[j]%mod);
+			++len;
+			if(del==0) continue;
+			if(lim*2<=i) {
+				ttmp=now;
+				int tmp=del*(ll)Pow(td,mod-2)%mod;
+				while(now.size()<ls.size()+len) now.PB(0);
+				Add(now[len-1],tmp);
+				for(int j=0;j<ls.size();++j) Dec(now[j+len],tmp*(ll)ls[j]%mod);
+				lim=i+1-lim,ls=ttmp,td=del; len=0;
+			}
+			else {
+				int tmp=del*(ll)Pow(td,mod-2)%mod;
+				while(now.size()<ls.size()+len) now.PB(0);
+				Add(now[len-1],tmp);
+				for(int j=0;j<ls.size();++j) Dec(now[j+len],tmp*(ll)ls[j]%mod);
+			}
+		}
+	}
+
+
+
+}
+vector<int> g;
+int p[N],G[N],C[N];
+int main() {
+	freopen("c.in","r",stdin);
+	freopen("c.out","w",stdout);
+	inv[1]=1; for(int i=2;i<=5000;++i) inv[i]=(mod-mod/i)*(ll)inv[mod%i]%mod;
+	int T; rd(T);
+	while(T--) {
+		BF::init();
+		rd(n),rd(m);
+		int x,y;
+		for(int i=1;i<=n;++i) rd(x),rd(y);
+		for(int i=1;i<=m;++i) rd(x),rd(y),BF::ad(x,y);
+		BF::solve(p,2*n); g.clear();
+	//	cerr<<"dp completed!"<<endl;
+		BM::solve(p,2*n,g);
+	//	cerr<<"BM completed!"<<endl;
+	//	for(int i=0;i<=n*2;++i) printf("%d ",p[i]); puts("");
+	//while(g.back()==0) g.pop_back();
+	/*	for(int i=g.size()+1;i<=n*2;++i) {
+			int t=0;
+			for(int j=0;j<g.size();++j)
+				Add(t,p[i-j-1]*(ll)g[j]%mod);
+			if(t!=p[i]) printf("wa!\n");
+			else printf("ok correct\n");
+		}
+*/
+		int K=g.size();
+	//	cerr<<K<<endl;
+	//	for(int i=0;i<K;++i) printf("%d ",g[i]); puts("");
+		memset(C,0,sizeof(C));
+		memset(G,0,sizeof(G));
+		for(int i=0;i<=K;++i) C[i]=p[i];
+		for(int i=0;i<=K;++i)
+			for(int j=0;j<K;++j) if(i+j+1<=K)
+				Dec(C[i+j+1],p[i]*(ll)g[j]%mod);
+		G[0]=1;
+		for(int i=1;i<=K;++i)
+			G[i]=(mod-g[i-1])%mod;
+		int u=0,du=0,v=0,dv=0;
+		for(int i=0;i<=K;++i) {
+			Add(u,C[i]),Add(du,C[i]*(ll)i%mod);
+			Add(v,G[i]),Add(dv,G[i]*(ll)i%mod);
+		}
+		int ans=(du*(ll)v-u*(ll)dv)%mod*Pow(v*(ll)v%mod,mod-2)%mod;
+		printf("%d\n",(ans+mod)%mod);
+	}
+	return 0;
+}
+```

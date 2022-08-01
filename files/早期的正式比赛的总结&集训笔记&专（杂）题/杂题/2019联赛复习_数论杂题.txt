@@ -1,0 +1,193 @@
+## hdu6216 A Cubic number and A Cubic Number
+
+给你一个质数$p$，问$p$是否可以表示成两个自然数的立方差。$T\le 100,p\le 10^{12}$
+
+#### Sol
+
+$a^3 - b^3 = (a-b)(a^2 + ab + b^2)$
+
+由于显然有$a>0,b>0$，所以只能是$a-b=1,a^2+ab+b^2 = p$。
+
+将$a-b=1$带入$a^3 - b^3 = p$得到一个二次方程，判断是否有自然数解即可。
+
+---
+
+## hdu5780 gcd
+
+给出$x,n$，求$\sum_{1\le a,b\le n} \gcd(x^a-1,x^b-1)$。$x,n\le 10^5,T\le 300$
+
+### Sol
+
+假设$a>b$，则
+$$
+\gcd(x^a-1,x^b-1)\\
+=\gcd(x^a - x^b , x^b - 1) \\
+=\gcd(x^{b}(x^{a-b}-1),x^b-1) \\
+\because x^b \bot (x^b - 1)\\
+\therefore \gcd(x^{b}(x^{a-b}-1),x^b-1) = \gcd(x^{a-b}-1,x^b-1) \\
+\therefore \gcd(x^a-1,x^b-1) = x^{\gcd(a,b)}-1
+$$
+
+剩下的部分利用欧拉函数+数论分块即可解决。
+
+## bzoj2186 沙拉公主的困惑
+
+问$[1,n!]$中有多少个数与$m!$互质。$n,m\le 10^7$
+
+### Sol
+
+考虑容斥，枚举数与$m!$的$gcd$，可以得到
+
+$$
+\sum_{d=1} ^{m!} \mu(d) \cdot {n!\over d}
+$$
+
+这个式子和下面的式子是等价的：
+
+$$
+n! \cdot\prod_p (1-{1\over p})
+$$
+
+其中$p$是小于等于$m$的质数。
+
+---
+
+## bzoj3884 上帝与集合的正确用法
+
+求$2^{2^{2^{2^{\cdots}}}}$对$p$取模的值。$p\le 10^7$
+
+### Sol
+
+设$x = 2^{2^{2^{2^{\cdots}}}}$。
+
+设$p=2^k\cdot p'$，其中$p'$是奇数。那么$2^x \pmod p$等价于$2^k \cdot (2^{x-k}\pmod {p'})$。因为$2\bot p'$，所以$2^{x-k} \equiv 2^{x-k\pmod {\varphi (p')}}\pmod {p'}$。递归解决$x\pmod {\varphi(p')}$。递归若干次之后$p$就会变成$1$，返回$0$即可。
+
+---
+
+## hdu4180 RealPhobia
+
+给出两个32位整数$A,B$，满足$0< A < B$，你需要找出两个数$C,D$满足：
+
+- $0< C < D < B$
+- 在此基础上，$|{A\over B}-{C\over D}|$尽量小。
+- 在此基础上，$D$要尽量小。
+
+$T\le 1000$
+
+### Sol
+
+特判掉$\gcd (A,B)\not=1$。
+
+考虑
+$$
+|{A\over B} - {C\over D} |\\
+=|{AD - BC \over BD}|
+$$
+
+$B$是定值，所以我们需要最小化的就是
+$$
+|{AD - BC \over D}|
+$$
+
+分子可以取到$\pm 1$。
+
+而如果分子取$\gcd$的倍数，则$D,C$需要扩大相应的倍数，分母也会扩大相应的倍数，对整个式子的取值没有影响。
+
+故而我们只需要考虑在让分子取到$\pm 1$的时候最大化分母即可。
+
+此外还要特判$A=1$，因为此时会涉及到$C=0$的情况，而前面说的“分子不会扩大倍数”都是在假定$AD \not= 0, BC \not= 0$成立时推导的。
+
+### Code
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define db long double
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+    x=0; char c=getchar(); int f=1;
+    while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+    while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+ll Abs(ll x) { return x>0?x:-x; }
+ll exgcd(ll a,ll b,ll &x,ll &y) {
+    if(!b) { x=1,y=0; return a; }
+    ll g=exgcd(b,a%b,y,x); y-=a/b*x; return g;
+}
+ll c,d;
+void upd(ll C,ll D) {
+    if(D>d) c=C,d=D;
+}
+int main() {
+    int T; rd(T);
+    while(T--) {
+        ll A,B;
+        scanf("%lld/%lld",&A,&B);
+        if(A==1) {
+            printf("1/%lld\n",B-1);
+            continue;
+        }
+        c=d=0;
+        ll D,C;
+        ll g=exgcd(A,-B,D,C);
+        if(Abs(g)!=1) {
+            printf("%lld/%lld\n",Abs(A/g),Abs(B/g));
+            continue;
+        }
+        // A*D - B*C = 1
+        D=(D%B+B)%B;
+        D+=(B-D-1)/B*B;
+        C=(A*D-1)/B;
+        upd(C,D);
+        
+        D=((-D)%B+B)%B;
+        D+=(B-D-1)/B*B;
+        C=(A*D+1)/B;
+        upd(C,D);
+        
+        printf("%lld/%lld\n",c,d);
+    }
+    return 0;
+}
+```
+
+---
+
+## luoguP1306 斐波那契公约数
+
+给出$n,m$，求$\gcd(F_n,F_m)$的末$8$位（其中$F_n$表示斐波那契数列的第$n$项）
+
+$n,m\le 10^9$
+
+### Sol
+
+结论：$\gcd(F_n,F_m)= F_{\gcd(n,m)}$
+
+证明（设$n>m$）：
+$$
+\because F_n = F_m \cdot F_{n-m+1} + F_{m-1} \cdot F_{n-m} \\
+\therefore \gcd ( F_n,F_m)= \gcd (F_m \cdot F_{n-m+1} + F_{m-1}\cdot F_{n-m},F_m ) \\
+= \gcd(F_{m-1}\cdot F_{n-m}, F_m)\\
+\because F_m \bot F_{m-1} \\
+\therefore \gcd (F_{m-1} \cdot F_{n-m},F_m) = \gcd(F_{n-m},F_m) \\
+\therefore \gcd (F_n,F_m) = \gcd(F_{n-m},F_m) \\
+\therefore \gcd (F_n,F_m) = F_{\gcd(n,m)}
+$$
+
+证明$F_n \bot F_{n-1}$，可以归纳：当$n=1$的时候是成立的。当$n>1$的时候：
+
+$$
+\gcd( F_n, F_{n-1})\\
+= \gcd(F_{n-1}+F_{n-2}, F_{n-1})\\
+= \gcd(F_{n-1},F_{n-2} ) \\
+= \gcd(F_1,F_0) \\
+= 1
+$$
+故而$F_n \bot F_{n-1}$。
+
+---
+

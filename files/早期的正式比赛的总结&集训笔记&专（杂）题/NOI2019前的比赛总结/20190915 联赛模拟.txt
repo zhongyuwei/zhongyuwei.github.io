@@ -1,0 +1,71 @@
+﻿# 20190915 联赛模拟
+
+标签（空格分隔）： 总结
+
+---
+
+## T3 空之轨迹 kiseki
+
+有一个数集（允许有重复元素），初始为$\{ 0 \}$。
+
+每一次操作中从$S$中等概率的选择一个数，假设为$x$，然后把$x+1$加入集合。
+
+有一个长度为$n$的序列$\{ a_i \}$。
+
+问$m$次操作后，$E(\sum _{x\in S} a_x )$（出现多次的元素计算多次）。
+
+### Sol 1 状压dp
+
+考虑每一次加入的那个数构成的序列。
+
+设$f_{i,S}$表示考虑完前$i$个数，前$i$个数的状态为$S$，所有方案中前$i$个数的和。发现我们只需要关心前$i$个数中每一个数出现了多少次就可以了，这个可以这样表示：将前$i$个数排序，维护这个排序后的序列的差分数组。这个差分数组的每一项都是0/1，所以状态数是$O(m\cdot 2^m )$的。
+
+### Sol 2 直接dp $O(m^2)$
+
+设每次加入的数构成的序列是$b$，考虑每一个$a_x$的贡献，实际上是有多少个子序列，形状为$\{ 1,2,\cdots x\}$（子序列的数量对应构造方法的数量），还要乘上没有在子序列中元素构造方法的数量。这个可以用简单的$dp$算出。
+
+时间复杂度$O(m^2)$。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int mod=998244353;
+inline void Add(int &x,int y) { x+=y; if(x>=mod) x-=mod; }
+int Pow(int x,int y) {
+	int res=1;
+	while(y) {
+		if(y&1) res=res*(ll)x%mod;
+		x=x*(ll)x%mod,y>>=1;
+	}
+	return res;
+}
+int a[100010],n,m;
+int f[22][22];
+int main() {
+	rd(n),rd(m);
+	for(int i=1;i<=n;++i) rd(a[i]);
+	f[0][0]=1;
+	for(int i=1;i<=m;++i)
+		for(int j=0;j<=m;++j) if(f[i-1][j]) {
+			Add(f[i][j],f[i-1][j]*(ll)i%mod);
+			Add(f[i][j+1],f[i-1][j]);
+		}
+	int ans=0;
+	for(int i=1;i<=m;++i)
+		ans=(ans+a[i]*(ll)f[m][i])%mod;
+	for(int i=1;i<=m;++i) ans=ans*(ll)Pow(i,mod-2)%mod;
+	printf("%d",ans);
+	return 0;
+}
+```

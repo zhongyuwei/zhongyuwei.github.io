@@ -1,0 +1,133 @@
+## 计算会到达某一个终点的概率
+
+计算期望在每个节点上停留多久
+
+### SCOI 2012 走迷宫
+
+
+## Band Matrix
+
+所有非零项都在主对角线附近的一个带状区域内。
+
+设带的宽度为$d$，高斯消元的复杂度可以做到$O(n\cdot d^2)$的复杂度。
+
+注意，当$P_{i,i}=0$的时候，如果找一个$P_{j,i}\neq 0$的行，可能会破坏Band Matrix的性质，应该找一个$P_{i,j}\neq 0$的列。这样因为会把同一列的消完所以没有问题。
+
+例题：WF2014H
+
+例题：CF475E
+
+## 主元法
+
+核心：设比较少的变量，其它的用它来表示。
+
+### 例 1
+
+![image.png](https://i.loli.net/2020/01/11/gFhjDUtvIiPqyKA.png)
+
+$m$可能很大（$m\le 1000$）
+
+### 解 1
+
+枚举第一行每一个开关开或者不开，由$(1,1)$的最终状态知道$(2,1)$的开关状态。
+
+### 解 2
+
+每个格子用第一行的格子的状态的异或和来表示。
+
+$O(n^2m + 2^n \cdot n^2 )$
+
+### 例 2
+
+改成求合法解。
+
+直接带入，复杂度$O(n^2m +m^3)$
+
+### 例 3 TorusSailing
+
+![image.png](https://i.loli.net/2020/01/11/HM8Y6VcOhS7nBwj.png)
+
+（也可以改成不等概率）
+
+设最后一行，最后一列的为主元。
+
+复杂度$O((n+m)^3)$。
+
+### 例 4 CF475E
+
+设每一行的第一个元素为未知数。
+
+复杂度$O(R^3)$。
+
+### loj3080
+
+留作练习
+
+## 稀疏图
+
+平面图，网格图都是稀疏的。
+
+用BM算法做。
+
+复杂度$O(ne)$，其中$e$为每一行非$0$项个数。
+
+## 网格图的生成树计数
+
+可以优化到$O(nm^3)$。（稀疏图求行列式，用$BM$做？
+
+## 参考资料
+
+wxh 2019论文
+zzq 2019论文（BM)
+毛爷爷 2017论文
+
+### Fox Rocks (FHC)
+
+![批注 2020-01-11 202333.jpg](https://i.loli.net/2020/01/11/JCLOVQifuv2rn4P.jpg)
+
+题意是$a\to b$的有向边。
+
+每$4$个点分成一块，则每一块只与下一块相关，用线段树+矩阵维护。
+
+## 概率生成函数
+
+![image.png](https://i.loli.net/2020/01/11/KwMcJgj4k5bXevC.png)
+
+最后那个：方差的期望 = 平方的期望 - 期望的平方
+
+$$
+E((x-E(x))^2) \\
+= E( x^2 - 2 E(x)x + E(x)^2)\\
+= E(x^2) - 2 E(E(x)x) + E(x)^2\\
+= E(x^2) - 2 E(x)E(x) + E(x)^2 \\
+= E(x^2) - E(x)^2
+$$
+
+$E(x)$是一个常数。
+
+### CTSC2006 歌唱王国
+
+参考：2018论文
+
+## 期望线性性
+
+cf blog 62690
+cf blog 62792
+
+1.4 You roll a m-sided die N times. Find EV of the biggest score.
+Ans: （1+m)*n/(n+1)
+2.4 Math encoder (Code Jam Kickstart 2017 round B) You are given a sequence of N numbers (N ≤ 2000 or N ≤ 105). We're to choose one of 2N - 1 non-empty subsets, uniformly at random. Find EV of the difference between the maximum and minimum element in the subset.
+Equivalently: Find the sum over the difference over all subsets, and print the answer modulo 109 + 7.
+
+2.6 Randomizer (CF 313 D) You're given a convex polygon with N vertices (N ≤ 2000 or N ≤ 105). We choose a random subset of vertices, what gives us a new (small) convex polygon. Find EV of the perimeter of the new polygon.
+枚举每条边，算一条边出现的概率
+只需要枚举到 j-i <= 60 的就可以了（精度要求不大）
+
+2.7 Random CH You're given N points (N ≤ 200 or N ≤ 2000), no three are collinear. Each point disappears with p-bility 50%. Find EV of the size of the convex hull of remaining points.
+
+1. 对凸包轮廓的dp
+2. 容斥（点出现在凸包上等价于所有的其他出现了的点都在这个点的某一侧）
+
+### CF280C
+
+一个点被操作的概率，就是在它和它的所有祖先中，它是第一个被操作的。所以答案就是$\sum {1\over dep_i}$

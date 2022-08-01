@@ -1,0 +1,275 @@
+﻿# 20190704 NOI模拟（day3）
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 图
+
+递归定义一个好图：
+
+- 只包含一个点的图是好的。
+- 每个连通块都是好图的图是好的。
+- 好图的补图是好的。
+
+定义一张图的直径是，图中任意两点之间的最短路径长度的最大值。
+
+现在给出一张$n$个点$m$条边的好图，有$q$次询问，每一次给出一个大小为$k$的点集，你需要回答这个点集的导出子图的直径。不连通输出$-1$。$n\le 10^4,m\le 300000,\sum k \le 10^5$
+
+Solution：
+
+结论：如果连通，直径就是$1$或者$2$。
+
+证明：
+
+可以证明对于一个连通的好图，其中两点之间的距离不是$1$就是$2$。
+
+首先对这张图取补图得到$G_1$，此时补图中不连通的点，它们的距离是$1$。考虑此时在同一个连通块的点，对连通块再取一次补图得到$G_2$，此时不连通的点，它们可以通过走到$G_1$中其它的连通块，然后走过来，距离是$2$。如此这般，我们发现任意两个点之间的最短路径长度小于等于$2$。
+
+现在就只剩下了两个问题：1）判断导出子图是否连通。2）判断导出子图是否是完全图。
+
+一种方法是，当$k <\sqrt m$的时候，直接暴力dfs；否则，访问所有的$m$条边。$k \le \sqrt m$的复杂度是$\sum k^2 \le \sqrt m \sum k $。
+
+另一种做法是，用bitset做dfs/bfs。具体地，直接做的复杂度会被卡成$k^2$的原因是边可能有$k^2$条。而如果用bitset存边并且在访问节点的时候用_Find_first函数找下一个还没有被访问过的点，就可以优化到$O({k^2 \over w})$。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <bitset>
+#define ll long long
+#define ull unsigned long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1e4+5;
+bitset<N> e[N],S,T,rm;
+int n,m,q;
+int fa[N];
+int find(int x) { return fa[x]==x?x:fa[x]=find(fa[x]); }
+int tot,b[N];
+int que[N],hd,tl;
+int vis[N];
+void work() {
+	que[hd=tl=1]=b[1];
+	rm=S;
+	vis[b[1]]=1,rm[b[1]]=0;
+	while(hd<=tl) {
+		int u=que[hd++];
+		T=e[u]&rm;
+		while(T.count()) {
+			int v=T._Find_first();
+			vis[v]=1,que[++tl]=v;
+			T[v]=0,rm[v]=0;
+		}
+	}
+	int flg=1;
+	for(int i=1;i<=tot;++i) {
+		if(!vis[b[i]]) flg=0;
+		vis[b[i]]=0;
+	}
+	if(!flg) {
+		printf("-1\n");
+		return;
+	}
+	ll tote=0;
+	for(int i=1;i<=tot;++i) tote+=(S&e[b[i]]).count();
+	if(tote==tot*(ll)(tot-1)) printf("1\n");
+	else printf("2\n");
+}
+int main() {
+	int x,y; rd(n),rd(m);
+	for(int i=1;i<=m;++i) {
+		rd(x),rd(y);
+		e[x][y]=1;
+		e[y][x]=1;
+		fa[find(x)]=find(y);
+	}
+	rd(q);
+	while(q--) {
+		rd(tot);
+		S.reset();
+		for(int i=1;i<=tot;++i) rd(b[i]),S[b[i]]=1;
+		work();
+	}
+	return 0;
+}
+```
+
+---
+
+### T2 递归
+
+![函数][1]
+
+初始的时候$A$全部为$0$现在有$q$次操作，每次操作给出$[0,n)$的一个子区间，表示将区间内所有的数异或$1$。这些操作是否进行总共有$2^q$种情况。现在你需要求出对所有情况调用$work(0,n)$得到的$count$的和对$998244353$取模的结果。$n\le 2^{19},q\le 6\times 10^5$。
+
+Solution：
+
+考虑求每种情况有多少个区间不会产生贡献，也就是每种情况下有多少个区间，区间内所有数相同。
+
+对于某一个区间考虑，我们不需要考虑完全包含这个区间或者与这个区间没有交集的操作，直接将方案数最后乘以$2$的这种区间个数次方就可以了。和这个区间有一部分交的操作，我们只需要取这个操作和这个区间交的那一部分。可以证明每个区间需要考虑的区间的数量的和是$O(q\log n)$的。
+
+对操作进行异或差分得到若干个只包含两个$1$的向量，问题转化成选若干个向量使得向量的异或和为$0$的方案数。
+
+可以考虑对于操作$[l,r)$，我们在$l$和$r+1$之间连一条边。发现合法的选取方式要求一定是若干个欧拉回路或者起点是$L$终点是$R$的欧拉路径（其中$L$为区间左端点，$R$为区间右端点+1）。在$L$和$R$之间再加一条边，就转化成求这个图的所有点的度数都是偶数的子图的个数。就是$2$的非树边个数次方。
+
+---
+
+### T3 电阻
+
+有一个双端队列，以及一个操作序列，序列中有两种操作：1）在双端队列的左端或者右端加入一个数。2）弹出这个双端队列左端或者右端的数。
+
+现在你需要维护这个操作序列，支持以下操作：1）在序列中加入一个操作。2）在序列中删除一个操作。3）查询经过操作序列中的一段前缀的操作之后，这个双端队列的第$i$个元素。$q\le 10^5$
+
+Solution：
+
+可追溯化数据结构之双端队列。
+
+考虑是栈的时候，记push操作为+1，记pop操作为-1，假设要查询第$i$个位置的元素。我们实质上要查询的就是这个序列在最靠右的某次操作之后，前缀和等于了$i$，问这次操作插入的数是多少。
+
+对于队列也是同理。分别维护左右指针的操作，然后求出左右指针最终的位置之后，对左右指针分别去查询，取一个时间较晚的就可以了。
+
+然而这样有个问题，虽然说我们最后一定不会删除要查询的元素，但是如果是这种情况：+1 +1 -1，查询位置1的元素，那么整个序列的前缀和是1，然后就死了。一种玄学的解决方法是，更新max和min的时候，只让以+1结尾的前缀做贡献。另外一种更好的解决办法是：考虑最短的一段后缀操作，使得 i-1 + (操作的sum) = R（R表示最后指针所在的位置）。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <map>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1e5+10;
+struct Tr {
+	int ch[N][2],fa[N],rt,ncnt;
+	int mi[N],mx[N],id[N],sum[N],val[N],d[N];
+	void init() {
+		rt=ncnt=0;
+		memset(mi,0x3f,sizeof(mi));
+		memset(mx,-0x3f,sizeof(mx));
+		sum[0]=0;
+	}
+	inline int get(int x) { return ch[fa[x]][1]==x; }
+	void push_up(int x) {
+		sum[x]=sum[ch[x][0]]+sum[ch[x][1]]+d[x];
+		mi[x]=min(mi[ch[x][0]],sum[ch[x][0]]+d[x]+mi[ch[x][1]]);
+		if(d[x]==1) mi[x]=min(mi[x],sum[ch[x][0]]+1);
+		mx[x]=max(mx[ch[x][0]],sum[ch[x][0]]+d[x]+mx[ch[x][1]]);
+		if(d[x]==1) mx[x]=max(mx[x],sum[ch[x][0]]+1);
+	}
+	void Debug(int x) {
+		if(!x) return;
+		printf("%d - %d : ls = %d  rs = %d\n",x,id[x],ch[x][0],ch[x][1]);
+		Debug(ch[x][0]),Debug(ch[x][1]);
+	}
+	void rotate(int x) {
+		int f=fa[x],ff=fa[f],d=get(x);
+		fa[x]=ff; if(ff) ch[ff][ch[ff][1]==f]=x;
+		fa[ch[x][d^1]]=f; ch[f][d]=ch[x][d^1];
+		fa[f]=x; ch[x][d^1]=f; push_up(f),push_up(x);
+	}
+	void splay(int x,int gl) {
+		for(int f=fa[x];f!=gl;rotate(x),f=fa[x])
+			if(fa[f]!=gl) rotate(get(x)==get(f)?f:x);//,cout<<x<<' '<<fa[x]<<endl;
+		if(!gl) rt=x;
+	}
+	int find(int x,int t) {
+		if(!x) return -1;
+		if(id[x]<t) return find(ch[x][1],t);
+		int tmp=find(ch[x][0],t);
+		return tmp==-1?x:tmp;
+	}
+	void insert(int t,int _d,int _v) {
+		int u=rt,f=0;
+		while(u) f=u,u=ch[u][t>id[u]];
+		u=++ncnt; id[u]=t,val[u]=_v,d[u]=_d;
+//		printf("insert: %d %d\n",u,t);
+		fa[u]=f; if(f) ch[f][id[u]>id[f]]=u;
+		push_up(u);
+		splay(u,0);
+	}
+	void del(int t) {
+		int x=find(rt,t); splay(x,0);
+//		cout<<"del "<<t<<':'<<x<<' '<<id[x]<<endl;
+		if(!ch[x][0]||!ch[x][1]) { fa[ch[x][0]]=fa[ch[x][1]]=0; rt=ch[x][0]+ch[x][1]; return; }
+//		Debug(x);
+		int y=ch[x][0]; while(ch[y][1]) y=ch[y][1];
+		int z=ch[x][1]; while(ch[z][0]) z=ch[z][0];
+//		cout<<y<<' '<<z<<endl;
+		splay(y,0),splay(z,rt);
+		ch[z][0]=fa[x]=0; push_up(z),push_up(y);
+	}
+	int getpos(int t) {
+		int x=find(rt,t+1);
+		if(x==-1) return rt;
+		splay(x,0); return ch[x][0];
+	}
+	inline bool check(int x,int y) { return mi[x]<=y&&mx[x]>=y; }
+	int _find(int x,int y) {
+//		cout<<"find"<<x<<' '<<y<<' '<<id[x]<<' '<<ch[x][0]<<endl;
+		if(!check(x,y)) return -1;
+		int s=sum[ch[x][0]]+d[x];
+		if(check(ch[x][1],y-s)) return _find(ch[x][1],y-s);
+		if(d[x]==1&&sum[ch[x][0]]+d[x]==y) return x;
+		return _find(ch[x][0],y);
+	}
+	void query(int x,int y,int &t,int &v) {
+		int z=_find(x,y);
+//		cout<<"z="<<z<<endl;
+		if(z==-1) { t=-1; return; }
+		t=id[z],v=val[z];
+	}
+}T[2];
+map<int,int> mp;
+int main() {
+	int ty,lst=0,t,d,r,q;
+	char str[10];
+	T[0].init(),T[1].init();
+	rd(q),rd(ty);
+	while(q--) {
+		scanf("%s",str); rd(t);
+		if(ty==1) t^=lst;
+		if(str[0]=='I') {
+			rd(d),rd(r); mp[t]=d;
+			T[d].insert(t,1,r);
+		}
+		else if(str[0]=='E') {
+			rd(d); mp[t]=d;
+			T[d].insert(t,-1,0);
+		}
+		else if(str[0]=='D') {
+			T[mp[t]].del(t);
+			mp.erase(t);
+		}
+		else {
+			rd(d);
+			int lx=T[0].getpos(t),L=T[0].sum[lx];
+			int rx=T[1].getpos(t),R=T[1].sum[rx];
+			int p=L-d+1;
+//			cout<<lx<<' '<<rx<<' '<<L<<' '<<p<<endl;
+			int t1,d1,t2,d2;
+			T[0].query(lx,p,t1,d1);
+			T[1].query(rx,1-p,t2,d2);
+//			cout<<t1<<' '<<d1<<' '<<t2<<' '<<d2<<endl; 
+			if(t2>t1) d1=d2;
+			printf("%d\n",lst=d1);
+		}
+	}
+	return 0;
+} 
+```
+
+
+  [1]: https://i.loli.net/2019/07/05/5d1eec2eef39427314.png

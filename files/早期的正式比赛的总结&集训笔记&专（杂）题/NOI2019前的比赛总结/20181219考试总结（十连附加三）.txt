@@ -1,0 +1,229 @@
+﻿# 20181219考试总结（十连附加三）
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 赛尔号
+
+给定$n$个点$m$条边的有向图，需要给每一条边重定向，让入度和出度相等的点尽量多。并输出定向的方案。$n\le 100,m\le 250$
+
+大胆猜测所有度数为偶数的点都可以满足。然后发现：
+
+1.度数为奇数的点一定有偶数个，因为必须满足所有点的度数和为偶数。
+
+2.一定可以把这张图搞成若干条链 + 若干个环，链的端点是度数为奇数的点。
+
+然后写了个dfs，从每个未标记的度数为奇数的点出发，到另外一个未标记的度数为奇数的点停止。最后如果还有边没有定向，直接从它的一个端点出发dfs直到无路可走。
+
+听说还有一种做法，是把所有的度数为奇数的点连到一个虚点，然后跑欧拉回路。
+
+后来查了一下资料，发现这道题考的是欧拉路径：它存在的条件是只有两个点的度数为奇数。
+
+---
+
+### T2 功夫派
+
+给出一个长度为奇数的序列，求这个序列有多少个区间，满足所有在这个区间内出现过的数，它们出现的次数都是奇数次。$n\le 30000,a_i\le 10^6$
+
+数据范围很分块，但是我并不知道怎么做，于是果断写了$n^2$暴力。后来，众人的$n^2$暴力考场上有拿到95分的，后来还有改到100分的……
+
+有一种非常hash的算法：将每个数值赋为$2^{64}$以内的一个随机数，枚举区间左端点，将第一次出现的数赋为0，其他的赋成它对应的随机数，然后只需要求有多少个右端点，满足与左端点组成的区间，区间内的异或值为0。左端点在右移的过程中，每个数值第一次出现的位置也会改变。用分块，维护块内元素的前缀和，并且用某种数据结构维护每个值（hash值的前缀异或和）出现的次数，修改的时候暴力修改块内待修改元素后面的元素，查询的时候，暴力查左端点块内元素的贡献，再统计后面的块的贡献。
+
+64-bit随机数生成的方法：
+``` cpp
+rand()|(1ll*rand()<<16ll)|(1ll*rand()<<32ll)|(1ll*rand()<<48ll)
+```
+
+这里维护每种值区间内出现的次数，题解说用Trie，我比较懒，先是写了map，然而T了中间的6个点，于是改成Hash_Table，就过了。用Hash_Table要注意空间问题（如果没有垃圾回收的话），因为块内的每个元素都会被修改，每次修改会对这个块内的前缀和造成影响，最坏就应该有$\sqrt n\cdot \sqrt n = O(n)$的空间开销，因此每个块要开$n$那么大的空间给hash表；不然就要写垃圾回收啦。
+
+用map的时候还要注意，可能同一种值出现了多次，所以不能够直接erase掉，而应该先让这种值的数量减一，如果减为0，再erase掉。亲测用map去erase一个不存在的元素造成死循环。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstdlib>
+#include <cstring>
+#include <map>
+#define ll long long
+#define ull unsigned long long
+#define ITR map<ull,int>::iterator
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=30010,T=310,M=1000010;
+struct Hash_Table{
+	ull key[N];
+	int head[100000],nxt[N],cnt,val[N],p;
+	void init(){p=100000,cnt=0;}
+	void update(ull k,int t)
+	{
+		for(int i=head[k%p];i;i=nxt[i])
+		if(key[i]==k){val[i]+=t; return;}
+		int u=++cnt; nxt[u]=head[k%p],head[k%p]=u,key[u]=k,val[u]=t;
+	}
+	int query(ull k)
+	{
+		for(int i=head[k%p];i;i=nxt[i])
+		if(key[i]==k) return val[i];
+		return 0;
+	}
+}mp[T];
+ull a[M],sum[N];
+int head[M],nxt[N],bel[N],n,ri[T],TI=1;
+int val[N];
+int main()
+{
+	srand(233);
+	read(n);
+	for(int i=1;i<=n;i++)
+	{
+		read(val[i]); if(!a[val[i]]) a[val[i]]=rand()|(1ll*rand()<<16ll)|(1ll*rand()<<32ll)|(1ll*rand()<<48ll);
+		if(n/TI+TI>n/i+i) TI=i;
+	}
+	
+	
+	int tot=n/TI+1;
+	for(int i=1;i<=tot;i++) mp[i].init();
+	for(int i=n;i>=1;i--)
+	{
+		nxt[i]=head[val[i]],head[val[i]]=i;
+		bel[i]=i/TI+1,ri[bel[i]]=max(ri[bel[i]],i);
+	}
+	
+	
+	for(int i=1,j;i<=n;i=j)
+	{
+		ull last=0;
+		for(j=i;bel[j]==bel[i]&&j<=n;j++)
+			last=sum[j]=last^(j==head[val[j]]?0:a[val[j]]),mp[bel[i]].update(sum[j],1);
+	//	cout<<j<<endl;
+	}
+	ll ans=0;
+	for(int i=1;i<=n;i++)
+	{
+		ull gl=bel[i-1]==bel[i]?sum[i-1]:0;
+		for(int j=i;j<=n&&bel[j]==bel[i];j++) 
+			if(!(sum[j]^gl)) ans++;
+		gl^=sum[ri[bel[i]]];
+		for(int j=bel[i]+1;j<=tot;j++)
+		{
+			ans+=mp[j].query(gl);
+			gl^=sum[ri[j]];
+		}
+		if(nxt[i])
+		{
+			for(int j=i;j<=n&&bel[j]==bel[i];j++)
+			{
+				mp[bel[i]].update(sum[j],-1);
+				sum[j]^=a[val[i]],mp[bel[i]].update(sum[j],1);
+			}
+			for(int j=nxt[i],ox=nxt[i];j<=n&&bel[j]==bel[ox];j++)
+			{
+				mp[bel[ox]].update(sum[j],-1);
+				sum[j]^=a[val[ox]],mp[bel[ox]].update(sum[j],1);
+			}
+		}
+	}
+	printf("%lld",ans);
+	return 0;
+}
+```
+
+---
+
+### T3 摩尔庄园
+
+题意：有一个$n$个点，$m$条边的有向图，将这张图复制$K$份，其中任意两份之间没有连边。求这张图的补图的哈密顿路径条数。$n\le 14,m\le n\times (n-1),K\le 50000$。
+
+Solution：考虑当原图是完全图的时候怎么做。此时的问题转化成：有$K$种颜色的球，每种颜色的球有$n$个，每个球都有标号，要求相同颜色的球不能放在一起，问排列数。我们可以考虑容斥，枚举若干对颜色相同的球，让它们相邻（要注意每个球至多只能够和两个球相邻），假设枚举的对数为$l$，那么这种情况对答案的贡献就应该是$(-1)^{nK-l}(nK-l)!$。考虑如何快速算这个式子：我们设$f[i]$为在$n$个点中（即最初的图中）选出$n-i$对相邻的球的方案数，那么$(nK-l)!$前面的系数就是多项式$\sum_{i=1}^n (-1)^{n-i}f[i]x^i$的$K$次方中$x^{nK-l}$项的系数。直接用FFT计算就可以了。
+
+这个结论对于原图不是完全图的情况仍然成立。我们仍然用同样的方法：设$f[i]$为将$n$个点划分成$i$个集合，每个集合内的点都通过原图中的边遍历的方案数（集合划分相同，遍历用的边不同算不同方案）。$f$可以通过状压dp算出，要注意“集合划分”是无序的，所以最后dp的结果要除以集合数量的阶乘。那么答案中$(nK-l)!$的系数就是多项式$\sum_{i=1}^n (-1)^{n-i} f[i]$的$K$次方中，$x^{nK-l}$项的系数。FFT计算，复杂度$O(nk\log nK)$。
+
+写这道题的时候我犯了$+\infty$个错误。首先是状压dp求遍历某个集合内的点的哈密顿路径数量写错了，要把枚举集合内的点的大小放在外面，枚举路径结束点放在里面。然后FFT里面求``` rev ``` 写成了``` rev[i]=(rev[i>>1]<<1)|((i&1)<<l-1)```（本来应该是``` rev[i]=(rev[i>>1]>>1)|((i&1)<<l-2)```），然后还在读入边的时候把$m$打成了$n$。~~怀疑自己老了~~
+
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int mod=998244353;
+int dp[15][1<<14],g[15][1<<14],av[1<<14],n,m,K;
+int mp[15][15];
+const int N=(1<<20)+'o'+'r'+'z',gn=3;
+inline void Add(int &x,int y){x+=y; if(x>=mod) x-=mod;}
+ll Pow(ll x,ll y){ll res=1; while(y){if(y&1) res=res*x%mod; x=x*x%mod,y>>=1;} return res;}
+int rev[N],frac[N],inv[N];
+void get_r(int l){for(int i=1;i<(1<<l);++i) rev[i]=(rev[i>>1]>>1)|((i&1)<<l-1);}
+void FFT(int A[],int len,int f)
+{
+	for(int i=0;i<len;++i) if(rev[i]<i) swap(A[i],A[rev[i]]);
+	for(int l=2;l<=len;l<<=1)
+	{
+		int wn=Pow(gn,f==1?(mod-1)/l:mod-1-(mod-1)/l);
+		for(int i=0;i<len;i+=l)
+		for(int j=i,w=1;j<i+(l>>1);++j,w=w*(ll)wn%mod)
+		{
+			ll t1=A[j],t2=A[j+(l>>1)]*(ll)w%mod;
+			A[j]=(t1+t2)%mod,A[j+(l>>1)]=(t1-t2+mod)%mod;
+		}
+	}
+	if(f==-1){int Inv=Pow(len,mod-2); for(int i=0;i<len;++i) A[i]=A[i]*(ll)Inv%mod;}
+}
+void predo(int n)
+{
+	frac[0]=1; for(int i=1;i<=n;++i) frac[i]=frac[i-1]*(ll)i%mod;
+	inv[n]=Pow(frac[n],mod-2); for(int i=n-1;i>=0;--i) inv[i]=inv[i+1]*(ll)(i+1)%mod;
+}
+int A[N],len,cnt;
+int main()
+{
+	int x,y; read(K),read(n),read(m); predo(n*K);
+	for(int i=1;i<=m;++i) read(x),read(y),mp[x][y]=1;
+	for(int i=1;i<=n;++i) g[i][1<<i-1]=1;
+	for(int s=1;s<(1<<n);++s)
+	for(int i=1;i<=n;++i) 
+	if(g[i][s])
+	{
+		for(int j=1;j<=n;++j)
+			if(!(s&(1<<j-1))&&mp[i][j]) Add(g[j][s|(1<<j-1)],g[i][s]);
+	}	
+	for(int s=1;s<(1<<n);++s)
+		for(int i=1;i<=n;++i) if(s&(1<<i-1)) Add(av[s],g[i][s]);
+	dp[0][0]=1; int SL=(1<<n)-1;
+	for(int i=0;i<n;++i)
+	for(int s=0;s<(1<<n);++s)
+	if(dp[i][s])
+	{
+		int s1=SL^s;
+		for(int j=s1;j;j=(j-1)&s1) Add(dp[i+1][j|s],dp[i][s]*(ll)av[j]%mod);
+	}
+	for(int i=1;i<=n;++i)
+	{
+		A[i]=dp[i][SL]*(ll)inv[i]%mod;
+		if((n-i)&1) A[i]=mod-A[i];
+	}
+	len=1; while(len<=n*K) len<<=1,cnt++; get_r(cnt);
+	FFT(A,len,1); for(int i=0;i<len;++i) A[i]=Pow(A[i],K); FFT(A,len,-1);
+	int ans=0;
+	for(int i=1;i<=n*K;++i) Add(ans,A[i]*(ll)frac[i]%mod);
+	printf("%d",ans);
+	return 0;
+}
+```

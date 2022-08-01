@@ -1,0 +1,250 @@
+﻿# 20190109考试总结（十连附加六）
+
+标签（空格分隔）： 总结
+
+---
+
+~~感觉今天的题总体比较休闲~~
+
+### T1 Air
+
+地面上有$n$个点，这些位置是支柱所在的位置。这些点按照极角排序后顺次相连，会形成一个将原点包含在内的多边形。你有$n+1$柱子，你需要将它们安排在包括原点在内的$n+1$个点上。最终这个避难所的容积定义为，多边形相邻的两个点与原点，这三个点上的柱子的顶端，确定的那个三角形（一个平面）下方的体积的和。请确定一种方案最大化避难所的体积，并输出最大的体积。
+
+Solution：首先，必须要看出来：这玩意是个**棱柱**。然后通过玄学猜结论（其实是ZJK告诉我的）知道，棱柱的体积 = 底面积 * 三个柱子的高的平均值。那么肯定把最高的放在中间，对于另外的每一个位置，这个位置上的柱子的贡献是它的高度乘以这个柱子旁边的两个三角形的面积和除以3。那么就直接贪心，让大的和大的组合就可以了。
+
+这里那个关于棱柱的体积的结论是最难猜的，要仔细体会（认真Orz ZJK）。
+
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <cmath>
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+struct Point{
+	double x,y,ag;
+	Point(double x=0,double y=0,double ag=0): x(x),y(y),ag(ag) {}
+	friend Point operator -(Point a,Point b){return Point(a.x-b.x,a.y-b.y);}		
+}p[10010];
+bool cmp(Point a,Point b){return a.ag<b.ag;}
+double Cross(Point a,Point b){return a.x*b.y-a.y*b.x;}
+double a[10010],b[10010];
+bool cmp2(double a,double b){return a>b;}
+int main()
+{
+	int T,n,d; read(T);
+	while(T--)
+	{
+		read(n);
+		for(int i=1;i<=n;++i) scanf("%lf%lf",&p[i].x,&p[i].y),p[i].ag=atan2(p[i].y,p[i].x);
+		for(int i=0;i<=n;++i) scanf("%lf",&a[i]);
+		sort(p+1,p+n+1,cmp); double ans=0,ans0=0;
+		
+		p[n+1]=p[1],p[0]=p[n];
+		for(int i=1;i<=n;++i) b[i]=fabs(Cross(p[i],p[i+1]))+fabs(Cross(p[i],p[i-1]));
+		
+		sort(a,a+n+1,cmp2); sort(b+1,b+n+1,cmp2);
+//		for(int i=1;i<=n;++i) printf("%lf %lf ",a[i],b[i]);
+		for(int i=1;i<=n;++i) ans+=b[i]*a[i],ans0+=b[i];
+		
+		printf("%.10lf\n",(ans+ans0*a[0]/2)/6);
+	}
+	return 0;
+}
+```
+
+---
+
+### T2 Alp
+
+有一个大小为$n$的树$A$和一个大小为$m$的树$B$。边权都是1。现在要在$A$的一个点和$B$的一个点之间连一条边，使这个图成为一棵树。你需要找到一种方案，最小化所有点之间的距离的平方和。
+
+Solution：
+考虑要最小化的式子，设$A$中的点到选择的点的距离为$a_i$，$B$中所有的点**到$A$中选择的那个点**的距离是$b_i$，那么就是要最小化：
+
+$$
+\sum_{i=1}^n \sum_{j=1}^m (a_i + b_j)^2\\
+\sum_{i=1}^n \sum_{j=1}^m a_i ^2 + b_j ^2 + 2 a_i b_j\\
+m\cdot \sum_{i=1}^n a_i^2 + n\cdot \sum_{j=1}^ m b_i^2 + 2(\sum_{i=1}^n a_i)(\sum_{j=1}^m b_j)
+$$
+
+
+显然对于确定的选择连边的点，$m\cdot \sum_{i=1}^n a_i^2$，$ n\cdot \sum_{j=1}^ m b_i^2$，$\sum_{i=1}^n a_i$，$\sum_{j=1}^m b_j$，这四个式子都是定值。那么这就是一个斜率优化的模板了。
+
+注意$m\cdot \sum_{i=1}^n a_i^2$达到了$n^4$的级别，因此斜率优化的时候不能够使用long long相乘，而要用long double，并且还要注意判断斜率不存在的情况。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=5e4+10;
+struct Point{long double b,a;int id;}p1[N],p2[N];
+ll tot=0;
+struct Graph{
+	ll f[N],g[N];
+	int head[N],ecnt,n,sz[N];
+	struct ed{int to,next;}e[N<<1];
+	void ad(int x,int y)
+	{
+		e[++ecnt]=(ed){y,head[x]}; head[x]=ecnt;
+		e[++ecnt]=(ed){x,head[y]}; head[y]=ecnt;
+	}
+	void dfs1(int u,int last)
+	{
+		sz[u]=1;
+		for(int k=head[u];k;k=e[k].next)
+		{
+			int v=e[k].to; if(v==last) continue;
+			dfs1(v,u),sz[u]+=sz[v];
+			g[u]+=g[v]+sz[v],f[u]+=f[v]+2*g[v]+sz[v];
+		}
+	}
+	void dfs2(int u,int last)
+	{
+		for(int k=head[u];k;k=e[k].next)
+		{
+			int v=e[k].to; if(v==last) continue;
+			ll tf=f[u]-(f[v]+2*g[v]+sz[v]),tg=g[u]-(g[v]+sz[v]);
+			f[v]+=tf+2*tg+(n-sz[v]);
+			g[v]+=tg+(n-sz[v]);
+			dfs2(v,u);
+		}
+	}
+	void work(int flg,Point *A,int m)
+	{
+		int x,y; n=m;
+		for(int i=1;i<n;++i) read(x),read(y),ad(x,y);
+		dfs1(1,0),dfs2(1,0);
+		for(int i=1;i<=n;++i) tot+=f[i];
+		if(flg) for(int i=1;i<=n;++i) f[i]+=2*g[i]+n,g[i]+=n;
+		
+//		for(int i=1;i<=n;++i) printf("%lld ",f[i]); puts("");
+//		for(int i=1;i<=n;++i) printf("%lld ",g[i]); puts("");
+		
+		for(int i=1;i<=n;++i) A[i]=(Point){g[i],-f[i],i};
+	}
+}A,B;
+const long double eps=1e-10;
+long double Fabs(long double x){return x>0?x:-x;}
+bool cmp(Point a,Point b){return Fabs(a.b-b.b)>eps?a.b<b.b:a.a<b.a;}
+long double cal(int a,int b){return (p1[b].a-p1[a].a)/(p1[b].b-p1[a].b);}
+int que[N],h=1,t=0;
+int main()
+{
+	int n,m;
+	read(n),A.work(0,p1,n);
+	read(m),B.work(1,p2,m);
+	for(int i=1;i<=n;++i) p1[i].a*=m;
+	for(int i=1;i<=m;++i) p2[i].a*=n;
+	sort(p1+1,p1+n+1,cmp),sort(p2+1,p2+m+1,cmp);
+	for(int i=1;i<=n;++i)
+	{
+		while(h<=t&&Fabs(p1[que[t]].b-p1[i].b)<eps) t--;
+		while(h<t&&cal(que[t-1],que[t])<=cal(que[t],i)) t--;
+		que[++t]=i;
+	}
+	int a1=1,a2=1; double ans=1e30;
+	for(int i=m;i>=1;--i)
+	{
+		while(h<t&&cal(que[h],que[h+1])>=2*p2[i].b) h++;
+		if(-p2[i].a-p1[que[h]].a+2*p2[i].b*p1[que[h]].b<ans)
+		{
+			ans=-p2[i].a-p1[que[h]].a+2*p2[i].b*p1[que[h]].b;
+			a1=p1[que[h]].id,a2=p2[i].id;
+		}
+	}
+	printf("%lld\n",A.f[a1]*m+B.f[a2]*n+A.g[a1]*B.g[a2]*2+tot/2);
+	return 0;
+}
+```
+
+---
+
+### T3 Ant
+
+有一棵包含$n$个节点的完全二叉树，其中$i$的父亲是$\lfloor {i\over 2}\rfloor $。每个点有一个容量，在这个点休息的人数不能够超过这个容量。一个人走过一条边的代价是 1。有$m$次询问，每一次在一个点加一个人，询问当前这个图中，每个人都到某个节点休息的最小费用。
+
+Solution：
+
+考试的时候尝试动态加边费用流，然后发现出现了负环。仔细想了想，费用流的正确性是基于每一次都选择最短路；加入边以后，原来增广的那些流可能不是走的最短路，因此就会出现问题。
+
+那么怎么办呢？考试的时候交了一个每一次重新构图的程序，水了35分。
+
+后来看到题解，感觉非常神奇：首先是有一种错误的贪心，每次选择离新加的点最近的、且容量没有满的点，让新加的人走过去。我们考虑如何向费用流一样，在这个图中加入“反悔”的机制，让这个贪心正确（虽然我至今都没有彻底明白它为什么正确）。当一条边从下往上被经过的次数比从上往下被经过的次数多的时候，我们就修改这条边从上往下的边权为 -1 。对于从上往下的经过次数更多的边进行一样的操作。走边权为 -1 的边的含义就是一种反悔，比如一个人从$a$到$b$，另一个人从$c$到$d$，这两个人的路径上有一段重合，并且重合部分的方向不一样，那么我们就让第一个人从$a$走到$d$，第二个人从$c$走到$b$，这样的方案数最优的。这个优化的方法比较类似APIO Guard。处理“最近的容量未满的点”，就对于每个点存下它的子树内“最近的容量未满的点”，暴力枚举lca，暴力更新边权就可以了。因为树高无论如何只有$\log n$。这个过程向Big Binary Tree。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1e5+10,inf=1e8;
+int d[N],f[N],g[N],c[N],n;
+void Update(int u,int v)
+{
+	int len=f[v]+(d[v]>0?-1:1);
+	if(len<f[u]) f[u]=len,g[u]=g[v];
+}	
+void update(int x)
+{
+	if(c[x]) f[x]=0,g[x]=x;
+	else f[x]=inf;
+	if((x<<1)<=n) Update(x,x<<1);
+	if((x<<1|1)<=n) Update(x,x<<1|1);
+}
+int main()
+{
+	int q,p,ans=0; read(n),read(q);
+	for(int i=1;i<=n;++i) read(c[i]);
+	memset(f,0x3f,sizeof(f));
+	for(int i=n;i>=1;--i) update(i);
+	while(q--)
+	{
+		scanf("%d",&p);
+		int pos=p,pi=g[p],mi=f[p];
+		for(int x=p,len=0;x>1;x>>=1)
+		{
+			len+=d[x]<0?-1:1;
+//			printf("%d len=%d\n",x,len);
+			if(c[x>>1]&&len<mi) mi=len,pi=pos=x>>1;		
+			int y=x^1; if(y>n) continue;
+			int l=len+(d[y]>0?-1:1)+f[y];
+			if(l<mi) mi=l,pi=g[y],pos=x>>1;
+		}
+		ans+=mi,printf("%d ",ans),c[pi]--;
+		for(int x=p;x>pos;x>>=1) d[x]++,update(x);
+		for(int x=pi;x>pos;x>>=1) d[x]--,update(x);
+		for(int x=pos;x;x>>=1) update(x);
+//	for(int i=1;i<=n;++i) printf("%d %d\n",f[i],g[i]);
+	}
+	return 0;
+}
+```
+

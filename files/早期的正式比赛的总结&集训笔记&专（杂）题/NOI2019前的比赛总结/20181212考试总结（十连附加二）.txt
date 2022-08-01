@@ -1,0 +1,272 @@
+﻿# 20181212考试总结（十连附加二）
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 土地改革
+
+感觉肯定会卡精度，不可能省选模拟考这么简单的题，然而并没有卡精度……
+
+但是我写挂了，很难受。有两个地方写错了，一个是对于$n$较小的时候写的暴力，为了判断是否在一个连通块，我记录了前面的线段能够到达的最右端，但是没有在循环的中间更新它。这个纯属粗心，加上觉得暴力自己应该不会写挂，也没有好好检查。还有就是排序，我写的是对标号排序，我考试的时候的程序是这样的：
+
+``` cpp
+	for(int i=1;i<=n;i++) read(aa[i]),read(bb[i]),id[i]=i;
+	sort(id+1,id+n+1,cmp);
+	for(int i=1;i<=n;i++) A[id[i]]=aa[i],B[id[i]]=bb[i];
+
+```
+
+然后它光荣去世了。。。
+
+id数组的含义：id[它的排名]=它在原来数组中的标号
+
+所以应该是这样写的：
+
+``` cpp
+	for(int i=1;i<=n;i++) A[i]=aa[id[i]],B[i]=bb[id[i]];
+```
+
+其实我还对拍了的，只是由于暴力是从正解复制过来的，所以暴力也是错的……
+
+吸取两点教训：1.即使是暴力，即使很简单，也要认真检查，因为这时候反而容易出错。2.要熟悉对标号排序的写法，如果不熟悉的话就干脆用结构体吧。
+
+---
+
+### T2 两弹一星
+
+一张图的不稳定度定义为$m^k$，其中$m$为图中形态为树的连通块数。求出包含$n$个点的带标号的所有简单无向图的不稳定度之和。$n\leq 30000,k\leq 20$
+
+通过这道题我学到了好多好多东西啊……
+
+首先，我们考虑这个贡献$m^k$，如果写成斯特林数：
+
+$$
+m^k = \sum_{i=1}^{min(m,k)}C(m,i)S(k,i)i!
+$$
+
+有一种非常非常暴力的做法，枚举所有的图，统计贡献。然后我们来优化它：先枚举$i$，然后统计$S(k,i)i!$的系数。一张包含了$m$棵树的图会产生$C(m,i)$的贡献，倒过来统计，每一个包含了$i$棵树的集合产生的贡献就是包含了它的图的数量。设$dp[i][j]$表示$i$个带标号的点构成$j$棵树的方案数，那么$S(k,j)j!$的系数就是$C_n^i\cdot dp[i][j] \cdot 2^{C_{n-i}^2}$。枚举$i$即可。
+
+现在的问题是如何求出$dp[i][j]$。易得转移方程：
+$$
+dp[i][j]=\sum_{k=1}^i dp[i-k][j-1] \cdot C_{i-1}^{k-1} P(k)
+$$
+
+其中$P(k)$表示包含$k$个点完全图的生成树的数量。
+
+可以写成卷积的形式：
+$$
+dp[i][j]=\sum_{k=1}^i dp[i-k][j-1]\cdot {(i-1)!\over (k-1)!(i-k)!}\times P(k)\\
+=\sum_{k=1}^i ({dp[i-k][j-1] \over (i-k)!})\cdot({P(k)\over (k-1)!}) \cdot (i-1)!
+$$
+
+先不管$(i-1)!$，用FFT算出左边这一大坨，然后把$(i-1)!$乘上去。
+
+注意，由于当$j>k$的时候$S(k,j)$为0，所以dp第二维只需要做到$k$就可以了。复杂度$kn\log n$。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define MP make_pair
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=3e4+10,M=N*4,mod=998244353;
+ll frac[N],inv[N],dp[22][N],S[22][22];
+ll Pow(ll x,ll y){ll res=1; while(y){if(y&1)res=res*x%mod; x=x*x%mod; y>>=1;} return res;}
+ll C(ll n,ll m){return frac[n]*inv[n-m]%mod*inv[m]%mod;}
+ll pru(ll k){return k>=2?Pow(k,k-2):1;}
+int rev[M];
+void getrev(int l){for(int i=0;i<(1<<l);i++) rev[i]=(rev[i>>1]>>1)|((i&1)<<l-1);}
+void FFT(ll *A,int f,int len)
+{
+	for(int i=0;i<len;i++) if(rev[i]<i) swap(A[rev[i]],A[i]);
+	for(int l=2;l<=len;l<<=1)
+	{
+		ll w=Pow(3,f==1?(mod-1)/l:(mod-1-(mod-1)/l));
+		for(int i=0;i<len;i+=l)
+		{
+			ll wn=1;
+			for(int k=i;k<i+(l>>1);k++,wn=wn*w%mod)
+			{
+				ll tmp1=A[k],tmp2=A[k+(l>>1)]*wn%mod;
+				A[k]=(tmp1+tmp2)%mod,A[k+(l>>1)]=(tmp1-tmp2+mod)%mod;
+			}
+		}
+	}
+	if(f==-1)
+	{
+		ll tmp=Pow(len,mod-2);
+		for(int i=0;i<len;i++) A[i]=A[i]*tmp%mod;
+	}
+}
+ll A[M],B[M];
+void cal(ll *g1,ll *g2,int n)
+{
+	int l=1,cnt=0; while(l<=n+n) l<<=1,cnt++; // n*2
+	memset(A,0,sizeof(A)); memset(B,0,sizeof(B));
+	for(int i=0;i<=n;i++) A[i]=g1[i]*inv[i]%mod;
+	for(int i=1;i<=n;i++) B[i]=pru(i)*inv[i-1]%mod;
+	getrev(cnt),FFT(A,1,l),FFT(B,1,l);
+	for(int i=0;i<l;i++) A[i]=A[i]*B[i]%mod;
+	FFT(A,-1,l);
+	for(int i=0;i<=n;i++) g2[i]=(A[i]*frac[i-1]%mod+mod)%mod;
+}
+int main()
+{
+	int n,m; read(n),read(m); frac[0]=1,inv[0]=1;
+	for(int i=1;i<=n;i++) frac[i]=frac[i-1]*(ll)i%mod,inv[i]=Pow(frac[i],mod-2);
+	S[0][0]=1;
+	for(int i=1;i<=m;i++)
+	{
+		S[i][0]=0;
+		for(int j=1;j<=i;j++)
+		S[i][j]=(S[i-1][j]*(ll)j+S[i-1][j-1])%mod;
+	}
+	dp[0][0]=1;
+	for(int i=1;i<=m;i++) cal(dp[i-1],dp[i],n);
+	ll ans=0;
+	for(int j=1;j<=m;j++)
+	for(int i=1;i<=n;i++)
+		ans=(ans+C(n,i)*dp[j][i]%mod*Pow(2,C(n-i,2))%mod*S[m][j]%mod*frac[j]%mod)%mod;
+	printf("%lld\n",ans);
+	return 0;
+}
+```
+从群里面看到其他的做法：
+$$
+f(n,k)=\sum_{i=1}^n C(n-1,i-1) * ((g(i) - i^{(i-2)}) * f(n-i,k) + i^{(i-2)} * \sum_{j=0}^k C(j,k) * f(n-i,j))\\
+f(k,n)=\sum_{i = 0}^k {k \choose i} \sum_{j = 1}^n f(k-1,n-j)g(j){n-1 \choose j - 1} 需要EGF\\
+$$
+
+---
+
+### T3 改革开放
+
+将输入的数据全部乘100000,转化成整数。注意这里必须手动四舍五入，或者用getchar读入，否则会有精度误差。首先呢，可以解出来每次测量结果应该对应多少个P和Q。如果没有小于等于400的整数解或无解，则这个测量结果一定不合法。否则一定只有一组解，因为9705276和12805858的gcd是2，下一组解会很大。
+
+然后这个填数的过程，状态确定为已经填了的长度、填了的P的数量，这个状态是可以方便地统计贡献并且没有后效性的。但是直接这样DP是会重复的，原因是有可能某次测量的结果既是最终答案的前缀也是它的后缀，会被重复统计。
+
+
+然后改进后的状态就是$dp[i][j][k]$，表示从两边往中间填，左右各填了$i$位，前缀用了$j$个P，后缀用了$k$个P，能够获得的最大匹配数。转移的时候枚举四种情况并记录从哪个状态转移过来就可以了。要判断$j$与$k$相同的时候，贡献只能够计算一次。如果有一次测量结果，要求的长度大于总长度的一半，就把它转移为整个字符串的P和Q的数量 - 这次结果的P和Q的数量（即字符串除了它以外的部分）。最后如果长度是奇数的话需要枚举中间的位置填P还是Q，然后再枚举左边的P的数量；如果长度是偶数的话直接枚举左边的P的数量就可以了。
+
+这道题的关键在于得出“P和Q的数量确定后，在字符串前后填数没有后效性”的结论，然后想到一个去重的方法。数据范围暗示$O(n^3)$，于是得到了这个状态和转移。
+
+当时考场上没有认真想这道题（虽然即使认真想肯定也想不出来）。觉得这还是说明我的数论和DP掌握得不熟练。其实整道题并不太难，下一次考试加油！
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define MP make_pair
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+ll _rd()
+{
+	char c=getchar();ll x=0;
+	while(!isdigit(c)) c=getchar();
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar();
+	c=getchar();
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar();
+	return x;
+}
+const int M=1e5+10,N=210,p1=9705276,p2=12805858;
+ll exgcd(ll &x,ll &y,ll a,ll b)
+{
+	if(!b){x=1,y=0; return a;}
+	int g=exgcd(x,y,b,a%b),t=x; x=y,y=t-a/b*y; return g;
+}
+typedef pair<int,int> pii;
+ll wi[M];
+int vis[N][N],n,dp[N][N][N];
+char str[N],si[2]={'P','Q'};
+pii bk[N][N][N];
+int main()
+{
+	ll x,y,g=exgcd(x,y,p1,p2),mm=p2/g,mx=0;
+	read(n);
+	for(int i=1;i<=n;i++)
+	{
+		wi[i]=_rd(),mx=max(mx,wi[i]);
+	}
+//	printf("%lld\n",mx);
+	ll tx=x*mx/g,ty;
+	tx=(tx%mm+mm)%mm,ty=(mx-tx*p1)/p2;
+//	printf("tot:%lld %lld\n",tx,ty);
+	int len=tx+ty,li=len/2;
+//	printf("%d\n",len);
+	for(int i=1;i<=n;i++)
+	{
+		if(wi[i]%2) continue;
+		ll x1=x*wi[i]/g,y1;
+		x1=(x1%mm+mm)%mm,y1=(wi[i]-x1*p1)/p2;
+	//	printf(" %lld %lld\n",x1,y1);
+		if(x1>tx||y1>ty||x1<0||y1<0) continue;
+		if(x1+y1>len-x1-y1) x1=tx-x1,y1=ty-y1;
+	//	printf("%d: %lld %lld\n",i,x1,y1);
+		vis[x1][y1]++;
+	}
+	memset(dp,-0x3f,sizeof(dp)); dp[0][0][0]=vis[0][0];
+	for(int i=1;i<=li;i++)
+	for(int j=0;j<=i&&j<=ty;j++)
+	for(int k=0;k<=i&&k+j<=ty;k++)
+	{
+		int tmp=dp[i-1][j][k]; pii pos=MP(j,k);
+		if(j) 
+		{
+			if(dp[i-1][j-1][k]>tmp) tmp=dp[i-1][j-1][k],pos=MP(j-1,k);
+			if(k&&dp[i-1][j-1][k-1]>tmp) tmp=dp[i-1][j-1][k-1],pos=MP(j-1,k-1);
+		}
+		if(k&&dp[i-1][j][k-1]>tmp) tmp=dp[i-1][j][k-1],pos=MP(j,k-1);
+		dp[i][j][k]=tmp+vis[i-j][j]+vis[i-k][k]*(j!=k),bk[i][j][k]=pos;
+	}
+	if(len&1)
+	{
+		int ans=0,ti=0; pii pos=MP(0,0);
+		for(int i=0;i<2;i++)
+		for(int j=0;j<=ty-i&&j<=li;j++)
+			if(dp[li][j][ty-i-j]>ans)
+				ans=dp[li][j][ty-i-j],pos=MP(j,ty-i-j),ti=i;
+		str[li+1]=si[ti]; int cur=li;
+		while(cur)
+		{
+			str[cur]=si[pos.first-bk[cur][pos.first][pos.second].first];
+			str[len-cur+1]=si[pos.second-bk[cur][pos.first][pos.second].second];
+			pos=bk[cur][pos.first][pos.second],cur--;
+		}
+	//	printf("%d\n",ans);
+	}
+	else
+	{
+		int ans=0; pii pos=MP(0,0);
+		for(int j=0;j<=ty;j++)
+			if(dp[li][j][ty-j]>ans) ans=dp[li][j][ty-j],pos=MP(j,ty-j);
+		int cur=li;
+		while(cur)
+		{
+			str[cur]=si[pos.first-bk[cur][pos.first][pos.second].first];
+			str[len-cur+1]=si[pos.second-bk[cur][pos.first][pos.second].second];
+			pos=bk[cur][pos.first][pos.second],cur--;
+		}
+	//	printf("%d\n",ans);
+	}
+	for(int i=1;i<=len;i++) printf("%c",str[i]); puts("");
+	return 0;
+}
+```

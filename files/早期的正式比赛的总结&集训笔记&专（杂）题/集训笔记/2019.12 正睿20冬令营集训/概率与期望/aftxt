@@ -1,0 +1,130 @@
+### CF1153F
+
+![image.png](https://i.loli.net/2019/12/13/V8IRSMs5jo4hDaN.png)
+
+积分做法
+
+$$
+Ans = \sum_{m\ge k} \int_0^1{n\choose m} (2x(1-x))^m (1-2x(1-x))^{n-m} dx
+$$
+
+### CF235D
+
+对于树，答案是
+$$
+\sum_{x,y} {1\over dis(x,y)}
+$$
+
+### CF457D *
+
+2的次幂 -> 子集数
+
+### random
+
+![题目](https://i.loli.net/2019/12/13/KTXxNmifQIEtaw2.png)
+
+代价是左边的数的下标
+
+对每个数字算它的代价，然后数组中的数看成0,1,i。
+
+然后每一次会随机地交换(0,1)，(i,1)，(0,i)。
+
+不需要考虑(1,1), (0,0)这样的逆序对，因为即便随机到了也不会转移到其它状态。所以我们实际上算的是能够转移到的状态按照转移到它的概率大小进行的加权平均。
+
+### bzoj3148 没头脑和不高兴 *
+
+考虑每一对数为逆序对的概率。
+
+对于第$k$个1和某一个在它前面的$0$，概率为$1\over k+1$
+对于倒数第$k$个1和某一个在它后面的$0$，概率为$1\over k+1$
+
+### PE584
+
+dp，最近7天有哪些人过生日，或者最近四个人的生日。
+
+用可重元素排列公式算概率。
+
+### PE522 *
+
+内向树，\sum 入度-1 = 叶子个数-1
+
+所以就是环个数期望 + 叶子个数期望
+
+## 期望的k次方
+
+暴力展开
+
+## 方差
+
+Var(x) = E(x^2) - E(x)^2
+
+![](https://i.loli.net/2019/12/13/tEnXryUsNg5mQjR.png)
+
+### CF1236F *
+
+仙人掌连通块个数 = 点数 - 边数 + 环数
+
+分类讨论
+
+
+### CF1187
+
+算$E(x^2)$的时候小心$i=j-2$的情况
+
+注意小规模问题中的容斥原理的应用。
+
+### Fibonacci's Nightmare
+
+![](https://i.loli.net/2019/12/13/uFjxh8saZDlqbBH.png)
+
+![](https://i.loli.net/2019/12/13/xQObSDBrhqp95Fy.png)
+
+![](https://i.loli.net/2019/12/13/X4JYkGVBLovP61T.png)
+
+### power of subtree
+
+$x^n = \sum_{i=0}^n S(n,i)i!{x\choose i}$
+
+利用${x\choose i}$的组合意义。
+
+for 到 min(siz, k) 的复杂度是$O(nk)$。
+
+### 火车题
+
+![image.png](https://i.loli.net/2019/12/13/6aXSVilUhgob2EP.png)
+
+F(x) = ln( G(x) )
+
+### min-max
+
+![image.png](https://i.loli.net/2019/12/13/c2CsQkerdbTgfH7.png)
+
+(-1)^{|T|-k}
+
+### PKUWC2018的几道题
+
+猎人杀：改成每个人开枪直到打死了活人。
+
+## 。
+
+![image.png](https://i.loli.net/2019/12/13/JfwndW1D7x5Ptqv.png)
+
+
+
+### CF303E
+
+### uoj352 新年的五维几何
+
+枚举实数部分的大小关系。
+
+### AGC020 Arcs on a circle
+
+同上。
+
+## 。。
+
+![image.png](https://i.loli.net/2019/12/13/x7LrNSkuaq3AVdK.png)
+
+### random spanning tree
+
+![image.png](https://i.loli.net/2020/01/12/uvmyifUp5JX143g.png)

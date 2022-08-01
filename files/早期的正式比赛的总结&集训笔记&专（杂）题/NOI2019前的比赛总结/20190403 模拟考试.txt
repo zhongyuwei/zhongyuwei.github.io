@@ -1,0 +1,86 @@
+﻿# 20190403 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 Diyiti
+
+你可以对一个数$x$进行如下两种操作：1）把$x$变成$x-1$。2）如果$x$的二进制第$i$位为$1$的话，把$x$变成$x-2^i $。设$f(x,y)$为通过这两种操作把$x$变成$y$需要的最少操作次数。给出$n$，求$\sum_{x=0}^n \sum_{y=0}^x f(x,y)$。输入给出$n$的二进制表示，保证合法，保证没有前导零，保证$n$的二进制表示不超过$500$位。
+
+Solution：
+
+考虑我们这个操作的策略：找到$x$为$1$且$y$不为$1$的最高的一位$l_1$，找到比这一位更高、$y$为$1$且$x$为$0$的一位$l_2$，那么我们一定是把$y$低于$l_2$的位上的$1$全部拿掉，然后把$y-=1$，这样$x$为$1$的地方$y$一定都是$1$，把$x$为$0$、$y$为$1$的地方的$1$拿掉就可以了。操作的代价是，$l_2$之前（包括$l_2$这一位）$y$为$1$且$x$为$0$的位数 + $l_2$之后$y$为$1$的位数 + $l_2$之后$x$为$0$的位数。
+
+这个东西可以用数位$dp$，状态中需要表示出：$y$是否已经小于了$n$，$x$是否已经小于了$x$，当前到了第几位，当前到了第几个阶段（这一位在$l_1$之前/$l_1,l_2$之间/$l_2$之后）。需要求出这种状态下，所有合法方案的贡献的和以及合法方案的数量。
+
+如果$dp$到最后仍然处于$l_1,l_2$之间，这个状态是不能够产生贡献的，因为它会与和它完全相同、但是最终处于$l_1$之前的状态产生重复。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=510,mod=1e9+7;
+inline void Add(int &x,int y) { x+=y; if(x>=mod) x-=mod; }
+int f[N][2][2][3],g[N][2][2][3];
+char str[N];
+int len;
+void dfs(int cur,int fy,int fx,int d) {
+	if(f[cur][fy][fx][d]!=-1) return;
+	if(cur==len+1) {
+		if(d==1) f[cur][fy][fx][d]=g[cur][fy][fx][d]=0;
+		else f[cur][fy][fx][d]=0,g[cur][fy][fx][d]=1;
+		return;
+	}
+	int Ans=0,ret=0;
+	for(int y=0;y<2;++y)
+		for(int x=0;x<2;++x) {
+			if(!fy&&y>(str[cur]-'0')) continue;
+			if(!fx&&x>y) continue;
+			if(d==0&&y<x) continue;
+			if(d==1&&y>x) continue;
+			int fy1=fy|(y<str[cur]-'0');
+			int fx1=fx|(x<y);
+			int d1=d;
+			if(d1==1&&y<x) d1=2;
+			int delta=0;
+			if(d==0) delta+=y>x;
+			if(d) delta+=(y==1)+(x==0);
+			
+			dfs(cur+1,fy1,fx1,d1);
+			Add(Ans,f[cur+1][fy1][fx1][d1]);
+			Add(Ans,delta*(ll)g[cur+1][fy1][fx1][d1]%mod);
+			Add(ret,g[cur+1][fy1][fx1][d1]);
+			if(d==0&&y>x) {
+				d1=1;
+				dfs(cur+1,fy1,fx1,d1);
+				Add(Ans,f[cur+1][fy1][fx1][d1]);
+				Add(Ans,delta*(ll)g[cur+1][fy1][fx1][d1]%mod);
+				Add(ret,g[cur+1][fy1][fx1][d1]);
+			}
+		}
+//	cout<<cur<<' '<<fy<<' '<<fx<<' '<<d<<':'<<Ans<<' '<<ret<<endl;
+	f[cur][fy][fx][d]=Ans;
+	g[cur][fy][fx][d]=ret;
+}
+int main() {
+	freopen("diyiti.in","r",stdin);
+	freopen("diyiti.out","w",stdout);
+	scanf("%s",str+1); len=strlen(str+1);
+	memset(f,-1,sizeof(f));
+	memset(g,-1,sizeof(g));
+	dfs(1,0,0,0);
+	printf("%d\n",f[1][0][0][0]);
+	return 0;
+}
+```

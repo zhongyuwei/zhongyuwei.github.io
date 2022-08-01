@@ -1,0 +1,97 @@
+## HDU 6302 Maximum Weighted Matching
+
+大致思路是，考虑逆向进行给出的构造图的过程，每次选一个度为 2 的点消掉，同时进行 dp。
+
+然后我调不出来了！:sob:
+
+## HDU 6306 Lyndon Substring
+
+考虑合并两个串的 Lyndon 分解。设 $s_i = u_1^{p_1} u_2^{p_2} u_3^{p_3} \cdots u_n^{p_n}, s_j = v_1^{q_1} v_2^{q_2} v_3^{q_3} \cdots v_m ^ {q_m}$。
+
+先考虑尝试让 $u_n$ 和 $v_1^{p_1}, v_2^{p_2} \cdots $ 合并。考虑到 $u_n$ 越合并越大，而越到后面 $v_i$ 越小，所以可以二分。
+
+然后让 $v_1$ 与 $\cdots u_{n-1}^{p_{n-1}} u_n^{p_n}$ 合并。同理。
+
+## HDU 6309 Absolute
+
+## HDU 6317 Segment
+
+转化问题：
+
+- 相交但是不被包含的区间贡献 1（从根出发定位到这个区间的过程中的花费）
+- 被包含的非叶区间贡献 -1
+- 被包含的叶子区间贡献 1
+
+那么被包含的一个完整子树，就会恰好被统计 1 次。
+
+考虑建树的过程等价于随机一个分界点排列、然后依次用分界点划分。区间 $[l,r]$ 最终在线段树上出现的条件是：$l-1,r$ 这两个点在排列中的位置，比 $[l,r)$ 中的点都要靠前。所以一个区间出现的概率只与区间的长度以及左右端点是否为 $1,n$ 有关。
+
+维护前缀和，即可支持快速查询。
+
+## HDU 6320 Cut The String
+
+用 PAM 预处理出后缀 $s[l \cdots n]$ 的所有回文前缀，以及 $s[1\cdots r]$ 所有回文后缀（表示成 $O(\log n)$ 个等差数列）。对于每个询问，判断这些等差数列的取值有没有交集（经典的 exgcd 问题）即可。
+
+## HDU 6337 Travel Through Time
+
+## HDU 6340 Delightful Formulas
+
+用伯努利数表示自然数幂和：
+$$
+\begin{gathered}
+S_i(n) = \sum_{j=1}^n j^i\\
+={1\over i+1}\sum_{j=0}^i B_{i-j}{i+1\choose i-j}(n+1)^{j+1}
+\end{gathered}
+$$
+是个关于 $n+1$ 的 $i+1$ 次多项式。设
+$$
+d_{i,j} = \frac{(i+1)!}{i+1} \cdot \frac{B_{i-j}}{(i-j)!} \cdot \frac{1}{(j+1)!}
+$$
+为 $S_i(n)$ 中 $(n+1)^{j+1}$ 项的系数。
+$$
+\begin{gathered}
+\sum_{i=1}^n [(i,n)=1] \sum_{j=1}^i j^k\\
+= \sum_{i=1}^n [(i,n)=1] \left(i^k + \sum_{j=0}^k d_{k,j}\left(\left(i-1\right)+1\right)^{j+1}\right)\\
+\end{gathered}
+$$
+先计算 $\sum_{i=1}^n [(i,n)=1] i^k$：
+$$
+\sum_{d\mid n} \mu(d) d^k \sum_{i=1}^{\frac{n}{d}} i^k\\
+= \sum_{d\mid n} \mu(d) d^k \left( \left(\frac{n}{d}\right)^k + \sum_{i=0}^k d_{k,i} \left(\frac{n}{d}\right)^{i+1} \right)\\
+= \sum_{d\mid n} \mu(d) n^k\\
+ + \sum_{i=0}^k d_{k,i}n^{i+1} \sum_{d\mid n} \mu(d) d^{k-(i+1)}
+$$
+第二坨，可以先算出 $g(t) = \sum_{d\mid n} \mu(d) d^t$，由于 $d_{k,i}$ 是一个关于 $k$ 的式子和一个关于 $i$ 的式子和一个 $k-i$ 的式子的乘积，所以可以一次 NTT 计算出来。
+
+考虑计算 $\sum_{j=0}^k d_{k,j} i^{j+1}$ 这一坨：
+$$
+\begin{gathered}
+= \sum_{i=1}^n [(i,n)=1] \sum_{j=0}^k d_{k,j}\left(\left(i-1\right)+1\right)^{j+1} \\
+= \sum_{d\mid n} \mu(d) \sum_{i=1}^{\frac{n}{d}} \sum_{j=0}^{k} d_{k,j} (i\cdot d)^{j+1}\\
+ = \sum_{j=0}^k d_{k,j} \sum_{d\mid n}\mu(d) d^{j+1} \sum_{i=1}^{\frac{n}{d}} i^{j+1}\\
+ = \sum_{j=0}^k d_{k,j} \sum_{d\mid n}\mu(d) d^{j+1} \left(\left(\frac{n}{d}\right)^{j+1} + \sum_{x=0}^{j+1} d_{j+1,x} \left(\frac{n}{d}\right)^{x+1}\right)
+\end{gathered}\\
+= \sum_{j=0}^k d_{k,j} \sum_{d\mid n}\mu(d) n^{j+1}\\
++ \sum_{j=0}^k d_{k,j} \sum_{d\mid n}\mu(d) \sum_{x=0}^{j+1} d_{j+1,x} n^{x+1} d^{j-x}
+$$
+第一坨很容易算；考虑怎么算第二坨：
+$$
+\begin{gathered}
+\sum_{j=0}^k d_{k,j} \sum_{d\mid n}\mu(d) \sum_{x=0}^{j+1} d_{j+1,x} n^{x+1} d^{j-x}\\
+= \sum_{x=0}^{k+1} n^{x+1} \sum_{j=x-1}^{k} d_{j+1,x} d_{k,j} \sum_{d\mid n} \mu(d) d^{j-x}
+\end{gathered}
+$$
+算最后面的一段：
+$$
+f(t) = \sum_{d\mid n} \mu(d) d^t
+$$
+这玩意是个积性函数，对每个质因子分别算了乘起来即可。复杂度为 $O(km)$。
+
+于是：
+$$
+= \sum_{x=0}^{k+1} n^{x+1} \sum_{j=x-1}^{k} d_{j+1,x} d_{k,j} f(j-x)
+$$
+由前面的可知，$d_{j+1,x}$ 是一个关于 $j+1$ 的式子、一个关于 $x$ 的式子和一个关于 $j+1-x$ 的式子的乘积，所以这整个式子可以一次 NTT 算出来。这一步的复杂度约为 $O(n\log n)$。
+
+后记：其实，只要 $n\neq 1$，我们就有 $n \not\bot n$ 成立，所以可以直接把题面中的式子的上界改为 $n-1$，就可以避免拆伯努利数这种麻烦的事情。
+

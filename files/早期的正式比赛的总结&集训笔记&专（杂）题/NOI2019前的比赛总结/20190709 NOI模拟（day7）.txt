@@ -1,0 +1,90 @@
+﻿# 20190709 NOI模拟（day7）
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 开源
+
+有$n$堆石头，第$i$堆有$a_i$个。有两个人轮流操作，每个人每次操作的时候可以选择一堆，然后拿走若干个。第一轮操作的人拿走的石头数量不能够超过$K$，此后每个人操作的时候拿走的石头的数量不能够超过上一个人拿走的石头数量。不能够操作的人输。问先手是否存在必胜策略——如果存在，你还要输出所有可以使得先手获胜的第一步操作方法。$n\le 5\times 10^4,a_i,K\le 10^9$，保证输出大小不超过10MB。
+
+Solution：
+
+当$\sum a_i$是奇数的时候，先手可以拿一个石头，然后由于此后都只能拿一个石头，先手就赢了。否则，两个人每次拿的石头数量都是偶数，所以可以把$a_i$都变成$\lfloor {a_i\over 2} \rfloor $，把$m$变成$\lfloor {m\over 2} \rfloor$。如果$m$除以二变成$0$了，那么先手就输了。
+
+也就是说，对于$ 2^k \le m < 2^{k+1}$，我们只需要关心$a_i$的$0$到$k$位的异或和是否是$0$就可以了。
+
+枚举第一步拿的是哪一堆，然后枚举拿走的数量在$[2^k,2^{k+1})$的范围（枚举$k$），拿走的石头数量假设是$x$，则有$a_i - x \equiv a_1\bigoplus a_2 \bigoplus \cdots a_{i-1} \bigoplus a_{i+1} \cdots a_n  \pmod {2^{k+1}}$。由于$x<2^{j+1}$，所以$x$可以唯一确定。之后再判断$x$是否小于等于$m$大于$0$，然后去重就可以了。
+
+考试的时候我输出优化写错了然后只过了所有输出的数字不超过10的点，得到了20分。我输出优化写得不熟，考试的时候也没有检查。以后考试的时候写自己不熟悉的东西一定要检查
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+#include <vector>
+#define pii pair<int,int>
+#define MP make_pair
+#define fir first
+#define sec second
+#define PB push_back
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x) {
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)) { if(c=='-') f=-1; c=getchar(); }
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+template <class T>
+inline void wrt(T x) {
+	static int stk[35],top;
+	stk[top=1]=x%10;
+	while(x>=10) stk[++top]=(x/=10)%10;
+	while(top) putchar(stk[top--]+'0');
+}
+const int N=5e4+10;
+vector<int> ans;
+int a[N],n,m,num,all;
+int msk;
+int main() {
+	rd(n),rd(m);
+	for(int i=1;i<=n;++i) rd(a[i]);
+	int k=0;
+	while((1<<k)<=m) ++k;
+	num=(1<<k)-1;
+	for(int i=1;i<=n;++i) msk^=(a[i]&num);
+	if(!msk) {
+		printf("0");
+		return 0;
+	}
+	printf("1\n");
+	all=(1<<30)-1;
+	for(int i=1;i<=n;++i) {
+		msk^=a[i]&num;
+		ans.clear();
+		for(int j=0;j<k;++j) {
+			int d=(1<<j+1);
+			int x=((a[i]-msk)%d+d)%d;
+			if(x<=m&&x<=a[i]&&x) ans.PB(x);
+		}
+		sort(ans.begin(),ans.end());
+		int y=unique(ans.begin(),ans.end())-ans.begin();
+		for(int j=0;j<y;++j) {
+			//printf("%d %d\n",i,ans[j]);
+			wrt(i),putchar(' ');
+			wrt(ans[j]),putchar('\n');
+		}
+//		int x=a[i]>>k;
+//		for(int j=x;j>=0;--j) {
+//			int del=a[i]-((j<<k)|msk);
+//			if(del>m) break;
+//			if(del>0) stk[++top]=del;
+//		}
+//		while(top) printf("%d %d\n",i,stk[top--]);
+		msk^=a[i]&num;
+	}
+	return 0;
+}
+```

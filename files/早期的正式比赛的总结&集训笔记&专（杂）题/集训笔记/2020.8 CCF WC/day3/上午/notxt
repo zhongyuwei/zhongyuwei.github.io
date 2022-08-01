@@ -1,0 +1,30 @@
+## IOI2019D1T3
+
+
+
+
+
+为什么一定是 x-M+y：因为一定有 x-M < 0，选择 x-M 不如不选。
+
+
+
+## Fiibonacci sums
+
+第一步：消掉所有的 $2$，利用公式 $f_{i-1} = f_i - f_{i-2} = f_{i+1} - f_i \Rightarrow 2f_i = f_{i+1}+f_{i-2}$。
+
+![image-20200803133231462](C:\Users\钟雨薇\AppData\Roaming\Typora\typora-user-images\image-20200803133231462.png)
+
+第二步：从高到低，消掉相邻的 $1$。由于每次 $1$ 的个数会减少，所以复杂度线性。
+
+## ？
+
+![image-20200803135543795](C:\Users\钟雨薇\AppData\Roaming\Typora\typora-user-images\image-20200803135543795.png)
+
+## 圆和子弹
+
+dp 每个圆能飞出去的角度区间
+
+
+
+欠最后一道题。
+

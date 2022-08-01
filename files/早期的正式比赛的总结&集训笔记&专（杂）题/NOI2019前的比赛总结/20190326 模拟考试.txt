@@ -1,0 +1,128 @@
+﻿# 20190326 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 完美理论
+
+一道原题：51nod1325 两棵树的问题
+
+---
+
+### T2 动态半平面交
+
+有一棵以$1$号点为根的树。每一个点有一个点权$a_i$。需要回答$q$次询问，每一次给出$u,d$，询问$u$的子树中与$u$距离不超过$d$的所有点的点权的$lcm$模$998244353$的取值。$n,q\le 10^5,a_i\le 10^7$
+
+Solution：
+
+肯定是对质因子单独考虑。
+
+考虑如果所有的点权都是互质的，那么答案就是所有出现过的数的乘积。
+
+一种类似差分的转化：如果某一个质因子的$k$次幂出现过，那么$p^1,p^2,p^3\cdots $一定都出现过。我们把$p^1,p^2,p^3\cdots $看作“互质的数”，令它们的贡献是$p$，那么答案就可以表示成所有“互质的数”的贡献的乘积。
+
+现在的问题转化成了满足题目要求的区域内的所有不同的点权的乘积。
+
+一种做法是线段树合并。用一棵线段树维护以某个点为根的所有深度小于等于某个值的**不同**的数的乘积，用另一个线段树维护，对于某一个数，它在这棵子树内出现的深度最小的位置的深度。合并两棵树的时候，贡献被计算了多次的数就是在第二颗线段树中合并到了叶子的点（一个数至多被算两次）。
+
+另外一种比较奇妙的思路：考虑对每一种数建个虚树，那么我们就应该让所有的关键点的贡献乘以这个点权的贡献，并且让dfs序相邻的两个关键点的lca的贡献除掉这个点权的贡献，查询的时候查询$u$的子树内的所有点的贡献的乘积。先把所有的关键点按照深度排序，按照深度做扫描线，用set维护每个点权对应的虚树。把扫描线过程中的那个数据结构可持久化下来，还可以做到在线。
+
+---
+
+### T3 获取名额
+
+有$n$场比赛。如果你在第$i$场比赛中在前$a_i$名，那么你将可以参加省选。有$q$次询问，每次给出$l,r,x$，你需要回答：如果你参加了$[l,r]$这些比赛，每一次的排名在$[1,x]$中均匀随机，你能够参加省选的概率（即至少有一场比赛进入了前$a_i$名）。$n,q\le 6\times 10^5,1\le x\le 10^9,1\le a_i\le 10^9$。保证$\forall i\in [1,n],x>a_i$。
+
+Solution：
+
+容易发现答案就是$1-\prod _{i=l}^r (1-{a_i\over x})$。
+
+考虑当$a_i\over x$比较大的时候，后面的乘积会收敛得比较快，我们可以暴力选出区间内比较大的$a_i\over x$乘起来，当得到的结果小于$10^{-6}$的时候就终止。然而这样并不能通过。
+
+考虑$\ln(1-x) = - \sum_{i=1}^{\infty}{x^i\over i}$，当$x$较小的时候这个式子会收敛得很快。于是我们先对于$k\in [1,20]$处理$a_i^k$的前缀和，然后询问的时候，我们把$a_i\over x$较大的贡献单独计算，并把它对这个展开式的贡献减掉；对于剩下的，我们把$x$带进去求个exp就可以了。
+
+一个trick：记$m=max(a_1,a_2\cdots )$，我们令$a_i'={a_i\over m}$，令$x'={m\over x}$，那么有${a_i\over x} = x'\cdot a_i'$，并且$a_i',x'\in [0,1]$。这样就可以避免$a_i^k$爆long long的问题。
+
+再记几个泰勒展开的式子：
+$$
+\ln (1-x) = - \sum_{n=1}^{\infty} {x^n\over n}\\
+\ln(1+x) = \sum_{n=1}^{\infty} (-1)^{n+1} {x^n\over n}
+$$
+上面两个式子要求$|x|<1$。
+还有
+$$
+e^x = \sum_{n=0}^{\infty} {x^n\over n!}
+$$
+对于任意$x$成立。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <cmath>
+#define db long double
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=6e5+10;
+db a[N];
+int n;
+struct RMQ {
+	int st[21][N],Lg[N];
+	void predo() {
+		for(int i=2;i<=n;++i) Lg[i]=Lg[i>>1]+1;
+		for(int i=1;i<=n;++i) st[0][i]=i;
+		for(int j=1;j<=20;++j)
+			for(int i=1;i+(1<<j)-1<=n;++i)
+				st[j][i]=a[st[j-1][i]]>a[st[j-1][i+(1<<j-1)]]?st[j-1][i]:st[j-1][i+(1<<j-1)];
+	}
+	int query(int l,int r) {
+		int L=Lg[r-l+1];
+		return a[st[L][l]]>a[st[L][r-(1<<L)+1]]?st[L][l]:st[L][r-(1<<L)+1];
+	}
+}ST;
+db sum[21][N],Ans_ln[21],Ans,qx;
+
+void solve(int l,int r) {
+	if(l>r) return;
+	int p=ST.query(l,r);
+	if(qx*a[p]<0.3||Ans<1e-6) return;
+	Ans*=(1-qx*a[p]);
+	for(int j=1;j<=20;++j) Ans_ln[j]-=sum[j][p]-sum[j][p-1];
+	solve(l,p-1),solve(p+1,r);
+}
+
+int main () {
+	freopen("orz.in","r",stdin);
+	freopen("orz.out","w",stdout);
+	int q,l,r,x; rd(n),rd(q);
+	db mx=0;
+	for(int i=1;i<=n;++i) scanf("%Lf",&a[i]),mx=max(mx,a[i]);
+	for(int i=1;i<=n;++i) a[i]/=mx;
+	ST.predo();
+	for(int i=1;i<=n;++i) {
+		db p=1;
+		for(int j=1;j<=20;++j) p*=a[i],sum[j][i]=p;
+	}
+	for(int j=1;j<=20;++j) for(int i=1;i<=n;++i) sum[j][i]+=sum[j][i-1];
+	
+	while(q--) {
+		rd(l),rd(r),rd(x); qx=mx/(db)x;
+		for(int j=1;j<=20;++j) Ans_ln[j]=sum[j][r]-sum[j][l-1];
+		Ans=1;
+		solve(l,r);
+		db tmp=0,p=1;
+		for(int j=1;j<=20;++j) p*=qx,tmp+=Ans_ln[j]*p/j;
+		printf("%.7Lf\n",1-Ans*exp(-tmp));
+	}
+	return 0;
+}
+```

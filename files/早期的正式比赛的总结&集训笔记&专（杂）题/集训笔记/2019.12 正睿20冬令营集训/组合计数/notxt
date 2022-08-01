@@ -1,0 +1,68 @@
+## 组合恒等式
+- $\sum_{i=0}^n {n\choose i} [ 2\mid i ] = \sum_{i=0}^n {n\choose i} [ 2\nmid i]= 2^{n-1}$
+  从组合意义上考虑，我们先随意决定前$n-1$个球取或者不取，如果一共取了奇数个，就取第$n$个球，否则就不取第$n$个球，这样就一定能取到偶数个球，对要求个数是奇数的也是同理。
+- 插板法相关的拓展：
+  - $\sum_{i=0}^m {n+i\choose n} = {n+m+1\choose n+1}$
+    左边的式子相当于将个数为$n+1,n+2,\cdots n+m+1$的球划分成$n+1$个非空集合的方案数，右边的则相当于将$n+m+1$个球划分成$n+1$个非空集合和一个可空集合的方案数。
+  - $\sum_{i=m}^n {i\choose m} = {n+1\choose m+1}$
+    这玩意跟前一个式子一样的，只是换了一个写法
+- $\sum_{i=0}^k {n\choose i}{m\choose k-i} = {n+m\choose k}$
+
+## 错排
+
+- $D_n = n! \sum_{i=0}^n (-1)^i {1\over i!}$
+- $D_n = \lfloor {{n!\over e}+0.5}\rfloor$
+  考虑对$e^{-x}$进行泰勒展开得到
+  $$
+  e^{-x} = \sum_{i=0}^n {(-1)^i\over i!} x^i + R_n(x)
+  $$
+  带入$x=1$
+  $$
+  e^{-1} = \sum_{i=0}^n {(-1)^i\over i!} +R_n(1)
+  $$
+  所以${n!\over e}- D_n = n!R_n(1)$。
+  而$|R_n(x)| \le |{f^{(n+1)}(\theta) \over (n+1)!} x ^{n+1}| = {e^{-\theta}\over (n+1)!} x^{n+1}, \theta \in (0,x)$，故而$|R_n(x)| \le {e^0\over (n+1)!}$，$|R_n(x) \cdot (n+1)!|\le {1\over n+1} < 0.5$，所以上式成立。
+
+
+## 自然数幂和
+
+斯特林数做法可以不用求逆元。
+
+## 下降幂、上升幂、斯特林数
+
+## 斯特林反演，其它转换公式
+
+### 例 1 [2018雅礼集训]方阵
+
+给出一个$n\times m$的方格，每个格子填上$[1,c]$的数字，求任意两行、两列均不同的方案数。$n,m\le 5000$
+
+Sol：考虑每一行互不相同的公式：$g(m) = (c^m)^{\underline n}$；要求每一列都互不相同：$f(m)$满足$g(m) = \sum_{i=0}^m \begin{Bmatrix} m \\ i \end{Bmatrix} f(i)$；斯特林反演即可得到答案。
+
+### 一道例题
+
+![image.png](https://i.loli.net/2020/01/15/r9JlXuqViwG3TOE.png)
+
+设$f_u$表示$u$走到$1$号点的期望步数。
+
+对$k$次方进行操作，把问题转化成对于每一个$u$，求出$E({f_u\choose 1}),E({f_u\choose 2}),\cdots E({f_u\choose k})$。
+
+按升序枚举$i$，然后求出所有的$E({f_u\choose i})$。
+
+$$
+E({f_u \choose i}) = p_u E({f_u + 1 \choose i} ) + {1-p_u\over deg_u} \sum_{v\in adj_u} E({f_v+1\choose i})\\
+E({f_u \choose i}) = p_u (E({f_u\choose i}) + E({f_u \choose i-1})) + {1-p_u\over deg_u} \sum_{v\in adj_u} E({f_v\choose i}) + E({f_v\choose i-1})
+$$
+
+用这个式子可以在$O(n)$的时间内算出所有的$E({f_u\choose i})$。
+
+## Burnside Lemma
+
+### 本质不同的欧拉图计数
+
+首先枚举循环节划分。
+
+相当于对于所有的$n\choose 2$条边，我们把它们分成了若干个组，每一组要么都选，要么不选。
+
+考虑每个组对每一个点的度数的影响，这是一个$n$维的$0/1$的向量。方案数是选这些向量使得异或和为$0$的方案数，可以用线性基求得。
+
+这样就求出了要求所有点的度数都是偶数但不要求连通的方案数，再容斥一下就可以得到要求连通的方案数。

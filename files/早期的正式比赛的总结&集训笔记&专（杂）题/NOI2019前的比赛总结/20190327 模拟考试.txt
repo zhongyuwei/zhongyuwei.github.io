@@ -1,0 +1,293 @@
+﻿# 20190327 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+### T2 胖
+
+有一棵树，以$1$号点为根。每个点初始有一个财富值$w_i$。如果在节点A投下一颗威力为$x$的炸弹，那么到节点$A$需要经过$d$条边的点的财富值将会减少$\lfloor {x\over 2^d}\rfloor$。当一个点的财富值小于等于$0$的时候，这个点就破产了。
+
+有两种操作：1）在城市$A$投下威力为$x$的炸弹。2）查询某个点的子树内破产的点的数量的总和。$n,q\le 100000,x,w_i\le 32768 $
+
+Solution：
+
+显然投炸弹只会影响到到这个点的距离不超过$\log_2 x$的点。
+
+对每一个深度建一个线段树，线段树内点按照dfs序排序。修改的时候暴力枚举被影响点和爆炸点的lca，然后再暴力枚举被影响点的深度，此时对应的dfs序区间是lca的dfs序区间抠掉爆炸点所在子树的dfs序区间。
+
+在线段树上维护区间最小值，当一个点小于$0$的时候，我们就把它计入答案（另用一个树状数组维护），并把它在线段树上的权值置为$\infty$。
+
+这样的复杂度是$O(n\log ^2 V \log n)$， 我自己造的随机数据在jzoj上大约跑1.5s，题目的数据似乎比较弱，只用跑600ms左右。
+
+有一种$O(n\log q\log V)$的做法：考虑先处理出每一个点破产的时间。考虑整体二分。直接用前面的方法维护的话复杂度还是居高不下。注意到我们修改的复杂度比较高，而询问的复杂度却比较低，所以我们修改的时候在枚举的lca上打$\log n$个标记，询问的时候枚举$lca$向上跳。这样的复杂度还是$O(n\log Q \log V^2)$的。但是我们可以先函数式记录下所有的修改（这样是$Q\log ^2 V$的），然后再整体二分，过程中用类似莫队的方法移动时间指针（可以证明复杂度均摊是$O(Q\log Q)$的）,就可以把复杂度降下来了。
+
+---
+
+### T3 圆
+
+求有多少个$1$到$n$的排列可以被拆成$3$个上升子序列。答案对质数$P$取模。$n\le 500,P\le 10^9$
+
+Solution：题目要求转化成最长下降子序列的长度小于等于$3$。
+
+用类似于[这道题][1]的方法，此时整个数组中至多只有三个位置是$1$，并且有一个位置一定是从左往右第一个位置，所以我们有了一个$n^3$的$dp$状态，其中第一维可以滚动。朴素转移可以做到$O(n^4)$，就像这样：
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+int dp[2][510][510],n,mod;
+inline void Add(int &x,int y){x+=y; if(x>=mod) x-=mod;}
+int main() {
+	freopen("yuan.in","r",stdin);
+	freopen("yuan.out","w",stdout);
+	rd(n),rd(mod);
+	int cur=0; dp[0][0][0]=1;
+	for(int i=2;i<=n;++i,cur^=1) {
+		int nxt=cur^1;
+		for(int j=0;j<=i;++j) for(int k=0;k<=i;++k) dp[nxt][j][k]=0;
+		for(int j=0;j<i;++j)
+			for(int k=0;k<i;++k) if(dp[cur][j][k]) {
+				int limt=!j?i-1:(!k?i-1:k-1);
+				for(int x=0;x<=limt;++x) {
+					int tj,tk,flg=1;
+					if(!j) tj=x==0?0:x+1,tk=0;
+					else if(x<j) tj=x==0?j+1:x+1,tk=k?k+1:0;
+					else if(!k||x<k) tj=j,tk=x+1;
+					Add(dp[nxt][tj][tk],dp[cur][j][k]);
+				}
+			}
+	}
+	int ans=0;
+	for(int i=0;i<=n;++i) for(int j=0;j<=n;++j) Add(ans,dp[cur][i][j]);
+	printf("%d\n",ans);
+	return 0;
+}
+```
+
+然后我优化不动了qwq。
+
+换一种状态定义，定义$dp[][j][k]$表示第一段长度为$j$，第二段长度为$k$。那么可以得到这样的一个转移：
+
+``` cpp
+for(int i=2;i<=n;++i,cur^=1) {
+	int nxt=cur^1;
+	for(int j=0;j<=i;++j) for(int k=0;k<=i;++k) dp[nxt][j][k]=0;
+	for(int j=1;j<i;++j)
+		for(int k=0;j+k<i;++k) if(dp[cur][j][k]) {
+			Add(dp[nxt][j+1][k],dp[cur][j][k]);
+			for(int x=1;x<=j;++x) Add(dp[nxt][x][k+j-x+1],dp[cur][j][k]);
+			for(int x=1;x<=k;++x) Add(dp[nxt][j][x],dp[cur][j][k]);
+		}
+}
+```
+
+第$7$行的那个转移，可以用一个数组记录下j+k=某个值、且j大于等于某个值的所有dp状态的值的和。
+第$8$行也可以前缀和优化。
+这样就优化到$O(n^3)$了。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+int dp[2][510][510],n,mod;
+int sum1[2][510][510],sum2[2][510][510];
+inline void Add(int &x,int y){x+=y; if(x>=mod) x-=mod;}
+int main() {
+	freopen("yuan.in","r",stdin);
+	freopen("yuan.out","w",stdout);
+	rd(n),rd(mod);
+	int cur=0; dp[0][1][0]=1;
+	
+	Add(sum2[0][1][1],1);
+	
+a	for(int i=2;i<=n;++i,cur^=1) {
+//		int nxt=cur^1;
+//		for(int j=0;j<=i;++j) for(int k=0;k<=i;++k) dp[nxt][j][k]=0;
+//		for(int j=1;j<i;++j)
+//			for(int k=0;j+k<i;++k) if(dp[cur][j][k]) {
+//				Add(dp[nxt][j+1][k],dp[cur][j][k]);
+//				for(int x=1;x<=j;++x) Add(dp[nxt][x][k+j-x+1],dp[cur][j][k]);
+//				for(int x=1;x<=k;++x) Add(dp[nxt][j][x],dp[cur][j][k]);
+//			}
+//	}
+	
+	for(int i=2;i<=n;++i,cur^=1) {
+		
+		int nxt=cur^1;
+		for(int j=0;j<=i;++j) for(int k=0;k<=i;++k) dp[nxt][j][k]=sum1[nxt][j][k]=0,sum2[nxt][j][k]=0;
+		
+		for(int j=1;j<=i;++j)
+			for(int k=0;j+k<=i;++k) {
+				if(k==0&&j!=i) continue;
+				Add(dp[nxt][j][k],dp[cur][j-1][k]);
+				Add(dp[nxt][j][k],sum2[cur][j+k-1][j]);
+				Add(dp[nxt][j][k],sum1[cur][j][k]);
+				Add(sum1[nxt][j][k],dp[nxt][j][k]);
+				Add(sum2[nxt][j+k][j],dp[nxt][j][k]);
+			}
+		
+		for(int j=1;j<=i;++j) for(int k=i;k>=1;--k) Add(sum2[nxt][j][k],sum2[nxt][j][k+1]),Add(sum1[nxt][j][k],sum1[nxt][j][k+1]);
+	}
+	int ans=0;
+	for(int i=0;i<=n;++i) for(int j=0;j<=n;++j) Add(ans,dp[cur][i][j]);
+	printf("%d\n",ans);
+	return 0;
+}
+```
+
+---
+
+### jzoj3381 小z的袜子
+
+有$n$个人，袜子有$m$种尺码。第$i$个人的尺码为$j$的概率是$p_{i,j}$。小z将会带来$n$双袜子，然后从第一个人依次开始送袜子，如果那个人的尺码的袜子还剩的有，小z就会给他一双他的尺码的袜子。小z可以决定自己带的这$n$双袜子的尺码，问最优策略下送出去的袜子的双数的期望的最大值。$n\le 3000,m\le 300$
+
+Solution：设$f_{x,i,j}$表示对于第$x$种尺码的袜子，前$i$个人**至少**有$j$个人是这种尺码的概率。那么有$f_{x,i,1} = p_{i,x} + (1-p_{i,x})f_{x,i-1,1} $以及$f_{x,i,j}= p_{i,x} f_{x,i-1,j-1} + (1-p_{i,x})f_{x,i-1,j}$。
+
+那么小z带$i$双第$x$种尺码的袜子，对答案的贡献就是$\sum_{j=1}^i f_{x,n,j} $。
+
+暴力的做法是对于选的袜子跑个背包，但是这样是$O(n^2m)$的，会爆炸。
+
+题解的做法是，考虑到一定有$f_{x,n,i}\ge f_{x,n,i+1}$，那么我们先把所有的$f_{x,n,1}$算出来扔进优先队列，每次选最大的拿出来加到答案里面。当$f_{x,n,i}$出队的时候，我们算出$f_{x,n,i+1}$并扔进队列。这样的复杂度是$O(n(m+n)\log m)$的。
+
+---
+
+### jzoj 3330 首都
+
+有$n$个点，初始没有边。我们定义一个连通块的首都为这个连通块中，到所有点的距离之和最小的点，如果存在多个选择编号最小的。有三种操作：1）连接两个点，保证这两个点在操作之前不连通。2）查询某个连通块的首都编号。3）查询所有连通块的首都编号的异或和。$n\le 100000,q\le 200000$
+
+Solution：
+
+#### 结论：重心到全树的距离之和最小
+
+我们将重心从$u$点挪到$v$点，距离和的减小量是这条边$v$这一侧的点的数量 - 这条边$u$这一侧点的数量。因此当一个点存在一个子树其大小大于全树除掉这棵子树以外的部分，肯定是选择这个子树会更优秀。
+
+考虑到加边后连通块的重心一定在原来两个连通块的重心之间的路径上，并且一定在较大的那一个连通块上，所以可以用lct维护子树大小，然后提出从较大连通块到加边的点之间的那条链，然后在那个splay上面“游走”：判断如果自己可行就更新答案；如果左儿子可行就往左子树走；如果右子树可行就往右子树走。
+
+（我被自己z到了）access里面要splay；“游走”到每一个点的时候都要push_down。
+
+题解提到的做法：直接从较大的连通块的首都开始暴力向较小的连通块走，因为至多走较小的连通块的大小那么多的步数，所以总复杂度$O(n\log n)$。这个过程可以通过离线+树链剖分（这样重链上的dfs序是连续的）实现。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=1e5+10;
+int curans;
+namespace DSU {
+	int fa[N],ans[N];
+	int find(int x){ return fa[x]==x?x:fa[x]=find(fa[x]);}
+	int un(int x,int y,int newans) {
+		int fx=find(x),fy=find(y);
+		curans^=ans[fx],curans^=ans[fy];
+		fa[fx]=fy,ans[fy]=newans;
+		curans^=newans;
+	}
+	void init(int n) {
+		for(int i=1;i<=n;++i) ans[i]=i,curans^=i,fa[i]=i;
+	}
+	int ask(int x) {return ans[find(x)];}
+}
+int rev[N],fa[N],ch[N][2],n,sz[N],val[N];
+inline bool isroot(int x) { return ch[fa[x]][0]!=x&&ch[fa[x]][1]!=x; }
+inline int get(int x) { return ch[fa[x]][1]==x; }
+inline void Swap(int x) { swap(ch[x][0],ch[x][1]),rev[x]^=1; }
+inline void push_up(int x) { sz[x]=sz[ch[x][0]]+sz[ch[x][1]]+val[x]; }
+inline void push_down(int x) { if(rev[x]) Swap(ch[x][0]),Swap(ch[x][1]),rev[x]=0; }
+void PD(int x) {
+	static int stk[N],top;
+	stk[top=1]=x;
+	while(!isroot(x)) stk[++top]=x=fa[x];
+	while(top) push_down(stk[top--]);
+}
+//void PD(int x) { if(!isroot(x)) PD(fa[x]); push_down(x); }
+void rotate(int x) {
+	int f=fa[x],ff=fa[f],d=get(x);
+	fa[x]=ff; if(!isroot(f)) ch[ff][ch[ff][1]==f]=x;
+	fa[ch[x][d^1]]=f,ch[f][d]=ch[x][d^1];
+	fa[f]=x,ch[x][d^1]=f; push_up(f),push_up(x);
+}
+void splay(int x) {
+	PD(x);
+	for(int f=fa[x];!isroot(x);rotate(x),f=fa[x])
+		if(!isroot(f)) rotate(get(f)==get(x)?f:x);
+}
+void access(int x) {
+	for(int y=0;x;y=x,x=fa[x]) {
+		splay(x);
+		val[x]-=sz[y],val[x]+=sz[ch[x][1]];
+		ch[x][1]=y; push_up(x);
+	}
+}
+void makeroot(int x) { access(x),splay(x),Swap(x); }
+int qans,qsiz;
+void opti(int x,int pre,int suf) {
+	push_down(x);
+	int t1=sz[ch[x][1]]+suf,t2=sz[ch[x][0]]+pre;
+//	cout<<x<<' '<<t1<<' '<<t2<<endl;
+	if(2*max(t1,t2)<=qsiz) qans=min(qans,x);
+	if(ch[x][0]&&2*t2>=qsiz) opti(ch[x][0],pre,sz[x]-sz[ch[x][0]]+suf);
+	if(ch[x][1]&&2*t1>=qsiz) opti(ch[x][1],pre+sz[x]-sz[ch[x][1]],suf);
+}
+void Debug(int x) {
+	if(!x) return;
+	cout<<x<<' '<<ch[x][0]<<' '<<ch[x][1]<<' '<<sz[x]<<' '<<val[x]<<endl;
+	Debug(ch[x][0]),Debug(ch[x][1]);
+}
+char str[10];
+int main() {
+	int q,x,y; rd(n),rd(q);
+	for(int i=1;i<=n;++i) val[i]=sz[i]=1;
+	DSU::init(n);
+	while(q--) {
+		scanf("%s",str);
+		if(str[0]=='A') {
+			rd(x),rd(y);
+			makeroot(x),makeroot(y);
+			if(sz[x]<sz[y]) swap(x,y); // sz[x]>sz[y]
+			int cur=DSU::ask(x);
+			fa[x]=y,val[y]+=sz[x]; push_up(y);
+			qsiz=sz[y],qans=n+1;
+			access(cur),splay(cur);
+			opti(cur,0,0);
+			DSU::un(x,y,qans);
+		}
+		else if(str[0]=='X') printf("%d\n",curans);
+		else rd(x),printf("%d\n",DSU::ask(x));
+	}
+	return 0;
+}
+```
+
+
+  [1]: http://www.cnblogs.com/pks-t/p/9351687.html

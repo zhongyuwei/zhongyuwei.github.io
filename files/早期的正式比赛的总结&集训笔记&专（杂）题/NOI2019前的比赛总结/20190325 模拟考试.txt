@@ -1,0 +1,393 @@
+﻿# 20190325 模拟考试
+
+标签（空格分隔）： 总结
+
+---
+
+### T1 染色问题
+
+有一排$n$个格子，你可以进行$m$次操作，第$i$次操作可以选择连续的一段格子，把它们覆盖成编号为$i$的颜色。一个合法的操作序列需要满足，最终所有的$n$个格子都被染过颜色。
+
+给出$m,n$，问有多少种可能的染色结果。
+
+Solution：
+
+考虑到最终的染色结果中，最后一次操作覆盖的都是连续的一段，把这一段直接抠掉就是原来的子问题。设$f_{i,j}$为$i$次操作染$j$个格子的不同结果数，那么有：
+$$
+f_{i,j} = f_{i-1,j} + \sum_{k=0}^{j-1} f_{i-1,k}(k+1)
+$$
+
+想象一个$m\times n$的方格，当前我们走到了$(x,y)$，我们会走到$x+1$行、编号大于等于$y$的一个格子。如果我们走到的格子编号大于了$y$，那么我们的贡献就会乘上$(y+1)$，否则什么都不会改变。
+
+我们考虑枚举有多少步使贡献乘以$y+1$，算出所有满足这个条件的路径的贡献和。假设这个步数是$k$，把这个贡献和乘上${m-1\choose k-1}$加到答案里面就可以了。
+
+可以看出（但是我看不出来），$\prod_{i=1}^{n-1} ((i+1)x+1)$的$k-1$次项系数就是我们要求的东西（我们无论如何会有一步是从第$0$列走下来的）。但是这个式子（我只会分治NTT）好像不能用倍增做。考虑$\prod _{i=0}^{n-1} (x+i+1)$，它的$n-k$次项和前面的式子的$k$次项是一样的。这个式子可以用类似求第一类斯特林数的方法来做。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=(1<<22)+2323,mod=998244353;
+int Pow(int x,int y){int res=1; while(y){if(y&1) res=res*(ll)x%mod; x=x*(ll)x%mod,y>>=1; } return res;}
+namespace Poly {
+	int rev[N],A[N],B[N],I;
+	int W[2][N];
+	void get_wn(int l) {
+		for(int i=1;i<(1<<l);i<<=1) {
+			int w0=Pow(3,(mod-1)/(i<<1)),w1=Pow(3,mod-1-(mod-1)/(i<<1));
+			W[0][i]=W[1][i]=1;
+			for(int k=1;k<i;++k) {
+				W[0][i+k]=W[0][i+k-1]*(ll)w0%mod;
+				W[1][i+k]=W[1][i+k-1]*(ll)w1%mod;
+			}
+		}
+	}
+	void get_r(int l) {for(int i=0;i<(1<<l);++i) rev[i]=(rev[i>>1]>>1)|((i&1)<<l-1);}
+	void FFT(int A[],int len,int f) {
+		for(int i=0;i<len;++i) if(rev[i]<i) swap(A[i],A[rev[i]]);
+		for(int l=1;l<len;l<<=1)
+			for(int i=0;i<len;i+=(l<<1))
+				for(int k=0;k<l;++k) {
+					int t1=A[i+k],t2=A[i+l+k]*(ll)W[f][l+k]%mod;
+					A[i+k]=t1+t2,A[i+l+k]=t1-t2;
+//					A[i+k]%=mod,A[i+l+k]%=mod;
+					if(A[i+k]>=mod) A[i+k]-=mod;
+					if(A[i+l+k]<0) A[i+l+k]+=mod;
+				}
+		if(f==1) for(int i=0;i<len;++i) A[i]=A[i]*(ll)I%mod;
+	}
+	void Mul(int a[],int b[],int c[],int l1,int l2) {
+		int len=1,cnt=0; while(len<=l1+l2) len<<=1,cnt++; get_r(cnt),I=Pow(len,mod-2);
+		for(int i=0;i<len;++i) A[i]=B[i]=0;
+		for(int i=0;i<=l1;++i) A[i]=a[i];
+		for(int i=0;i<=l2;++i) B[i]=b[i];
+		FFT(A,len,0),FFT(B,len,0); for(int i=0;i<len;++i) A[i]=A[i]*(ll)B[i]%mod; FFT(A,len,1);
+		for(int i=0;i<=l1+l2;++i) c[i]=A[i];
+	}
+}
+int fac[N],inv[N];
+void _prepare(int n) {
+	fac[0]=1; for(int i=1;i<=n;++i) fac[i]=fac[i-1]*(ll)i%mod;
+	inv[n]=Pow(fac[n],mod-2); for(int i=n-1;i>=0;--i) inv[i]=inv[i+1]*(ll)(i+1)%mod;
+}
+int C(int n,int m) {return fac[n]*(ll)inv[m]%mod*inv[n-m]%mod;}
+int f[N],g[N],t1[N],t2[N];
+void solve(int n) {
+	if(n==1) {
+		f[0]=2,f[1]=1;
+		return;
+	}
+	int l=n>>1; solve(l);
+	int p=1;
+	for(int i=0;i<=l;++i) {
+		t1[i]=fac[i]*(ll)f[i]%mod;
+		t2[l-i]=p*(ll)inv[i]%mod;
+		p=p*(ll)l%mod;
+	}
+	Poly::Mul(t1,t2,t2,l,l);
+	for(int i=0;i<=l;++i) g[i]=t2[i+l]*(ll)inv[i]%mod;
+	
+	Poly::Mul(f,g,f,l,l);
+	if(n&1) {
+		for(int i=n;i>=1;--i)
+			f[i]=(f[i-1]+f[i]*(ll)(n+1))%mod;
+		f[0]=f[0]*(ll)(n+1)%mod;
+	}
+}
+int n,m;
+int main() {
+	freopen("color.in","r",stdin);
+	freopen("color.out","w",stdout);
+	rd(n),rd(m);
+	_prepare(n*2); Poly::get_wn(22);
+	solve(n-1);
+	
+//	for(int i=0;i<=n;++i) cout<<f[i]<<' '; cout<<endl;
+	
+	int ans=0;
+	for(int k=1;k<=m;++k)
+		ans=(ans+C(m-k+k-1,k-1)*(ll)f[n-k])%mod;
+	
+	printf("%d",ans);
+	return 0;
+}
+```
+
+---
+
+### T2 芬威克树
+
+定义：$lowbit(x)$表示$x$在$k$进制下的最低的非零位的值，如$k=5,120 = 4\times 5^2 + 4\times 5$那么$lowbit(120)=20$。
+
+有一份写错了的$k$进制的树状数组是这样的：
+```
+function ADD(x,v)
+    while x<=n do
+        s[x]=s[x]^v
+        x=x+lowbit(x)
+    end while
+end function
+
+function QUERY(x)
+    ans=0
+    while x>0 do
+        ans=ans^s[x]
+        x=x-lowbit(x)
+    end while
+    return ans
+end function
+```
+其中 ^ 表示按位（二进制）异或运算。
+
+给出输入（有两种操作：单调修改/查询一段前缀的异或和），你需要输出这份代码的输出。
+
+$n\le 10^9,q\le 2\times 10^5,2\le k\le 2\times 10^5$
+
+Solution：
+
+加上最低非零位，对于最低非零位来说，它的值相当于乘$2$模$k$。
+
+当$k$是奇数的时候，由于$2$在模$k$意义下存在乘法逆元，如果我们将$x$向$x+lowbit(x)$连边的话，所有的点会形成若干条链。因为每一个点的入度和出度一定恰好都是$2$。操作变成让某一条链的后缀全部异或上某一个值或者单点查询。可以对每一条链用一个数据结构维护。
+
+考虑如果$k=2^pt$，那么当$x$的最低非零位上的那个数字是$2^p$的倍数的时候，仍然会形成一条链。而一个点如果不在链上，它最多走$\log n \log k$步就能走到链上，因为每走一步它最低非零位中$2$的次数一定不会变少；而如果涉及到了进位，也至多只会就进$\log_k n$次。因此我们可以暴力修改不在链上的点，用数据结构维护链上的点。
+
+现在的问题是怎么找这个链。$[0,k)$的那些数，我们钦定一个起点，不断让它乘$2$模$k$，一定会形成环。$[0,k)$的那些数将会形成若干个环，这也就是在最低非零位上的数的循环。考虑某一个循环，假设在循环一周的过程中，它进位了$x$次，那么会形成恰好$x$条不相交的链。给每个链一个编号就可以了。链的数量大约是$\log_k n \cdot k$。
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <map>
+#define ll long long
+using namespace std;
+template <class T>
+inline void rd(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=2e5+10,M=N*4;
+int n;
+namespace TLE {
+	const int M=N*31;
+	struct Tree{
+		int ls[M],rs[M],sz[M],rt,ncnt;
+		int qv,qr,qans,qt;
+		inline void push_up(int c){sz[c]=sz[ls[c]]^sz[rs[c]];}
+		void update(int l,int r,int &c) {
+			if(!c) c=++ncnt;
+			if(l==r) {sz[c]^=qt; return;} int mid=l+r>>1;
+			if(qv<=mid) update(l,mid,ls[c]); else update(mid+1,r,rs[c]);
+			push_up(c);
+		}
+		void query(int l,int r,int &c) {
+			if(!sz[c]) return;
+			if(r<=qr){qans^=sz[c]; return;} int mid=l+r>>1;
+			query(l,mid,ls[c]); if(qr>mid) query(mid+1,r,rs[c]);
+		}
+		int Update(int p,int t){qv=p,qt=t; update(1,n,rt);}
+		int Query(int x){qr=x,qans=0; query(1,n,rt); return qans;}
+	}Tr;
+	void solve1(int q,int K) {
+		int op,x,y;
+		while(q--) {
+			rd(op),rd(x);
+			if(op==1) rd(y),Tr.Update(x,y);
+			else printf("%d\n",Tr.Query(x));
+		}
+	}
+}
+
+int ch[M][2],fa[M],idx[M],sum[M],val[M],ncnt;
+struct Tree{
+	int rt;
+	inline int get(int x){return ch[fa[x]][1]==x;}
+	inline void push_up(int x){sum[x]=sum[ch[x][0]]^val[x]^sum[ch[x][1]];}
+	void rotate(int x) {
+		int f=fa[x],ff=fa[f],d=get(x);
+		fa[x]=ff; if(ff) ch[ff][f==ch[ff][1]]=x;
+		fa[ch[x][d^1]]=f,ch[f][d]=ch[x][d^1];
+		fa[f]=x,ch[x][d^1]=f; push_up(f),push_up(x);
+	}
+	void splay(int x){
+		for(int f=fa[x];fa[x];rotate(x),f=fa[x])
+			if(fa[f]) rotate(get(x)==get(f)?f:x);
+		rt=x;
+	}
+	void insert(int id,int v) {
+		int u=rt,f=0;
+		while(u) {
+			if(idx[u]==id) {
+				val[u]^=v,sum[u]^=v;
+				splay(u);
+				return;
+			}
+			f=u,u=ch[u][id>idx[u]];
+		}
+		u=++ncnt; fa[u]=f;
+		val[u]=sum[u]=v,idx[u]=id;
+		if(f) ch[f][id>idx[f]]=u; else rt=u;
+		splay(u);
+	}
+	int find(int x,int i) {
+		if(!x) return -1;
+		if(idx[x]>i) return find(ch[x][0],i);
+		int tmp=find(ch[x][1],i);
+		return tmp==-1?x:tmp;
+	}
+//	void debug(int x) {
+//		if(!x) return; 
+//		cout<<idx[x]<<' '<<val[x]<<' '<<sum[x]<<endl;
+//		debug(ch[x][0]),debug(ch[x][1]);
+//	}
+	int query(int id) {
+		int u=find(rt,id);
+		if(u==-1) return 0;
+		
+		splay(u);
+//		debug(rt);
+//		cout<<"val"<<idx[u]<<' '<<sum[ch[rt][0]]<<' '<<val[rt]<<endl;
+		return sum[ch[rt][0]]^val[rt];
+	}
+}Tr[33][N];
+map<int,int> mp;
+int d[N],bel[N],len[N],sz[N],K,_s=1;
+void Update(int p,int i,int dep,int id,int v) {
+//	cout<<' '<<p<<' '<<i<<' '<<id<<endl;
+	Tr[p][sz[i]+dep].insert(id,v);
+}
+int Query(int p,int i,int dep,int id) {
+//	cout<<' '<<p<<' '<<i<<' '<<id<<endl;
+	return Tr[p][sz[i]+dep].query(id);
+}
+void update(ll i,int v) {
+	ll pw=1; int p=0;
+	while(i%pw==0) pw*=K,p++;
+	while(i<=n&&(i/(pw/K)%K)%_s!=0) {
+		mp[(int)i]^=v;
+		i+=i%pw;
+		while(i%pw==0) pw*=K,p++;
+	}
+	int d1=i/(pw/K)%K,d2=(i/pw);
+	if(d1!=0&&d1%_s==0) {
+		int tmp=len[bel[d1]];
+		Update(p,bel[d1],((d2-d[d1])%tmp+tmp)%tmp,i,v);
+	}
+}
+int query(int i) {
+	ll pw=1; int p=0;
+	while(i%pw==0) pw*=K,p++;
+//	cout<<i<<' '<<pw<<' '<<p<<endl;
+	int d1=i/(pw/K)%K,d2=(i/pw);
+	if(d1!=0&&d1%_s==0) {
+//		cout<<(i/(pw/K))%K<<' '<<len[(i/(pw/K))%K]<<endl;
+		int tmp=len[bel[d1]];
+//		cout<<tmp<<' '<<d1<<' '<<d2<<endl;
+		return Query(p,bel[d1],((d2-d[d1])%tmp+tmp)%tmp,i);
+	}
+	else return mp.count(i)?mp[i]:0;
+	
+//	int pw=1,ans=0,p=0;
+//	while(i%pw==0) pw*=K,p++;
+//	while(i<=n&&(i%pw)%_s) {
+//		if(mp.count(i)) ans^=mp[i];
+//		i+=(i%pw)*(pw/K);
+//		while(i%pw==0) pw*=K,p++;
+//	}
+//	cout<<i<<endl;
+//	if(i<=n&&(i%pw!=0&&(i%pw)%_s==0)) ans^=Query(p,((i/pw-d[i%pw])%m+m)%m,i);
+}
+int main() {
+	
+	freopen("fenwick.in","r",stdin);
+	freopen("fenwick.out","w",stdout);
+//	freopen("fenwick4.in","r",stdin);
+//	freopen("myout.txt","w",stdout);
+	
+	int q,op,x,y; rd(n),rd(q),rd(K);
+	
+	if(K==2) {TLE::solve1(q,K); return 0;}
+	
+	int tmpk=K,m=0;
+	while(tmpk%2==0) tmpk/=2,_s*=2;
+	
+	for(int j=_s;j<K;j+=_s) if(!bel[j]) {
+		bel[j]=++m;
+//		cout<<bel[j]<<':'<<j<<' ';
+		for(int lst=j,i=lst*2%K;i&&i!=j;lst=i,i=i*2%K)
+			bel[i]=bel[lst],len[bel[i]]=d[i]=d[lst]+(lst*2>=K)/*,cout<<i<<' '*/;
+		len[bel[j]]++;
+//		cout<<endl;
+	}
+	for(int i=1;i<=m;++i) sz[i]=sz[i-1]+len[i-1];
+	
+	while(q--) {
+		rd(op),rd(x);
+		if(op==1) rd(y),update(x,y);
+		else {
+			int ans=0;
+			ll pw=K;
+			while(x) {
+//				cout<<x<<endl;
+				if(x%pw) ans^=query(x),x-=x%pw;
+				pw*=K;
+			}
+			printf("%d\n",ans);
+		}
+	}
+//	cerr<<ncnt<<endl;
+	return 0;
+}   
+```
+
+
+---
+
+### T3 礼物
+
+一个有$n$个珠子的环，你需要把其中$m$个珠子染成金色，要求不能有连续的全部都是金色的段包含超过$k$个珠子。问旋转置换下本质不同的方案数。$n\le 10^6, 0\le k\le m\le n$
+
+Solution：
+
+先套个Polya。剩下的问题就是求$i$个珠子选$j$个染色的方案数。
+
+假如现在要求$n$个珠子选$m$个染色且连续的染过色的段不超过$k$。
+$$
+f(x) = (\sum_{i=0}^k x^i )^{n-m-1} (\sum_{i=0}^k (i+1)x^i)
+$$
+
+$f(x)$的$x^m$项的系数就是我们要求的东西。
+
+$(\sum_{i=0}^k x^i)^{n-m-1}$的意义是，把环断开后，我们相当于是在$n-m-1$个未染色的珠子之间的空隙中插入染色的珠子，每一个空隙插的珠子不可以超过$k$个。
+
+$\sum_{i=0}^k (i+1)x^i$的意义是枚举环上最左边的那个珠子所属的那个连续的染了色的段的长度。
+
+考虑后面的部分怎么求。设$G(x) = \sum_{i=0}^k (i+1)x^i $。
+$$
+G(x)x=\sum_{i=0}^k (i+1)x^{i+1} = \sum_{i=1}^{k+1} ix^i \\
+G(x)x-G(x) = (k+1)x^{k+1} -(\sum_{i=1}^k x^i ) - 1\\
+G(x)x-G(x) = (k+1)x^{k+1} -{x^{k+1}-x\over x-1} -1\\
+G(x)x-G(x) = {(k+1)x^{k+2}-(k+1)x^{k+1} -x^{k+1}+x-x+1}\\
+={(k+1)x^{k+2} - (k+2)x^{k+1} +1\over x-1}\\
+G(x) ={(k+1)x^{k+2}-(k+2)x^{k+1}+1\over (x-1)^2}
+$$
+
+于是
+$$
+f(x)=({x^{k+1}-1\over x-1})^{n-m-1} G(x) \\
+={ (x^{k+1}-1)^{n-m-1} \over (x-1) ^{n-m+1}}( (k+1)x^{k+2}-(k+2)x^{k+1} +1)
+$$
+
+后面的我就不会了qwq

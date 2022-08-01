@@ -1,0 +1,280 @@
+## ZJOI2020D2T3 密码
+
+### task 1：$err\le 10^6$
+
+直接枚举 $x$ 然后 check，因为如果 $x$ 是错的，期望 check $O(1)$ 次就会发现。（？）
+
+### task2：$err\le 10^{11}$
+
+考虑前两个方程，此时解的个数的期望是 $O\left(\frac{P}{\left(\frac{P}{err}\right)^2}\right) \approx 10^4$：
+$$
+L_1 \le a_1 x \bmod P\le R_1\\
+L_2 \le a_2 x \bmod P\le R_2
+$$
+令 $y = a_1x\bmod P$，则 $a_2x\bmod P = a_1^{-1} a_2 \cdot y \bmod P$。令 $A = a_1^{-1}a_2\bmod P$。
+
+转化成
+$$
+L_1 \le y \le R_1\\
+L_2 \le Ay \bmod P\le R_2
+$$
+可能可以强行扩欧解出来。（？）
+
+另一个做法是分块：
+
+>  枚举 $y$，将区间 $[L_1, L_1 + T)$ 中的 $y$ 按照 $Ay \bmod P$ 排好序。
+>
+> 考虑从 $[L_1, L_1 + T)$ 变成 $[L_1+T, L_1 + 2T)$ 时，相当于每个 $y$ 都加上了 $AT \bmod P$，然后对 $P$ 取了模。
+>
+> 本质上是个全局加法 + 全局取模（后缀减法），这样做以后，整个序列分成两段，每段内是单调的。如此可以求出所有的可行的 $x$。
+
+### task3：$err\le 0.001p$
+
+限制可以转化成这样的形式：$Ax \bmod P$ 在某个区间内。
+
+如果 $A$ 很小：$Ax \in [kp, kp+10^{16}], k\in [0, A) \Rightarrow x \in [ \lfloor \frac{kp}{A}\rfloor , \lfloor \frac{kp+err}{A} \rfloor]$。即，$x$ 的解是若干段区间的形式。搞出一些 $A$ 很小的方程，然后求这些解集的交集，对交集中的每个数 check。
+
+具体的方法是，选取一些 $s_i \in \{ -1, 1\}$，得 $(\sum_{i=1}^m s_i a_i ) x \bmod P$ 要在某个宽度为 $err \cdot m$ 的区间内。
+
+找 $\{s_i\}$ 的方法：
+
+1. meet in the middle。注意到 $[0,1]$ 之间随机 $k$ 个数，两两差的最小值的期望为 $O(\frac{1}{k^2})$（生日悖论）。我们可以随机 $10^6$ 次，每次随机出一个大小为 $m = 5$ 的方程，则这些方程之间的最小的差的期望为 $\frac{10^{18} }{(10^6)^2}$。dls 说不保证能跑得过。
+2. 考虑与 tree attack 类似的想法，每次让第 $i$ 个方程与第 $i+1, i+2, \cdots i+k$ 个方程相减（$k$ 可以取 5；之所以不直接 $k=2$ 是因为方程数太少；这样可能算出来 $s_i \not\in \{ -1,1\}$，但是只要 $\sum |s_i|$ 不太大就行）
+
+tree attack：本质是要确定 $S,T$ 使得 $\sum_{i\in S} base^i = \sum_{i\in T} base^i$，即确定 $a_i \in \{-1,0,1\}$ 使得 $\sum a_i base^i = 0$。可以随机 $n$ 组 $\{a_i\}$，将它们 hash 值排序之后相邻做差，则值域期望除以 $n$，$n$ 除以 2。期望进行不太多次以后，就能得到一对冲突的字符串。
+
+multi tree attack 资料：
+
+https://codeforces.com/blog/entry/60442?mobile=false
+
+https://notes.sshwy.name/Math/Rolling-Hash-and-Hack/
+
+## 一个经典的线性规划模型
+
+最大循环费用流 $\sum f_i w_i$ 可以转化成 $\min \sum_{(u,v) \in E} c(u,v) \cdot \max\{w(u,v) +h_u - h_v, 0\}$，解释就是线性规划对偶。
+
+常用 trick：$h_u \ge h_v$ 的限制可以转化成 $\min\{\infty \cdot  \max\{0+h_v-h_u,0\}\}$。
+
+任意的分段线性凸函数均可用此形式表示成一个关于 $h_u - h_v$ 的函数。
+
+## CF1307G
+
+先二分答案 $ans$，则
+$$
+d_v \le d_u + w_{u,v} + x_{u,v}\\
+\sum x_{u,v} \le X\\
+d_t - d_s \ge ans\\
+$$
+
+故而
+$$
+x_{u,v} = \max\{ 0, d_v - d_u + w_{u,v} \}
+$$
+转化成
+$$
+\min \{\sum \max\{0, d_v - d_u+w_{u,v}\} + \infty \cdot \max\{ d_s - d_t + ans,0\}\}
+$$
+建图跑即可。
+
+实际上是不用二分的，设从 S 到 T 的某个流，费用为 $f_i$，流量为 $i$，则对应的循环流为 $i\cdot ans  + f_i$，此时的 $ans_{max} = \lfloor \frac{X-f_i}{i} \rfloor$。由于 $i$ 很小，可以枚举每个 $i$、求出最小的 $f_i$。
+
+## ZJOI2020D1T3 序列
+
+### Solution 1
+
+给每个 $a_i$ 整一个 $x_i \in [0,a_i]$ 表示 $a_i$ 中有 $x_i$ 是第 2，3 种操作搞的，有 $a_i - x_i$ 是第 1 种操作搞的。
+
+由 NOIP2018D1T1 的结论可得，代价是
+$$
+\sum \max\{x_i -x_{i-2}, 0\} + \max\{ ( a_{i}-x_{i}) - (a_{i-1} - x_{i-1}), 0\}
+$$
+转化成了之前的模型。
+
+由于边只会连向最近的两个点以及 $x_0$（一个用来保证 $0\le x_i \le a_i$ 的、强制等于 $0$ 的点），所以不用费用流，直接记录下最近的两个 $x_i$、dp 即可。
+
+### Solution 2
+
+若 $a_1 > 0, a_2 > 0$，则第一步一定不是从 $a_1$ 开始跳着走：
+
+![](1.png)
+
+搞到 $a_1 = 0$ 之后，考虑 $a_2, a_3$，设有 $A$ 个连续的线段到了 $a_3$，$B$ 个跳跃的线段到了 $a_3$。如果 $a_3 \le A+B$ ，令 $k = A+B-a_3$，令 $A-=k, B-=k$，认为可以从这里出发 $k$ 条免费的线段。然后搞 $a_2$（与之前 $a_1$ 同理，在 $a_3\neq 0$ 的时候连续跳）。搞完 $a_2$ 之后再搞那 $k$ 条免费线段：$a_3 += k, ans -=k$。
+
+![](2.png)
+
+
+
+## ZJOI2020D2T2 抽卡
+
+考虑求在每个不合法状态的停留时间的长度。设 $f_i$ 为大小为 $i$ 的不合法子集的数量，则 $ans = \frac{m}{m-i} \cdot \frac{1}{\binom{m}{i}} \cdot f_i$（$\frac{m}{m-i}$ 为期望停留时间，$\frac{1}{\binom{m}{i}}$ 为某个特定的子集出现的概率）。
+
+$dp_{i,j}$ 表示考虑 $i$ 张牌、选了 $j$ 张的合法方案数，则
+$$
+dp_{i,j} = dp_{i-1,j-1} + dp_{i-1,j} - dp_{i-k-1,j-k}(i\ge k+1) - dp_{i-k,j-k}(i=k)
+$$
+特判 $i=k$ 是因为第 $0$ 个位置必然不选。
+$$
+f_i = f_{i-1}(1+x) - x^k f_{i-k-1}
+$$
+则
+$$
+f_n = \sum_{j(k+1) \le n} \binom{n-j(k+1)+j}{j} (x^k)^j (1+x)^{n-j(k+1)}
+$$
+然后分治 FFT：
+$$
+\sum_{i=0}^m f^i g^{m-i} a_i\\
+= g^{\frac{m}{2}} ( \sum_{i=0}^{\frac{m}{2}} f^i g^{\frac{m}{2} - i} a_i ) + f^{\frac{m}{2} + 1}(\sum_{i=\frac{m}{2} + 1}^m f^{i-\frac{m}{2}-1} g^{m-i} a_i)
+$$
+
+## PE427
+
+方法和上一题一样。
+
+## EC Final 2019 J
+
+最小值动不了。最小值周围的 $l$ 个可以任意排列；我们说这 $l$ 个在最小值的管控范围内。
+
+考虑次小值：如果它不在最小值的管控范围内则进行与最小值类似地处理；否则它会让最小值的管控范围扩大 $l$。注意到次小值是只能在最小值周围 $l$ 的位置内的，即，管控范围扩大后次小值的活动范围没有扩大。
+
+再考虑第三小值，以此类推。
+
+直到相邻的两个“最小值”的管控范围相交，这时候它们之间的这一段内的元素（除了那些扩展管控范围的）都可以任意排列。
+
+## 保序回归
+
+设
+$$
+g_i(\lambda) = \begin{cases}
+f_i'(\lambda) & \lambda \le x_i\\
+0 & \lambda > x_i
+\end{cases}
+$$
+设 $g(\lambda)$ 为：$\max_{\{x_1,x_2,\cdots x_n\}} \{\sum_i g_i(\lambda)\}$。
+
+求 $g(\lambda)$ 是个最大权闭合子图问题。
+
+毛咕咕性质：每个点是否在 S 集，是个随 $\lambda$ 单调的东西。
+
+最终的答案显然是 $\int_{0}^\infty g(\lambda) d \lambda$。
+
+也就是：设从 $\lambda = d$ 开始，$i$ 的取值小于了 $\lambda$，那么 $i$ 的贡献是 $\int_0^d f_i'(\lambda) d \lambda = f_i(d)$。
+
+整体二分对每个 $i$ 求出 $d$ 即可。
+
+## 泡泡糖
+
+数据范围：$m\le 30000$
+
+$0\le l_u, r_u \le 1$：$O(2^n \cdot m)$ 状压 dp 一下。
+
+对于原问题，用与保序回归类似的想法对每个 $\lambda$ 算一下（即，如果对于某个 $\lambda$，$[x_u\le \lambda],[x_v\le \lambda]$ 不同，就让答案加上 $w_{(u,v)}$）。
+
+## ZJOI2020D1T1 字符串*
+
+run：极长的满足周期小于串长一半的子串。lemma：run 的个数 <= |S|
+
+本原平方串：不含更小的周期。lemma：每个位置开头的本原平方串是 $O(\log n)$ 的。
+
+关键串：一个 run 里面每个平方串的第一次出现和最后一次出现。关键串有 $O(n\log n)$ 个。
+
+先咕着。
+
+## Another Chess Problem
+
+转一下就变成了那个菱形最短路的题。
+
+## EC Final 2019 K
+
+凸多边形三角剖分的对偶图 -> 一棵树。（把面积无穷大的那块拆成 $n$ 个叶子；为什么是树呢？因为对偶图中点数 (2n-2) = 边数 (2n-3) + 1）
+
+然后对着这个东西，用 Boruvka 跑出 Gomery-Hu tree（两个点之间的边权为最小割的大小的图的最小生成树）即可。
+
+另一个做法：对每个点，把它的三个子树内，最浅的叶子互相连起来，然后最小生成树。
+
+求答案：考虑到最小割互不相交。对着这坨弧线代表最小割的东西，再对偶一遍，则两个点之间的最小割为对偶图上他们之间的路径上的边权最小值。
+
+![](3.png)
+
+
+
+## Junk Problem
+
+考虑如果要求的是对于任意四个不同的数 $a,b,c,d$，$a+b \neq c+d$ 应该怎么做：取若干个不同的 $i$，令第 $i$ 个数为 $i\cdot 2p + (i^2 \bmod P)$，$P$ 取大于 $\sqrt n$ 的质数。
+
+证明：如果存在互不相同的四个数 $i_1, i_2, j_1, j_2$ 满足
+$$
+i_1 \cdot 2P + (i_1^2 \bmod P) - i_2 \cdot 2P - (i_2^2 \bmod P) = j_1 \cdot 2P + (j_1^2 \bmod P) - j_2 \cdot 2P - (j_2^2 \bmod P)\\
+\Rightarrow \begin{cases}
+i_1-i_2 = j_1 - j_2\\
+(i_1^2 \bmod P) - (i_2^2 \bmod P) = (j_1^2 \bmod P) - (j_2^2 \bmod P)
+\end{cases}
+$$
+第二个式子蕴含着
+$$
+((i_1^2 \bmod P) - (i_2^2 \bmod P))\bmod P = ((j_1^2 \bmod P) - (j_2^2 \bmod P))\bmod P\\
+\Rightarrow (i_1^2 - i_2^2) \bmod P = (j_1^2 - j_2^2) \bmod P\\
+\Rightarrow (i_1-i_2)(i_1+i_2)\bmod P = (j_1-j_2) (j_1+j_2) \bmod P\\
+\Rightarrow (i_1 + i_2)\bmod P = (j_1 + j_2) \bmod P
+$$
+稍微构造的时候注意一下，就可以得到 $i_1 + i_2 = j_1 + j_2$，与 $i_1 - i_2 = j_1 - j_2$ 联立得到矛盾。
+
+原问题：假设值域为 $[0,2^{2n})$，拆分成前后两段，每段是个 $n$ 次的系数对 $2$ 取模的多项式、表示一个长度为 $n$ 的二进制数。取一个不可约多项式 $P(x)$（即任意次数小于它的多项式可以对它求逆），取一些不同的 $f(x)$，令取的数为 $(f(x), f^3(x)\bmod P(x))$。
+
+则
+$$
+(f_1, f_1^3) - (f_2, f_2^3) = (f_3, f_3^3) - (f_4, f_4^3)\\
+\Rightarrow (f_1 - f_2, f_1^3 - f_2^3) = (f_3 - f_4, f_3^3 - f_4^3)\\
+\Rightarrow \begin{cases}
+f_1 - f_2 = f_3 - f_4\\
+f_1^2 + f_1f_2 + f_2^2 = f_3^2 + f_3f_4 + f_4^2
+\end{cases}\\
+f_1^2 + f_2^2 \equiv (f_1 + f_2)^2  \bmod 2 \\
+\Rightarrow f_1f_2 = f_3f_4\\
+\Rightarrow (f_1 + f_2)^2 = (f_3+f_4)^2
+$$
+与 $f_1 - f_2 = f_3 - f_4$ 联立推出矛盾。
+
+设实际上的值域为 $m$。
+
+$2^{2n} < m < 2^{2n+1}$：抄一下对 $2^{2n}$ 的构造即可。
+
+$2^{2n+1} < m < 2^{2n+2}$：对 $2^{2n+2}$ 做一下然后舍掉大于了 $m$ 的数。
+
+## 在线 O(1) 逆元
+
+如果能够求出 $k, h$ 满足 $ak \equiv  h \pmod P$，并且 $h$ 不是很大，就能通过预处理 $h$ 的逆元得到 $a^{-1} \equiv k \cdot h^{-1} \pmod P$。
+
+也就是求一个 $a\cdot k - p \cdot y = h$，让 $h$ 尽量小。
+
+> 如果 $\xi$ 是任意一个实数，$n$ 是一个正整数，那么必定存在一个不可约分数 $\frac{h}{k}$ 使得 $0< k \le n, \left|\xi - \frac{h}{k}\right| \le \frac{1}{k(n+1)}$。
+
+找出一个 $\frac{c}{d}$ 使得 $\left|\frac{a}{p} - \frac{c}{d} \right| \le \frac{1}{d(M+1)}, d\le M$，其中 $M= P^{\frac{1}{3}}$。
+
+即 $\left|ad - cp\right| \le \frac{P}{M+1}$，令之前的 $y$ 为这里的 $c$，之前的 $h$ 为这里的 $\left|ad - cp\right|\le \frac{P}{M+1}$ 即可。
+
+如何求 $\frac{c}{d}$：枚举所有的分母不超过 $M$ 的分数（显然我们只需要枚举真分数），它们之间两两的差不超过 $O(\frac{1}{M^2})$，所以可以取一个 $O(M^2)$ 左右的 $T$ 使得这些分数乘以 $T$ 下取整的值互不相同，这样就可以做到 $O(1)$ 查询。
+
+快速离散对数（？）
+
+## Linear Matroid Parity
+
+![](4.png)
+
+
+
+### Colorful Spanning Tree
+
+找个边数最多的森林，所有边颜色不同。
+
+前面 n 维表示图，后面 k 维表示颜色，每个元素用两个向量表示。
+
+## Feedback Vertex Set Problem
+
+找出最小的集合，使得删掉之后的图是个森林。
+
+缩掉自环，缩掉二度点，使得所有点的度数都是 3。转成对偶图是个 3-uniform hypograph maximum spanning forest 问题。
+
+## Disjoint S-paths Problems
+
+dls 没讲。
+

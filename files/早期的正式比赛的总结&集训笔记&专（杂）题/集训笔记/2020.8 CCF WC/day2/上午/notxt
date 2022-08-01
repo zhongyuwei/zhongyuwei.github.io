@@ -1,0 +1,107 @@
+## Shoes
+
+source: IOI2019D1T1 [link(loj)](https://loj.ac/problem/3175)
+
+对于绝对值相同的元素，观察发现一定是第一个正的匹配第一个负的，第二个正的匹配第二个负的，以此类推。对于初始的时候左右反了的鞋子，可以在它们两个相邻的某个时刻换回来，所以在确定匹配之间的排列顺序时，匹配内部的元素顺序可以不予考虑。
+
+进一步观察，按照每个匹配较靠左的元素的位置排序就可以达到最优。（考虑某两对匹配：
+
+> $(1, 3), (2,4)$：让 $(1,3)$ 排在 $(2,4)$ 的左边较优
+>
+> $(1,2), (3,4)$：让 $(1,2)$ 排在 $(3,4)$ 的左边
+>
+> $(1,4),(2,3)$：顺序不影响逆序对数
+
+## Split
+
+source: IOI2019D1T2 [link(loj)](https://loj.ac/problem/3176)
+
+考虑 $m = n-1$ 怎么做：我们只需要找出两个大小分别不小于 $a,b$ 的连通点集即可。
+
+
+
+## Counting Cactus
+
+LOJ上有加强版：LOJ 6719
+
+![image-20200802132037025](C:\Users\钟雨薇\AppData\Roaming\Typora\typora-user-images\image-20200802132037025.png)
+
+## Determinant
+
+Gym 300iq contest 2
+
+
+
+## Fast Spanning Tree
+
+令 s / =2
+
+## Honorable Mention
+
+费用流：S ---(1, -s_i) ---> i, i ----(1,0) ----> i+1，i ----(1,s_i) ----> T
+
+故而答案是凸函数
+
+## Bulbasaur
+
+转化成最小割。由于 dp 的可能取值很少，所以维护取值改变的点。
+
+zyy 的 $m = 12$ 做法：
+
+Hall定理看上去优化不了了。
+
+回到最初的网络流建图模型上来。
+
+如果我们只需要计算$f(1,i)$则只需要从第一层出发流尽量长的流即可。这样子跑网络流显然正确
+
+同时我们可以直接从跑完第一层的残量网络继承过来直接计算第二层的流！
+
+\---
+
+考虑在第二层的额外扩展的流，若其比第一层扩展的优秀而没有被扩展，说明这个流在第一层无法被扩展，不会被相对的贪心顺序影响。
+
+否则这一条流显然没有第一层拓展的优秀，符合贪心策略。
+
+由于寻找一次长度为$p$的流的复杂度为$O(p*k^2)$，总流量为$O(n*k)$，所以总复杂度为$O(n*k^3)$
+
+可以通过某些操作使得复杂度变为$O(n*k^3/w)$
+
+期望得分 $100$
+
+## Eevee
+
+[link(gym)](http://codeforces.com/gym/102341/problem/E)
+
+设 $dp_i$ 表示归并得到的序列中，第一次出现连续 $k$ 个一样的数为 $i$，到出现这连续的 $k$ 个数为止归并的方案数。通过容斥，得到一个类似 $dp_i -= dp_j \times ways(j,i)$ 的方程。
+
+枚举 $l$，然后从小到大枚举 $r$，新增一个排列时，$ways(j,i)$ 的改变量可以 $O(1)$ 算出来。这样的复杂度为 $O(n^2m^2)$。
+
+由于排列随机，所以当排列的数量为 $k$ 时，$ways(j,i)$ 不为 $0$ 的概率（即所有排列中，$j$ 都在 $i$ 前面的概率）为 $\frac{1}{2^k}$，因此一对 $(j,i)$ 在 $r = l,l+1,\cdots n$ 时对复杂度的贡献期望为 $O(1)$。精细（？）实现可以做到 $O(mn(n+m))$。
+
+## Infernate
+
+广义树上邻域：树上邻域的交
+
+ans = \sum  | pre[i] \cap suf[i] | - (k-1) | a1 \cap a2 \cap ... \cap ak |
+
+## Container
+
+转化：横轴为 1 的数量，纵轴为 2 的数量，考虑两个串的前缀和的图象。我们相当于要用 $1\times 1, 1\times 2, 2\times 1$ 的
+
+尽可能多放 1 * 2，国际象棋染色后费用流解决。
+
+dp：？
+
+## Angel Beats
+
+![image-20200803001440715](C:\Users\钟雨薇\AppData\Roaming\Typora\typora-user-images\image-20200803001440715.png)
+
+## Dates
+
+![image-20200803001505154](C:\Users\钟雨薇\AppData\Roaming\Typora\typora-user-images\image-20200803001505154.png)
+
+## Graph Counting
+
+![image-20200803001522518](C:\Users\钟雨薇\AppData\Roaming\Typora\typora-user-images\image-20200803001522518.png)
+
+![image-20200803001532525](C:\Users\钟雨薇\AppData\Roaming\Typora\typora-user-images\image-20200803001532525.png)

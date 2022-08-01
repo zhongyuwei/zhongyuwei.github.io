@@ -1,0 +1,314 @@
+﻿# 20190106考试总结（十连五）
+
+标签（空格分隔）： 总结
+
+---
+
+## 附加赛day5
+
+### T1 树的染色
+
+给你一个$n$个节点的有根树，其中1号点为根。每个点有权值$v_i$。
+
+现在你要把所有的点染成黑白两色，并给每一个点赋一个非负的权值$a_i$，使得对于每一个点$i$，它的子树内所有与它同色的点的$a_i$的和恰好等于$v_i$。
+
+问是否存在一种合法的方案。$n\le 1000,v_i\le 5000$
+
+Solution：看了题解，觉得挺妙的。由于权值必须非负，并且没有上界，所以可以贪心地让$i$的子树内与它同色的点的权值尽量小。那么设$dp[i]$表示以$i$为根的子树內，与$i$不同色的点的权值之和的最小值（与$i$同色的点的权值之和一定是$v_i$）。转移的时候，每个儿子有两种可能：与$i$同色或者与$i$异色。我们要在满足与$i$同色的点的权值之和最小的前提下，最小化与$i$异色的点的权值和。那么跑一遍背包就可以了。
+
+注意背包的数组不能全局通用。
+
+``` cpp
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+#include <algorithm>
+#define ll long long
+using  namespace std;
+
+char nc()
+{
+	static char buf[100000],*p1=buf,*p2=buf;
+	return (p1==p2&&(p2=(p1=buf)+fread(buf,1,100000,stdin),p1==p2))?EOF:*p1++;
+}
+
+template <class T>
+inline void read(T &x)
+{
+   x=0; char c=nc(); int f=1;
+   while(!isdigit(c)){if(c=='-')f=-1; c=nc();}
+   while(isdigit(c)) x=x*10-'0'+c,c=nc(); x*=f;
+}
+const int N=1010,M=5010,inf=1e7;
+int tmp[M],f[N][M],dp[N],n,ecnt,head[N],val[N],flg;
+struct ed{int to,next;}e[N<<1];
+void ad(int x,int y)
+{
+	e[++ecnt]=(ed){y,head[x]}; head[x]=ecnt;
+	e[++ecnt]=(ed){x,head[y]}; head[y]=ecnt;
+}
+void init()
+{
+	//memset(head,0,sizeof(head));
+	for(int i=1;i<=n;++i) head[i]=0;
+	ecnt=0,flg=1;
+}
+void dfs(int u,int last)
+{
+	for(int j=0;j<=val[u];++j) f[u][j]=inf;
+	f[u][0]=0;
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to; if(v==last) continue;
+		dfs(v,u); if(!flg) return;
+		if(val[u]<min(dp[v],val[v])){flg=0; return;}
+	//	memcpy(tmp,f[u],sizeof(f[u]));
+	//	memset(f[u],0x3f,sizeof(f[u]));
+		for(int j=0;j<=val[u];++j) tmp[j]=f[u][j],f[u][j]=inf;
+		for(int j=0;j<=val[u];++j)
+		{
+			if(j+val[v]<=val[u]) f[u][j+val[v]]=min(f[u][j+val[v]],tmp[j]+dp[v]);
+			if(j+dp[v]<=val[u]) f[u][j+dp[v]]=min(f[u][j+dp[v]],tmp[j]+val[v]);
+			if(j+val[v]>val[u]&&j+dp[v]>val[u]) break;
+		}
+	}
+	dp[u]=inf; for(int j=0;j<=val[u];++j) dp[u]=min(dp[u],f[u][j]);
+	if(dp[u]==inf) flg=0; 
+}
+int main()
+{
+	int x,T; read(T);
+	while(T--)
+	{
+		init(); read(n);
+		for(int i=2;i<=n;++i) read(x),ad(x,i);
+		for(int i=1;i<=n;++i) read(val[i]);
+		dfs(1,0);
+		if(flg) printf("POSSIBLE\n");
+		else printf("IMPOSSIBLE\n");
+	}
+	return 0;
+}
+```
+
+---
+
+### T2 树形图求和
+
+一张帯权无向图。定义一个子图的权值为子图中所有边的边权和。求所有树形子图的权值和。$n\le 300,m\le 100000$
+
+只会矩阵树60分暴力QAQ。题解说求伴随矩阵优化，看不懂.jpg
+
+---
+
+### T3 波波老师
+
+识别子串数据加强版，[在这里][1]
+
+---
+
+## 模拟赛day5
+
+### T1 Goodbye 2018
+
+给一棵树。对于一种给所有边定向的方案：1）一个点集的愉悦度为，从某个起点出发，经过集合中的所有的点，需要走过的最少路径条数（显然这是一条链）；2）一种方案的愉悦度定义为，所有可行的集合的愉悦度的和。
+
+给出每条边被定为每一个方向的概率，求定向方案的愉悦度的期望。
+
+Solution：如果把某条链在某个地方断开，期望应该是“$A$的期望距离之和$\times $$B$的期望终点数量+$B$的期望距离之和$\times $$A$的期望终点数量”的形式。
+计算期望的套路：
+$$
+E(a\cdot b) = (\sum p_{a_i}a_i)(\sum p_{b_i} b_i)\\
+$$
+
+注意分两个方向统计答案；所有的路径只在它们的端点的lca上统计，这样才不会重复；注意这里的路径上的点可以不属于集合，所以转移的时候还要乘以2.
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#define ll long long
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=5e5+10,mod=998244353;
+inline ll Pow(ll x,ll y)
+{
+	ll res=1;
+	while(y){if(y&1) res=res*x%mod; x=x*x%mod; y>>=1;} return res;
+}
+const ll INV=Pow(1e6,mod-2);
+template <class T>
+inline void readdb(T &x)
+{
+	x=0; char c=getchar();
+	while(!isdigit(c)) c=getchar();
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); c=getchar();
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar();
+	x=x*(ll)INV%mod;
+}
+ll f[N][2],g[N][2],ans;
+int n,ecnt,head[N];
+struct ed{int to,next; ll w;}e[N<<1];
+void ad(int x,int y,ll w)
+{
+	e[++ecnt]=(ed){y,head[x],w}; head[x]=ecnt;
+	e[++ecnt]=(ed){x,head[y],1-w}; head[y]=ecnt;
+}
+void dfs(int u,int last)
+{
+	g[u][0]=g[u][1]=1,f[u][0]=f[u][1]=0;
+	for(int k=head[u];k;k=e[k].next)
+	{
+		int v=e[k].to; if(v==last) continue;
+		dfs(v,u);
+		ans=(ans+e[k].w*((f[v][0]+g[v][0])*g[u][1]%mod+f[u][1]*g[v][0]%mod)%mod)%mod;
+		ans=(ans+(1-e[k].w)*((f[v][1]+g[v][1])*g[u][0]%mod+f[u][0]*g[v][1]%mod)%mod)%mod;
+		
+		f[u][0]=(f[u][0]+e[k].w*(f[v][0]+g[v][0])*2%mod)%mod;
+		f[u][1]=(f[u][1]+(1-e[k].w)*(f[v][1]+g[v][1])*2%mod)%mod;
+		g[u][0]=(g[u][0]+e[k].w*g[v][0]*2%mod)%mod;
+		g[u][1]=(g[u][1]+(1-e[k].w)*g[v][1]*2%mod)%mod;
+	}
+}
+int main()
+{
+//	freopen("in.txt","r",stdin);
+	int x,y; ll p; read(n);
+	for(int i=1;i<n;++i) read(x),read(y),readdb(p),ad(x,y,p);
+	dfs(1,0); printf("%lld",(ans+mod)%mod);
+	return 0;
+}
+```
+
+---
+
+
+### T2 Hello 2019
+
+
+---
+
+### T3 Happy New Year
+
+给一个字符串，每次查询一段区间内，本质不同的回文串的数量。
+
+Solution：首先考虑一种显然且正确的暴力。我们考虑将询问离线下来，按照右端点排序，然后依次扫描。对于一组相同的回文串，我们在这个回文串出现的左端点中，在当前枚举的$r$的左边并且最靠右的那个位置上+1。
+
+那么可以用回文树实现这个暴力，在每个节点上记录这个节点的字符串上一次出现的位置，然后树状数组维护答案。
+
+可以用CF932G的方法进行优化：考虑每一段等差数列，实际上除了这段等差数列的开头和结束的元素，其他的位置都不需要修改。对于最左边的元素来说，这个位置之前已经被加过了1，但是这个位置代表的那个字符串，它在之前出现的那个位置还没有 -1；对于最后的那个位置来说，这个字符串之前出现的位置的贡献已经减过了，但是它现在的位置还没有+1。要查询一个字符串上一次出现的位置，可以在回文树的$fail$用$dfs$序+线段树实现（在线段树上维护 出现位置的右端点），即每一次修改以$i$为结尾的最长的回文子串的最后一次出现位置为$i$，查询的时候，查询节点的子树内最后出现位置的最小值。时间复杂度$O(n\log^2 n + q\log n)$
+
+``` cpp
+#include <cstdio>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+#define ll long long
+#define pii pair<int,int>
+#define MP make_pair
+#define PB push_back
+using namespace std;
+template <class T>
+inline void read(T &x)
+{
+	x=0; char c=getchar(); int f=1;
+	while(!isdigit(c)){if(c=='-')f=-1; c=getchar();}
+	while(isdigit(c)) x=x*10-'0'+c,c=getchar(); x*=f;
+}
+const int N=2e5+10;
+struct Segment_Tree{
+	int mx[N<<2],n;
+	void init(int x){n=x;}
+	void update(int l,int r,int c,int v,int t)
+	{
+		if(l==r){mx[c]=t; return;}int mid=l+r>>1;
+		if(v<=mid) update(l,mid,c<<1,v,t); else update(mid+1,r,c<<1|1,v,t); mx[c]=max(mx[c<<1],mx[c<<1|1]);
+	}
+	int query(int l,int r,int L,int R,int c)
+	{
+		if(L<=l&&R>=r) return mx[c]; int mid=l+r>>1,ans=0;
+		if(L<=mid) ans=max(ans,query(l,mid,L,R,c<<1)); if(R>mid) ans=max(ans,query(mid+1,r,L,R,c<<1|1)); return ans;
+	}
+	void update(int x,int t){update(1,n,1,x,t);}
+	int query(int l,int r){return query(1,n,l,r,1);}
+}seg;
+int n;
+struct BIT{
+	int sum[N];
+	void add(int i,int x){for(;i;i-=i&-i) sum[i]+=x;}
+	int query(int i){int ans=0;for(;i<=n;i+=i&-i) ans+=sum[i]; return ans;}
+}Tr;
+vector<int> G[N];
+vector<pii > Q[N];
+char S[N];
+int len[N],fail[N],ch[N][26],diff[N],slink[N],ncnt;
+int pos[N],dfn[N],tri[N],id;
+void init()
+{
+	S[0]=-1;
+	len[0]=0,len[1]=-1,fail[0]=1,fail[1]=0,G[1].PB(0);
+	ncnt=1;
+}
+int get(int u,int i){while(S[i]!=S[i-len[u]-1]) u=fail[u]; return u;}
+int ans[N];
+void work()
+{
+	init(); int last=1;
+	for(int i=1;i<=n;++i)
+	{
+		int cur=get(last,i),c=S[i]-'a';
+		if(!ch[cur][c])
+		{
+			int now=++ncnt; len[now]=len[cur]+2;
+			fail[now]=ch[get(fail[cur],i)][c],ch[cur][c]=now; G[fail[now]].PB(now);
+			
+			diff[now]=len[now]-len[fail[now]];
+			slink[now]=diff[now]==diff[fail[now]]?slink[fail[now]]:fail[now];
+			
+		}
+		last=ch[cur][c],pos[i]=last;
+	}
+}
+void dfs(int u)
+{
+	dfn[u]=++id;
+	for(int j=0,sz=G[u].size();j<sz;++j) dfs(G[u][j]);
+	tri[u]=id;
+}
+int main()
+{
+	int q,l,r; read(n),read(q);
+	scanf("%s",S+1);
+	for(int i=1;i<=q;++i) read(l),read(r),Q[r].PB(MP(l,i));
+	work(),dfs(1),seg.init(id);
+	for(int i=1;i<=n;++i)
+	{
+//		printf("%d: ",i);
+		for(int p=pos[i];p;p=slink[p])
+		{
+			int P=seg.query(dfn[p],tri[p]);
+//			printf("%d ",P);
+//			printf("%d %d %d\n",p,P-len[p]+1,i-len[slink[p]]-diff[p]+1);
+			if(P) Tr.add(P-len[p]+1,-1); Tr.add(i-len[slink[p]]-diff[p]+1,1);
+		}
+//		puts("");
+		seg.update(dfn[pos[i]],i);
+		for(int j=0;j<Q[i].size();++j) ans[Q[i][j].second]=Tr.query(Q[i][j].first);
+	}
+	for(int i=1;i<=q;++i) printf("%d\n",ans[i]);
+	return 0;
+}
+```
+
+
+  [1]: https://www.zybuluo.com/mdeditor#1378474
+  
+ 

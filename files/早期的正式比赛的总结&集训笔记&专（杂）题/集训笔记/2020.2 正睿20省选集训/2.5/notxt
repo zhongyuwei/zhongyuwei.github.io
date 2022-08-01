@@ -1,0 +1,140 @@
+## 素数
+
+- 素数的分布：$[1,n]$中有$O({n\over \log n})$个素数。
+- 倒数和（埃氏筛的复杂度证明）：$\sum_{p\le n,\text{p is prime}} {1\over p} = O(\log \log n)$。
+
+## 欧拉定理相关
+
+### 欧拉定理
+
+$a^{\varphi(m)} \equiv 1 \pmod m$
+
+证明：考虑$[1,m)$中与$m$互质的数$x_1,x_2\cdots x_{\varphi(m)}$，显然$ax_1,ax_2\cdots ax_{\varphi(m)}$在$\pmod m$的意义下互不相同，所以
+
+$$
+\prod_i x_i \equiv \prod_i (ax_i) \pmod m\\
+\Rightarrow \prod_i x_i \equiv a^{\varphi(m)}\prod_i x_i \pmod m\\
+\Rightarrow a^{\varphi(m)} \equiv 1\pmod m
+$$
+
+### 扩展欧拉定理
+
+$$
+a^{b} \equiv \begin{cases}
+a^{b\bmod {\varphi(m)}} & \gcd(a,m)=1 \\
+a^{b} & \gcd(a,m) \neq 1 \wedge b < \varphi(m)\\
+a^{(b\bmod {\varphi(m)}) + \varphi(m)} & \gcd(a,m)\neq 1 \wedge b \ge \varphi(m)
+\end{cases}
+$$
+
+也就是：对于$(a,m)\neq 1$，有$a^b \equiv a^{\min\{b,b\bmod {\varphi(m)} + \varphi(m)\}}$
+
+证明：首先，对于每一个质数$p$，我们证明$p^b \equiv p^{(b\bmod {\varphi(m)}) + \varphi(m)} \pmod m$。设$m = sp^r$，其中$(s,p) =1$，则$p^{\varphi(s)} \equiv 1\pmod s$。又因为$\varphi(s) \mid \varphi(m)$，所以$p^{\varphi(m)} \equiv 1 \pmod s$，所以$p^{r+\varphi(m)}\equiv p^r \pmod{s \cdot p^r}$，即$p^{r+\varphi(m)}\equiv p^r \pmod{m}$。
+
+所以，当$b\ge r+\varphi(m)$的时候，就有$p^b \equiv p^{b-\varphi(m)}$。因为$r \le \varphi(m)$，所以这个东西等价于$p^b \equiv p^{b-\varphi(m)}(b\ge 2\varphi(m))$，也就是$p^b \equiv p^{(b\bmod \varphi(m)) +\varphi(m)}(b\ge \varphi(m))$。
+
+对于质数的幂次$p^k$，定理也成立：$(p^k)^b \equiv p^{{kb}+\varphi(m)} \equiv p^{kb+k\varphi(m)} = (p^k)^{b+\varphi(m)}$。
+
+将合数表示成质数的幂次的乘积，即可证明扩展欧拉定理对合数成立。
+
+### 一个结论
+
+$\varphi(\varphi(p)) = {1\over 2}p$
+
+证明：如果$p$是奇数，那么$\varphi(p)$是偶数；如果$p$是偶数，那么$\varphi(p) \le {1\over 2}p$。
+
+## 例题：GCD table
+
+有一个$n\times m$的数表，第$i$行第$j$列的数是$\gcd(i,j)$。给你一个长度为$k$的序列$a_1,a_2,\cdots a_k$，问这个序列是否在这个数表的某一行出现（为那一行的子串）。$n,m\le 10^{12},k\le 10^4$
+
+SOL：假设序列从$(x,y)$这个位置开始，那么我们知道：
+
+
+$$
+\mathrm{lcm}(a_1,a_2,\cdots a_k) \mid x\\
+y - i\equiv 1 \pmod {a_i}
+$$
+
+$x,y$越小越好，我们检查最小的解是否在表内即可。
+
+## 扩展lucas
+
+### $p$很大的情况
+
+考虑如何算出$\prod_{i=1}^{p-1} i \pmod {p^k}$。设$F(x) = \prod_{i=1}^S (x+i)$，倍增预处理出$F(x)$，然后做个$0,S,2S\cdots$这些位置的多点求值。由于我们需要对$n$做$\log_p n$次，所以当$S=\sqrt{p\log p\log_p n}$时取得最优复杂度$O(\sqrt{p\log p\log_p n} \log p)$
+
+### $p$很小，$p^k$很大的情况
+
+令$F(x) = \prod_{i=1}^{p-1} (x+i)$，我们相当于要求出：
+
+$$
+F(0) \cdot F(p) \cdot F(2p) \cdots \pmod{p^k}
+$$
+
+注意到多项式中次数大于等于$k$的项都是没有用的（因为带入的数是$p$的倍数），所以可以倍增算这个式子，次数高于$k$的项直接扔掉就可以了。
+
+## Min25筛
+
+有种复杂度更小的 [link](https://zhuanlan.zhihu.com/p/60378354)
+
+## 例题
+
+求$\sum_{i=1}^n \mu^2(i)$，$n\le 10^{18}$
+
+相当于要求
+
+$$
+\sum_{d=1}^{\sqrt n} \mu(d) \lfloor \frac{n}{d^2} \rfloor 
+$$
+
+对$\lfloor \frac{n}{d^2} \rfloor$数论分块，对$\sum \mu(d)$杜教筛。
+
+分块的复杂度：
+
+- 当$d \ge n^{1\over 3}$的时候，$\frac{n}{d^2}$不超过$n^{\frac{1}{3}}$；
+- 当$d < n^{1\over 3}$的时候，$\lfloor \frac{n}{d^2}\rfloor$显然也只有$n^{1\over 3}$种不同的取值。
+
+杜教筛的复杂度：取一个$M$，当$d \le M$的时候预处理，否则暴力$O(d^{2\over 3})$杜教筛。
+
+- 预处理：$O(M)$
+- 暴力杜教筛：$\sum_{t=1}^{n\over M^2} {\sqrt {n\over t}}^{2\over 3} \approx \int_{0}^{n\over M^2} (\sqrt {n\over x})^{2\over 3} dx = O(n \cdot m^{-\frac{4}{3}})$
+
+当$M=O(n^{3\over 7})$的时候取到最优。
+
+## 最小公倍数之和
+
+求
+$$
+\sum_{i=1}^n \sum_{j=1}^n (ij)^a \gcd(i,j)^b
+$$
+
+其中$a,b\le 10^3,n\le 10^{10}$
+
+$$
+Ans = \sum_{d=1}^n d^{2a+b} \sum_{u=1}^{\lfloor \frac{n}{d} \rfloor} \mu(u)u^{2a} (\sum_{i=1}^{\lfloor\frac{n}{du}\rfloor} i^a)^2\\
+= \sum_{T=1}^n T^{2a}(\sum_{i=1}^{\lfloor\frac{n}{T}\rfloor} i^a)^2 \sum_{d\mid T}d^b\mu(\frac{T}{d})
+$$
+
+预处理所有的$\sum_{i=1}^{\lfloor \frac{n}{T}\rfloor} i^a$的值：我们取一个$M$，预处理出$\lfloor \frac{n}{T} \rfloor \in [1,M]$的自然数幂和，然后对于大于$M$的$O(a)$多项式求值。当$M$取到$\sqrt {na}$的时候，这样的复杂度最优为$O(M+a\cdot{n\over M}) = O(\sqrt {an})$。
+
+后面那一坨化一下：
+
+$$
+\sum_{T=1}^n \sum_{d|T} d^b \mu(\frac{T}{d})\\
+=\sum_{d=1}^n d^b\sum_{T=1}^{\lfloor \frac{n}{d} \rfloor} \mu(T)
+$$
+
+预处理$\mu$的前缀和，$b$的自然数幂和即可。总时间复杂度$O(\sqrt {na} + \sqrt {nb})$。
+
+## bzoj2852 强大的区间
+
+#### Sol 1
+
+类似类欧的做法。[一个挺好的题解](https://oi.qizy.tech/?p=3155)
+
+#### Sol 2
+
+因为 $ak < t < bk \Rightarrow (a-1)k < t-k < (b-1)k$
+，所以 $a,b$ 的答案与 $a-1,b-1$ 相同。把 $a$ 挪到 $[0,1)$ 中去，然后判掉答案为 $1$ 的情况。
+
+然后会有 $a \le \frac{t}{k} \le b$，所以找到 $a,b$ 在 Stern-Brocot 树上的 LCA 就可以了。【考虑 Stern-Brocot 树的类似二叉搜索树的性质】

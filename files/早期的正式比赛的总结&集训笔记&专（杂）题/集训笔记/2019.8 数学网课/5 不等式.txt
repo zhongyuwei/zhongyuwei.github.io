@@ -1,0 +1,61 @@
+## 不等式
+
+#### 线性不等式，二次不等式
+
+#### 均值不等式
+
+如果$x_i >0 $，则${x_1 +x_2 + x_3 \cdots + x_n \over n} \ge ^n\sqrt {x_1 x_2 x_3\cdots x_n}$。即，$n$个数的算数平均值大于等于他们的几何平均值。
+
+证明：
+
+利用反向归纳法。
+
+对于任意的$n=2^k$的情况容易利用归纳法证明不等式成立：
+$$
+要证的事情等价于{x_1 + x_2 +\cdots x_{2^{i+1}} \over 2^{i+1}} \ge {^{2^i}\sqrt {x_1x_2\cdots x_{2^i} } + ^{2^i}\sqrt {x_{2^i+1} + x_{2^i+2} \cdots x_{2^{i+1}}}\over 2} \\
+\because {x_1+x_2 + \cdots x_{2^i}\over 2^i }\ge ^{2^i} \sqrt {x_1x_2\cdots x_{2^i}}\\
+{x_{2^i + 1}+x_{2^i +2}\cdots x_{2^{i+1}}\over 2^i} \ge ^{2^i}\sqrt {x_{2^i+1} x_{2^i+2}\cdots x_{2^{i+1}}}\\
+\therefore 上式成立
+$$
+现在假设对于$n$成立，我们需要由此推出$n-1$成立。
+
+假设要证的是${x_1 + x_2 +\cdots x_{n-1} \over n-1} \ge ^{n-1}\sqrt {x_1x_2 \cdots x_{n-1} }$。
+
+令$x_n = ^{n-1}\sqrt {x_1 x_2 \cdots x_{n-1}}$，由于归纳我们有${x_1+x_2\cdots x_n \over n }\ge ^n\sqrt {x_1x_2\cdots x_n}$，带入也就是：
+$$
+{x_1 + x_2\cdots + x_{n-1} + (x_1x_2x_3\cdots x_{n-1} )^{1\over n-1}\over n } \ge ^n \sqrt {x_1x_2\cdots x_{n-1} (x_1x_2\cdots x_{n-1})^{1\over n-1}}\\
+{x_1 + x_2\cdots x_{n-1} + (x_1x_2\cdots x_{n-1} )^{1\over n-1}  \over n } \ge {x_1 x_2 \cdots x_{n-1} }^{1\over n-1} \\
+{x_1 + x_2\cdots x_{n-1}\over n-1}\ge ^{n-1} \sqrt {x_1x_2\cdots x_{n-1}}
+$$
+
+#### 柯西不等式
+
+$\sum_{i=1}^n a_i^2 \sum_{i=1}^n b_i^2 \ge (\sum_{i=1}^n a_ib_i)^2$
+
+一种证明：
+
+我们设$A = \sum a_i^2, B = \sum a_ib_i,C=\sum b_i^2$。
+
+设$f(x)= Ax^2 + 2B x + C$，则：
+$$
+f(x) = \sum_{i=1}^n ( a_i^2 x^2 + 2a_ib_ix + bi^2 ) \\
+=\sum_{i=1}^n (a_ix+b)^2 \ge 0 \\
+\therefore \Delta = 4B^2 - 4AC \le 0 \\
+\therefore B^2 \le AC \\
+(\sum_{i=1} a_ib_i)^2 \le (\sum_{i=1}^n a_i^2) (\sum_{i=1}^n b_i^2)
+$$
+
+
+一种特殊的情形：
+
+$(\sum_{i=1}^n a_i^2)(\sum_{i=1}^n {1\over a_i^2 })\ge n^2$
+
+#### 练习
+
+若$a_i \ge 0$，试证明${\sum_{i=1}^n a_i \over n }\ge {n\over\sum_{i=1}^n {1\over a_i} }$。
+
+证明：稍微化一下就是$(\sum _{i=1}^n a_i )(\sum_{i=1}^n {1\over a_i}) \ge n^2$，是柯西不等式的变形。
+
+#### 推荐书目
+
+《平均值不等式与柯西不等式》
