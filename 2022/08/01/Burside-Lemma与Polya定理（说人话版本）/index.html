@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="写于2018年冬，当时水平比较菜，留下的一些思考可能对初学Burnside的后辈有启发，所以现在发出来。 看不懂证明，所以只好愉快地感性理解结论。证明等我长大了再回来补吧。（啊，那就大概就是永远都不会补了吧。）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Burside Lemma与Polya定理（说人话版本）">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="写于2018年冬，当时水平比较菜，留下的一些思考可能对初学Burnside的后辈有启发，所以现在发出来。 看不懂证明，所以只好愉快地感性理解结论。证明等我长大了再回来补吧。（啊，那就大概就是永远都不会补了吧。）">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-08-01T07:51:10.000Z">
+<meta property="article:modified_time" content="2022-08-01T07:54:43.007Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Burside Lemma与Polya定理（说人话版本） | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Burside Lemma与Polya定理（说人话版本）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-08-01 15:51:10 / Modified: 15:54:43" itemprop="dateCreated datePublished" datetime="2022-08-01T15:51:10+08:00">2022-08-01</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><code>写于2018年冬，当时水平比较菜，留下的一些思考可能对初学Burnside的后辈有启发，所以现在发出来。</code></p>
+<p>看不懂证明，所以只好愉快地感性理解结论。证明等我长大了再回来补吧。（啊，那就大概就是永远都不会补了吧。）</p>
+<hr>
+<h3 id="Burnside-Lemma"><a href="#Burnside-Lemma" class="headerlink" title="Burnside Lemma"></a>Burnside Lemma</h3><blockquote>
+<p>一个集合$X$在置换群$G$作用下的等价类的数量，等于$G$中每一个置换的不动点的数量的平均值。（等价类的定义是：如果两个元素可以通过$G$中的置换变得一样，那么它们就属于同一个等价类；置换$g$的不动点的定义是，一个元素经过了$g$这个置换后没有发生变换）</p>
+</blockquote>
+<p><del>真不是人话</del></p>
+<p>那么看看这个例子：你要给一个有$n$个珠子的项链的每个珠子涂色（有$m$中颜色可供选择），其中通过旋转之后变得相同的方案算同一种方案，问你有多少种方案。</p>
+<p>那么，每一种涂色的方法（不一定要求本质不同）是$X$中的元素，而$G$就是旋转置换组成的群（当然也包含了旋转0度），“等价类”就是“通过旋转可以变得相同”的涂色方案组成的集合，要求的“方案数”就是等价类的数量。</p>
+<p>先把所有方案列出来，然后再考虑求等价类数量（$n=3,m=2$）：</p>
+<p>000 001 010 011 100 101 110 111</p>
+<p>那么所有的置换就是：<br>1.旋转0个珠子，此时的不动点是：000 001 010 011 100 101 110 111，数量为8。<br>2.旋转1个珠子，此时的不动点是：000 111，数量为2。<br>3.旋转2个珠子，此时的不动点是：000 111，数量为3。<br>旋转3个珠子和旋转0个珠子是等价的，不需要计算在内。旋转4颗珠子和旋转1颗珠子也是等价的……</p>
+<p>那么等价类的数量就是${8+2+2\over 3 } = 4$。</p>
+<p>再看一个例子。如果是$n=4,m=2$：</p>
+<p>0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 1010 1011 1100 1101 1110 1111</p>
+<p>1.旋转0个珠子，不动点是0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 1010 1011 1100 1101 1110 1111<br>2.旋转1个珠子，不动点是0000 1111<br>3.旋转2个珠子，不动点是0000 1111 1010 0101<br>4.旋转3个珠子，不动点是0000 1111</p>
+<p>所以等价类的数量是${16+2+4+2\over 4} = 6$。</p>
+<p>至此终于明白了这个定理到底在说什么，感觉它非常优美且正确，尽管我不会证明QAQ。</p>
+<hr>
+<h3 id="Polya-Enumeration-Theorem"><a href="#Polya-Enumeration-Theorem" class="headerlink" title="Polya Enumeration Theorem"></a>Polya Enumeration Theorem</h3><p>使用Burnside引理解决上面的问题时，需要把$n^m$中方案全部列出来，这样计算是非常慢的。我们能不能通过一些方式加速计算呢？比如说，快速得到在某个置换下的不动点的数量？</p>
+<p>答案是肯定的。这就是Polya定理：</p>
+<blockquote>
+<p>我们设$c(g)$表示$g$这个置换中的循环节数量，那么对于置换$g$，不动点的数量为$m^{c(g)}$；一个置换群$G$作用于集合$X$上，等价类的数量是${1\over {|G|}}\sum_{g\in G} m^{c(g)}$。</p>
+</blockquote>
+<p><del>再一次觉得这不是人话</del></p>
+<p>那么我们还是来看一个例子吧。首先我们把旋转写成置换，那么旋转2颗珠子就是</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+1 & 2 & 3 & 4\\
+3 & 4 & 1 & 2
+\end{pmatrix}</script><p>这个置换可以写成$(1 3)(2 4)$，它的循环节数是2。</p>
+<p>一个元素在这个置换下是一个不动点，条件是循环节内的所有位置，颜色必须一样，否则这个元素就不可能是不动点。</p>
+<p>那么相当于对于每个循环节，我们给它规定一个颜色，然后整个元素就确定了。方案数是$m^{c(g)}$。即对于置换$g$，不动点的数量是$m^{c(g)}$。</p>
+<p>再看前面项链的例子，当$n=4,m=2$的时候：</p>
+<p>1.旋转0个珠子，循环节数是$4$，方案数是$2^4 = 16$。<br>2.旋转1个珠子，循环节数是$1$，方案数是$2^1 = 2$。<br>3.旋转2个珠子，循环节数是$2$，方案数是$2^2 = 4$。<br>4.旋转3个珠子，循环节数是$1$，方案数是$2^1 = 1$。</p>
+<p>所以等价类的数量是${16+2+4+2\over 4} = 6$。</p>
+<p>至此感觉已经理清楚了这两个定理在说什么。<del>证明什么的反正也不会考，不管了</del></p>
+<hr>
+<h3 id="Burnside定理成立的条件"><a href="#Burnside定理成立的条件" class="headerlink" title="Burnside定理成立的条件"></a>Burnside定理成立的条件</h3><p>注意，Burnside定理并不是随便拿几个置换来都成立的。它成立的条件是这几个置换构成了一个群，因为它的证明是用到了群的性质的。</p>
+<p>群的定义：群是一个二元运算$<em>$下的一个集合$G$，满足以下四个条件：<br>1）封闭性（closure）：对于$G$中任意两个元素$a,b$，满足$a</em>b\in G$。<br>2）结合律（Associativity）：对于$G$中任意三个元素$a,b,c$，满足$(a<em>b)</em>c = a<em>(b</em>c)$。<br>3）单位元（Identity element）：集合中存在一个唯一的元素$e$，满足对于集合中的任意元素$a$，有$a<em>e = e</em>a = a$。<br>4）逆元（Inverse element）：对于$G$中的每一个元素$a$，$G$中存在一个$b$使得$a<em>b = b</em>a = e$。</p>
+<p>比如说，如果随便给几个排列作为洗牌的方式，那么不能套用Burnside引理，因为这些置换组成的集合可能不是封闭的；只有保证了给的置换任意组合，得到的都是这个集合中的某一个置换，也就是说保证它们构成一个群，这个时候才能够用Burnside引理。</p>
+<hr>
+<h3 id="资料-amp-amp-链接"><a href="#资料-amp-amp-链接" class="headerlink" title="资料&amp;&amp;链接"></a>资料&amp;&amp;链接</h3><p><a href="https://tgsteven.github.io/2018/07/10/2018-07-10-polya/" target="_blank" rel="noopener">TGSteven的博客：</a>里面有证明，但是我看不懂qwq。<br>Wikipedia:<a href="https://en.wikipedia.org/wiki/Burnside%27s_lemma" target="_blank" rel="noopener">Burnside lemma</a> and <a href="https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem" target="_blank" rel="noopener">Polya enumeration theorem</a> 都没怎么看懂……<br>还看了一些关于Group action（群作用）的资料，然后我选择了放弃研究这个定理的证明（我真的不想死得这么年轻QAQ）</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/" title="Burside Lemma与Polya定理（说人话版本）">http://zhongyuwei.github.io/2022/08/01/Burside-Lemma与Polya定理（说人话版本）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/01/BEST%E5%AE%9A%E7%90%86/" rel="prev" title="BEST定理">
+      <i class="fa fa-chevron-left"></i> BEST定理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/08/01/%E4%BA%94%E8%BE%B9%E5%BD%A2%E6%95%B0%E5%AE%9A%E7%90%86-%E5%BF%AB%E9%80%9F%E8%AE%A1%E7%AE%97%E5%88%92%E5%88%86%E6%95%B0/" rel="next" title="五边形数定理 - 快速计算划分数">
+      五边形数定理 - 快速计算划分数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Burnside-Lemma"><span class="nav-text">Burnside Lemma</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Polya-Enumeration-Theorem"><span class="nav-text">Polya Enumeration Theorem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Burnside定理成立的条件"><span class="nav-text">Burnside定理成立的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资料-amp-amp-链接"><span class="nav-text">资料&amp;&amp;链接</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

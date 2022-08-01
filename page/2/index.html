@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E4%BB%8Ekmp%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E5%88%B0rank-kmp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -201,7 +201,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">Dinic算法的复杂度分析</a>
+            <a href="/2022/08/01/%E4%BB%8Ekmp%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E5%88%B0rank-kmp/" class="post-title-link" itemprop="url">从kmp算法的正确性到rank_kmp</a>
         </h1>
 
         <div class="post-meta">
@@ -212,7 +212,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:04:14 / Modified: 12:04:49" itemprop="dateCreated datePublished" datetime="2022-07-15T12:04:14+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:35:22 / Modified: 15:35:55" itemprop="dateCreated datePublished" datetime="2022-08-01T15:35:22+08:00">2022-08-01</time>
             </span>
 
           
@@ -228,11 +228,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="一般图"><a href="#一般图" class="headerlink" title="一般图"></a>一般图</h2><p>复杂度主要取决于dfs增广的过程。</p>
-<p>将dfs部分的复杂度分成两部分来分析：1）修改增广路上边的流量。至多会增广$m$次，一条增广路的长度至多是$n$，所以这一部分的复杂度是$O(nm)$。2）dfs遍历时找增广路失败时经过的边。由于一旦从某条边出发找最短路失败了，我们就不会再走那条边（当前弧优化），所以这一部分的复杂度是$O(m)$的。故而dfs增广的复杂度是$O(nm)$。</p>
+          <h2 id="kmp算法"><a href="#kmp算法" class="headerlink" title="kmp算法"></a>kmp算法</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> p=nxt[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">    <span class="keyword">while</span>(~p&amp;&amp;str[p+<span class="number">1</span>]!=str[i]) p=nxt[p];</span><br><span class="line">    nxt[i]=++p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>kmp 算法的正确性基于：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/%E4%BB%8Ekmp%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E5%88%B0rank-kmp/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -256,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/Lyndon-word-%E4%B8%8E-Duval-%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -270,7 +270,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">稳定婚姻问题</a>
+            <a href="/2022/08/01/Lyndon-word-%E4%B8%8E-Duval-%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">Lyndon word 与 Duval 算法</a>
         </h1>
 
         <div class="post-meta">
@@ -281,7 +281,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:03:16 / Modified: 12:03:39" itemprop="dateCreated datePublished" datetime="2022-07-15T12:03:16+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:33:07 / Modified: 15:33:50" itemprop="dateCreated datePublished" datetime="2022-08-01T15:33:07+08:00">2022-08-01</time>
             </span>
 
           
@@ -297,11 +297,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>有$n$个男生和$n$个女生，有$2n$个排列$p_1,p_2\cdots p_n,q_1,q_2\cdots q_n$，$p_i$代表第$i$个男生的喜好（$p_{i,1}$表示他最喜欢的女生，$p_{i,2}$是他第二喜欢的，以此类推），$q_i$代表第$i$个女生的喜好。</p>
-<p>稳定婚姻问题即，求一个男生和女生的完美匹配$M$，使得不存在$(x,y)\not\in M$，$x$对$y$的好感高于$x$现在的配偶且$y$对$x$的好感高于$y$现在的配偶。</p>
+          <p>下文中的字符串大小比较都是字典序的比较。</p>
+<h2 id="Lyndon-word"><a href="#Lyndon-word" class="headerlink" title="Lyndon word"></a>Lyndon word</h2><p>对于一个字符串$s$，$s$小于$s$的所有后缀，那么$s$就是一个Lyndon word。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/Lyndon-word-%E4%B8%8E-Duval-%E7%AE%97%E6%B3%95/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -325,7 +325,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -339,7 +339,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/" class="post-title-link" itemprop="url">斯坦纳树</a>
+            <a href="/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">Berlekamp-Massey算法</a>
         </h1>
 
         <div class="post-meta">
@@ -350,7 +350,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:00:54 / Modified: 12:02:18" itemprop="dateCreated datePublished" datetime="2022-07-15T12:00:54+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:16:29 / Modified: 13:20:31" itemprop="dateCreated datePublished" datetime="2022-07-15T12:16:29+08:00">2022-07-15</time>
             </span>
 
           
@@ -366,14 +366,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>有一张无向图$(V,E)$，指定了一个$V$的子集$S$，需要求出一个边集$E’$，使得：</p>
-<ul>
-<li>对于任意两个点$x,y\in S$，存在一条从$x$到$y$的、由$E’$中的边组成的路径（路径可以经过不在$S$中的点）。</li>
-<li>在此基础上，最小化$E’$中所有的边的边权和。</li>
-</ul>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>如果现在你有一个序列，你知道他们满足$m$阶的</p>
+<p>递推关系，而你需要通过这个序列中的数解出这个序列的递推式。这就是BM算法解决的问题。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -397,7 +394,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Hall-s-marriage-theorem/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -411,7 +408,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Hall-s-marriage-theorem/" class="post-title-link" itemprop="url">Hall's marriage theorem</a>
+            <a href="/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/" class="post-title-link" itemprop="url">常系数齐次线性递推 - O(k log k log n) 求第n项</a>
         </h1>
 
         <div class="post-meta">
@@ -422,7 +419,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:58:25 / Modified: 11:58:49" itemprop="dateCreated datePublished" datetime="2022-07-15T11:58:25+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:15:34 / Modified: 12:15:52" itemprop="dateCreated datePublished" datetime="2022-07-15T12:15:34+08:00">2022-07-15</time>
             </span>
 
           
@@ -438,10 +435,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Hall’s-marriage-theorem"><a href="#Hall’s-marriage-theorem" class="headerlink" title="Hall’s marriage theorem"></a>Hall’s marriage theorem</h2><h3 id="定理内容"><a href="#定理内容" class="headerlink" title="定理内容"></a>定理内容</h3><p>这个定理是说，对于任意一个二分图$G=\{ X+Y,E\}$，都有：<br>$\forall W \subset X, |W|\le |N_G(W)| \Longleftrightarrow |M|=|X|$<br>其中，$N_G(W)$表示$Y$中与$W$中的点相邻的点的集合，$M$表示最大匹配。</p>
+          <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于一个数列$h_0,h_1\cdots h_n,\cdots $，称这个数列满足<strong>k阶线性递推关系</strong>是指存在量$a_1,a_2,\cdots a_k (a_k \not= 0 )$和量$b_n$（$a_1,a_2,\cdots a_k,b_n$都可能以来于$n$），使得$h_n = a_1h_{n-1} + a_2h_{n-2} \cdots a_k h_{n-k} + b_n(n\ge k)$成立。</p>
+<p>如果$b_n$是常数$0$，我们称这个线性递推关系式齐次的。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Hall-s-marriage-theorem/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -465,7 +463,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -479,7 +477,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" class="post-title-link" itemprop="url">三元环计数和四元环计数</a>
+            <a href="/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">单纯性算法的正确性证明</a>
         </h1>
 
         <div class="post-meta">
@@ -490,7 +488,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:56:47 / Modified: 13:22:26" itemprop="dateCreated datePublished" datetime="2022-07-15T11:56:47+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:14:55 / Modified: 13:21:19" itemprop="dateCreated datePublished" datetime="2022-07-15T12:14:55+08:00">2022-07-15</time>
             </span>
 
           
@@ -506,14 +504,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="三元环计数"><a href="#三元环计数" class="headerlink" title="三元环计数"></a>三元环计数</h2><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><pre><code>1.将无向边改成有向边，令度数大的点指向度数小的点；如果度数相同，就让编号大的点指向编号小的点。（这一步也可以是，度数小的点指向度数大的点；度数相同比较编号）
-2.枚举一个点u。
-3.标记所有u的出边可以到达的点。
-4.枚举一个u的出边可以到达的点v，然后再枚举一个v的出边可以到达的点w，如果w被标记过，说明u,v,w构成三元环，ans++
-</code></pre>
+          <h2 id="一个引理"><a href="#一个引理" class="headerlink" title="一个引理"></a>一个引理</h2><p>设$I$是一个下标集合。对于每一个$j\in I$，设$\alpha_j$和$\beta_j$是实数，并且令$x_j$是一个实数变量。设$\gamma$是一个实数。</p>
+<p>如果对于变量$x_j$的任意设置，我们都有$\sum_{j\in I} \alpha_j x_j  = \gamma + \sum_{j\in I} \beta_jx_j$。那么可以推出对于任意的$j\in I$有$\alpha_j = \beta_j$并且$\gamma =0$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -537,7 +532,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -551,7 +546,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/" class="post-title-link" itemprop="url">树上路径的交</a>
+            <a href="/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">矩阵乘法结合律、分配律的证明</a>
         </h1>
 
         <div class="post-meta">
@@ -562,7 +557,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:52:57 / Modified: 11:55:55" itemprop="dateCreated datePublished" datetime="2022-07-15T11:52:57+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:14:04 / Modified: 12:14:27" itemprop="dateCreated datePublished" datetime="2022-07-15T12:14:04+08:00">2022-07-15</time>
             </span>
 
           
@@ -578,15 +573,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>两条路径$u_1\to v_1,u_2\to v_2$的交这样计算：</p>
-<ul>
-<li>首先计算出$x_1=lca(u_1,u_2),x_2=lca(v_1,v_2),x_3=lca(u_1,v_2),x_4=lca(v_1,u_2)$，然后取这四个点中深度最大的两个点$y_1,y_2$。</li>
-<li>若$y_1=y_2$，且$y_1$的深度大于了$lca(u_1,v_1)$或者$lca(u_2,v_2)$的深度，那么交不存在；否则，交就是$y_1$到$y_2$之间的路径。</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Road中的t：t=0表示空集，t=-1表示全集，t=1表示u到v的路径</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Road</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> u,v,t;</span><br><span class="line">	Road(<span class="keyword">int</span> u=<span class="number">0</span>,<span class="keyword">int</span> v=<span class="number">0</span>,<span class="keyword">int</span> t=<span class="number">-1</span>): u(u),v(v),t(t)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp_dep</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123; <span class="keyword">return</span> dep[x]&gt;dep[y]; &#125;</span><br><span class="line"><span class="function">Road <span class="title">Inter</span><span class="params">(Road A,Road B)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">0</span>||B.t==<span class="number">0</span>) <span class="keyword">return</span> Road(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> B;</span><br><span class="line">	<span class="keyword">if</span>(B.t==<span class="number">-1</span>) <span class="keyword">return</span> A;</span><br><span class="line">	<span class="keyword">int</span> tmp[<span class="number">4</span>]=&#123;LCA(A.v,B.v),LCA(A.u,B.u),LCA(A.v,B.u),LCA(A.u,B.v)&#125;;</span><br><span class="line">	sort(tmp,tmp+<span class="number">4</span>,cmp_dep);</span><br><span class="line">	<span class="keyword">if</span>(tmp[<span class="number">0</span>]==tmp[<span class="number">1</span>]&amp;&amp;(dep[tmp[<span class="number">0</span>]]&lt;dep[LCA(A.u,A.v)]||dep[tmp[<span class="number">0</span>]]&lt;dep[LCA(B.u,B.v)]))</span><br><span class="line">		<span class="keyword">return</span> Road(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span> Road(tmp[<span class="number">0</span>],tmp[<span class="number">1</span>],<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Onchain</span><span class="params">(Road A,<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp[<span class="number">2</span>]=&#123;LCA(A.u,x),LCA(A.v,x)&#125;;</span><br><span class="line">	<span class="keyword">if</span>(dep[tmp[<span class="number">0</span>]]&lt;dep[tmp[<span class="number">1</span>]]) swap(tmp[<span class="number">0</span>],tmp[<span class="number">1</span>]);</span><br><span class="line">	<span class="keyword">if</span>(tmp[<span class="number">0</span>]==x&amp;&amp;tmp[<span class="number">1</span>]==LCA(A.u,A.v)) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h3 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h3><p>矩阵乘法满足结合律，即$(AB)C=A(BC)$。</p>
+<p>证明：设最后得到的结果为$D,AB=E,BC=F$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -610,7 +601,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -624,7 +615,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">朱刘算法</a>
+            <a href="/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">上三角矩阵高斯消元的优化</a>
         </h1>
 
         <div class="post-meta">
@@ -635,7 +626,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:51:56 / Modified: 11:52:19" itemprop="dateCreated datePublished" datetime="2022-07-15T11:51:56+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:12:56 / Modified: 12:13:11" itemprop="dateCreated datePublished" datetime="2022-07-15T12:12:56+08:00">2022-07-15</time>
             </span>
 
           
@@ -651,12 +642,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>这个算法用于求解有向图的最小树形图问题。</p>
-<p>树形图：图中有一个点作为根，除了根以外，每个点的入度恰好为$1$，并且从根出发可以到达整个图中的任意一个点。</p>
-<p>最小树形图就是所有边的边权和最小的树形图。</p>
+          <h3 id="P4457-BJOI2018-治疗之雨"><a href="#P4457-BJOI2018-治疗之雨" class="headerlink" title="P4457 [BJOI2018]治疗之雨"></a>P4457 [BJOI2018]治疗之雨</h3><p>$n\le 1500$，不能直接$n^3$高斯消元。然而这道题需要高斯消元的那个矩阵很特殊，近似上三角矩阵，大概长这样（$1$表示值不为$0$）：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 1 & 0 & 0 & 0 & \cdots & 0 \\
+1 & 1 & 1 & 0 & 0 & \cdots & 0 \\
+1 & 1 & 1 & 1 & 0 & \cdots & 0 \\
+1 & 1 & 1 & 1 & 1 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \vdots  & \ddots & \vdots \\
+\end{bmatrix}</script><p>如果我们从第一行开始消，那么消完第一行后，矩阵就变成这样的了：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -680,7 +677,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -694,7 +691,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/" class="post-title-link" itemprop="url">中国剩余定理 CRT</a>
+            <a href="/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">线性规划</a>
         </h1>
 
         <div class="post-meta">
@@ -705,7 +702,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:49:06 / Modified: 11:49:31" itemprop="dateCreated datePublished" datetime="2022-07-15T11:49:06+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:11:44 / Modified: 12:12:11" itemprop="dateCreated datePublished" datetime="2022-07-15T12:11:44+08:00">2022-07-15</time>
             </span>
 
           
@@ -721,11 +718,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>问题：有$n$个这样形式的方程组：$x\equiv c_i\mod m_i$。求通解和最小解。</p>
-<h2 id="一般的做法"><a href="#一般的做法" class="headerlink" title="一般的做法"></a>一般的做法</h2><p>考虑如何合并</p>
+          <h3 id="一些定义"><a href="#一些定义" class="headerlink" title="一些定义"></a>一些定义</h3><h4 id="线性函数、线性约束、线性规划问题"><a href="#线性函数、线性约束、线性规划问题" class="headerlink" title="线性函数、线性约束、线性规划问题"></a>线性函数、线性约束、线性规划问题</h4><p>已知一组实数$a_1,a_2\cdots a_n$和一组变量$x_1,x_2,\cdots x_n$，在这些变量上的一个线性函数定义为$f(x) = \sum a_ix_i$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -749,7 +745,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -763,7 +759,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/" class="post-title-link" itemprop="url">原根 primitive root</a>
+            <a href="/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">差分约束系统</a>
         </h1>
 
         <div class="post-meta">
@@ -774,7 +770,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:47:45 / Modified: 11:48:03" itemprop="dateCreated datePublished" datetime="2022-07-15T11:47:45+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:10:47 / Modified: 12:11:04" itemprop="dateCreated datePublished" datetime="2022-07-15T12:10:47+08:00">2022-07-15</time>
             </span>
 
           
@@ -790,11 +786,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于某一个$g\in [0,p)$，如果对于$\{0,1,\cdots p-1\}$中每一个与$p$互质的数$x$，都存在一个$k$使得$g^k \equiv x \mod p$，那么就称$g$是$p$的一个原根。也就是说，$g^0,g^1,\cdots g^{\varphi (n) - 1}$在模$n$的意义下两两不同。</p>
-<hr>
+          <p>问题：有 $n$ 个变量 $x_1,x_2,\cdots x_n$，以及一系列限制 $x_{v_i} - x_{u_i}\le w_i$（$w_i$ 可以为任意实数）。求出一组合法解或判定无解。</p>
+<p>回顾最短路的概念：</p>
+<blockquote>
+<p>对于一张包含 $n$ 个点的有向图，设 $dis_i$ 表示从 $1$ 到 $i$ 的最短路长度，令 $dis_1 = 0$。则对于每条边 $(u_i,v_i,w_i)$，显然会有 $dis_{v_i} \le dis_{u_i} + w_i$，也就是 $dis_{v_i} - dis_{u_i} \le w_i$。</p>
+</blockquote>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -818,7 +817,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -832,7 +831,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/" class="post-title-link" itemprop="url">线性求逆元</a>
+            <a href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">一种树形背包的复杂度证明</a>
         </h1>
 
         <div class="post-meta">
@@ -843,7 +842,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:46:46 / Modified: 11:47:09" itemprop="dateCreated datePublished" datetime="2022-07-15T11:46:46+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:09:15 / Modified: 12:09:38" itemprop="dateCreated datePublished" datetime="2022-07-15T12:09:15+08:00">2022-07-15</time>
             </span>
 
           
@@ -859,11 +858,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="公式-amp-amp-食用方法"><a href="#公式-amp-amp-食用方法" class="headerlink" title="公式 &amp;&amp; 食用方法"></a>公式 &amp;&amp; 食用方法</h3><p>设$Inv(i)$表示$i$在模$M$意义下的逆元，则有：<br>$Inv(i) \equiv (-\lfloor{M\over i}\rfloor ) \times Inv(M \mod i)\mod M$<br>由于$(M\mod i )&lt; i$，所以可以利用这个公式线性预处理出逆元。</p>
-<p>当模数比较小的时候，可以预处理出$[0,M)$的所有数的逆元，然后算法的复杂度就可以少一个$\log M$~</p>
+          <p>有一类树上背包（例如 CF1097G Vladislav and a Great Legend），第二维表示子树内选的点数且限制第二维不超过$m$，其总复杂度可证明为$O(nm)$。</p>
+<p>它们的代码一般长这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> last)</span> </span>&#123;</span><br><span class="line">	sz[u]=<span class="number">1</span>;</span><br><span class="line">	<span class="comment">// initialize dp[u]</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=head[u];k;k=e[k].next)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> v=e[k].to; <span class="keyword">if</span>(v==last) <span class="keyword">continue</span>;</span><br><span class="line">		dfs(v,u);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=min(m,sz[u]);++j)</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;=min(m-j,sz[v]);++k)</span><br><span class="line">				<span class="comment">// dp[u][j] * dp[v][k] -&gt; dp[u][j+k]</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -887,7 +887,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -955,7 +955,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

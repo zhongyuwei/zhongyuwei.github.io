@@ -1,6 +1,394 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>组合恒等式整理</title>
+    <url>/2022/08/01/%E7%BB%84%E5%90%88%E6%81%92%E7%AD%89%E5%BC%8F%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<ol>
+<li>$\binom{n}{m} = \binom{n}{n-m}$</li>
+<li>$\binom{n}{m} + \binom{n}{m+1} = \binom{n+1}{m+1}$</li>
+<li>$\sum_{m=r}^n \binom{m}{r} = \binom{n+1}{r+1}$</li>
+<li>$\sum_{m=0}^n \binom{n}{m} = 2^n$</li>
+<li>$\binom{n}{m} \binom{m}{k} = \binom{n}{k} \binom{n-k}{m-k}$<ol>
+<li>$m \binom{n}{m} = n \binom{n-1}{m-1}$</li>
+</ol>
+</li>
+<li>$\sum_{r=0}^k \binom{n}{r} \binom{m}{k-r} = \binom{n+m}{k}$<ol>
+<li>$\sum_{i=0}^n \binom{n}{i}^2 = \sum_{i=0}^n \binom{n}{i} \binom{n}{n-i} = \binom{2n}{n}$</li>
+</ol>
+</li>
+</ol>
+<p>封闭形式：</p>
+<ol>
+<li><p>$\frac{1}{(1-x)^{n+1}} = \sum_{k=0}^\infty \binom{n+k}{n} x^k$</p>
+<ol>
+<li>$\frac{1}{(1-x)^{n+1}} = (1-x)^{-(n+1)} = \sum_{k=0}^\infty \binom{-n-1}{k} (-x)^k = \sum_{k=0}^\infty (-1)^k \binom{k+n}{k} (-x)^k = \sum_{k=0}^\infty \binom{n+k}{n} x^k$</li>
+</ol>
+</li>
+<li><p>$\frac{1}{\sqrt{1-4x}} = \sum_{k=0}^\infty \binom{2k}{k} x^k$</p>
+<ol>
+<li><script type="math/tex; mode=display">
+(1-x)^{-\frac{1}{2}} = \sum_{k=0}^\infty \binom{-\frac{1}{2}}{k} (-x)^k\\
+= \sum_{k=0}^\infty \frac{(-1)(-3) \cdots (-(2k-1))}{2^k k!} (-x)^k\\
+= \sum_{k=0}^\infty (-1)^k \frac{\frac{(2k)!}{2^k k!}}{2^k k!} (-x)^k\\
+= \sum_{k=0}^\infty \binom{2k}{k} 4^{-k} x^k\\
+\frac{1}{\sqrt{1-4x}} = (1-4x)^{-\frac{1}{2}} = \sum_{k=0}^\infty \binom{2k}{k} 4^{-k} (4x)^k\\
+= \sum_{k=0}^\infty \binom{2k}{k} x^k</script></li>
+</ol>
+</li>
+<li><p>$\frac{1 - \sqrt{1-4x}}{2x} = \sum_{k\ge 0} \frac{1}{k+1} \binom{2k}{k} x^k$</p>
+<ol>
+<li><script type="math/tex; mode=display">
+(1-x)^{\frac{1}{2}}
+= \sum_{k=0}^\infty \binom{\frac{1}{2}}{k} (-x)^k\\
+= \sum_{k=0}^\infty \frac{1(-1)(-3)(-5)\cdots (-(2k-3))}{2^k k!}(-x)^k\\
+= - \sum_{k=0}^\infty \frac{\frac{(2k-2)!}{2^{(k-1)}(k-1)!}}{2^kk!}x^k\\
+= - 2 \sum_{k=0}^\infty \frac{1}{k} \cdot\binom{2k-2}{k-1} \cdot 4^{-k} x^k\\
+1 - \sqrt{1-4x} = 2 \sum_{k=1}^\infty \frac{1}{k} \cdot\binom{2k-2}{k-1} \cdot 4^{-k} (4x)^k\\
+= 2 \sum_{k=1}^\infty \frac{1}{k} \cdot\binom{2k-2}{k-1} \cdot x^k</script></li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>自然数幂和</title>
+    <url>/2022/08/01/%E8%87%AA%E7%84%B6%E6%95%B0%E5%B9%82%E5%92%8C/</url>
+    <content><![CDATA[<p>给出$n,k$，求$\sum _{i=0}^n i^k$。</p>
+<hr>
+<h2 id="方法1：递推"><a href="#方法1：递推" class="headerlink" title="方法1：递推"></a>方法1：递推</h2><p>设$s_k(n) = \sum_{i=0}^n i^k$，那么可以推出：</p>
+<script type="math/tex; mode=display">
+s_k(n) + (n+1)^k = \sum_{i=0}^{n+1} i^k\\
+=\sum_{i=0}^n (i+1)^k</script><p>这一步是考虑到$0^k$并不会产生贡献（但是要注意当$k=0$的时候$0^0$要取$1$）。</p>
+<script type="math/tex; mode=display">
+s_k(n) +(n+1)^k \\
+= \sum_{i=0}^n \sum_{j=0}^k {k\choose j}i^j\\
+= \sum_{j=0}^k {k\choose j} \sum_{i=0}^n i^j\\
+= \sum_{j=0}^k {k\choose j} s_j(n)\\
+= \sum_{j=0}^{k-1} {k\choose j} s_j(n) + s_k(n)</script><p>于是推出了</p>
+<script type="math/tex; mode=display">
+(n+1)^k = \sum_{j=0}^{k-1} {k\choose j} s_j(n)</script><p>考虑把$k-1$这一项拿出来，我们就得到了</p>
+<script type="math/tex; mode=display">
+(n+1)^k = \sum_{j=0}^{k-2} {k\choose j} s_j(n) + {k\choose k-1} s_{k-1}(n)\\
+s_{k-1}(n) = {(n+1)^k - \sum_{j=0}^{k-2} {k\choose j} s_j(n) \over k}</script><p>也就是</p>
+<script type="math/tex; mode=display">
+s_{k}(n) = {1\over k+1} \left( (n+1)^{k+1} - \sum_{j=0}^{k-1}{k+1\choose j} s_j(n)\right)</script><p>这样，对于某一个给定的$n$，我们可以在$O(k^2)$的时间内算出所有的$s_0(n),s_1(n)\cdots s_k(n)$。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">cal</span><span class="params">(ll n,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> s[<span class="number">55</span>];</span><br><span class="line">	n%=mod;</span><br><span class="line">	s[<span class="number">0</span>]=n+<span class="number">1</span>; <span class="keyword">int</span> pwn=n+<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">1</span>;k&lt;=m;++k) &#123;</span><br><span class="line">		pwn=pwn*(ll)(n+<span class="number">1</span>)%mod;</span><br><span class="line">		s[k]=pwn;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=k<span class="number">-1</span>;++j)</span><br><span class="line">			s[k]=(s[k]-C[k+<span class="number">1</span>][j]*(ll)s[j])%mod;</span><br><span class="line">		s[k]=s[k]*(ll)Pow(k+<span class="number">1</span>,mod<span class="number">-2</span>)%mod;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s[m];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="方法2：拉格朗日插值"><a href="#方法2：拉格朗日插值" class="headerlink" title="方法2：拉格朗日插值"></a>方法2：拉格朗日插值</h2><p>考虑到$\sum_{i=0}^{n}i^m $一定是一个关于$n$的$m+1$次多项式，我们直接把$1,2,\cdots m+2$带入这个多项式，然后插值就可以了。</p>
+<p>复杂度$O(m\log mod)$，其中$\log mod$是计算快速幂的复杂度。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ll <span class="title">cal</span><span class="params">(ll n,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> ll pre[<span class="number">55</span>],suf[<span class="number">55</span>];</span><br><span class="line">	<span class="keyword">if</span>(n&lt;m+<span class="number">2</span>) &#123;</span><br><span class="line">		ll ans=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">			ans=(ans+Pow(i,m))%mod;</span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125;</span><br><span class="line">	n%=mod;</span><br><span class="line">	ll yi=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">	pre[<span class="number">0</span>]=suf[m+<span class="number">3</span>]=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m+<span class="number">2</span>;++i) pre[i]=pre[i<span class="number">-1</span>]*(n-i)%mod;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=m+<span class="number">2</span>;i&gt;=<span class="number">1</span>;--i) suf[i]=suf[i+<span class="number">1</span>]*(n-i)%mod;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m+<span class="number">2</span>;++i) &#123;</span><br><span class="line">		yi=(yi+Pow(i,m))%mod;</span><br><span class="line">		ll tmp=pre[i<span class="number">-1</span>]*suf[i+<span class="number">1</span>]%mod;</span><br><span class="line">		ll iv=inv[i<span class="number">-1</span>]*inv[m+<span class="number">2</span>-i]%mod*(((m+<span class="number">2</span>-i)&amp;<span class="number">1</span>)?<span class="number">-1</span>:<span class="number">1</span>);</span><br><span class="line">		ans=(ans+tmp*iv%mod*yi)%mod;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> (ans%mod+mod)%mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="方法3：伯努利数"><a href="#方法3：伯努利数" class="headerlink" title="方法3：伯努利数"></a>方法3：伯努利数</h2><p>定义伯努利数$B_0 = 1$，且对于任意的$n&gt;0$，我们有$\sum_{i=0}^n B_i{n+1\choose i} = 0$。通过递推可以在$O(n^2)$的时间内得到每一项。</p>
+<p>伯努利数的指数生成函数$B(x)$是$x\over e^x-1$。考虑</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^{n-1} B_i{n\choose i } =0</script><p>这个式子对任意$n&gt;1$成立。注意$B_0=0,B_1=-{1\over 2}$。</p>
+<p>上面的式子变形：</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^n B_i{n\choose i} = B_n \\
+\sum_{i=0}^n {B_i\over i!}{1\over (n-i)!} = {B_n\over n!}</script><p>也就是说$[x^i]B(x) =[x^i] B(x)*e^x$对于任意$i&gt;1$成立。而$B(x)e^x$的$0$次项的系数是$1$，一次项的系数是$1\over 2$，所以我们得到了$B(x) = B(x)e^x - x$，也就是$B(x)= {x\over e^x - 1}$。</p>
+<p>而对于某一个确定的$n$，我们考虑答案关于$k$的指数生成函数：</p>
+<script type="math/tex; mode=display">
+G(x) = \sum_{i=0}^{\infty} {S_i(n)\over i!}x^i \\
+=\sum_{i=0}^{\infty} \sum_{j=0}^n {j^ix^i \over i!}\\
+=\sum_{j=0}^{n} e^{jx}\\
+={e^{x(n+1)}-1\over e^x-1}</script><p>把$B(x)$带入：</p>
+<script type="math/tex; mode=display">
+G(x)= B(x){e^{x(n+1)}-1\over x}</script><p>把右边那一项泰勒展开得到的是</p>
+<script type="math/tex; mode=display">
+\sum_{i=0}^{\infty}{(n+1)^{i+1}\over (i+1)!} x^i</script><p>然后暴力带回$G(x)$就可以得到</p>
+<script type="math/tex; mode=display">
+S_i(n) =i!\cdot  \sum_{j=0}^i {B_j\over j!}{(n+1)^{i-j+1}\over(i-j+1)! }\\
+={1\over i+1}\sum_{j=0}^i B_{i-j}{i+1\choose i-j}(n+1)^{j+1}</script><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">cal_ber</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	ber[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i) &#123;</span><br><span class="line">		ll tmp=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;++j)</span><br><span class="line">			tmp=(tmp+ber[j]*(ll)C(i+<span class="number">1</span>,j))%mod;</span><br><span class="line">		ber[i]=(mod-tmp)*(ll)Pow(i+<span class="number">1</span>,mod<span class="number">-2</span>)%mod;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">cal</span><span class="params">(ll n,<span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">	ll pn=<span class="number">1</span>,ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=m;++i) &#123;</span><br><span class="line">		pn=pn*(ll)(n+<span class="number">1</span>)%mod;</span><br><span class="line">		ans=(ans+C(m+<span class="number">1</span>,m-i)*(ll)ber[m-i]%mod*pn)%mod;</span><br><span class="line">	&#125;</span><br><span class="line">	ans=ans*Pow(m+<span class="number">1</span>,mod<span class="number">-2</span>)%mod;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="方法4：斯特林数"><a href="#方法4：斯特林数" class="headerlink" title="方法4：斯特林数"></a>方法4：斯特林数</h2><p>考虑</p>
+<script type="math/tex; mode=display">
+n^k = \sum_{j=0}^k \begin{Bmatrix} k \\ j \end{Bmatrix} {n\choose j} j!</script><p>咕咕咕。</p>
+<hr>
+<h2 id="方法-5：生成函数"><a href="#方法-5：生成函数" class="headerlink" title="方法 5：生成函数"></a>方法 5：生成函数</h2><script type="math/tex; mode=display">
+F(x) = \sum_{i=0}^\infty \frac{x^i}{i!} \sum_{j=0}^n j^i\\
+= \sum_{j=0}^n e^{jx}\\
+= \frac{e^{(n+1)x} - 1}{e^x - 1}</script><p>可以对于某个特定的，在 $O(m\log m)$ 的时间里对所有 $k\in [0,m]$ 的答案。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图计数专题练习</title>
+    <url>/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="带标号的连通图计数-bzoj3456-城市规划"><a href="#带标号的连通图计数-bzoj3456-城市规划" class="headerlink" title="带标号的连通图计数 bzoj3456 城市规划"></a>带标号的连通图计数 bzoj3456 城市规划</h2><p>这是一个非常经典的问题。我们考虑容斥，那么就是图的数量减去不连通图的数量。计算不连通图的数量时，我们考虑枚举$1$号点所在的连通块大小（这样一定不重不漏），那么得到：</p>
+<script type="math/tex; mode=display">
+f(n) = 2^{C_n^2 } - \sum_{i=1}^{n-1} C_{n-1}^{i-1} f(i) 2^{C_{n-i}^2 }</script><p>拆组合数：</p>
+<script type="math/tex; mode=display">
+f(n) = 2^{C_n^2} - (n-1)!\sum_{i=1}^{n-1} {f(i)\over (i-1)!}{2^{C_{n-i}^2}\over (n-i)!}</script><p>这是一个卷积的形式，可以分治FFT解决。</p>
+<hr>
+<h2 id="带标号的强连通竞赛图计数-luogu4233-射命丸文的笔记"><a href="#带标号的强连通竞赛图计数-luogu4233-射命丸文的笔记" class="headerlink" title="带标号的强连通竞赛图计数 luogu4233 射命丸文的笔记"></a>带标号的强连通竞赛图计数 luogu4233 射命丸文的笔记</h2><p>问题：求随机拿出一个有哈密顿回路的竞赛图，图中哈密顿回路数量的期望值。</p>
+<p>Sol：问题可以转换成“所有竞赛图中的哈密顿回路的数量的和”除以“包含哈密顿回路的图的数量”。前者非常好算：$(n-1)!2^{C_n^2 - n}$，即枚举每一个哈密顿回路（数量等于圆排列的数量），然后计算它被多少竞赛图包含。有$n$条边已经确定，剩下的$C_n^2 - n$条边，每条边都有两个方向可以选择，所以是$2^{C_n^2 -n}$。</p>
+<p>现在的问题是：求包含$n$个点的，存在哈密顿回路的竞赛图的数量。等价于求包含$n$个点的强连通的竞赛图的数量。</p>
+<p>那么设$f(n)$表示包含$n$个点的强连通的竞赛图的数量，设$g(n)$表示包含$n$个点的竞赛图的数量。则$g(n) = 2^{C_n^2}$。仍然考虑与前一题类似的容斥。但是，如果我们枚举$1$号点所在的强连通分量的大小，其他的强连通分量可能有边连向这个强连通分量，这个强连通分量也可能有边连出去，可能会导致我们枚举的这个“强连通分量”是图中一个强连通分量的子图，非常麻烦。那么我们可以考虑枚举拓扑序最靠后的那一个强连通分量，即没有出边的那一个。由于这是竞赛图，这样的强连通分量在一个确定的图中一定是唯一的（可以这样想：如果有两个这样的强连通分量，那么它们之间一定有一条边，那么它们中的一个就一定有出度，矛盾）。于是得到：</p>
+<script type="math/tex; mode=display">
+f(n) = g(n) - \sum_{i=1}^{n-1}C_n^i f(i) g(n-i)\\
+f(n) = g(n) - n!\sum_{i=1}^{n-1} {f(i) \over i!} {g(n-i)\over (n-i)!}</script><p>这又是一个卷积了。分治FFT解决。</p>
+<hr>
+<h2 id="带标号的无根树的计数：prufer序列"><a href="#带标号的无根树的计数：prufer序列" class="headerlink" title="带标号的无根树的计数：prufer序列"></a>带标号的无根树的计数：prufer序列</h2><h3 id="求一棵树的prufer序列"><a href="#求一棵树的prufer序列" class="headerlink" title="求一棵树的prufer序列"></a>求一棵树的prufer序列</h3><p>每一次选择编号最小的叶子，将这个叶子从图中删除，并且将与它相邻的点的编号加入序列。直到图中只剩下两个点为止。</p>
+<h3 id="由prufer序列还原一棵树"><a href="#由prufer序列还原一棵树" class="headerlink" title="由prufer序列还原一棵树"></a>由prufer序列还原一棵树</h3><p>找出未在序列中出现的并且未被标记的编号最小的点（树上编号最小的叶子），让它和序列开头的点连边，标记它，然后删掉序列开头的元素。当只剩下两个点<strong>未被标记</strong>的时候就停止，在它们之间连边，就完成了。</p>
+<p>可以看出，prufer序列一定是一个长度为$n-2$的，所有点都在$[1,n]$的序列；一个点在prufer序列中出现的次数等于它在树上的度数。</p>
+<p>从上面的过程可以看出：带标号的无根树和prufer序列是一一对应的关系。因此，我们可以推出：包含$n$个点的带标号的无根树的数量，等于长度为$n-2$，所有数都在$[1,n]$的序列的数量，等于$n^{n-2}$。</p>
+<p>而如果题目给定了每个点的度数，那就等于给定了每个点在prufer序列中出现的次数，那么就是可重排列数。（bzoj 1211 1005）</p>
+]]></content>
+      <tags>
+        <tag>专题练习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一类子集dp问题的容斥做法</title>
+    <url>/2022/08/01/%C2%96%E4%B8%80%E7%B1%BB%E5%AD%90%E9%9B%86dp%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%B9%E6%96%A5%E5%81%9A%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="P1-旅行商问题"><a href="#P1-旅行商问题" class="headerlink" title="P1 旅行商问题"></a>P1 旅行商问题</h2><p>统计哈密顿路径的数量。</p>
+<p>对于长度为 $n$ 的路径，如果所有的点都在路径中出现过，那么这条路径就是合法的。</p>
+<p>枚举未经过的点的集合（可能是空集），计算此时长度为 $n$ 的路径的数量，然后容斥一下就能得到答案。</p>
+<p>时间复杂度 $O(2^n \cdot n^2)$ 。</p>
+<h2 id="P2-UOJ185-小星星"><a href="#P2-UOJ185-小星星" class="headerlink" title="P2 UOJ185 小星星"></a>P2 UOJ185 小星星</h2><p>考虑将树上的点映射到图上的某个点。如果图上的每个点都被映射到了，那么这种方案就是合法的。</p>
+<p>如果不限制“每个点都被映射到”，这个东西就是个经典的树形 dp。</p>
+<p>容斥枚举没有被映射到的点集，然后做树形 dp 即可。</p>
+<p>时间复杂度 $O(2^n \cdot n^3)$。</p>
+<p><a href="http://uoj.ac/submission/392160" target="_blank" rel="noopener">my submission</a></p>
+<h2 id="P3-k染色问题"><a href="#P3-k染色问题" class="headerlink" title="P3 k染色问题"></a>P3 k染色问题</h2><p>题意：给定一个包含 $n$ 个结点的图和 $k$，判断它是否可以 $k$ 染色。$n\le 22$</p>
+<p>考虑选取 $k$ 个独立集，如果每个点都被至少一个独立集包含，那么这种染色方案就是合法的。注意如果存在点被多个独立集包含，我们仍然认为方案是合法的，因为我们只关心合法染色方案的存在性（而不是个数）。</p>
+<p>枚举没有被独立集包含的点，然后计算从没有包含它们的独立集中选出 $k$ 个的方案数。容斥一下就能得到答案。</p>
+<p>不包含某个特定点集的独立集数可以高维前缀和求出。</p>
+<p>时间复杂度 $O(2^n\cdot n)$</p>
+]]></content>
+      <tags>
+        <tag>专题练习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>五边形数定理 - 快速计算划分数</title>
+    <url>/2022/08/01/%E4%BA%94%E8%BE%B9%E5%BD%A2%E6%95%B0%E5%AE%9A%E7%90%86-%E5%BF%AB%E9%80%9F%E8%AE%A1%E7%AE%97%E5%88%92%E5%88%86%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/qq_33229466/article/details/80359560" target="_blank" rel="noopener">https://blog.csdn.net/qq_33229466/article/details/80359560</a></p>
+<hr>
+<h2 id="五边形数"><a href="#五边形数" class="headerlink" title="五边形数"></a>五边形数</h2><p><img src="https://i.loli.net/2019/07/08/5d230a36de78a99473.png" alt="五边形数"></p>
+<p>如图，定义五边形数的第$i$项为第$i$张图中的点数，$f_i = f_{i-1} + 3(i-1)+1 = {n(3n-1)\over 2}$。</p>
+<p>对于i=1,-1,2,-2,……定义广义五边形数，取值依次为：1 2 5 7 12 15 22 26 35 40 51 57 70 77 92 100 117 126 145 155 176 187 210 222 247……</p>
+<h2 id="欧拉函数"><a href="#欧拉函数" class="headerlink" title="欧拉函数"></a>欧拉函数</h2><p>定义欧拉函数为：</p>
+<script type="math/tex; mode=display">
+\phi (x) = \prod_{i=1}^{\infty} (1-x^i)</script><h2 id="五边形数定理"><a href="#五边形数定理" class="headerlink" title="五边形数定理"></a>五边形数定理</h2><script type="math/tex; mode=display">
+\phi(x) = \sum_{i=-\infty}^{\infty } (-1)^i x^{i(3i-1)\over 2} \\
+= 1 + \sum_{i=1}^{\infty}(-1)^i(x^{i(3i-1)\over 2} + x^{i(3i+1)\over 2})</script><h2 id="利用五边形数定理计算划分数"><a href="#利用五边形数定理计算划分数" class="headerlink" title="利用五边形数定理计算划分数"></a>利用五边形数定理计算划分数</h2><p>设$P_i$表示$i$的整数划分数，考虑它的生成函数$F(x)$：</p>
+<script type="math/tex; mode=display">
+F(x)= \prod_{i=1}^{\infty } (1+x^i + x^{2i} + x^{3i} + \cdots ) \\
+=\prod_{i=1}^{\infty } {1\over 1-x^i} \\
+={1\over \phi (x)}</script><p>求出$\phi (x) $之后，多项式求逆即可。</p>
+<p>如果没有取模的话，也可以把$F(x) \phi(x) = 1$暴力展开得到一个递推式，由于$\phi(x)$只有$\sqrt n$项有值，所以直接递推是$O(n\sqrt n)$的。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Burside Lemma与Polya定理（说人话版本）</title>
+    <url>/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/</url>
+    <content><![CDATA[<p><code>写于2018年冬，当时水平比较菜，留下的一些思考可能对初学Burnside的后辈有启发，所以现在发出来。</code></p>
+<p>看不懂证明，所以只好愉快地感性理解结论。证明等我长大了再回来补吧。（啊，那就大概就是永远都不会补了吧。）</p>
+<hr>
+<h3 id="Burnside-Lemma"><a href="#Burnside-Lemma" class="headerlink" title="Burnside Lemma"></a>Burnside Lemma</h3><blockquote>
+<p>一个集合$X$在置换群$G$作用下的等价类的数量，等于$G$中每一个置换的不动点的数量的平均值。（等价类的定义是：如果两个元素可以通过$G$中的置换变得一样，那么它们就属于同一个等价类；置换$g$的不动点的定义是，一个元素经过了$g$这个置换后没有发生变换）</p>
+</blockquote>
+<p><del>真不是人话</del></p>
+<p>那么看看这个例子：你要给一个有$n$个珠子的项链的每个珠子涂色（有$m$中颜色可供选择），其中通过旋转之后变得相同的方案算同一种方案，问你有多少种方案。</p>
+<p>那么，每一种涂色的方法（不一定要求本质不同）是$X$中的元素，而$G$就是旋转置换组成的群（当然也包含了旋转0度），“等价类”就是“通过旋转可以变得相同”的涂色方案组成的集合，要求的“方案数”就是等价类的数量。</p>
+<p>先把所有方案列出来，然后再考虑求等价类数量（$n=3,m=2$）：</p>
+<p>000 001 010 011 100 101 110 111</p>
+<p>那么所有的置换就是：<br>1.旋转0个珠子，此时的不动点是：000 001 010 011 100 101 110 111，数量为8。<br>2.旋转1个珠子，此时的不动点是：000 111，数量为2。<br>3.旋转2个珠子，此时的不动点是：000 111，数量为3。<br>旋转3个珠子和旋转0个珠子是等价的，不需要计算在内。旋转4颗珠子和旋转1颗珠子也是等价的……</p>
+<p>那么等价类的数量就是${8+2+2\over 3 } = 4$。</p>
+<p>再看一个例子。如果是$n=4,m=2$：</p>
+<p>0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 1010 1011 1100 1101 1110 1111</p>
+<p>1.旋转0个珠子，不动点是0000 0001 0010 0011 0100 0101 0110 0111 1000 1001 1010 1011 1100 1101 1110 1111<br>2.旋转1个珠子，不动点是0000 1111<br>3.旋转2个珠子，不动点是0000 1111 1010 0101<br>4.旋转3个珠子，不动点是0000 1111</p>
+<p>所以等价类的数量是${16+2+4+2\over 4} = 6$。</p>
+<p>至此终于明白了这个定理到底在说什么，感觉它非常优美且正确，尽管我不会证明QAQ。</p>
+<hr>
+<h3 id="Polya-Enumeration-Theorem"><a href="#Polya-Enumeration-Theorem" class="headerlink" title="Polya Enumeration Theorem"></a>Polya Enumeration Theorem</h3><p>使用Burnside引理解决上面的问题时，需要把$n^m$中方案全部列出来，这样计算是非常慢的。我们能不能通过一些方式加速计算呢？比如说，快速得到在某个置换下的不动点的数量？</p>
+<p>答案是肯定的。这就是Polya定理：</p>
+<blockquote>
+<p>我们设$c(g)$表示$g$这个置换中的循环节数量，那么对于置换$g$，不动点的数量为$m^{c(g)}$；一个置换群$G$作用于集合$X$上，等价类的数量是${1\over {|G|}}\sum_{g\in G} m^{c(g)}$。</p>
+</blockquote>
+<p><del>再一次觉得这不是人话</del></p>
+<p>那么我们还是来看一个例子吧。首先我们把旋转写成置换，那么旋转2颗珠子就是</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+1 & 2 & 3 & 4\\
+3 & 4 & 1 & 2
+\end{pmatrix}</script><p>这个置换可以写成$(1 3)(2 4)$，它的循环节数是2。</p>
+<p>一个元素在这个置换下是一个不动点，条件是循环节内的所有位置，颜色必须一样，否则这个元素就不可能是不动点。</p>
+<p>那么相当于对于每个循环节，我们给它规定一个颜色，然后整个元素就确定了。方案数是$m^{c(g)}$。即对于置换$g$，不动点的数量是$m^{c(g)}$。</p>
+<p>再看前面项链的例子，当$n=4,m=2$的时候：</p>
+<p>1.旋转0个珠子，循环节数是$4$，方案数是$2^4 = 16$。<br>2.旋转1个珠子，循环节数是$1$，方案数是$2^1 = 2$。<br>3.旋转2个珠子，循环节数是$2$，方案数是$2^2 = 4$。<br>4.旋转3个珠子，循环节数是$1$，方案数是$2^1 = 1$。</p>
+<p>所以等价类的数量是${16+2+4+2\over 4} = 6$。</p>
+<p>至此感觉已经理清楚了这两个定理在说什么。<del>证明什么的反正也不会考，不管了</del></p>
+<hr>
+<h3 id="Burnside定理成立的条件"><a href="#Burnside定理成立的条件" class="headerlink" title="Burnside定理成立的条件"></a>Burnside定理成立的条件</h3><p>注意，Burnside定理并不是随便拿几个置换来都成立的。它成立的条件是这几个置换构成了一个群，因为它的证明是用到了群的性质的。</p>
+<p>群的定义：群是一个二元运算$<em>$下的一个集合$G$，满足以下四个条件：<br>1）封闭性（closure）：对于$G$中任意两个元素$a,b$，满足$a</em>b\in G$。<br>2）结合律（Associativity）：对于$G$中任意三个元素$a,b,c$，满足$(a<em>b)</em>c = a<em>(b</em>c)$。<br>3）单位元（Identity element）：集合中存在一个唯一的元素$e$，满足对于集合中的任意元素$a$，有$a<em>e = e</em>a = a$。<br>4）逆元（Inverse element）：对于$G$中的每一个元素$a$，$G$中存在一个$b$使得$a<em>b = b</em>a = e$。</p>
+<p>比如说，如果随便给几个排列作为洗牌的方式，那么不能套用Burnside引理，因为这些置换组成的集合可能不是封闭的；只有保证了给的置换任意组合，得到的都是这个集合中的某一个置换，也就是说保证它们构成一个群，这个时候才能够用Burnside引理。</p>
+<hr>
+<h3 id="资料-amp-amp-链接"><a href="#资料-amp-amp-链接" class="headerlink" title="资料&amp;&amp;链接"></a>资料&amp;&amp;链接</h3><p><a href="https://tgsteven.github.io/2018/07/10/2018-07-10-polya/" target="_blank" rel="noopener">TGSteven的博客：</a>里面有证明，但是我看不懂qwq。<br>Wikipedia:<a href="https://en.wikipedia.org/wiki/Burnside%27s_lemma" target="_blank" rel="noopener">Burnside lemma</a> and <a href="https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem" target="_blank" rel="noopener">Polya enumeration theorem</a> 都没怎么看懂……<br>还看了一些关于Group action（群作用）的资料，然后我选择了放弃研究这个定理的证明（我真的不想死得这么年轻QAQ）</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BEST定理</title>
+    <url>/2022/08/01/BEST%E5%AE%9A%E7%90%86/</url>
+    <content><![CDATA[<p>有向图欧拉回路数量计数。</p>
+<p>为什么不是 $\prod_u (\deg_u!)$ 呢？因为任意的边排列顺序不一定能构造出对应的方案，比如</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/08/01/39bfc6ffe2914aeb.jpg" alt=""></p>
+<p>每个点的排列是：</p>
+<blockquote>
+<p>1：红</p>
+<p>2：橙</p>
+<p>3：黄 粉</p>
+<p>4：绿 蓝</p>
+<p>5：紫</p>
+</blockquote>
+<p>从 1 号点出发，发现构造不出合法的方案！</p>
+<p>那么什么样的方案合法呢……只要每个点最后走的那条边不形成环就行了吧？</p>
+<p>BEST 定理：有向图的欧拉回路数量等于 $t^{root}(G,k) \prod_{v\in V} (\deg_u -1)!$，其中 $t^{root}(G,k)$ 表示以 $k$ 为根的内向生成树的个数。</p>
+<p>证明我参考了<a href="https://blog.csdn.net/PoPoQQQ/article/details/77017325" target="_blank" rel="noopener">这个博客</a>。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>枚举border集合</title>
+    <url>/2022/08/01/%E6%9E%9A%E4%B8%BEborder%E9%9B%86%E5%90%88/</url>
+    <content><![CDATA[<p>例题：CF gym100958 I</p>
+<p>按照从小到大确定每种长度的前缀是否是一个 border，同时对于当前已经确定的 border $l_0,l_1,\cdots l_k$，统计长度为 $l_k$ 且以 $\{l_0,l_1,\cdots l_k\}$ 为 border 的字符串数。</p>
+<p>新加入的一个 border $l_{k+1}$ 的时候，分如下情况讨论：</p>
+<ul>
+<li>$2l_k \le l_{k+1}$<ul>
+<li>方案数为 $A^{l_{k+1}-2l_k}$，然后再减去大于 $l_k$ 的最小 border 不是 $l_{k+1}$、但是的 border 集合包含了 $l_{k+1}$ 的字符串数</li>
+</ul>
+</li>
+<li>$2l_k &gt; l_{k+1}$<ul>
+<li>此时长度为 $l_k$ 的前缀和后缀会有重复的部分</li>
+<li>显然对于任意的 $2v &gt; l_{k+1}$，如果 $v$ 是一个 border 那么 $2v-l_{k+1}$ 肯定也是</li>
+<li>而如果任意 border $v$，$2v-l_{k+1}$ 也是 border，那么长度为 $v$ 的前缀和后缀的重合部分显然是相同的</li>
+<li>所以如果对于任意的 $2v &gt; l_{k+1}$，$v$ 是 border，都有 $2v-l_{k+1}$ 也是 border，方案数就是确定长度为 $l_k$ 的前缀的方案数；否则方案数为 $0$</li>
+<li>然后此时得到的方案数还要减去大于 $l_k$ 的最小 border 不是 $l_{k+1}$、但是的 border 集合包含了 $l_{k+1}$ 的字符串数</li>
+</ul>
+</li>
+</ul>
+<p>这个“大于 $l_k$ 的最小 border 不是 $l_{k+1}$、但是的 border 集合包含了 $l_{k+1}$ 的字符串数”可以通过从小到大枚举下一个 border 的长度来提前算得。</p>
+<p>参考代码：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">S 的每一位分别表示长度为 i 的前缀是否为 border</span></span><br><span class="line"><span class="comment">ways 表示长度为 l_k 且以 &#123;l_0,l_1, ... l_k&#125; 为 border 的串的数量</span></span><br><span class="line"><span class="comment">R[i] 表示以 S 为 border 集合的前缀的、大于 L 的第一个 border 长度小于 x 的、长度为 x 的串的数量</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">getborder</span><span class="params">(ll S,<span class="keyword">int</span> ways)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> L=m; <span class="keyword">while</span>(L&amp;&amp;!(S&gt;&gt;L<span class="number">-1</span>&amp;<span class="number">1</span>)) L--;</span><br><span class="line">	<span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">R</span><span class="params">(m+<span class="number">1</span>)</span></span>;</span><br><span class="line">	R[L]=ways;</span><br><span class="line">	<span class="keyword">if</span>(L==m) <span class="keyword">return</span> (ans=(ans+<span class="number">1l</span>l*ways*DP(S))%mod,R);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> x=L+<span class="number">1</span>;x&lt;=m;++x) &#123;</span><br><span class="line">		<span class="keyword">int</span> tmp=ways;</span><br><span class="line">		<span class="keyword">if</span>(L*<span class="number">2</span>&gt;x) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=L;j*<span class="number">2</span>&gt;x&amp;&amp;tmp;--j)</span><br><span class="line">				<span class="keyword">if</span>((S&gt;&gt;j<span class="number">-1</span>&amp;<span class="number">1</span>)&amp;&amp;(!(S&gt;&gt;j*<span class="number">2</span>-x<span class="number">-1</span>&amp;<span class="number">1</span>)))</span><br><span class="line">					tmp=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> tmp=<span class="number">1l</span>l*tmp*pw[x<span class="number">-2</span>*L]%mod;</span><br><span class="line">		<span class="keyword">if</span>(!tmp||!(tmp=(tmp-R[x]+mod)%mod)) <span class="keyword">continue</span>;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; y=getborder(S|<span class="number">1l</span>l&lt;&lt;x<span class="number">-1</span>,tmp);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=x;i&lt;=m;++i)</span><br><span class="line">			R[i]=(R[i]+y[i])%mod;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> R;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>回文子串划分</title>
+    <url>/2022/08/01/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%E5%88%92%E5%88%86/</url>
+    <content><![CDATA[<p>这篇总结基本上就是<a href="https://codeforces.com/blog/entry/19193" target="_blank" rel="noopener">这篇文章</a>的翻译。</p>
+<p>这是一种算法，可以在$O(n)$空间、$O(n\log n)$的时间内求出将一个字符串划分成若干个为回文的子串，最少需要的划分次数。</p>
+<p>这个算法魔改一下，还可以求一个字符串划分成若干个回文子串的方案数。（就是<a href="https://codeforces.com/problemset/problem/932/G" target="_blank" rel="noopener">CF932G</a>）</p>
+<hr>
+<p>这个算法是基于回文树的，沿用了回文树中的一些数组的定义。</p>
+<h3 id="算法中的一些定义"><a href="#算法中的一些定义" class="headerlink" title="算法中的一些定义"></a>算法中的一些定义</h3><p>1.$diff$表示$i$和节点$fail[i]$表示的字符串的长度之差$diff[i]=len[i]-len[fail[i]]$<br>2.$fa$表示$fail$树上，从$i$到根的路径上深度最大的满足$diff[x]!=diff[i]$的$x$。</p>
+<p>即：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">diff[now]=len[now]-len[fail[now]];</span><br><span class="line">fa[now]=(diff[now]==diff[fail[now]])?fa[fail[now]]:fail[now];</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="原理-amp-amp-过程"><a href="#原理-amp-amp-过程" class="headerlink" title="原理&amp;&amp;过程"></a>原理&amp;&amp;过程</h3><p>引理1：$fa[i]$构成了一颗深度不超过$\log n$的树</p>
+<p><del>这个引理是正确的，但是我不会证明</del>  这里有一篇<a href="https://arxiv.org/pdf/1506.04862v1.pdf" target="_blank" rel="noopener">论文</a>~~</p>
+<p>引理2：加入插入了前$i$个字符，考虑回文树上的节点$last$的一个祖先$v$，假设它满足$fa[v]\not =fail[v]$。首先，$fail[v]$这个串一定在$[i-len[v]+1\cdots i-(len[v]-len[fail[v]])]$出现过，并且由于$diff[v]=diff[fail[v]]=\cdots $（构成了一个等差数列），转移$dp[i]$的时候，需要考虑的是$dp[i-len[v]],dp[i-len[fail[v]]],dp[i-len[fail[fail[v]]]]\cdots $，那么考虑第一段等差数列，除了$dp[i-len[fa[v]]-diff[v]]$之外，其他的位置都会在$dp[i-(len[v]-len[fail[v]])]$中被考虑过了。设$g[v]$表示回文树上节点$v$上一次被枚举到的时候贡献的答案，那么就有：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">&#123;</span><br><span class="line">	PT.insert(str[i]-<span class="string">'a'</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> v=last;v;v=fa[v])</span><br><span class="line">	&#123;</span><br><span class="line">		g[v]=dp[i-len[fa[v]]-diff[v]];</span><br><span class="line">		<span class="keyword">if</span>(diff[v]==diff[fail[v]]) g[v]=min(g[v]+g[fail[v]]);</span><br><span class="line">		dp[i]=min(dp[i],g[v]+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果要求划分方案数的话魔改一下，把min改成累加就可以了。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>回文树</title>
+    <url>/2022/08/01/%E5%9B%9E%E6%96%87%E6%A0%91/</url>
+    <content><![CDATA[<h3 id="关于算法名称"><a href="#关于算法名称" class="headerlink" title="关于算法名称"></a>关于算法名称</h3><p>强调一下，虽然说它又叫回文自动机，但是它不是自动机！！！</p>
+<p>1.它有多个初始状态。<br>2.它不能够“接受一个字符串”。</p>
+<hr>
+<h3 id="算法中的一些定义"><a href="#算法中的一些定义" class="headerlink" title="算法中的一些定义"></a>算法中的一些定义</h3><p>回文自动机上，每个节点代表了一个回文子串。对每个节点记一个$len$，代表这个节点表示的回文子串的长度。</p>
+<p>每个节点有一个转移集（边），边上有一个字符，指向这个节点表示的回文子串，在两边都加上这个字符后形成的回文子串。</p>
+<p>每个节点有一个$fail$指针，这个节点表示的回文子串，最长的且在字符串中出现过的回文后缀，类似AC自动机失配指针，在构造的时候用于解决“失配”的问题。</p>
+<p>回文树有两个初始状态，状态$0$和状态$1$。状态$0$表示长度为偶数的回文串的中心，也就是说，所有长度为2的回文串，都由$0$节点转移过来。因此有$len[0]=0$。状态$1$是为了方便构造长度为奇数的状态设计的，所有长度为1的回文串，都由状态1转移过来。因此$len[1]=-1$。显然还有$fail[0]=1$。因为如果加入一个字符，不能够形成长度为2的回文子串，那么就只能（并且一定能）形成长度为1的回文子串。</p>
+<p>一些经常用来辅助解决问题的量：一个节点在$fail$树上的深度，就是这个串包含的回文串的个数；在插入一个字符的时候，对新到达的状态$sz++$，最后在$fail$树上，将一个点的儿子的$sz$累加起来，就是这个点表示的回文在字符串中出现的次数。</p>
+<hr>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>首先初始化：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	ncnt=<span class="number">1</span>,n=<span class="number">0</span>; last=<span class="number">0</span>;</span><br><span class="line">	len[<span class="number">1</span>]=<span class="number">-1</span>,len[<span class="number">0</span>]=<span class="number">0</span>,S[<span class="number">0</span>]=<span class="number">-1</span>,fail[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，$S$是在回文自动机内部存储下的插入的字符串，，$n$表示已经插入的字符串的长度。将$S[0]$设为一个不会出现的东西可以减少特判。$last$表示上一次插入字符到达的状态，初始设为$0$或者$1$都可以。</p>
+<p>插入一个新字符$c$时，在$last$的$fail$树上找到深度最深的一个位置，使得这个位置表示的回文串可以通过加入$c$形成新的回文串。即这个串是$last$的回文后缀，并且满足这个串前面的第一个字符等于$c$，也就是$S[n-len[u]-1]==S[n]$。设这个位置为$cur$。如果这个节点都不存在新插入字符的转移，说明出现了新的本质不同的回文串，那么就需要新建节点。新节点的$len$等于$len[cur]+2$，新节点$fail$则是$fail$树上$cur$的祖先中第一个满足$S[n-len[u]-1]==S[n]$的节点<strong>的$c$字符的转移</strong>。如果没有这个转移，那么$fail$应该置为0。注意要先找$fail$，然后再在$cur$节点插入$c$的转移。因为对于$1$号节点的后继，节点的$fail$应该指向$0$。找到的第一个满足$S[n-len[u]-1]==S[n]$的$cur$的祖先是$1$，如果先插入转移，那么新节点的$fail$就会指向自己。先找$fail$，再插入从$cur$到$now$的转移可以避开这个问题。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Palindromic_Tree</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> ch[N][<span class="number">26</span>],fail[N],len[N],last;</span><br><span class="line">    <span class="keyword">char</span> S[N];</span><br><span class="line">    <span class="keyword">int</span> ncnt,n;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        n=<span class="number">0</span>; S[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line">        ncnt=last=<span class="number">1</span>;</span><br><span class="line">        fail[<span class="number">1</span>]=<span class="number">0</span>,fail[<span class="number">0</span>]=<span class="number">1</span>,len[<span class="number">0</span>]=<span class="number">0</span>,len[<span class="number">1</span>]=<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> u)</span></span>&#123; <span class="keyword">while</span>(S[n-len[u]<span class="number">-1</span>]!=S[n]) u=fail[u]; <span class="keyword">return</span> u;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> c)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        S[++n]=c; <span class="keyword">int</span> cur=get(last);</span><br><span class="line">        <span class="keyword">if</span>(!ch[cur][c])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> now=++ncnt; len[now]=len[cur]+<span class="number">2</span>;</span><br><span class="line">            fail[now]=ch[get(fail[cur])][c],ch[cur][c]=now;</span><br><span class="line">        &#125;</span><br><span class="line">        last=ch[cur][c];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;PT;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>设势能函数$\phi(i)$表示，插入前$i$个字符之后，已经插入的最长回文后缀的长度。</p>
+<p>插入一个字符的时候$\phi(i)$最多+1，跳一次fail$\phi(i)$至少会-1，$\phi(i)$至多是$n$，所以构造的复杂度是$O(n)$。</p>
+<hr>
+<h3 id="Tricks"><a href="#Tricks" class="headerlink" title="Tricks"></a>Tricks</h3><p>回文树上节点的数量 - 2 = 字符串中本质不同的回文串的数量。<br>一个节点在$fail$树上的深度 = 这个节点表示的回文串的回文后缀的数量。<br>得到一个回文串在字符串中出现的次数：$insert$的时候，在走到的那个节点（即这一步结束后的$last$）上令$sz++$，这是一个差分，意思是上$sz$到根的路径上的所有点$sz+=1$。最后将差分前缀和回去，即跑一遍$sz[fail[u]]+=sz[u]$即可得到每个节点表示的回文子串在原字符串中出现的次数。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从kmp算法的正确性到rank_kmp</title>
+    <url>/2022/08/01/%E4%BB%8Ekmp%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E5%88%B0rank-kmp/</url>
+    <content><![CDATA[<h2 id="kmp算法"><a href="#kmp算法" class="headerlink" title="kmp算法"></a>kmp算法</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> p=nxt[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">    <span class="keyword">while</span>(~p&amp;&amp;str[p+<span class="number">1</span>]!=str[i]) p=nxt[p];</span><br><span class="line">    nxt[i]=++p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>kmp 算法的正确性基于：</p>
+<ul>
+<li>字符串相等具有传递性，即 $A=B,B=C\Rightarrow A=C$</li>
+<li>两个字符串不相等，那么在后面加上一个字符后，两个串仍然不相等，即 $A\neq B \Rightarrow Ac\neq Bc$</li>
+</ul>
+<p>而复杂度的瓶颈则是：</p>
+<ul>
+<li>已知 $A=B$ ，判断 $Ac=Bc$ 是否成立</li>
+</ul>
+<h2 id="RANK-KMP"><a href="#RANK-KMP" class="headerlink" title="RANK-KMP"></a>RANK-KMP</h2><h3 id="问题-CEOI2011-Matching"><a href="#问题-CEOI2011-Matching" class="headerlink" title="问题 (CEOI2011 Matching)"></a>问题 (CEOI2011 Matching)</h3><p>定义两个长度为$N$的序列$A$和$B$相似，当且仅当对于任意$i,j$，有$[ A_i &lt; A_j ] = [ B_i &lt; B_j ]$。给定序列$X,Y$，求$X$中有几个长度为$|Y|$的连续子序列和$Y$相似。$|X|,|Y|\le 10^6$。</p>
+<h3 id="Sol"><a href="#Sol" class="headerlink" title="Sol"></a>Sol</h3><p>对于一个字符串 $S$ ，定义 $fail_i$ 为 最大的 $x$ 使得 $S_{1\cdots x}$ 与 $S_{i-x+1\cdots i}$ 相似。</p>
+<p>无论是求出 $fail$ 的过程，还是利用 $fail$ 进行字符串匹配的过程，我们实际上只需要解决这样一个问题：已知 $A$ 和 $B$ 相似，试判断 $Ac$ 和 $Bc$ 是否相似。</p>
+<p>观察发现，只要 $c$ 在 $A$ 中的排名与 $c$ 在 $B$ 中的排名相同，$Ac$ 和 $Bc$ 就相似。可以随便用数据结构维护。</p>
+<p>利用 $p$ 变化量线性的性质，可以得到一种优美的解法。</p>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Lyndon word 与 Duval 算法</title>
+    <url>/2022/08/01/Lyndon-word-%E4%B8%8E-Duval-%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<p>下文中的字符串大小比较都是字典序的比较。</p>
+<h2 id="Lyndon-word"><a href="#Lyndon-word" class="headerlink" title="Lyndon word"></a>Lyndon word</h2><p>对于一个字符串$s$，$s$小于$s$的所有后缀，那么$s$就是一个Lyndon word。</p>
+<p>显然此时$s$也小于$s$的所有循环移位。</p>
+<h3 id="Lemma-1"><a href="#Lemma-1" class="headerlink" title="Lemma 1"></a>Lemma 1</h3><p>对于两个Lyndon word$u,v$满足$u&lt;v$，那么$uv$也是一个Lyndon word。</p>
+<h3 id="Lemma-2"><a href="#Lemma-2" class="headerlink" title="Lemma 2"></a>Lemma 2</h3><p>如果一个Lyndon word$s$后面接一个字符$c$得到的字符串$sc$是某个Lyndon word的前缀（即满足$s$小于等于所有的后缀），那么对于任意一个$x&gt;c$，$sx$是Lyndon word。</p>
+<h2 id="Lyndon-划分"><a href="#Lyndon-划分" class="headerlink" title="Lyndon 划分"></a>Lyndon 划分</h2><p>定义字符串$s$的Lyndon划分为：$s=t_1t_2t_3\cdots t_m$，其中$t_i$均为Lyndon word且有$t_i \ge t_{i+1}$。</p>
+<p>一个字符串的Lyndon word存在且唯一。</p>
+<h3 id="存在性证明"><a href="#存在性证明" class="headerlink" title="存在性证明"></a>存在性证明</h3><p>首先把$s$的每个字符单独划为一段，此时显然每一段都是Lyndon word。</p>
+<p>如果相邻的两段满足$t_i&lt;t_{i+1}$，那么把这两段合并起来仍然得到Lyndon word。</p>
+<p>一直合并直到对于所有$i$都有$t_i \ge t_{i+1}$，此时我们就得到了一个Lyndon划分。</p>
+<h3 id="唯一性证明"><a href="#唯一性证明" class="headerlink" title="唯一性证明"></a>唯一性证明</h3><p>设$s$的两个Lyndon划分分别为$t_1t_2\cdots t_m$和$t’_1t’_2\cdots t’_{m’}$，设第一个$i$为最小的满足$t_i \not=t’_i$的下标。设$|t_i|\le |t’_i|$，那么$t_i$一定是$t’_i$的前缀。设$t’_i$去掉$t_i$的那一段后缀为$x$，则因为$t$是Lyndon划分，所以$t_i \ge x$，又因为$t’$是Lyndon划分，所以$t’_i &lt; x$，则得到$t_i \ge x &gt; t’_i &gt; t_i$，矛盾。所以一个串的Lyndon划分是唯一的。</p>
+<h2 id="Duval-算法"><a href="#Duval-算法" class="headerlink" title="Duval 算法"></a>Duval 算法</h2><p>一种线性构造Lydon划分的算法，本质上是用类似单调栈的思想模拟合并的过程。</p>
+<p>维护三个指针$i,j,k$，其中$s[1\cdots i-1]$的Lyndon划分已经确定，$s[i\cdots k]$的形式为$t^m v$，其中$t$为Lyndon串，$v$是$t$的一个前缀，$j=k-|t|$。</p>
+<p>考虑$k+1$这个字符：</p>
+<pre><code>1. s[k+1] = s[j+1] 让j,k自增1即可
+2. s[k+1] &gt; s[j+1] 此时s[i……k+1]是一个Lyndon串，让j=i，k自增1即可
+3. s[k+1] &lt; s[j+1] 此时s[i……k-|v|]无法再合并，这一段中的每一个t就是这一段的Lyndon划分。记录下这个划分，令i=k-|v|+1,j=i,k=i+1
+</code></pre><p>模板：loj129</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ll long long</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">void</span> <span class="title">rd</span>(<span class="title">T</span> &amp;<span class="title">x</span>) &#123;</span></span><br><span class="line">	x=<span class="number">0</span>; <span class="keyword">char</span> c=getchar(); <span class="keyword">int</span> f=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c)) &#123; <span class="keyword">if</span>(c==<span class="string">'-'</span>) f=<span class="number">-1</span>; c=getchar(); &#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x=x*<span class="number">10</span>-<span class="string">'0'</span>+c,c=getchar(); x*=f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=(<span class="number">1</span>&lt;&lt;<span class="number">20</span>)+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">char</span> str[N];</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%s"</span>,str+<span class="number">1</span>); n=<span class="built_in">strlen</span>(str+<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">1</span>,j,k;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;=n) &#123;</span><br><span class="line">		j=i,k=i+<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span>(k&lt;=n&amp;&amp;str[k]&gt;=str[j]) &#123;</span><br><span class="line">			<span class="keyword">if</span>(str[k]==str[j]) ++k,++j;</span><br><span class="line">			<span class="keyword">else</span> j=i,++k;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span>(i&lt;=j) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%d "</span>,i+(k-j)<span class="number">-1</span>);</span><br><span class="line">			i+=k-j;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Berlekamp-Massey算法</title>
     <url>/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>如果现在你有一个序列，你知道他们满足$m$阶的</p>

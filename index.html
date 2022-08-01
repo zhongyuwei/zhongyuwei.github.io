@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E7%BB%84%E5%90%88%E6%81%92%E7%AD%89%E5%BC%8F%E6%95%B4%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -201,7 +201,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">Berlekamp-Massey算法</a>
+            <a href="/2022/08/01/%E7%BB%84%E5%90%88%E6%81%92%E7%AD%89%E5%BC%8F%E6%95%B4%E7%90%86/" class="post-title-link" itemprop="url">组合恒等式整理</a>
         </h1>
 
         <div class="post-meta">
@@ -212,7 +212,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:16:29 / Modified: 13:20:31" itemprop="dateCreated datePublished" datetime="2022-07-15T12:16:29+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 16:01:33 / Modified: 16:03:43" itemprop="dateCreated datePublished" datetime="2022-08-01T16:01:33+08:00">2022-08-01</time>
             </span>
 
           
@@ -228,11 +228,54 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>如果现在你有一个序列，你知道他们满足$m$阶的</p>
-<p>递推关系，而你需要通过这个序列中的数解出这个序列的递推式。这就是BM算法解决的问题。</p>
+          <ol>
+<li>$\binom{n}{m} = \binom{n}{n-m}$</li>
+<li>$\binom{n}{m} + \binom{n}{m+1} = \binom{n+1}{m+1}$</li>
+<li>$\sum_{m=r}^n \binom{m}{r} = \binom{n+1}{r+1}$</li>
+<li>$\sum_{m=0}^n \binom{n}{m} = 2^n$</li>
+<li>$\binom{n}{m} \binom{m}{k} = \binom{n}{k} \binom{n-k}{m-k}$<ol>
+<li>$m \binom{n}{m} = n \binom{n-1}{m-1}$</li>
+</ol>
+</li>
+<li>$\sum_{r=0}^k \binom{n}{r} \binom{m}{k-r} = \binom{n+m}{k}$<ol>
+<li>$\sum_{i=0}^n \binom{n}{i}^2 = \sum_{i=0}^n \binom{n}{i} \binom{n}{n-i} = \binom{2n}{n}$</li>
+</ol>
+</li>
+</ol>
+<p>封闭形式：</p>
+<ol>
+<li><p>$\frac{1}{(1-x)^{n+1}} = \sum_{k=0}^\infty \binom{n+k}{n} x^k$</p>
+<ol>
+<li>$\frac{1}{(1-x)^{n+1}} = (1-x)^{-(n+1)} = \sum_{k=0}^\infty \binom{-n-1}{k} (-x)^k = \sum_{k=0}^\infty (-1)^k \binom{k+n}{k} (-x)^k = \sum_{k=0}^\infty \binom{n+k}{n} x^k$</li>
+</ol>
+</li>
+<li><p>$\frac{1}{\sqrt{1-4x}} = \sum_{k=0}^\infty \binom{2k}{k} x^k$</p>
+<ol>
+<li><script type="math/tex; mode=display">
+(1-x)^{-\frac{1}{2}} = \sum_{k=0}^\infty \binom{-\frac{1}{2}}{k} (-x)^k\\
+= \sum_{k=0}^\infty \frac{(-1)(-3) \cdots (-(2k-1))}{2^k k!} (-x)^k\\
+= \sum_{k=0}^\infty (-1)^k \frac{\frac{(2k)!}{2^k k!}}{2^k k!} (-x)^k\\
+= \sum_{k=0}^\infty \binom{2k}{k} 4^{-k} x^k\\
+\frac{1}{\sqrt{1-4x}} = (1-4x)^{-\frac{1}{2}} = \sum_{k=0}^\infty \binom{2k}{k} 4^{-k} (4x)^k\\
+= \sum_{k=0}^\infty \binom{2k}{k} x^k</script></li>
+</ol>
+</li>
+<li><p>$\frac{1 - \sqrt{1-4x}}{2x} = \sum_{k\ge 0} \frac{1}{k+1} \binom{2k}{k} x^k$</p>
+<ol>
+<li><script type="math/tex; mode=display">
+(1-x)^{\frac{1}{2}}
+= \sum_{k=0}^\infty \binom{\frac{1}{2}}{k} (-x)^k\\
+= \sum_{k=0}^\infty \frac{1(-1)(-3)(-5)\cdots (-(2k-3))}{2^k k!}(-x)^k\\
+= - \sum_{k=0}^\infty \frac{\frac{(2k-2)!}{2^{(k-1)}(k-1)!}}{2^kk!}x^k\\
+= - 2 \sum_{k=0}^\infty \frac{1}{k} \cdot\binom{2k-2}{k-1} \cdot 4^{-k} x^k\\
+1 - \sqrt{1-4x} = 2 \sum_{k=1}^\infty \frac{1}{k} \cdot\binom{2k-2}{k-1} \cdot 4^{-k} (4x)^k\\
+= 2 \sum_{k=1}^\infty \frac{1}{k} \cdot\binom{2k-2}{k-1} \cdot x^k</script></li>
+</ol>
+</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Berlekamp-Massey%E7%AE%97%E6%B3%95/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/%E7%BB%84%E5%90%88%E6%81%92%E7%AD%89%E5%BC%8F%E6%95%B4%E7%90%86/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -256,7 +299,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E8%87%AA%E7%84%B6%E6%95%B0%E5%B9%82%E5%92%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -270,7 +313,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/" class="post-title-link" itemprop="url">常系数齐次线性递推 - O(k log k log n) 求第n项</a>
+            <a href="/2022/08/01/%E8%87%AA%E7%84%B6%E6%95%B0%E5%B9%82%E5%92%8C/" class="post-title-link" itemprop="url">自然数幂和</a>
         </h1>
 
         <div class="post-meta">
@@ -281,7 +324,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:15:34 / Modified: 12:15:52" itemprop="dateCreated datePublished" datetime="2022-07-15T12:15:34+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 16:00:10 / Modified: 16:00:37" itemprop="dateCreated datePublished" datetime="2022-08-01T16:00:10+08:00">2022-08-01</time>
             </span>
 
           
@@ -297,11 +340,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于一个数列$h_0,h_1\cdots h_n,\cdots $，称这个数列满足<strong>k阶线性递推关系</strong>是指存在量$a_1,a_2,\cdots a_k (a_k \not= 0 )$和量$b_n$（$a_1,a_2,\cdots a_k,b_n$都可能以来于$n$），使得$h_n = a_1h_{n-1} + a_2h_{n-2} \cdots a_k h_{n-k} + b_n(n\ge k)$成立。</p>
-<p>如果$b_n$是常数$0$，我们称这个线性递推关系式齐次的。</p>
+          <p>给出$n,k$，求$\sum _{i=0}^n i^k$。</p>
+<hr>
+<h2 id="方法1：递推"><a href="#方法1：递推" class="headerlink" title="方法1：递推"></a>方法1：递推</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E5%B8%B8%E7%B3%BB%E6%95%B0%E9%BD%90%E6%AC%A1%E7%BA%BF%E6%80%A7%E9%80%92%E6%8E%A8-O-k-log-k-log-n-%E6%B1%82%E7%AC%ACn%E9%A1%B9/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/%E8%87%AA%E7%84%B6%E6%95%B0%E5%B9%82%E5%92%8C/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -325,7 +369,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -339,7 +383,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">单纯性算法的正确性证明</a>
+            <a href="/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" class="post-title-link" itemprop="url">图计数专题练习</a>
         </h1>
 
         <div class="post-meta">
@@ -350,7 +394,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:14:55 / Modified: 13:21:19" itemprop="dateCreated datePublished" datetime="2022-07-15T12:14:55+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:58:45 / Modified: 15:59:22" itemprop="dateCreated datePublished" datetime="2022-08-01T15:58:45+08:00">2022-08-01</time>
             </span>
 
           
@@ -366,156 +410,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="一个引理"><a href="#一个引理" class="headerlink" title="一个引理"></a>一个引理</h2><p>设$I$是一个下标集合。对于每一个$j\in I$，设$\alpha_j$和$\beta_j$是实数，并且令$x_j$是一个实数变量。设$\gamma$是一个实数。</p>
-<p>如果对于变量$x_j$的任意设置，我们都有$\sum_{j\in I} \alpha_j x_j  = \gamma + \sum_{j\in I} \beta_jx_j$。那么可以推出对于任意的$j\in I$有$\alpha_j = \beta_j$并且$\gamma =0$。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E5%8D%95%E7%BA%AF%E6%80%A7%E7%AE%97%E6%B3%95%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E8%AF%81%E6%98%8E/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">矩阵乘法结合律、分配律的证明</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-07-15 12:14:04 / Modified: 12:14:27" itemprop="dateCreated datePublished" datetime="2022-07-15T12:14:04+08:00">2022-07-15</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h3><p>矩阵乘法满足结合律，即$(AB)C=A(BC)$。</p>
-<p>证明：设最后得到的结果为$D,AB=E,BC=F$。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%E7%BB%93%E5%90%88%E5%BE%8B%E3%80%81%E5%88%86%E9%85%8D%E5%BE%8B%E7%9A%84%E8%AF%81%E6%98%8E/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">上三角矩阵高斯消元的优化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-07-15 12:12:56 / Modified: 12:13:11" itemprop="dateCreated datePublished" datetime="2022-07-15T12:12:56+08:00">2022-07-15</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="P4457-BJOI2018-治疗之雨"><a href="#P4457-BJOI2018-治疗之雨" class="headerlink" title="P4457 [BJOI2018]治疗之雨"></a>P4457 [BJOI2018]治疗之雨</h3><p>$n\le 1500$，不能直接$n^3$高斯消元。然而这道题需要高斯消元的那个矩阵很特殊，近似上三角矩阵，大概长这样（$1$表示值不为$0$）：</p>
+          <h2 id="带标号的连通图计数-bzoj3456-城市规划"><a href="#带标号的连通图计数-bzoj3456-城市规划" class="headerlink" title="带标号的连通图计数 bzoj3456 城市规划"></a>带标号的连通图计数 bzoj3456 城市规划</h2><p>这是一个非常经典的问题。我们考虑容斥，那么就是图的数量减去不连通图的数量。计算不连通图的数量时，我们考虑枚举$1$号点所在的连通块大小（这样一定不重不漏），那么得到：</p>
 <script type="math/tex; mode=display">
-\begin{bmatrix}
-1 & 1 & 0 & 0 & 0 & \cdots & 0 \\
-1 & 1 & 1 & 0 & 0 & \cdots & 0 \\
-1 & 1 & 1 & 1 & 0 & \cdots & 0 \\
-1 & 1 & 1 & 1 & 1 & \cdots & 0 \\
-\vdots & \vdots & \vdots & \vdots & \vdots  & \ddots & \vdots \\
-\end{bmatrix}</script><p>如果我们从第一行开始消，那么消完第一行后，矩阵就变成这样的了：</p>
+f(n) = 2^{C_n^2 } - \sum_{i=1}^{n-1} C_{n-1}^{i-1} f(i) 2^{C_{n-i}^2 }</script><p>拆组合数：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E7%9A%84%E4%BC%98%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -539,7 +439,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%C2%96%E4%B8%80%E7%B1%BB%E5%AD%90%E9%9B%86dp%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%B9%E6%96%A5%E5%81%9A%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -553,7 +453,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">线性规划</a>
+            <a href="/2022/08/01/%C2%96%E4%B8%80%E7%B1%BB%E5%AD%90%E9%9B%86dp%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%B9%E6%96%A5%E5%81%9A%E6%B3%95/" class="post-title-link" itemprop="url">一类子集dp问题的容斥做法</a>
         </h1>
 
         <div class="post-meta">
@@ -564,7 +464,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:11:44 / Modified: 12:12:11" itemprop="dateCreated datePublished" datetime="2022-07-15T12:11:44+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:57:56 / Modified: 16:05:17" itemprop="dateCreated datePublished" datetime="2022-08-01T15:57:56+08:00">2022-08-01</time>
             </span>
 
           
@@ -580,10 +480,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="一些定义"><a href="#一些定义" class="headerlink" title="一些定义"></a>一些定义</h3><h4 id="线性函数、线性约束、线性规划问题"><a href="#线性函数、线性约束、线性规划问题" class="headerlink" title="线性函数、线性约束、线性规划问题"></a>线性函数、线性约束、线性规划问题</h4><p>已知一组实数$a_1,a_2\cdots a_n$和一组变量$x_1,x_2,\cdots x_n$，在这些变量上的一个线性函数定义为$f(x) = \sum a_ix_i$。</p>
+          <h2 id="P1-旅行商问题"><a href="#P1-旅行商问题" class="headerlink" title="P1 旅行商问题"></a>P1 旅行商问题</h2><p>统计哈密顿路径的数量。</p>
+<p>对于长度为 $n$ 的路径，如果所有的点都在路径中出现过，那么这条路径就是合法的。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/%C2%96%E4%B8%80%E7%B1%BB%E5%AD%90%E9%9B%86dp%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%B9%E6%96%A5%E5%81%9A%E6%B3%95/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -607,7 +508,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E4%BA%94%E8%BE%B9%E5%BD%A2%E6%95%B0%E5%AE%9A%E7%90%86-%E5%BF%AB%E9%80%9F%E8%AE%A1%E7%AE%97%E5%88%92%E5%88%86%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -621,7 +522,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">差分约束系统</a>
+            <a href="/2022/08/01/%E4%BA%94%E8%BE%B9%E5%BD%A2%E6%95%B0%E5%AE%9A%E7%90%86-%E5%BF%AB%E9%80%9F%E8%AE%A1%E7%AE%97%E5%88%92%E5%88%86%E6%95%B0/" class="post-title-link" itemprop="url">五边形数定理 - 快速计算划分数</a>
         </h1>
 
         <div class="post-meta">
@@ -632,7 +533,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:10:47 / Modified: 12:11:04" itemprop="dateCreated datePublished" datetime="2022-07-15T12:10:47+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:56:29 / Modified: 15:56:53" itemprop="dateCreated datePublished" datetime="2022-08-01T15:56:29+08:00">2022-08-01</time>
             </span>
 
           
@@ -648,14 +549,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>问题：有 $n$ 个变量 $x_1,x_2,\cdots x_n$，以及一系列限制 $x_{v_i} - x_{u_i}\le w_i$（$w_i$ 可以为任意实数）。求出一组合法解或判定无解。</p>
-<p>回顾最短路的概念：</p>
-<blockquote>
-<p>对于一张包含 $n$ 个点的有向图，设 $dis_i$ 表示从 $1$ 到 $i$ 的最短路长度，令 $dis_1 = 0$。则对于每条边 $(u_i,v_i,w_i)$，显然会有 $dis_{v_i} \le dis_{u_i} + w_i$，也就是 $dis_{v_i} - dis_{u_i} \le w_i$。</p>
-</blockquote>
+          <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/qq_33229466/article/details/80359560" target="_blank" rel="noopener">https://blog.csdn.net/qq_33229466/article/details/80359560</a></p>
+<hr>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E7%B3%BB%E7%BB%9F/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/%E4%BA%94%E8%BE%B9%E5%BD%A2%E6%95%B0%E5%AE%9A%E7%90%86-%E5%BF%AB%E9%80%9F%E8%AE%A1%E7%AE%97%E5%88%92%E5%88%86%E6%95%B0/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -679,7 +577,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -693,7 +591,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/" class="post-title-link" itemprop="url">一种树形背包的复杂度证明</a>
+            <a href="/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/" class="post-title-link" itemprop="url">Burside Lemma与Polya定理（说人话版本）</a>
         </h1>
 
         <div class="post-meta">
@@ -704,7 +602,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:09:15 / Modified: 12:09:38" itemprop="dateCreated datePublished" datetime="2022-07-15T12:09:15+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:51:10 / Modified: 15:54:43" itemprop="dateCreated datePublished" datetime="2022-08-01T15:51:10+08:00">2022-08-01</time>
             </span>
 
           
@@ -720,12 +618,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>有一类树上背包（例如 CF1097G Vladislav and a Great Legend），第二维表示子树内选的点数且限制第二维不超过$m$，其总复杂度可证明为$O(nm)$。</p>
-<p>它们的代码一般长这样：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> last)</span> </span>&#123;</span><br><span class="line">	sz[u]=<span class="number">1</span>;</span><br><span class="line">	<span class="comment">// initialize dp[u]</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=head[u];k;k=e[k].next)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> v=e[k].to; <span class="keyword">if</span>(v==last) <span class="keyword">continue</span>;</span><br><span class="line">		dfs(v,u);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=min(m,sz[u]);++j)</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;=min(m-j,sz[v]);++k)</span><br><span class="line">				<span class="comment">// dp[u][j] * dp[v][k] -&gt; dp[u][j+k]</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <p><code>写于2018年冬，当时水平比较菜，留下的一些思考可能对初学Burnside的后辈有启发，所以现在发出来。</code></p>
+<p>看不懂证明，所以只好愉快地感性理解结论。证明等我长大了再回来补吧。（啊，那就大概就是永远都不会补了吧。）</p>
+<hr>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E4%B8%80%E7%A7%8D%E6%A0%91%E5%BD%A2%E8%83%8C%E5%8C%85%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AF%81%E6%98%8E/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/Burside-Lemma%E4%B8%8EPolya%E5%AE%9A%E7%90%86%EF%BC%88%E8%AF%B4%E4%BA%BA%E8%AF%9D%E7%89%88%E6%9C%AC%EF%BC%89/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -749,7 +647,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/BEST%E5%AE%9A%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -763,7 +661,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">Stoer-Wagner 算法</a>
+            <a href="/2022/08/01/BEST%E5%AE%9A%E7%90%86/" class="post-title-link" itemprop="url">BEST定理</a>
         </h1>
 
         <div class="post-meta">
@@ -774,7 +672,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:06:47 / Modified: 12:07:50" itemprop="dateCreated datePublished" datetime="2022-07-15T12:06:47+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:43:21 / Modified: 15:49:23" itemprop="dateCreated datePublished" datetime="2022-08-01T15:43:21+08:00">2022-08-01</time>
             </span>
 
           
@@ -790,11 +688,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>求一个任意的无向图的全局最小割。即，定义$\lambda(x,y)$表示$x,y$两点之间的最小割，给出一张任意的无向图，你需要求出$\min_{x\neq y}\lambda(x,y)$。</p>
-<h2 id="Stoer-Wagner-算法"><a href="#Stoer-Wagner-算法" class="headerlink" title="Stoer-Wagner 算法"></a>Stoer-Wagner 算法</h2>
+          <p>有向图欧拉回路数量计数。</p>
+<p>为什么不是 $\prod_u (\deg_u!)$ 呢？因为任意的边排列顺序不一定能构造出对应的方案，比如</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/08/01/39bfc6ffe2914aeb.jpg" alt></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/BEST%E5%AE%9A%E7%90%86/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -818,7 +717,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E6%9E%9A%E4%B8%BEborder%E9%9B%86%E5%90%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -832,7 +731,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/" class="post-title-link" itemprop="url">Gomory-Hu Tree （最小割树）</a>
+            <a href="/2022/08/01/%E6%9E%9A%E4%B8%BEborder%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">枚举border集合</a>
         </h1>
 
         <div class="post-meta">
@@ -843,7 +742,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 12:05:27 / Modified: 12:05:49" itemprop="dateCreated datePublished" datetime="2022-07-15T12:05:27+08:00">2022-07-15</time>
+              <time title="Created: 2022-08-01 15:41:09 / Modified: 15:41:19" itemprop="dateCreated datePublished" datetime="2022-08-01T15:41:09+08:00">2022-08-01</time>
             </span>
 
           
@@ -859,10 +758,151 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h2><h3 id="割-cut"><a href="#割-cut" class="headerlink" title="割 cut"></a>割 cut</h3><p>对于一张带权无向图$G=(V,E)$，定义一个<strong>割 (cut)</strong>为两个集合$S,T\in V$，满足$S\cap T = \emptyset, S\cup T = V$。定义一条边为<strong>割边 (cut edge)</strong>当且仅当它的两个端点分别在$S$集合和$T$集合内。定义一个<strong>割的容量 (capacity of a cut)</strong>为所有的割边的边权的和。</p>
+          <p>例题：CF gym100958 I</p>
+<p>按照从小到大确定每种长度的前缀是否是一个 border，同时对于当前已经确定的 border $l_0,l_1,\cdots l_k$，统计长度为 $l_k$ 且以 $\{l_0,l_1,\cdots l_k\}$ 为 border 的字符串数。</p>
+<p>新加入的一个 border $l_{k+1}$ 的时候，分如下情况讨论：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/#more" rel="contents">
+              <a class="btn" href="/2022/08/01/%E6%9E%9A%E4%B8%BEborder%E9%9B%86%E5%90%88/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%E5%88%92%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/01/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%E5%88%92%E5%88%86/" class="post-title-link" itemprop="url">回文子串划分</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-08-01 15:39:28 / Modified: 16:06:03" itemprop="dateCreated datePublished" datetime="2022-08-01T15:39:28+08:00">2022-08-01</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇总结基本上就是<a href="https://codeforces.com/blog/entry/19193" target="_blank" rel="noopener">这篇文章</a>的翻译。</p>
+<p>这是一种算法，可以在$O(n)$空间、$O(n\log n)$的时间内求出将一个字符串划分成若干个为回文的子串，最少需要的划分次数。</p>
+<p>这个算法魔改一下，还可以求一个字符串划分成若干个回文子串的方案数。（就是<a href="https://codeforces.com/problemset/problem/932/G" target="_blank" rel="noopener">CF932G</a>）</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/01/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%E5%88%92%E5%88%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E5%9B%9E%E6%96%87%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/01/%E5%9B%9E%E6%96%87%E6%A0%91/" class="post-title-link" itemprop="url">回文树</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-08-01 15:38:37 / Modified: 15:39:02" itemprop="dateCreated datePublished" datetime="2022-08-01T15:38:37+08:00">2022-08-01</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="关于算法名称"><a href="#关于算法名称" class="headerlink" title="关于算法名称"></a>关于算法名称</h3><p>强调一下，虽然说它又叫回文自动机，但是它不是自动机！！！</p>
+<p>1.它有多个初始状态。<br>2.它不能够“接受一个字符串”。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/01/%E5%9B%9E%E6%96%87%E6%A0%91/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -886,7 +926,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -954,7 +994,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

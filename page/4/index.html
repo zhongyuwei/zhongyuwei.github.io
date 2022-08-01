@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4%E5%8D%95%E8%B0%83%E6%A0%88/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -201,7 +201,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4%E5%8D%95%E8%B0%83%E6%A0%88/" class="post-title-link" itemprop="url">线段树维护单调栈</a>
+            <a href="/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/" class="post-title-link" itemprop="url">原根 primitive root</a>
         </h1>
 
         <div class="post-meta">
@@ -212,7 +212,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:23:38 / Modified: 14:23:58" itemprop="dateCreated datePublished" datetime="2022-06-30T14:23:38+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 11:47:45 / Modified: 11:48:03" itemprop="dateCreated datePublished" datetime="2022-07-15T11:47:45+08:00">2022-07-15</time>
             </span>
 
           
@@ -228,12 +228,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>有一个序列，序列中的每一个元素有两个值$h_i$与$val_i$。你需要回答若干次询问，每一次询问针对于一个区间$[l,r]$，设$l\le p_1&lt;p_2\cdots p_k\le r$，其中$p_k$是$[l,r]$中$h_i$最大的位置，$p_{k-1}$是$[l,p_k-1]$中$h_i$最大的位置……你需要回答出这些位置的$val_i$的某些可以区间合并的信息（和/最大最小值……）。</p>
-<p>可以对序列中元素的$h_i,val_i$进行修改。</p>
+          <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>对于某一个$g\in [0,p)$，如果对于$\{0,1,\cdots p-1\}$中每一个与$p$互质的数$x$，都存在一个$k$使得$g^k \equiv x \mod p$，那么就称$g$是$p$的一个原根。也就是说，$g^0,g^1,\cdots g^{\varphi (n) - 1}$在模$n$的意义下两两不同。</p>
 <hr>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4%E5%8D%95%E8%B0%83%E6%A0%88/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E5%8E%9F%E6%A0%B9-primitive-root/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -257,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E6%9E%90%E5%90%88%E6%A0%91/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -271,7 +270,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E6%9E%90%E5%90%88%E6%A0%91/" class="post-title-link" itemprop="url">析合树</a>
+            <a href="/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/" class="post-title-link" itemprop="url">线性求逆元</a>
         </h1>
 
         <div class="post-meta">
@@ -282,7 +281,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:22:27 / Modified: 14:22:56" itemprop="dateCreated datePublished" datetime="2022-06-30T14:22:27+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 11:46:46 / Modified: 11:47:09" itemprop="dateCreated datePublished" datetime="2022-07-15T11:46:46+08:00">2022-07-15</time>
             </span>
 
           
@@ -298,13 +297,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="定义-amp-结构"><a href="#定义-amp-结构" class="headerlink" title="定义 &amp; 结构"></a>定义 &amp; 结构</h3><h4 id="连续段"><a href="#连续段" class="headerlink" title="连续段"></a>连续段</h4><ul>
-<li>对于一个排列$A$，我们定义$[l,r]$是连续段，当且仅当这个区间的值域也是连续的一段。即，不存在$x,y,z$，$x,y\in [l,r]\wedge z\not\in [l,r]\wedge  A_x &lt; A_z &lt; A_y$。也等价于$\max \{ A_k \mid k\in [l,r] \} - \min \{ A_k \mid k\in [l,r] \} = r-l$。</li>
-<li>连续段有一个很好的性质：考虑两个相交且不互相包含的连续段$x,y$，总有$x\cup y$、$x\cap y$、$x\setminus (x \cap y)$、$y\setminus (x\cap y)$是连续段。</li>
-</ul>
+          <h3 id="公式-amp-amp-食用方法"><a href="#公式-amp-amp-食用方法" class="headerlink" title="公式 &amp;&amp; 食用方法"></a>公式 &amp;&amp; 食用方法</h3><p>设$Inv(i)$表示$i$在模$M$意义下的逆元，则有：<br>$Inv(i) \equiv (-\lfloor{M\over i}\rfloor ) \times Inv(M \mod i)\mod M$<br>由于$(M\mod i )&lt; i$，所以可以利用这个公式线性预处理出逆元。</p>
+<p>当模数比较小的时候，可以预处理出$[0,M)$的所有数的逆元，然后算法的复杂度就可以少一个$\log M$~</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E6%9E%90%E5%90%88%E6%A0%91/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%BA%BF%E6%80%A7%E6%B1%82%E9%80%86%E5%85%83/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -328,7 +325,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E6%95%B0%E9%A2%9C%E8%89%B2%EF%BC%88%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -342,7 +339,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E6%95%B0%E9%A2%9C%E8%89%B2%EF%BC%88%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%EF%BC%89/" class="post-title-link" itemprop="url">树上路径数颜色（树上莫队）</a>
+            <a href="/2022/07/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" class="post-title-link" itemprop="url">类欧几里得</a>
         </h1>
 
         <div class="post-meta">
@@ -353,7 +350,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:21:49 / Modified: 14:22:10" itemprop="dateCreated datePublished" datetime="2022-06-30T14:21:49+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 11:43:53 / Modified: 11:44:17" itemprop="dateCreated datePublished" datetime="2022-07-15T11:43:53+08:00">2022-07-15</time>
             </span>
 
           
@@ -369,12 +366,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>参考：<a href="https://codeforces.com/blog/entry/43230" target="_blank" rel="noopener">一篇cf上的很好的blog</a></p>
-<p>食用方法：树上路径数颜色。</p>
-<p>我们构造一棵树的括号序：即，dfs一棵树的时候，在发现一个节点时，记此时的$idx$为这个节点的$In$，然后让$idx++$；结束对一个节点的访问时，记此时的$idx$为这个节点的$Out$，然后让$idx++$。这样，$u$和$v$之间路径，就转化括号序中的区间$[Out_u,In_v]$，其中我们要求区间中出现了$0$次或者$2$次的节点都不计贡献（说白了就是挪指针的时候进行类似异或的操作），即：</p>
+          <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://oi-wiki.org/math/euclidean/" target="_blank" rel="noopener">OI-wiki</a></p>
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E6%95%B0%E9%A2%9C%E8%89%B2%EF%BC%88%E6%A0%91%E4%B8%8A%E8%8E%AB%E9%98%9F%EF%BC%89/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -398,7 +394,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fhq-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -412,7 +408,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fhq-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/" class="post-title-link" itemprop="url">treap, 无旋treap(fhq treap)及可持久化</a>
+            <a href="/2022/07/15/%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/" class="post-title-link" itemprop="url">二次剩余</a>
         </h1>
 
         <div class="post-meta">
@@ -423,7 +419,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:18:48 / Modified: 14:26:35" itemprop="dateCreated datePublished" datetime="2022-06-30T14:18:48+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 11:39:53 / Modified: 11:40:10" itemprop="dateCreated datePublished" datetime="2022-07-15T11:39:53+08:00">2022-07-15</time>
             </span>
 
           
@@ -439,11 +435,294 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="treap"><a href="#treap" class="headerlink" title="treap"></a>treap</h2><p>treap，又叫树堆。我们可以用它去维护一个序列，或者一个集合。裸的带旋的treap可以支持插入，删除，查第$k$大，查排名，以及其他的二叉搜索树的操作；无旋treap可以支持所有splay支持的操作（区间修改，翻转，覆盖，信息合并等等），操作的复杂度是$O(\log n)$的，并且不是均摊的！</p>
+          <h3 id="勒让德记号"><a href="#勒让德记号" class="headerlink" title="勒让德记号"></a>勒让德记号</h3><p>定义勒让德记号：</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix} a\over p \end{pmatrix} = 
+\begin{cases}
+0 & a=0 \\
++1 & a^{(p-1)\over 2} \equiv 1 \pmod p,此时a在模p的意义下有二次剩余 \\
+-1 & a^{(p-1)\over 2} \equiv -1 \pmod p ,此时a在模p意义下没有二次剩余 \\
+\end{cases}</script><hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">杜教筛优化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:38:17 / Modified: 11:39:26" itemprop="dateCreated datePublished" datetime="2022-07-15T11:38:17+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>杜教筛是要记忆化的。但是$map$的常数非常大，亲测$Hash Table$也很难跑过现在luogu上的杜教筛模板。怎么办呢？如果我们能够预处理出所有会被用到的数，给他们分配好空间，那么不仅可以避开$map$的常数，还可以从小到大依次枚举这些数进行处理，从而避免递归。</p>
+<p>观察$S(n)=h(n)-\sum_{i=2}^n S(\lfloor{n\over i}\rfloor)$，可知会被取到的数可以分为两类：</p>
+<p>1.小于$\sqrt n$的所有自然数<br>2.一个大于$\sqrt n$的数$x$，并且存在一个小于$\sqrt n$的数，使$\lfloor {n\over i}\rfloor = x$成立。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%BC%98%E5%8C%96/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" class="post-title-link" itemprop="url">单位根反演</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:37:27 / Modified: 11:37:48" itemprop="dateCreated datePublished" datetime="2022-07-15T11:37:27+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><script type="math/tex; mode=display">
+[ d \mid n ] = {1\over d} \sum_{i=0}^{d-1} \omega_d^{in}</script><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="loj6485-LJJ学二项式定理"><a href="#loj6485-LJJ学二项式定理" class="headerlink" title="loj6485 LJJ学二项式定理"></a>loj6485 LJJ学二项式定理</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Stern-Brocot%E6%A0%91%E4%B8%8EFarey%E5%BA%8F%E5%88%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/Stern-Brocot%E6%A0%91%E4%B8%8EFarey%E5%BA%8F%E5%88%97/" class="post-title-link" itemprop="url">Stern-Brocot树与Farey序列</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:36:33 / Modified: 11:36:51" itemprop="dateCreated datePublished" datetime="2022-07-15T11:36:33+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://oi-wiki.org/misc/stern-brocot/" target="_blank" rel="noopener">OI-wiki</a></p>
+<p><a href="https://cp-algorithms.com/others/stern_brocot_tree_farey_sequences.html" target="_blank" rel="noopener">另外一篇资料</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/Stern-Brocot%E6%A0%91%E4%B8%8EFarey%E5%BA%8F%E5%88%97/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Pollard-s-Rho-Algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/Pollard-s-Rho-Algorithm/" class="post-title-link" itemprop="url">Pollard's Rho Algorithm</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-15 11:35:34 / Modified: 11:36:08" itemprop="dateCreated datePublished" datetime="2022-07-15T11:35:34+08:00">2022-07-15</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://files-cdn.cnblogs.com/files/Doggu/Pollard-rho%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3.pdf" target="_blank" rel="noopener">一篇tutorial</a><br>算法导论 31.9</p>
 <hr>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/treap-%E6%97%A0%E6%97%8Btreap-fhq-treap-%E5%8F%8A%E5%8F%AF%E6%8C%81%E4%B9%85%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Pollard-s-Rho-Algorithm/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -467,7 +746,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Segment-Tree-Beats%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Min-25%E7%AD%9B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -481,7 +760,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/Segment-Tree-Beats%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" class="post-title-link" itemprop="url">Segment Tree Beats专题练习</a>
+            <a href="/2022/07/15/Min-25%E7%AD%9B/" class="post-title-link" itemprop="url">Min_25筛</a>
         </h1>
 
         <div class="post-meta">
@@ -492,7 +771,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:17:00 / Modified: 14:17:18" itemprop="dateCreated datePublished" datetime="2022-06-30T14:17:00+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 11:34:53 / Modified: 11:35:16" itemprop="dateCreated datePublished" datetime="2022-07-15T11:34:53+08:00">2022-07-15</time>
             </span>
 
           
@@ -508,11 +787,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>2016集训队论文集 <a href="http://www.doc88.com/p-6744902151779.html" target="_blank" rel="noopener">吉如一《区间最值操作与历史最值问题》</a></p>
-<h2 id="1-hdu5306-Gorgeous-Sequence"><a href="#1-hdu5306-Gorgeous-Sequence" class="headerlink" title="1 hdu5306 Gorgeous Sequence"></a>1 hdu5306 Gorgeous Sequence</h2><p>维护一个长度为$n$的序列，支持以下操作：<br>$0 l r t$：对于所有$i \in [l,r]$，将$a_i$修改为$\min \{ a_i,t\} $。<br>$1 l r$：查询区间$l,r$的最大元素的值。<br>$2 l r$：查询区间$l,r$元素的和。</p>
+          <h2 id="食用方法"><a href="#食用方法" class="headerlink" title="食用方法"></a>食用方法</h2><p>用于求<strong>积性函数</strong>的前$n$项的和，$n$通常在$10^{10}$左右。它要求这个函数必须是积性函数，并且<strong>对于质数</strong>，这个函数的取值可以表示成一个可以<strong>快速算前缀和</strong>并且<strong>完全积性</strong>的东西（比如低阶多项式），对于<strong>质数的k次方</strong>，这个函数大约可以在$O(1)$的时间内查询。</p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/Segment-Tree-Beats%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Min-25%E7%AD%9B/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -536,7 +815,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Link-Cut-Tree-LCT/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Miller-Rabin-primality-test/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -550,7 +829,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/06/30/Link-Cut-Tree-LCT/" class="post-title-link" itemprop="url">Link Cut Tree(LCT)</a>
+            <a href="/2022/07/15/Miller-Rabin-primality-test/" class="post-title-link" itemprop="url">Miller-Rabin primality test</a>
         </h1>
 
         <div class="post-meta">
@@ -561,7 +840,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-06-30 14:16:14 / Modified: 14:16:25" itemprop="dateCreated datePublished" datetime="2022-06-30T14:16:14+08:00">2022-06-30</time>
+              <time title="Created: 2022-07-15 11:33:30 / Modified: 11:33:59" itemprop="dateCreated datePublished" datetime="2022-07-15T11:33:30+08:00">2022-07-15</time>
             </span>
 
           
@@ -577,289 +856,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="LCT"><a href="#LCT" class="headerlink" title="LCT"></a>LCT</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>LCT用来维护的是森林。它可以支持加边（link)、删边（cut）、链信息修改和查询、子树信息查询。</p>
+          <h3 id="Euclid’s-lemma"><a href="#Euclid’s-lemma" class="headerlink" title="Euclid’s lemma"></a>Euclid’s lemma</h3><blockquote>
+<p>若素数$p$为$ab$的约数，那么$p$至少是$a$，$b$这两个数中的一个数的约数。也就是说，$p\mid ab,p\not\mid a \Rightarrow p\mid b$。</p>
+</blockquote>
+<p>它还有一个推广：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/06/30/Link-Cut-Tree-LCT/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/KD-Tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/KD-Tree/" class="post-title-link" itemprop="url">KD-Tree</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 14:15:19 / Modified: 14:15:30" itemprop="dateCreated datePublished" datetime="2022-06-30T14:15:19+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li><a href="https://oi-wiki.org/ds/kdt/" target="_blank" rel="noopener">OI-wiki</a></li>
-<li><a href="https://en.wikipedia.org/wiki/K-d_tree" target="_blank" rel="noopener">wikipedia</a></li>
-<li><a href="https://courses.cs.washington.edu/courses/cse373/02au/lectures/lecture22l.pdf" target="_blank" rel="noopener">一份有详细图解的课件</a></li>
-</ol>
-<h2 id="KD-Tree-是什么"><a href="#KD-Tree-是什么" class="headerlink" title="KD-Tree 是什么"></a>KD-Tree 是什么</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/KD-Tree/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Euler-Tour-Tree-ETT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/Euler-Tour-Tree-ETT/" class="post-title-link" itemprop="url">Euler Tour Tree(ETT)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 14:14:18 / Modified: 14:14:42" itemprop="dateCreated datePublished" datetime="2022-06-30T14:14:18+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h2><p>ETT是一种动态树，它可以支持link，cut，子树修改，子树信息查询，链信息查询。似乎还可以支持换根（？），但是我不会。</p>
-<hr>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/Euler-Tour-Tree-ETT/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">P问题，NP问题，NPC问题，NPH问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 14:09:13 / Modified: 14:09:28" itemprop="dateCreated datePublished" datetime="2022-06-30T14:09:13+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="P问题"><a href="#P问题" class="headerlink" title="P问题"></a>P问题</h3><p>可以在多项式时间内求解的问题。</p>
-<p>“P”  代表 “polynomial time” 。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/P%E9%97%AE%E9%A2%98%EF%BC%8CNP%E9%97%AE%E9%A2%98%EF%BC%8CNPC%E9%97%AE%E9%A2%98%EF%BC%8CNPH%E9%97%AE%E9%A2%98/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/06/30/Order-theory-and-Dilworth-s-theorem/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
-      <meta itemprop="name" content="zhongyuwei">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhongyuwei's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/30/Order-theory-and-Dilworth-s-theorem/" class="post-title-link" itemprop="url">Order theory and Dilworth's theorem</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-06-30 14:06:32 / Modified: 14:08:05" itemprop="dateCreated datePublished" datetime="2022-06-30T14:06:32+08:00">2022-06-30</time>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="English-Version"><a href="#English-Version" class="headerlink" title="English Version"></a>English Version</h1><h2 id="Order-theory"><a href="#Order-theory" class="headerlink" title="Order theory"></a>Order theory</h2><h3 id="partial-order"><a href="#partial-order" class="headerlink" title="partial order"></a>partial order</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/30/Order-theory-and-Dilworth-s-theorem/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Miller-Rabin-primality-test/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -883,7 +886,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -951,7 +954,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

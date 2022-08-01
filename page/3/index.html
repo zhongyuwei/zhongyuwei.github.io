@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -201,7 +201,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/" class="post-title-link" itemprop="url">类欧几里得</a>
+            <a href="/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">Stoer-Wagner 算法</a>
         </h1>
 
         <div class="post-meta">
@@ -212,7 +212,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:43:53 / Modified: 11:44:17" itemprop="dateCreated datePublished" datetime="2022-07-15T11:43:53+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:06:47 / Modified: 12:07:50" itemprop="dateCreated datePublished" datetime="2022-07-15T12:06:47+08:00">2022-07-15</time>
             </span>
 
           
@@ -228,11 +228,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://oi-wiki.org/math/euclidean/" target="_blank" rel="noopener">OI-wiki</a></p>
-<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2>
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>求一个任意的无向图的全局最小割。即，定义$\lambda(x,y)$表示$x,y$两点之间的最小割，给出一张任意的无向图，你需要求出$\min_{x\neq y}\lambda(x,y)$。</p>
+<h2 id="Stoer-Wagner-算法"><a href="#Stoer-Wagner-算法" class="headerlink" title="Stoer-Wagner 算法"></a>Stoer-Wagner 算法</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E7%B1%BB%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Stoer-Wagner-%E7%AE%97%E6%B3%95/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -256,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -270,7 +270,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/" class="post-title-link" itemprop="url">二次剩余</a>
+            <a href="/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/" class="post-title-link" itemprop="url">Gomory-Hu Tree （最小割树）</a>
         </h1>
 
         <div class="post-meta">
@@ -281,7 +281,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:39:53 / Modified: 11:40:10" itemprop="dateCreated datePublished" datetime="2022-07-15T11:39:53+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:05:27 / Modified: 12:05:49" itemprop="dateCreated datePublished" datetime="2022-07-15T12:05:27+08:00">2022-07-15</time>
             </span>
 
           
@@ -297,17 +297,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="勒让德记号"><a href="#勒让德记号" class="headerlink" title="勒让德记号"></a>勒让德记号</h3><p>定义勒让德记号：</p>
-<script type="math/tex; mode=display">
-\begin{pmatrix} a\over p \end{pmatrix} = 
-\begin{cases}
-0 & a=0 \\
-+1 & a^{(p-1)\over 2} \equiv 1 \pmod p,此时a在模p的意义下有二次剩余 \\
--1 & a^{(p-1)\over 2} \equiv -1 \pmod p ,此时a在模p意义下没有二次剩余 \\
-\end{cases}</script><hr>
+          <h2 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h2><h3 id="割-cut"><a href="#割-cut" class="headerlink" title="割 cut"></a>割 cut</h3><p>对于一张带权无向图$G=(V,E)$，定义一个<strong>割 (cut)</strong>为两个集合$S,T\in V$，满足$S\cap T = \emptyset, S\cup T = V$。定义一条边为<strong>割边 (cut edge)</strong>当且仅当它的两个端点分别在$S$集合和$T$集合内。定义一个<strong>割的容量 (capacity of a cut)</strong>为所有的割边的边权的和。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E4%BA%8C%E6%AC%A1%E5%89%A9%E4%BD%99/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Gomory-Hu-Tree-%EF%BC%88%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91%EF%BC%89/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -331,7 +324,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%BC%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -345,7 +338,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">杜教筛优化</a>
+            <a href="/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">Dinic算法的复杂度分析</a>
         </h1>
 
         <div class="post-meta">
@@ -356,7 +349,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:38:17 / Modified: 11:39:26" itemprop="dateCreated datePublished" datetime="2022-07-15T11:38:17+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:04:14 / Modified: 12:04:49" itemprop="dateCreated datePublished" datetime="2022-07-15T12:04:14+08:00">2022-07-15</time>
             </span>
 
           
@@ -372,12 +365,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>杜教筛是要记忆化的。但是$map$的常数非常大，亲测$Hash Table$也很难跑过现在luogu上的杜教筛模板。怎么办呢？如果我们能够预处理出所有会被用到的数，给他们分配好空间，那么不仅可以避开$map$的常数，还可以从小到大依次枚举这些数进行处理，从而避免递归。</p>
-<p>观察$S(n)=h(n)-\sum_{i=2}^n S(\lfloor{n\over i}\rfloor)$，可知会被取到的数可以分为两类：</p>
-<p>1.小于$\sqrt n$的所有自然数<br>2.一个大于$\sqrt n$的数$x$，并且存在一个小于$\sqrt n$的数，使$\lfloor {n\over i}\rfloor = x$成立。</p>
+          <h2 id="一般图"><a href="#一般图" class="headerlink" title="一般图"></a>一般图</h2><p>复杂度主要取决于dfs增广的过程。</p>
+<p>将dfs部分的复杂度分成两部分来分析：1）修改增广路上边的流量。至多会增广$m$次，一条增广路的长度至多是$n$，所以这一部分的复杂度是$O(nm)$。2）dfs遍历时找增广路失败时经过的边。由于一旦从某条边出发找最短路失败了，我们就不会再走那条边（当前弧优化），所以这一部分的复杂度是$O(m)$的。故而dfs增广的复杂度是$O(nm)$。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E6%9D%9C%E6%95%99%E7%AD%9B%E4%BC%98%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Dinic%E7%AE%97%E6%B3%95%E7%9A%84%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -401,7 +393,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -415,7 +407,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/" class="post-title-link" itemprop="url">单位根反演</a>
+            <a href="/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">稳定婚姻问题</a>
         </h1>
 
         <div class="post-meta">
@@ -426,7 +418,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:37:27 / Modified: 11:37:48" itemprop="dateCreated datePublished" datetime="2022-07-15T11:37:27+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:03:16 / Modified: 12:03:39" itemprop="dateCreated datePublished" datetime="2022-07-15T12:03:16+08:00">2022-07-15</time>
             </span>
 
           
@@ -442,11 +434,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><script type="math/tex; mode=display">
-[ d \mid n ] = {1\over d} \sum_{i=0}^{d-1} \omega_d^{in}</script><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="loj6485-LJJ学二项式定理"><a href="#loj6485-LJJ学二项式定理" class="headerlink" title="loj6485 LJJ学二项式定理"></a>loj6485 LJJ学二项式定理</h3>
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>有$n$个男生和$n$个女生，有$2n$个排列$p_1,p_2\cdots p_n,q_1,q_2\cdots q_n$，$p_i$代表第$i$个男生的喜好（$p_{i,1}$表示他最喜欢的女生，$p_{i,2}$是他第二喜欢的，以此类推），$q_i$代表第$i$个女生的喜好。</p>
+<p>稳定婚姻问题即，求一个男生和女生的完美匹配$M$，使得不存在$(x,y)\not\in M$，$x$对$y$的好感高于$x$现在的配偶且$y$对$x$的好感高于$y$现在的配偶。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/%E5%8D%95%E4%BD%8D%E6%A0%B9%E5%8F%8D%E6%BC%94/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E7%A8%B3%E5%AE%9A%E5%A9%9A%E5%A7%BB%E9%97%AE%E9%A2%98/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -470,7 +462,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Stern-Brocot%E6%A0%91%E4%B8%8EFarey%E5%BA%8F%E5%88%97/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -484,7 +476,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Stern-Brocot%E6%A0%91%E4%B8%8EFarey%E5%BA%8F%E5%88%97/" class="post-title-link" itemprop="url">Stern-Brocot树与Farey序列</a>
+            <a href="/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/" class="post-title-link" itemprop="url">斯坦纳树</a>
         </h1>
 
         <div class="post-meta">
@@ -495,7 +487,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:36:33 / Modified: 11:36:51" itemprop="dateCreated datePublished" datetime="2022-07-15T11:36:33+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 12:00:54 / Modified: 12:02:18" itemprop="dateCreated datePublished" datetime="2022-07-15T12:00:54+08:00">2022-07-15</time>
             </span>
 
           
@@ -511,11 +503,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a href="https://oi-wiki.org/misc/stern-brocot/" target="_blank" rel="noopener">OI-wiki</a></p>
-<p><a href="https://cp-algorithms.com/others/stern_brocot_tree_farey_sequences.html" target="_blank" rel="noopener">另外一篇资料</a></p>
+          <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>有一张无向图$(V,E)$，指定了一个$V$的子集$S$，需要求出一个边集$E’$，使得：</p>
+<ul>
+<li>对于任意两个点$x,y\in S$，存在一条从$x$到$y$的、由$E’$中的边组成的路径（路径可以经过不在$S$中的点）。</li>
+<li>在此基础上，最小化$E’$中所有的边的边权和。</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Stern-Brocot%E6%A0%91%E4%B8%8EFarey%E5%BA%8F%E5%88%97/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E6%96%AF%E5%9D%A6%E7%BA%B3%E6%A0%91/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -539,7 +534,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Pollard-s-Rho-Algorithm/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Hall-s-marriage-theorem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -553,7 +548,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Pollard-s-Rho-Algorithm/" class="post-title-link" itemprop="url">Pollard's Rho Algorithm</a>
+            <a href="/2022/07/15/Hall-s-marriage-theorem/" class="post-title-link" itemprop="url">Hall's marriage theorem</a>
         </h1>
 
         <div class="post-meta">
@@ -564,7 +559,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:35:34 / Modified: 11:36:08" itemprop="dateCreated datePublished" datetime="2022-07-15T11:35:34+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 11:58:25 / Modified: 11:58:49" itemprop="dateCreated datePublished" datetime="2022-07-15T11:58:25+08:00">2022-07-15</time>
             </span>
 
           
@@ -580,11 +575,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://files-cdn.cnblogs.com/files/Doggu/Pollard-rho%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3.pdf" target="_blank" rel="noopener">一篇tutorial</a><br>算法导论 31.9</p>
-<hr>
+          <h2 id="Hall’s-marriage-theorem"><a href="#Hall’s-marriage-theorem" class="headerlink" title="Hall’s marriage theorem"></a>Hall’s marriage theorem</h2><h3 id="定理内容"><a href="#定理内容" class="headerlink" title="定理内容"></a>定理内容</h3><p>这个定理是说，对于任意一个二分图$G=\{ X+Y,E\}$，都有：<br>$\forall W \subset X, |W|\le |N_G(W)| \Longleftrightarrow |M|=|X|$<br>其中，$N_G(W)$表示$Y$中与$W$中的点相邻的点的集合，$M$表示最大匹配。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Pollard-s-Rho-Algorithm/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/Hall-s-marriage-theorem/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -608,7 +602,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Min-25%E7%AD%9B/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -622,7 +616,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Min-25%E7%AD%9B/" class="post-title-link" itemprop="url">Min_25筛</a>
+            <a href="/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/" class="post-title-link" itemprop="url">三元环计数和四元环计数</a>
         </h1>
 
         <div class="post-meta">
@@ -633,7 +627,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:34:53 / Modified: 11:35:16" itemprop="dateCreated datePublished" datetime="2022-07-15T11:34:53+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 11:56:47 / Modified: 13:22:26" itemprop="dateCreated datePublished" datetime="2022-07-15T11:56:47+08:00">2022-07-15</time>
             </span>
 
           
@@ -649,11 +643,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="食用方法"><a href="#食用方法" class="headerlink" title="食用方法"></a>食用方法</h2><p>用于求<strong>积性函数</strong>的前$n$项的和，$n$通常在$10^{10}$左右。它要求这个函数必须是积性函数，并且<strong>对于质数</strong>，这个函数的取值可以表示成一个可以<strong>快速算前缀和</strong>并且<strong>完全积性</strong>的东西（比如低阶多项式），对于<strong>质数的k次方</strong>，这个函数大约可以在$O(1)$的时间内查询。</p>
-<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2>
+          <h2 id="三元环计数"><a href="#三元环计数" class="headerlink" title="三元环计数"></a>三元环计数</h2><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><pre><code>1.将无向边改成有向边，令度数大的点指向度数小的点；如果度数相同，就让编号大的点指向编号小的点。（这一步也可以是，度数小的点指向度数大的点；度数相同比较编号）
+2.枚举一个点u。
+3.标记所有u的出边可以到达的点。
+4.枚举一个u的出边可以到达的点v，然后再枚举一个v的出边可以到达的点w，如果w被标记过，说明u,v,w构成三元环，ans++
+</code></pre>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Min-25%E7%AD%9B/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E4%B8%89%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0%E5%92%8C%E5%9B%9B%E5%85%83%E7%8E%AF%E8%AE%A1%E6%95%B0/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -677,7 +674,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Miller-Rabin-primality-test/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -691,7 +688,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Miller-Rabin-primality-test/" class="post-title-link" itemprop="url">Miller-Rabin primality test</a>
+            <a href="/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/" class="post-title-link" itemprop="url">树上路径的交</a>
         </h1>
 
         <div class="post-meta">
@@ -702,7 +699,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:33:30 / Modified: 11:33:59" itemprop="dateCreated datePublished" datetime="2022-07-15T11:33:30+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 11:52:57 / Modified: 11:55:55" itemprop="dateCreated datePublished" datetime="2022-07-15T11:52:57+08:00">2022-07-15</time>
             </span>
 
           
@@ -718,13 +715,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Euclid’s-lemma"><a href="#Euclid’s-lemma" class="headerlink" title="Euclid’s lemma"></a>Euclid’s lemma</h3><blockquote>
-<p>若素数$p$为$ab$的约数，那么$p$至少是$a$，$b$这两个数中的一个数的约数。也就是说，$p\mid ab,p\not\mid a \Rightarrow p\mid b$。</p>
-</blockquote>
-<p>它还有一个推广：</p>
+          <p>两条路径$u_1\to v_1,u_2\to v_2$的交这样计算：</p>
+<ul>
+<li>首先计算出$x_1=lca(u_1,u_2),x_2=lca(v_1,v_2),x_3=lca(u_1,v_2),x_4=lca(v_1,u_2)$，然后取这四个点中深度最大的两个点$y_1,y_2$。</li>
+<li>若$y_1=y_2$，且$y_1$的深度大于了$lca(u_1,v_1)$或者$lca(u_2,v_2)$的深度，那么交不存在；否则，交就是$y_1$到$y_2$之间的路径。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Road中的t：t=0表示空集，t=-1表示全集，t=1表示u到v的路径</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Road</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> u,v,t;</span><br><span class="line">	Road(<span class="keyword">int</span> u=<span class="number">0</span>,<span class="keyword">int</span> v=<span class="number">0</span>,<span class="keyword">int</span> t=<span class="number">-1</span>): u(u),v(v),t(t)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp_dep</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123; <span class="keyword">return</span> dep[x]&gt;dep[y]; &#125;</span><br><span class="line"><span class="function">Road <span class="title">Inter</span><span class="params">(Road A,Road B)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">0</span>||B.t==<span class="number">0</span>) <span class="keyword">return</span> Road(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> B;</span><br><span class="line">	<span class="keyword">if</span>(B.t==<span class="number">-1</span>) <span class="keyword">return</span> A;</span><br><span class="line">	<span class="keyword">int</span> tmp[<span class="number">4</span>]=&#123;LCA(A.v,B.v),LCA(A.u,B.u),LCA(A.v,B.u),LCA(A.u,B.v)&#125;;</span><br><span class="line">	sort(tmp,tmp+<span class="number">4</span>,cmp_dep);</span><br><span class="line">	<span class="keyword">if</span>(tmp[<span class="number">0</span>]==tmp[<span class="number">1</span>]&amp;&amp;(dep[tmp[<span class="number">0</span>]]&lt;dep[LCA(A.u,A.v)]||dep[tmp[<span class="number">0</span>]]&lt;dep[LCA(B.u,B.v)]))</span><br><span class="line">		<span class="keyword">return</span> Road(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span> Road(tmp[<span class="number">0</span>],tmp[<span class="number">1</span>],<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Onchain</span><span class="params">(Road A,<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(A.t==<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> tmp[<span class="number">2</span>]=&#123;LCA(A.u,x),LCA(A.v,x)&#125;;</span><br><span class="line">	<span class="keyword">if</span>(dep[tmp[<span class="number">0</span>]]&lt;dep[tmp[<span class="number">1</span>]]) swap(tmp[<span class="number">0</span>],tmp[<span class="number">1</span>]);</span><br><span class="line">	<span class="keyword">if</span>(tmp[<span class="number">0</span>]==x&amp;&amp;tmp[<span class="number">1</span>]==LCA(A.u,A.v)) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Miller-Rabin-primality-test/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E6%A0%91%E4%B8%8A%E8%B7%AF%E5%BE%84%E7%9A%84%E4%BA%A4/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -748,7 +747,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Lucas%E5%AE%9A%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -762,7 +761,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Lucas%E5%AE%9A%E7%90%86/" class="post-title-link" itemprop="url">Lucas定理</a>
+            <a href="/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">朱刘算法</a>
         </h1>
 
         <div class="post-meta">
@@ -773,7 +772,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:32:23 / Modified: 11:32:46" itemprop="dateCreated datePublished" datetime="2022-07-15T11:32:23+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 11:51:56 / Modified: 11:52:19" itemprop="dateCreated datePublished" datetime="2022-07-15T11:51:56+08:00">2022-07-15</time>
             </span>
 
           
@@ -789,14 +788,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>问题：求$C_n^m\mod p$，其中保证$p$为质数。</p>
-<p>将$n,m$进行$p$进制展开：</p>
-<script type="math/tex; mode=display">
-n=\sum_{i=0}^k n_ip^i\\
-m=\sum_{i=0}^k m_ip^i\\</script><p>则有</p>
+          <p>这个算法用于求解有向图的最小树形图问题。</p>
+<p>树形图：图中有一个点作为根，除了根以外，每个点的入度恰好为$1$，并且从根出发可以到达整个图中的任意一个点。</p>
+<p>最小树形图就是所有边的边权和最小的树形图。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Lucas%E5%AE%9A%E7%90%86/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E6%9C%B1%E5%88%98%E7%AE%97%E6%B3%95/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -820,7 +817,7 @@ m=\sum_{i=0}^k m_ip^i\\</script><p>则有</p>
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/Bell%E6%95%B0%E7%9A%84%E6%8C%87%E6%95%B0%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
@@ -834,7 +831,7 @@ m=\sum_{i=0}^k m_ip^i\\</script><p>则有</p>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/15/Bell%E6%95%B0%E7%9A%84%E6%8C%87%E6%95%B0%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">Bell数的指数生成函数</a>
+            <a href="/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/" class="post-title-link" itemprop="url">中国剩余定理 CRT</a>
         </h1>
 
         <div class="post-meta">
@@ -845,7 +842,7 @@ m=\sum_{i=0}^k m_ip^i\\</script><p>则有</p>
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-15 11:29:04 / Modified: 11:30:26" itemprop="dateCreated datePublished" datetime="2022-07-15T11:29:04+08:00">2022-07-15</time>
+              <time title="Created: 2022-07-15 11:49:06 / Modified: 11:49:31" itemprop="dateCreated datePublished" datetime="2022-07-15T11:49:06+08:00">2022-07-15</time>
             </span>
 
           
@@ -861,14 +858,11 @@ m=\sum_{i=0}^k m_ip^i\\</script><p>则有</p>
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>我们有$Bell$数的递推式：</p>
-<script type="math/tex; mode=display">
-b_{n+1} = \sum_{j=0}^n {n\choose j}b_j \\
-=\sum_{j=0}^n {n!\over (n-j)!} {b_j \over j!}</script><p>设$B(x)$为它的指数生成函数，也就是$B(x) = \sum_{i=0}^{\infty} {b_i\over i!}x ^i $。</p>
-<p>考虑</p>
+          <p>问题：有$n$个这样形式的方程组：$x\equiv c_i\mod m_i$。求通解和最小解。</p>
+<h2 id="一般的做法"><a href="#一般的做法" class="headerlink" title="一般的做法"></a>一般的做法</h2><p>考虑如何合并</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/07/15/Bell%E6%95%B0%E7%9A%84%E6%8C%87%E6%95%B0%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/#more" rel="contents">
+              <a class="btn" href="/2022/07/15/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86-CRT/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -892,7 +886,7 @@ b_{n+1} = \sum_{j=0}^n {n\choose j}b_j \\
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -960,7 +954,7 @@ b_{n+1} = \sum_{j=0}^n {n\choose j}b_j \\
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

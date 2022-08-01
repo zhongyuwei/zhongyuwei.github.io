@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="Ff-rPIp8uy7s5EicVI9GPIey8xWE75I2kXFnijbhO20">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhongyuwei.github.io","root":"/","scheme":"Mist","version":"7.7.1","exturl":false,"sidebar":{"position":"right","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="带标号的连通图计数 bzoj3456 城市规划这是一个非常经典的问题。我们考虑容斥，那么就是图的数量减去不连通图的数量。计算不连通图的数量时，我们考虑枚举$1$号点所在的连通块大小（这样一定不重不漏），那么得到：  f(n) &#x3D; 2^{C_n^2 } - \sum_{i&#x3D;1}^{n-1} C_{n-1}^{i-1} f(i) 2^{C_{n-i}^2 }拆组合数：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图计数专题练习">
+<meta property="og:url" content="http://zhongyuwei.github.io/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:site_name" content="zhongyuwei&#39;s blog">
+<meta property="og:description" content="带标号的连通图计数 bzoj3456 城市规划这是一个非常经典的问题。我们考虑容斥，那么就是图的数量减去不连通图的数量。计算不连通图的数量时，我们考虑枚举$1$号点所在的连通块大小（这样一定不重不漏），那么得到：  f(n) &#x3D; 2^{C_n^2 } - \sum_{i&#x3D;1}^{n-1} C_{n-1}^{i-1} f(i) 2^{C_{n-i}^2 }拆组合数：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-08-01T07:58:45.000Z">
+<meta property="article:modified_time" content="2022-08-01T07:59:22.163Z">
+<meta property="article:author" content="zhongyuwei">
+<meta property="article:tag" content="专题练习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zhongyuwei.github.io/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>图计数专题练习 | zhongyuwei's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhongyuwei's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">This is not the end.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section">About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section">Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section">Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-comments">
+
+    <a href="/Comments/" rel="section">Comments</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zhongyuwei.github.io/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+      <meta itemprop="name" content="zhongyuwei">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhongyuwei's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图计数专题练习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-08-01 15:58:45 / Modified: 15:59:22" itemprop="dateCreated datePublished" datetime="2022-08-01T15:58:45+08:00">2022-08-01</time>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="带标号的连通图计数-bzoj3456-城市规划"><a href="#带标号的连通图计数-bzoj3456-城市规划" class="headerlink" title="带标号的连通图计数 bzoj3456 城市规划"></a>带标号的连通图计数 bzoj3456 城市规划</h2><p>这是一个非常经典的问题。我们考虑容斥，那么就是图的数量减去不连通图的数量。计算不连通图的数量时，我们考虑枚举$1$号点所在的连通块大小（这样一定不重不漏），那么得到：</p>
+<script type="math/tex; mode=display">
+f(n) = 2^{C_n^2 } - \sum_{i=1}^{n-1} C_{n-1}^{i-1} f(i) 2^{C_{n-i}^2 }</script><p>拆组合数：</p>
+<script type="math/tex; mode=display">
+f(n) = 2^{C_n^2} - (n-1)!\sum_{i=1}^{n-1} {f(i)\over (i-1)!}{2^{C_{n-i}^2}\over (n-i)!}</script><p>这是一个卷积的形式，可以分治FFT解决。</p>
+<hr>
+<h2 id="带标号的强连通竞赛图计数-luogu4233-射命丸文的笔记"><a href="#带标号的强连通竞赛图计数-luogu4233-射命丸文的笔记" class="headerlink" title="带标号的强连通竞赛图计数 luogu4233 射命丸文的笔记"></a>带标号的强连通竞赛图计数 luogu4233 射命丸文的笔记</h2><p>问题：求随机拿出一个有哈密顿回路的竞赛图，图中哈密顿回路数量的期望值。</p>
+<p>Sol：问题可以转换成“所有竞赛图中的哈密顿回路的数量的和”除以“包含哈密顿回路的图的数量”。前者非常好算：$(n-1)!2^{C_n^2 - n}$，即枚举每一个哈密顿回路（数量等于圆排列的数量），然后计算它被多少竞赛图包含。有$n$条边已经确定，剩下的$C_n^2 - n$条边，每条边都有两个方向可以选择，所以是$2^{C_n^2 -n}$。</p>
+<p>现在的问题是：求包含$n$个点的，存在哈密顿回路的竞赛图的数量。等价于求包含$n$个点的强连通的竞赛图的数量。</p>
+<p>那么设$f(n)$表示包含$n$个点的强连通的竞赛图的数量，设$g(n)$表示包含$n$个点的竞赛图的数量。则$g(n) = 2^{C_n^2}$。仍然考虑与前一题类似的容斥。但是，如果我们枚举$1$号点所在的强连通分量的大小，其他的强连通分量可能有边连向这个强连通分量，这个强连通分量也可能有边连出去，可能会导致我们枚举的这个“强连通分量”是图中一个强连通分量的子图，非常麻烦。那么我们可以考虑枚举拓扑序最靠后的那一个强连通分量，即没有出边的那一个。由于这是竞赛图，这样的强连通分量在一个确定的图中一定是唯一的（可以这样想：如果有两个这样的强连通分量，那么它们之间一定有一条边，那么它们中的一个就一定有出度，矛盾）。于是得到：</p>
+<script type="math/tex; mode=display">
+f(n) = g(n) - \sum_{i=1}^{n-1}C_n^i f(i) g(n-i)\\
+f(n) = g(n) - n!\sum_{i=1}^{n-1} {f(i) \over i!} {g(n-i)\over (n-i)!}</script><p>这又是一个卷积了。分治FFT解决。</p>
+<hr>
+<h2 id="带标号的无根树的计数：prufer序列"><a href="#带标号的无根树的计数：prufer序列" class="headerlink" title="带标号的无根树的计数：prufer序列"></a>带标号的无根树的计数：prufer序列</h2><h3 id="求一棵树的prufer序列"><a href="#求一棵树的prufer序列" class="headerlink" title="求一棵树的prufer序列"></a>求一棵树的prufer序列</h3><p>每一次选择编号最小的叶子，将这个叶子从图中删除，并且将与它相邻的点的编号加入序列。直到图中只剩下两个点为止。</p>
+<h3 id="由prufer序列还原一棵树"><a href="#由prufer序列还原一棵树" class="headerlink" title="由prufer序列还原一棵树"></a>由prufer序列还原一棵树</h3><p>找出未在序列中出现的并且未被标记的编号最小的点（树上编号最小的叶子），让它和序列开头的点连边，标记它，然后删掉序列开头的元素。当只剩下两个点<strong>未被标记</strong>的时候就停止，在它们之间连边，就完成了。</p>
+<p>可以看出，prufer序列一定是一个长度为$n-2$的，所有点都在$[1,n]$的序列；一个点在prufer序列中出现的次数等于它在树上的度数。</p>
+<p>从上面的过程可以看出：带标号的无根树和prufer序列是一一对应的关系。因此，我们可以推出：包含$n$个点的带标号的无根树的数量，等于长度为$n-2$，所有数都在$[1,n]$的序列的数量，等于$n^{n-2}$。</p>
+<p>而如果题目给定了每个点的度数，那就等于给定了每个点在prufer序列中出现的次数，那么就是可重排列数。（bzoj 1211 1005）</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zhongyuwei
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zhongyuwei.github.io/2022/08/01/%E5%9B%BE%E8%AE%A1%E6%95%B0%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" title="图计数专题练习">http://zhongyuwei.github.io/2022/08/01/图计数专题练习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%B8%93%E9%A2%98%E7%BB%83%E4%B9%A0/" rel="tag"># 专题练习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/01/%C2%96%E4%B8%80%E7%B1%BB%E5%AD%90%E9%9B%86dp%E9%97%AE%E9%A2%98%E7%9A%84%E5%AE%B9%E6%96%A5%E5%81%9A%E6%B3%95/" rel="prev" title="一类子集dp问题的容斥做法">
+      <i class="fa fa-chevron-left"></i> 一类子集dp问题的容斥做法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/08/01/%E8%87%AA%E7%84%B6%E6%95%B0%E5%B9%82%E5%92%8C/" rel="next" title="自然数幂和">
+      自然数幂和 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带标号的连通图计数-bzoj3456-城市规划"><span class="nav-text">带标号的连通图计数 bzoj3456 城市规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带标号的强连通竞赛图计数-luogu4233-射命丸文的笔记"><span class="nav-text">带标号的强连通竞赛图计数 luogu4233 射命丸文的笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带标号的无根树的计数：prufer序列"><span class="nav-text">带标号的无根树的计数：prufer序列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#求一棵树的prufer序列"><span class="nav-text">求一棵树的prufer序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由prufer序列还原一棵树"><span class="nav-text">由prufer序列还原一棵树</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zhongyuwei"
+      src="https://i.loli.net/2020/04/16/aMdv9RrELulBfOs.png">
+  <p class="site-author-name" itemprop="name">zhongyuwei</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhongyuwei" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhongyuwei" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:rose.zyw@qq.com" title="E-Mail → mailto:rose.zyw@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://yijan.co/" title="http:&#x2F;&#x2F;yijan.co&#x2F;" rel="noopener" target="_blank">yijan's blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://orzzh.icu/" title="https:&#x2F;&#x2F;orzzh.icu&#x2F;" rel="noopener" target="_blank">zzh's blog</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhongyuwei</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='30,30,30' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes : 0,
+          toolbar  : 0,
+          statusbar: 0,
+          pagemode : 'thumbs',
+          view     : 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'EryVQQJIcbCfiGjPAFyUdU6W-gzGzoHsz',
+      appKey     : 'N5yVRBjaBqsqBYdMRSkzM6Tu',
+      placeholder: "Leave your comment here...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'en' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
